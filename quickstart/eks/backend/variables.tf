@@ -3,7 +3,7 @@
 variable "project_tag" {
   description = "Project tag to add to s3 and dynamodb names"
   type = string
-  default = "codacy-beta"
+  default = "codacy"
 }
 
 variable "unique_string" {

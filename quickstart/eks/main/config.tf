@@ -11,10 +11,10 @@ terraform {
   #  encrypt = true
   #  # note that a random string is appended to the S3 bucket name to make it unique
   #  # you should change this value on the backend and also set it here
-  #  bucket = "codacy-beta-terraform-state-YOUR_RANDOM_STRING_HERE"
-  #  dynamodb_table = "codacy-beta-terraform-lock"
+  #  bucket = "codacy-terraform-state-YOUR_RANDOM_STRING_HERE"
+  #  dynamodb_table = "codacy-terraform-lock"
   #  region = "eu-west-1"
-  #  key = "codacy-beta/cluster.tfstate"
+  #  key = "codacy/cluster.tfstate"
   #}
 }
 

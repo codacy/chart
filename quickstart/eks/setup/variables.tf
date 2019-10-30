@@ -2,9 +2,9 @@
 
 ### project
 variable "project_slug" {
-  description = "Base project slug, used to name resourses"
+  description = "Base project slug, used to name resources"
   type = string
-  default = "codacy-beta"
+  default = "codacy"
 }
 
 ### kubernetes

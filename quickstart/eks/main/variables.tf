@@ -2,15 +2,15 @@
 
 ### project
 variable "project_name" {
-  description = "Base project name, used to tag resourses"
+  description = "Base project name, used to tag resources"
   type = string
-  default = "Codacy (beta)"
+  default = "Codacy"
 }
 
 variable "project_slug" {
-  description = "Base project slug, used to name resourses"
+  description = "Base project slug, used to name resources"
   type = string
-  default = "codacy-beta"
+  default = "codacy"
 }
 
 ### kubernetes
@@ -98,7 +98,7 @@ variable "create_vpc_endpoints" {
 variable "ssm_prefix" {
   description = "Prefix used for the SSM parameters"
   type = string
-  default = "/codacy/beta"
+  default = "/codacy/enterprise"
 }
 
 variable "enable_ssm" {
