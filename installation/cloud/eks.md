@@ -19,8 +19,7 @@ The script will:
 1. Setup `kubectl`, and connect it to the cluster.
 1. Initialize Helm and install Tiller.
 
-The script uses [eksctl](https://eksctl.io) to initialize the cluster. If it cannot locate it in your PATH, it will install it
-to a temporary location.
+The script uses [eksctl](https://eksctl.io) to initialize the cluster. If eksctl can not be located in your PATH, the script will install it for you.
 
 To authenticate, eksctl uses the same options as the aws command line. See the AWS documentation for how to
 use [environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html), or [configuration files](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).

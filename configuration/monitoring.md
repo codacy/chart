@@ -14,7 +14,7 @@ helm upgrade --install monitoring stable/prometheus-operator \
   --namespace monitoring \
   --set prometheusOperator.createCustomResource=false \
   --set grafana.service.type=LoadBalancer \
-  --set grafana.adminPassword="SOMETHING_TO_BE_CHANGED"
+  --set grafana.adminPassword="CHANGE_HERE"
 ​
 kubectl get svc monitoring-grafana -n monitoring
 ```

@@ -7,9 +7,9 @@ codacy-api:
   service:
     type: LoadBalancer
   config:
-    license: "PASTE_LICENSE_HERE"
+    license: "CHANGE_HERE"
 
 LALA:
-  SECRET: "FILL_HERE"
+  SECRET: "CHANGE_HERE"
 
 ingress: sdas
