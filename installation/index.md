@@ -4,7 +4,7 @@ Install Codacy on Kubernetes with the cloud native Codacy Helm chart.
 
 ## Requirements
 
-If you want to deploy Codacy on Kubernetes, the followin requirements must be met.:
+If you want to deploy Codacy on Kubernetes, the following requirements must be met:
 
 1. kubectl 1.13 or higher, compatible with your cluster
    ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin)).
