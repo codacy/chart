@@ -5,6 +5,12 @@ With this chart, it is possible to run all the components from Codacy,
 plugs all the dependencies with a single command line, including Codacy,
 PostgreSQL, RabbitMQ, Minio, Ingress etc...
 
+## Work in progress
+
+This chart is still a **Work In Progress** and is not ready for general usage. Our docker images are currently private,
+you will not be able to run the chart by yourself. If you are
+interested in trying out codacy contact our support at support@codacy.com.
+
 ## Goals
 
 Core goals for this project:
