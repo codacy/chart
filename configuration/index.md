@@ -57,8 +57,8 @@ The following table lists the configurable parameters of the Codacy chart and th
 | `hotspots-api.hotspotsdb.postgresqlPassword` | Hostname of the Postgresql server      | None            |
 | `hotspots-api.hotspotsdb.host`               | Hostname of the Postgresql server      | None            |
 | `hotspots-api.hotspotsdb.service.port`       | Port of the Postgresql server          | `5432`          |
-| `engine.workers.genericMax`                  | Port of the Postgresql server          | `100`           |
-| `engine.workers.dedicatedMax`                | Port of the Postgresql server          | `100`           |
+| `worker-manager.config.workers.genericMax`   | TBD                                    | `100`           |
+| `worker-manager.config.workers.dedicatedMax` | TBD                                    | `100`           |
 
 You can also configure values for the PostgreSQL database via the Postgresql [README.md](https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md)
 
