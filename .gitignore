@@ -1,0 +1,9 @@
+*~
+.*.swp
+
+.idea/
+
+.DS_Store
+
+*.tfstate*
+.terraform/
