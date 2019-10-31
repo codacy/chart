@@ -1,0 +1,49 @@
+version: 2.1
+jobs:
+  checkout_and_lint:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+
+  deploy_to_doks:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    working_directory: ~/workdir/
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          command: make -C .doks/ deploy_to_doks
+
+workflows:
+
+  lint_chart:
+    jobs:
+      - checkout_and_lint:
+          context: CodacyDO
+          filters:
+            branches:
+              ignore:
+                - master
+
+
+  deploy_chart_to_cluster:
+    jobs:
+      - deploy_to_doks:
+          context: CodacyDO
+          filters:
+            branches:
+              only:
+                - master
