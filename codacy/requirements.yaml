@@ -60,10 +60,7 @@ dependencies:
 - name: worker-manager
   version: 8.0.0-releasekubernetesdev.dd8719d4
   repository: https://charts.codacy.com/unstable
-<<<<<<< HEAD
 
 - name: crow
   version: 4.3.0
   repository: https://charts.codacy.com/stable
-=======
->>>>>>> feature: add helm chart
