@@ -123,6 +123,8 @@ global:
       url: "codacy-core"
     remoteProviderService:
       url: "codacy-remote-provider-service"
+    workerManager:
+      url: "codacy-worker-manager"
 
 portal:
   replicaCount: 1
@@ -219,6 +221,18 @@ worker-manager:
     cloudAmqp:
       workerUser: "rabbitmq"
       workerPass: "rabbitmq"
+
+crow:
+  replicaCount: 1
+  crowdb:
+    create: true
+    host: codacy-crowdb.codacy.svc.cluster.local
+    postgresqlUsername: "codacy"
+    postgresqlDatabase: "crow"
+    postgresqlPassword: "PLEASE_CHANGE_ME"
+    service:
+      port: 5432
+
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
