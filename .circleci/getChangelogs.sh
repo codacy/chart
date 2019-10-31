@@ -44,7 +44,7 @@ do
     [ "$OLD_VERSION" != "$NEW_VERSION" ] && cloneRepository $key $OLD_VERSION $NEW_VERSION 
 done
 
-find ./changelogs -empty -type f -delete # delete empty changelogs
+find ./changelogs -size 0 -delete # delete empty changelogs
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
 if [ "" == "0" ];
 then
