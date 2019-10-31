@@ -1,11 +1,8 @@
 #!/bin/bash
+REQUIREMENTS_FILE="codacy/requirements.yaml"
 OLD_LOCK_FILE="codacy/requirements_old.lock"
 NEW_LOCK_FILE="codacy/requirements.lock"
 DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
-
-function deleteEmptyChangelog() {
-    [ $(wc -l ../changelogs/$1 | awk '{print $1}') == "0" ] && rm ../changelogs/$1
-}
 
 function getChangelog() {
     CHANGELOG_FILENAME=$3
@@ -14,14 +11,11 @@ function getChangelog() {
     git checkout tags/$1 --quiet
     git changelog -s $1 -f $2 --stdout > ../changelogs/$CHANGELOG_FILENAME
     git log $1..$2 --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq > ../changelogs/$JIRA_CHANGELOG_FILENAME
-    
-    deleteEmptyChangelog $CHANGELOG_FILENAME;
-    deleteEmptyChangelog $JIRA_CHANGELOG_FILENAME;
 }
 
 function cloneRepository() {
     PROJECT_NAME=$1
-    REPOSITORY_URL=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$PROJECT_NAME\").git" | sed "s/\"//g")
+    REPOSITORY_URL=$(yq r $REQUIREMENTS_FILE dependencies -j | jq ".[] | select(.name==\"$PROJECT_NAME\").git" | sed "s/\"//g")
     OLD_VERSION=$2
     NEW_VERSION=$3
     CHANGELOG_FILENAME="$PROJECT_NAME-changelog.txt"
@@ -50,6 +44,7 @@ do
     [ "$OLD_VERSION" != "$NEW_VERSION" ] && cloneRepository $key $OLD_VERSION $NEW_VERSION 
 done
 
+find ./changelogs -empty -type f -delete # delete empty changelogs
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
 if [ "" == "0" ];
 then
