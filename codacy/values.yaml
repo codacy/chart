@@ -1,0 +1,272 @@
+global:
+  minio:
+    create: true
+    location: codacy-minio.codacy.svc.cluster.local
+    port: 9000
+    accessKey: "AKIAIOSFODNN7EXAMPLE"
+    secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+
+  s3:
+    bucket:
+      analysis:
+        name: "analysis"
+      coverage:
+        name: "coverage"
+      cliReports:
+        name: "cli-reports"
+
+  rabbitmq:
+    create: true
+    rabbitmqUsername: rabbitmq
+    rabbitmqPassword: rabbitmq
+    rabbitmqvHost: "/"
+    host: codacy-rabbitmq-ha.codacy.svc.cluster.local
+    port: 5672
+    ssl: false
+    timeout: 15s
+
+  defaultdb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: accounts
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  analysisdb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: analysis
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  resultsdb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: results
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  resultsdb201709:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: results201709
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  metricsdb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: metrics
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  filestoredb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: filestore
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  jobsdb:
+    create: true
+    imageTag: "9.6.2"
+    postgresqlUsername: codacy
+    postgresqlDatabase: jobs
+    postgresqlPassword: codacy
+    host: codacy-postgres.codacy.svc.cluster.local
+    service:
+      port: 5432
+
+  play:
+    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+
+  filestore:
+    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+
+  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+
+  codacy:
+    url: "http://localhost:9000"
+    backendUrl: "http://localhost:9000"
+    api:
+      url: "codacy-api"
+    portal:
+      url: "codacy-portal"
+    hotspots:
+      url: "codacy-hotspots-api"
+    engine:
+      url: "codacy-engine"
+    listener:
+      url: "codacy-listener"
+    activities:
+      url: "codacy-activities"
+    core:
+      url: "codacy-core"
+    remoteProviderService:
+      url: "codacy-remote-provider-service"
+    workerManager:
+      url: "codacy-worker-manager"
+
+portal:
+  replicaCount: 1
+
+activities:
+  replicaCount: 1
+
+  activitiesdb:
+    create: true
+    host: codacy-activitiesdb.codacy.svc.cluster.local
+    postgresqlUsername: "codacy"
+    postgresqlDatabase: "activities"
+    postgresqlPassword: "PLEASE_CHANGE_ME"
+    service:
+      port: 5432
+
+remote-provider-service:
+  replicaCount: 1
+
+hotspots-api:
+  replicaCount: 1
+
+  hotspotsdb:
+    create: true
+    host: codacy-hotspotsdb.codacy.svc.cluster.local
+    postgresqlUsername: codacy
+    postgresqlDatabase: hotspots
+    postgresqlPassword: codacy
+    service:
+      port: 5432
+
+hotspots-worker:
+  replicaCount: 1
+
+listener:
+  replicaCount: 1
+  config:
+    play:
+      configFile: application.enterprise.conf
+      logFile: logback.xml
+
+  persistence:
+    claim:
+      size: 100Gi
+
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 120Gi
+    # resources:
+    #  limits:
+    #    cpu: 2
+    #    memory: 4Gi
+    #  requests:
+    #    cpu: 0.5
+    #  memory: 1Gi
+
+  listenerdb:
+    create: true
+    host: codacy-listenerdb.codacy.svc.cluster.local
+    postgresqlUsername: "codacy"
+    postgresqlDatabase: "listener"
+    postgresqlPassword: "PLEASE_CHANGE_ME"
+    service:
+      port: 5432
+
+core:
+  replicaCount: 1
+  config:
+    play:
+      configFile: "enterprise.conf"
+
+engine:
+  replicaCount: 1
+  config:
+    environment: enterprise
+    play:
+      configFile: 'enterprise-engine.conf'
+      logFile: 'logback.xml'
+
+codacy-api:
+  replicaCount: 1
+  config:
+    play:
+      configFile: "enterprise.conf"
+
+worker-manager:
+  replicaCount: 1
+  config:
+    codacy:
+      worker:
+        playConfig: enterprise.conf
+    cloudAmqp:
+      workerUser: "rabbitmq"
+      workerPass: "rabbitmq"
+
+crow:
+  replicaCount: 1
+  crowdb:
+    create: true
+    host: codacy-crowdb.codacy.svc.cluster.local
+    postgresqlUsername: "codacy"
+    postgresqlDatabase: "crow"
+    postgresqlPassword: "PLEASE_CHANGE_ME"
+    service:
+      port: 5432
+
+
+## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
+## Defaults for Internal Storage coming from requirements
+## These values are ignored if 'create: false' in the global variables
+
+rabbitmq-ha:
+  rabbitmqUsername: "rabbitmq"
+  rabbitmqPassword: "rabbitmq"
+
+postgres:
+  imageTag: "9.6.2"
+  persistence:
+    enabled: false
+  #  storageClass:
+  #  size: 20Gi
+  #resources:
+  #  requests:
+  #    memory: 1024Mi
+  #    cpu: 1000m
+  postgresqlExtendedConf: {"sharedBuffers": "256MB", "maxConnections": "300"}
+  initdbScripts:
+    initdb.sql: |
+      CREATE USER codacy WITH PASSWORD 'codacy';
+      ALTER ROLE codacy WITH CREATEDB;
+      CREATE DATABASE accounts WITH OWNER=codacy;
+      CREATE DATABASE analysis WITH OWNER=codacy;
+      CREATE DATABASE results WITH OWNER=codacy;
+      CREATE DATABASE results201709 WITH OWNER=codacy;
+      CREATE DATABASE metrics WITH OWNER=codacy;
+      CREATE DATABASE filestore WITH OWNER=codacy;
+      CREATE DATABASE jobs WITH OWNER=codacy;
+
+minio:
+  persistence:
+    size: 20Gi
+  minioConfig:
+    region: "eu-west-1"
