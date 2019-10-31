@@ -2,15 +2,14 @@
 # This supports shell glob matching, relative path matching, and
 # negation (prefixed with !). Only one pattern per line.
 .DS_Store
-changelogs
 # Common VCS dirs
+.git/
+.gitignore
 .bzr/
 .bzrignore
 .hg/
 .hgignore
 .svn/
-*.tfstate*
-.terraform/
 # Common backup files
 *.swp
 *.bak
@@ -21,5 +20,3 @@ changelogs
 .idea/
 *.tmproj
 .vscode/
-**/charts
-chart.iml

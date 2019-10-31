@@ -1,0 +1,3 @@
+codacy-api:
+  service:
+    type: LoadBalancer
