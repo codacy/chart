@@ -1,0 +1,106 @@
+version: 2.1
+jobs:
+  checkout_and_lint:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+
+  deploy_to_doks:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          command: make -C .doks/ deploy_to_doks
+
+  start_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster 
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  destroy_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.1
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+
+workflows:
+  lint_chart:
+    jobs:
+      - checkout_and_lint:
+          context: CodacyDO
+          filters:
+            branches:
+              ignore:
+                - master
+
+  deploy_chart_to_cluster:
+    jobs:
+      - deploy_to_doks:
+          context: CodacyDO
+          filters:
+            branches:
+              only:
+                - master
+
+  perform_nightly_release:
+    # triggers:
+    #    - schedule:
+    #        cron: "0 0 * * 1-5"
+    #        filters:
+    #          branches:
+    #            only:
+    #              - master
+    jobs:
+      - start_nightly_cluster:
+          context: CodacyDO
+      - manual_qa_hold: 
+          type: approval
+          requires: 
+           - start_nightly_cluster
+      - destroy_nightly_cluster:
+          context: CodacyDO
+          requires:
+            - manual_qa_hold
