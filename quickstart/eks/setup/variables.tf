@@ -19,3 +19,20 @@ variable "k8s_system_namespace" {
   type        = string
   default     = "kube-system"
 }
+
+variable "main_namespace" {
+  description = "Name of the namespace where codacy will be deployed"
+  type        = string
+  default     = "codacy"
+}
+
+variable "docker_username" {
+  description = "Username for docker registry secret"
+  type        = string
+  default     = "codacy"
+}
+
+variable "docker_password" {
+  description = "Password for docker registry secret"
+  type        = string
+}
