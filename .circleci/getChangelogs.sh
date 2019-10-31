@@ -8,9 +8,9 @@ function getChangelog() {
     CHANGELOG_FILENAME=$3
     JIRA_CHANGELOG_FILENAME=$4
     git fetch --all
-    git checkout tags/$1 --quiet
-    git changelog -s $1 -f $2 --stdout > ../changelogs/$CHANGELOG_FILENAME
-    git log $1..$2 --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq > ../changelogs/$JIRA_CHANGELOG_FILENAME
+    git checkout tags/"$1" --quiet
+    git log --pretty=format:"  * %s" "$1"'..'"$2" > "../changelogs/$CHANGELOG_FILENAME"
+    git log --pretty=format:"  * %s" "$1"'..'"$2" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq > "../changelogs/$JIRA_CHANGELOG_FILENAME"
 }
 
 function cloneRepository() {
@@ -26,10 +26,10 @@ function cloneRepository() {
         then
             echo "[OK] $PROJECT_NAME($REPOSITORY_URL) -> $OLD_VERSION : $NEW_VERSION"
             git clone $REPOSITORY_URL $PROJECT_NAME --quiet
-            cd $PROJECT_NAME
-            getChangelog $OLD_VERSION $NEW_VERSION $CHANGELOG_FILENAME $JIRA_CHANGELOG_FILENAME;
+            cd "$PROJECT_NAME"
+            getChangelog "$OLD_VERSION" "$NEW_VERSION" "$CHANGELOG_FILENAME" "$JIRA_CHANGELOG_FILENAME";
             cd ..
-            rm -rf ./$PROJECT_NAME
+            rm -rf "./$PROJECT_NAME"
         else
             echo "[Skipped] $PROJECT_NAME has no repository url."
     fi
@@ -41,16 +41,16 @@ for key in $DEPENDENCIES
 do
     OLD_VERSION=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
     NEW_VERSION=$(yq r $NEW_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
-    [ "$OLD_VERSION" != "$NEW_VERSION" ] && cloneRepository $key $OLD_VERSION $NEW_VERSION 
+    [ "$OLD_VERSION" != "$NEW_VERSION" ] && cloneRepository "$key" "$OLD_VERSION" "$NEW_VERSION" 
 done
 
-find ./changelogs -size 0 -delete # delete empty changelogs
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
-if [ "" == "0" ];
+find ./changelogs -size 0 -delete # delete empty changelogs
+if [ "$(expr $count / 2)" == "0" ];
 then
     echo "No components changed. There are no changelogs."
 else
-    echo "$count component(s) changed. "
+    echo "$(expr $count / 2) component(s) changed. "
 fi
 
 
