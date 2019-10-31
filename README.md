@@ -1,8 +1,8 @@
 # Codacy Chart
 
-This is the top level chart to run Codacy in enterprise mode.
+This is the top level chart to run Codacy in self-hosted mode.
 With this chart, it is possible to run all the components from Codacy,
-plugs all the dependencies with a single command line, including Codacy,
+plugging all the dependencies with a single command line, including Codacy,
 PostgreSQL, RabbitMQ, Minio, Ingress etc...
 
 ## Work in progress
