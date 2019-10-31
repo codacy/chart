@@ -39,7 +39,6 @@ listener:
       size: 250Gi
 
   persistence:
-    enabled: true
     claim:
       size: 140Gi
 
