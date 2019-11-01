@@ -47,3 +47,33 @@ resource "helm_release" "nginx_ingress" {
   ]
 }
 
+
+resource "helm_release" "cert_manager" {
+  name = "cert-manager"
+  chart = "cert-manager"
+  version = "v0.9.1"
+  repository = data.helm_repository.jetstack.name
+  namespace = var.k8s_system_namespace
+
+  values = [
+    <<-YAML
+    webhook:
+      enabled: true
+    ingressShim:
+      defaultIssuerName: letsencrypt-prod
+      defaultIssuerKind: ClusterIssuer
+      defaultACMEChallengeType: dns01
+      defaultACMEDNS01ChallengeProvider: route53
+      podDnsPolicy: "None"
+      podDnsConfig:
+        nameservers:
+          - "1.1.1.1"
+          - "8.8.8.8"
+    YAML
+  ]
+
+  depends_on = [
+    kubernetes_cluster_role_binding.tiller,
+    kubernetes_service_account.tiller
+  ]
+}

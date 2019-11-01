@@ -11,3 +11,7 @@ provider "aws" {
   region = "eu-west-1"
   version = "~> 2.33"
 }
+
+provider "random" {
+  version = "~> 2.2"
+}
