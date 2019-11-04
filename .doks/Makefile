@@ -6,6 +6,7 @@ setup_helm_repos:
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
 
+
 .PHONY: deploy_to_doks
 deploy_to_doks: setup_helm_repos
 	helm dependency update ../codacy/

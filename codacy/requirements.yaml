@@ -32,6 +32,7 @@ dependencies:
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-activities.git
 
+
 - name: remote-provider-service
   version: ~2.28.4
   repository: https://charts.codacy.com/stable
@@ -59,7 +60,7 @@ dependencies:
 
 - name: engine
   version: 5.45.0-SNAPSHOT.c4621ed1c
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/unstable0
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
