@@ -26,7 +26,7 @@ brew install awscli terraform kubernetes-helm kubectl
 ```
 
 You'll also need to setup the CLI credentials for your AWS account. See how
-too do it the [AWS](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html)
+to do it the [AWS](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html)
 and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation.
 Note that, as stated in the documentation, if your `.aws/credentials` are fairly
 complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly.
@@ -131,7 +131,7 @@ terraform init && terraform apply
 
 You'll be prompted to input Codacy's docker hub repo password.
 
-If you'd like to connect to the kubernetes dashboard get the admin token
+If you'd like to connect to the kubernetes dashboard, get the admin token
 by running
 
 ```bash
@@ -146,6 +146,10 @@ kubectl proxy
 
 and then connect to [the dashboard url](http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy),
 select `token` and paste the value you saved above.
+
+## Installing Codacy
+
+To install Codacy please see the [installation documentation](https://github.com/codacy/chart/blob/master/docs/installation/index.md).
 
 ## TL;DR
 

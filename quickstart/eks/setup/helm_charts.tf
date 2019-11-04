@@ -43,7 +43,8 @@ resource "helm_release" "nginx_ingress" {
 
   depends_on = [
     kubernetes_cluster_role_binding.tiller,
-    kubernetes_service_account.tiller
+    kubernetes_service_account.tiller,
+    null_resource.cert_manager_crds
   ]
 }
 
@@ -74,6 +75,8 @@ resource "helm_release" "cert_manager" {
 
   depends_on = [
     kubernetes_cluster_role_binding.tiller,
-    kubernetes_service_account.tiller
+    kubernetes_service_account.tiller,
+    null_resource.cert_manager_crds,
+    helm_release.nginx_ingress
   ]
 }
