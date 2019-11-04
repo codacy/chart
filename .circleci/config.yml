@@ -54,6 +54,9 @@ jobs:
             - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
       - checkout
       - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
           name: "Setup helm repos"
           command: make -C .doks/ setup_helm_repos
       - run:
