@@ -1,11 +1,13 @@
-.PHONY: deploy_to_doks
-deploy_to_doks:
+.PHONY: setup_helm_repos
+setup_helm_repos:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
 
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
 
+.PHONY: deploy_to_doks
+deploy_to_doks: setup_helm_repos
 	helm dependency update ../codacy/
 
 	helm upgrade --install codacy ../codacy/ \
