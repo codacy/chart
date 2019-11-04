@@ -25,7 +25,7 @@ function cloneRepository() {
     if [ "$REPOSITORY_URL" != "null" ];
         then
             echo "[OK] $PROJECT_NAME($REPOSITORY_URL) -> $OLD_VERSION : $NEW_VERSION"
-            git clone $REPOSITORY_URL $PROJECT_NAME --quiet
+            git clone "$REPOSITORY_URL $PROJECT_NAME" --quiet
             cd "$PROJECT_NAME"
             getChangelog "$OLD_VERSION" "$NEW_VERSION" "$CHANGELOG_FILENAME" "$JIRA_CHANGELOG_FILENAME";
             cd ..
