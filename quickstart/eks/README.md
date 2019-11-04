@@ -166,13 +166,12 @@ the cluster. To do so run:
 ```bash
 helm del --purge codacy
 kubectl delete pvc -n codacy $(kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}') &
-kubectl delete pods -n codacy $(kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 &
+kubectl delete pods -n codacy $(kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0
 ```
 
-Note that the deletion of `pvc`s and `pods` in the commands above have to run
-in the background due to a cyclic dependency in one of the components. If you are
-unsure of these commands' effect please run the each of the `bash` subcommands
-and validate their output, viz.
+Note that the deletion of `pvc`s in the above command has to run in the background
+due to a cyclic dependency in one of the components. If you are unsure of these
+commands' effect please run the each of the `bash` subcommands and validate their output, viz.
 
 ```bash
 echo "PVCs to delete:"
@@ -180,7 +179,6 @@ kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}'
 echo "PODs to delte:"
 kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}'
 ```
-
 
 ### 2. Remove the cluster setup required to install Codacy
 
@@ -202,73 +200,27 @@ terraform destroy
 
 in the `main/` directory. This takes a while (~10min).
 
-
 ### 4. Removing the terraform backend
 
 If you created the terraform backend with the above stack you can now safely
 delete it. The backend is purposely created with extra settings to prevent
 its accidental destruction. To destroy it cleanly the easiest path is to disable
-these extra settings. Go to the `backend/` folder and add these changes to
-the `state_and_lock.tf` file
+these extra settings. Go to the `backend/` folder and change the `state_and_lock.tf`
+file as instructed therein.
 
+Afterwards, you can now destroy it by running
 
-```yaml
-# state_and_lock.tf - setup s3 state storage and dynamodb lock table
-#                     For more info see https://www.terraform.io/docs/backends/types/s3.html
-
-resource "aws_s3_bucket" "state" {
-  bucket = "${var.project_tag}-terraform-state-${random_string.rand.result}"
-  acl = "private"
-
-  ### add this:
-  force_destroy = true
-
-  ### comment this:
-  #versioning {
-  #  enabled = true
-  #}
-  #
-  #lifecycle {
-  #  prevent_destroy = true
-  #}
-}
-
-resource "aws_dynamodb_table" "lock" {
-  name = "${var.project_tag}-terraform-lock"
-  hash_key = "LockID"
-  read_capacity = 20
-  write_capacity = 20
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-
-  ### comment this:
-  #lifecycle {
-  #  prevent_destroy = true
-  #}
-}
-
-resource "random_string" "rand" {
-  length = 22
-  special = false
-  upper = false
-  number = false
-}
-```
-
-You can run the following to destroy it by running
-
-```
+```bash
 terraform apply && terraform destroy
 ```
 
-Note that you first have to apply, to change the bucket settings, and only
+Note that you first have to apply to change the bucket settings, and only
 then will destroy work.
 
 
-## TL;DR - Seting up an EKS cluster for Codacy
+## TL;DR
+
+### Seting up an EKS cluster for Codacy
 
 Assuming AWS is well configured and you fulfill all the prerequisites,
 the setup without state storage, can be done with:
@@ -280,4 +232,21 @@ terraform init && terraform apply
 cd ../setup/
 terraform init && terraform apply
 aws eks update-kubeconfig --name codacy-cluster
+```
+
+### Uninstalling Codacy and destroying the EKS cluster
+
+**WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS**
+
+Assuming you are not using the optional terraform backend, you can uninstall
+Codacy and remove the cluster by running:
+
+```bash
+helm del --purge codacy
+kubectl delete pvc -n codacy $(kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}') &
+kubectl delete pods -n codacy $(kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0
+cd setup/
+terraform destroy
+cd ../main
+terraform destroy
 ```
