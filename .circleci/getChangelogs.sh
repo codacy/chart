@@ -46,11 +46,11 @@ done
 
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
 find ./changelogs -size 0 -delete # delete empty changelogs
-if [ "$(expr $count / 2)" == "0" ];
+if [ "$(($count / 2))" == "0" ];
 then
     echo "No components changed. There are no changelogs."
 else
-    echo "$(expr $count / 2) component(s) changed. "
+    echo "$(($count / 2)) component(s) changed. "
 fi
 
 
