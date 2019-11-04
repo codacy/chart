@@ -23,6 +23,9 @@ setup_vars:
 	@echo "digital_ocean_token = [REDACTED]"
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
 	
+	@echo "docker_username = [REDACTED]"
+	@echo "docker_username = \"$(DOCKER_USERNAME)\"" >> $(VARS_FILE)
+
 	@echo "docker_password = [REDACTED]"
 	@echo "docker_password = \"$(DOCKER_PASSWORD)\"" >> $(VARS_FILE)
 	
