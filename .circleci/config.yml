@@ -45,6 +45,8 @@ jobs:
   update_versions:
     docker:
       - image: codacy/ci-do:0.1.2
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
     steps:
       - add_ssh_keys:
