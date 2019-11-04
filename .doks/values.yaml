@@ -1,3 +1,58 @@
 codacy-api:
+  replicaCount: 3
   service:
     type: LoadBalancer
+
+postgres:
+  persistence:
+    enabled: true
+    size: 1000Gi
+
+portal:
+  replicaCount: 2
+
+activities:
+  replicaCount: 2
+  activitiesdb:
+    persistence:
+      enabled: true
+      size: 250Gi
+
+remote-provider-service:
+  replicaCount: 2
+
+hotspots-api:
+  replicaCount: 2
+  hotspotsdb:
+    persistence:
+      enabled: true
+      size: 250Gi
+
+hotspots-worker:
+  replicaCount: 2
+
+listener:
+  replicaCount: 4
+  listenerdb:
+    persistence:
+      enabled: true
+      size: 250Gi
+
+  persistence:
+    claim:
+      size: 140Gi
+
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 200Gi
+
+core:
+  replicaCount: 2
+
+engine:
+  replicaCount: 2
+
+worker-manager:
+  replicaCount: 2
