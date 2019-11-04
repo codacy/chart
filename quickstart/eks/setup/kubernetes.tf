@@ -46,4 +46,8 @@ resource "kubernetes_secret" "docker_credentials" {
   }
 
   type = "kubernetes.io/dockerconfigjson"
+
+  depends_on = [
+    kubernetes_namespace.codacy
+  ]
 }

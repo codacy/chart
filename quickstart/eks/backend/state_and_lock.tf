@@ -2,7 +2,7 @@
 #                     For more info see https://www.terraform.io/docs/backends/types/s3.html
 
 resource "aws_s3_bucket" "state" {
-  bucket = "${var.project_tag}-terraform-state-${var.unique_string}"
+  bucket = "${var.project_tag}-terraform-state-${random_string.rand.result}"
   acl = "private"
 
   versioning {
@@ -28,4 +28,11 @@ resource "aws_dynamodb_table" "lock" {
   lifecycle {
     prevent_destroy = true
   }
+}
+
+resource "random_string" "rand" {
+  length = 22
+  special = false
+  upper = false
+  number = false
 }

@@ -63,4 +63,4 @@ dependencies:
 
 - name: crow
   version: 4.3.0
-  repository: https://charts.codacy.com/stable
+  repository: https://charts.codacy.com/incubator
