@@ -1,6 +1,6 @@
 dependencies:
 - name: minio
-  version: ~2.4.18
+  version: ~2.5.18
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.minio.create
   alias: minio
