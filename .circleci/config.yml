@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   checkout_and_lint:
     docker:
-      - image: codacy/ci-do:0.2.1
+      - image: codacy/ci-do:0.2.2
     working_directory: ~/workdir/
     steps:
       - checkout
@@ -12,12 +12,15 @@ jobs:
 
   deploy_to_doks:
     docker:
-      - image: codacy/ci-do:0.2.1
+      - image: codacy/ci-do:0.2.2
     working_directory: ~/workdir/
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     steps:
       - checkout
+      - run:
+          name: "Helm version"
+          command: helm version
       - run:
           name: "Helm lint"
           command: helm lint codacy/
@@ -47,3 +50,4 @@ workflows:
             branches:
               only:
                 - master
+                - fix/deploy-to-nightly
