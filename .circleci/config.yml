@@ -29,7 +29,7 @@ jobs:
 
   deploy_to_doks_nightly:
     docker:
-      - image: codacy/ci-do:0.1.2
+      - image: codacy/ci-do:0.2.2
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
@@ -47,7 +47,7 @@ jobs:
 
   update_versions:
     docker:
-      - image: codacy/ci-do:0.1.2
+      - image: codacy/ci-do:0.2.2
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
