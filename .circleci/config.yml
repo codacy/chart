@@ -84,14 +84,8 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: "Install dependencies"
-          command: apk add sudo util-linux
-      - run:
-          name: "Install git-extras"
-          command: curl -sSL https://git.io/git-extras-setup | sudo bash /dev/stdin
-      - run:
-          name: "yq"
-          command: curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq 
+          name: "Install requirements"
+          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq 
       - run:
           name: "Get changelogs"
           command: bash ./.circleci/getChangelogs.sh
