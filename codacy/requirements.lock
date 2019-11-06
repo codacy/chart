@@ -41,5 +41,8 @@ dependencies:
 - name: worker-manager
   repository: https://charts.codacy.com/unstable
   version: 8.0.0-releasekubernetesdev.dd8719d4
-digest: sha256:03b9a0df2d7021a4ce4e9a878ad80d36b82653fb6aa06279d17c68b499aec005
-generated: "2019-10-30T11:49:20.328369Z"
+- name: crow
+  repository: https://charts.codacy.com/incubator
+  version: 4.3.0
+digest: sha256:8cf7c77e65c4077a026929294c06738a2cbd070ab0ffa69407f50328518256b1
+generated: "2019-11-04T11:13:23.761876Z"

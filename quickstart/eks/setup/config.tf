@@ -3,15 +3,15 @@
 terraform {
   required_version = "~> 0.12"
   # Using a backend is recommended. See https://www.terraform.io/docs/backends/index.html
-  # You may used the provided S3 backend configuration by first running `terraform apply`
-  # on the `backend/` directory, uncommenting the following lines, and (re)initializing terraform
-  # with `terraform init -reconfigure -backend=true`
+  # You may used the provided S3 backend configuration by
+  #   1. first running `terraform apply` on the `backend/` directory,
+  #   2. getting the state bucket name with `terraform output state_bucket_name`
+  #   3. uncommenting the following lines, and (re)initializing terraform
+  #      with `terraform init -reconfigure -backend=true`
 
   #backend "s3" {
   #  encrypt = true
-  #  # note that a random string is appended to the S3 bucket name to make it unique
-  #  # you should change this value on the backend and also set it here
-  #  bucket = "codacy-terraform-state-YOUR_RANDOM_STRING_HERE"
+  #  bucket = "YOUR_S3_BUCKET_NAME_HERE"
   #  dynamodb_table = "codacy-terraform-lock"
   #  region = "eu-west-1"
   #  key = "codacy/config.tfstate"
