@@ -11,6 +11,8 @@ setup_helm_repos:
 deploy_to_doks: setup_helm_repos
 	helm dependency update ../codacy/
 
+	INJECT_SQL=$(cat default.sql)
+
 	helm upgrade --install codacy ../codacy/ \
 	 	-f values.yaml \
 	 	--namespace codacy \
@@ -22,3 +24,4 @@ deploy_to_doks: setup_helm_repos
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url="http://k8s.dev.codacy.org" \
 		--set global.codacy.backendUrl="http://k8s.dev.codacy.org"
+		--set postgres.initdbScripts."init\.sql"=$${INJECT_SQL}"
