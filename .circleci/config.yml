@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   checkout_and_lint:
     docker:
-      - image: codacy/ci-do:0.2.2
+      - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
 
   deploy_to_doks:
     docker:
-      - image: codacy/ci-do:0.2.2
+      - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     working_directory: ~/workdir/
@@ -29,11 +29,10 @@ jobs:
 
   deploy_to_doks_nightly:
     docker:
-      - image: codacy/ci-do:0.2.2
+      - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
-
     steps:
       - checkout
       - run:
@@ -47,7 +46,7 @@ jobs:
 
   update_versions:
     docker:
-      - image: codacy/ci-do:0.2.2
+      - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
