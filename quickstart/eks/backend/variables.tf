@@ -5,8 +5,3 @@ variable "project_tag" {
   type = string
   default = "codacy"
 }
-
-variable "unique_string" {
-  description = "String (containing only lowercase characters) to ensure that the S3 bucket name is unique"
-  type = string
-}

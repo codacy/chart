@@ -9,34 +9,40 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.2.2
 - name: portal
-  repository: https://charts.codacy.com/stable
-  version: 4.25.6
+  repository: https://charts.codacy.com/unstable
+  version: 4.27.1-SNAPSHOT.43925966
 - name: ragnaros
-  repository: https://charts.codacy.com/stable
-  version: 14.7.2
+  repository: https://charts.codacy.com/incubator
+  version: 14.11.1
 - name: activities
-  repository: https://charts.codacy.com/stable
-  version: 1.0.173
+  repository: https://charts.codacy.com/unstable
+  version: 1.0.175-SNAPSHOT.47c18ef
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
   version: 2.28.10
 - name: hotspots-api
-  repository: https://charts.codacy.com/stable
-  version: 1.2.3
+  repository: https://charts.codacy.com/unstable
+  version: 1.2.3-SNAPSHOT.a65981c
 - name: hotspots-worker
-  repository: https://charts.codacy.com/stable
-  version: 1.2.3
+  repository: https://charts.codacy.com/unstable
+  version: 1.2.2-SNAPSHOT.788a878
 - name: listener
-  repository: https://charts.codacy.com/stable
-  version: 7.1.3
+  repository: https://charts.codacy.com/unstable
+  version: 7.2.0-SNAPSHOT.b7db0d8c
 - name: core
-  repository: https://charts.codacy.com/stable
-  version: 2.8.2
+  repository: https://charts.codacy.com/incubator
+  version: 2.10.2
 - name: engine
-  repository: https://charts.codacy.com/stable
-  version: 5.42.4
+  repository: https://charts.codacy.com/unstable
+  version: 5.45.0-SNAPSHOT.c4621ed1c
 - name: codacy-api
-  repository: https://charts.codacy.com/stable
-  version: 4.79.0
-digest: sha256:817d225667a4e518ba747e19c80b78e78d2b6e6a0f5b474943d88775bdda81be
-generated: "2019-10-17T16:47:59.498975+01:00"
+  repository: https://charts.codacy.com/unstable
+  version: 4.89.1-SNAPSHOT.e6cc16fce
+- name: worker-manager
+  repository: https://charts.codacy.com/unstable
+  version: 8.0.0-releasekubernetesdev.dd8719d4
+- name: crow
+  repository: https://charts.codacy.com/incubator
+  version: 4.3.0
+digest: sha256:8cf7c77e65c4077a026929294c06738a2cbd070ab0ffa69407f50328518256b1
+generated: "2019-11-04T11:13:23.761876Z"

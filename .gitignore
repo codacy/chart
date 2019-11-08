@@ -1,9 +1,39 @@
-*~
-.*.swp
-
-.idea/
-
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
 .DS_Store
+changelogs
+# Common VCS dirs
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+**/charts
+chart.iml
 
 *.tfstate*
+terraform.tfvars
 .terraform/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+**/charts
+chart.iml

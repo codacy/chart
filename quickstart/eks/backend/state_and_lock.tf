@@ -2,9 +2,14 @@
 #                     For more info see https://www.terraform.io/docs/backends/types/s3.html
 
 resource "aws_s3_bucket" "state" {
-  bucket = "${var.project_tag}-terraform-state-${var.unique_string}"
+  bucket = "${var.project_tag}-terraform-state-${random_string.rand.result}"
   acl = "private"
 
+  ### To destroy uncomment this:
+  #force_destroy = true
+  ##############################
+
+  ### To destroy comment this:
   versioning {
     enabled = true
   }
@@ -12,6 +17,7 @@ resource "aws_s3_bucket" "state" {
   lifecycle {
     prevent_destroy = true
   }
+  ###########################
 }
 
 resource "aws_dynamodb_table" "lock" {
@@ -25,7 +31,16 @@ resource "aws_dynamodb_table" "lock" {
     type = "S"
   }
 
+  ### To destroy comment this:
   lifecycle {
     prevent_destroy = true
   }
+  ###########################
+}
+
+resource "random_string" "rand" {
+  length = 22
+  special = false
+  upper = false
+  number = false
 }

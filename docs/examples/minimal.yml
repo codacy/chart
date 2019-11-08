@@ -1,0 +1,15 @@
+global:
+  codacy:
+    url: "http://codacy.example.com"
+    backendUrl: "http://codacy.example.com"
+
+codacy-api:
+  service:
+    type: LoadBalancer
+  config:
+    license: "CHANGE_HERE"
+
+LALA:
+  SECRET: "CHANGE_HERE"
+
+ingress: sdas
