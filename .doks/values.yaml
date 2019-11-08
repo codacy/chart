@@ -1,8 +1,4 @@
 codacy-api:
-<<<<<<< HEAD
-  service:
-    type: LoadBalancer
-=======
   replicaCount: 3
   service:
     type: LoadBalancer
@@ -60,4 +56,3 @@ engine:
 
 worker-manager:
   replicaCount: 2
->>>>>>> master
