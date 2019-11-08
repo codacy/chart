@@ -34,7 +34,8 @@ jobs:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Helm lint"
           command: helm lint codacy/
@@ -43,6 +44,29 @@ jobs:
           command: doctl auth init -t $DO_TOKEN &>/dev/null
       - deploy:
           command: make -C .doks/ deploy_to_doks
+
+  start_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster 
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   update_versions:
     docker:
@@ -54,7 +78,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
-      - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Setup DO Credentials"
           command: doctl auth init -t $DO_TOKEN &>/dev/null
@@ -71,7 +96,7 @@ jobs:
           root: ~/
           paths:
             - workdir
-  
+
   get_changelogs:
     docker:
       - image: codacy/ci-base:1.0.1
@@ -94,6 +119,22 @@ jobs:
             - workdir
       - store_artifacts:
           path: ~/workdir/changelogs 
+  
+  destroy_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
 
 workflows:
   lint_chart:
@@ -114,18 +155,36 @@ workflows:
               only:
                 - master
 
-  release:
+  perform_nightly_release:
+    # triggers:
+    #    - schedule:
+    #        cron: "0 0 * * 1-5"
+    #        filters:
+    #          branches:
+    #            only:
+    #              - master
     jobs:
+      - start_nightly_cluster:
+          context: CodacyDO
       - update_versions:
           context: CodacyDO
-
+          requires: 
+            - start_nightly_cluster
       - get_changelogs:
           context: CodacyDO
           requires: 
             - update_versions
-
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires: 
+            - start_nightly_cluster
             - update_versions
             - get_changelogs
+      - manual_qa_hold: 
+          type: approval
+          requires: 
+           - deploy_to_doks_nightly
+      - destroy_nightly_cluster:
+          context: CodacyDO
+          requires:
+            - manual_qa_hold
