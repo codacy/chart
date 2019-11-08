@@ -1,0 +1,65 @@
+{{ if .Values.fluentdoperator.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.fluentdoperator.defaultConfigmap }}
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+  fluent.conf: |
+
+    # Drop tools logs
+    <match $labels(app=codacy-plugin)>
+      @type null
+    </match>
+
+    # Remove unneeded fields from the logs
+    <filter **>
+      @type record_modifier
+      <record>
+        # This removes unneeded fields from the logs
+        for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record.delete("container_info"); record.delete("docker")}
+      </record>
+      remove_keys for_remove
+    </filter>
+
+    # Output to S3
+    <match **>
+      # docs: https://github.com/fluent/fluent-plugin-s3 and https://docs.fluentd.org/output/s3
+      @type s3
+      @id out_s3
+      @log_level info
+
+      aws_key_id {{ .Values.global.minio.accessKey }}
+      aws_sec_key {{ .Values.global.minio.secretKey }}
+
+      s3_endpoint http://{{ .Values.global.minio.location }}:9000
+      force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
+      s3_bucket {{ .Values.fluentdoperator.bucketName }}
+      auto_create_bucket true
+
+      #s3_object_key_format %{path}%Y/%m/%d/cluster-log-%{index}.%{file_extension}
+
+      path ${tag}/%Y/%m/%d/
+      s3_object_key_format %{path}%{index}.%{file_extension}
+
+      # We can't use this due to a bug in minio
+      # <bucket_lifecycle_rule>
+      #   id test-policy
+      #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
+      # </bucket_lifecycle_rule>
+
+      <format>
+        @type json
+      </format>
+
+      <buffer tag,time>
+        @type file
+        path /var/log/fluentd-buffers/s3.buffer
+        timekey 600 # Time frames of 10 minutes
+        timekey_wait 0 # We want to send the logs from the timeframe to s3 as soon as possible
+        timekey_use_utc true
+        chunk_limit_size 256m
+      </buffer>
+    </match>
+{{ end }}

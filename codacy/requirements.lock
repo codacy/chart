@@ -1,13 +1,16 @@
 dependencies:
 - name: minio
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 2.4.18
+  version: 2.5.18
 - name: rabbitmq-ha
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 1.27.2
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.2.2
+- name: log-router
+  repository: https://charts.codacy.com/external
+  version: 0.3.0
 - name: portal
   repository: https://charts.codacy.com/unstable
   version: 4.27.1-SNAPSHOT.43925966
@@ -44,5 +47,5 @@ dependencies:
 - name: crow
   repository: https://charts.codacy.com/incubator
   version: 4.3.0
-digest: sha256:8cf7c77e65c4077a026929294c06738a2cbd070ab0ffa69407f50328518256b1
-generated: "2019-11-04T11:13:23.761876Z"
+digest: sha256:d7d366a8ee3af7715eb4bdc7cb050768e3f4390ab5bf0213ead4a3991314491b
+generated: "2019-11-05T15:35:08.705587Z"

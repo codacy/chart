@@ -233,6 +233,13 @@ crow:
     service:
       port: 5432
 
+fluentdoperator:
+  enabled: false
+  defaultConfigmap: codacy-fluentd-config
+  bucketName: fluentd-bucket
+  expirationDays: 14
+  rbac:
+    create: true
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
@@ -266,6 +273,9 @@ postgres:
       CREATE DATABASE jobs WITH OWNER=codacy;
 
 minio:
+  image:
+    # We require this version in order to use lifecycle policies
+    tag: RELEASE.2019-10-12T01-39-57Z
   persistence:
     size: 20Gi
   minioConfig:
