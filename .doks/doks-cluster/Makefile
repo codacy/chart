@@ -51,4 +51,4 @@ destroy_cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 	$(TF) workspace select $(WORKSPACE)
-	$(TF) destroy -var-file=$(VARS_FILE) -input=false --auto-approve
+	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve

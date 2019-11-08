@@ -92,6 +92,10 @@ jobs:
       - run:
           name: "Get latest chart versions"
           command: helm dep up codacy/
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   get_changelogs:
     docker:
@@ -124,8 +128,7 @@ jobs:
       DO_TF_WORKSPACE: nightly
     working_directory: ~/workdir/
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
       - run:
           name: "Setup DO Credentials"
           command: doctl auth init -t $DO_TOKEN &>/dev/null
