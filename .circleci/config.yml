@@ -156,13 +156,13 @@ workflows:
                 - master
 
   perform_nightly_release:
-    # triggers:
-    #    - schedule:
-    #        cron: "0 0 * * 1-5"
-    #        filters:
-    #          branches:
-    #            only:
-    #              - master
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - master
     jobs:
       - start_nightly_cluster:
           context: CodacyDO
