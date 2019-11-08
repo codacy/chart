@@ -256,7 +256,7 @@ postgres:
   initdbScripts:
     initdb.sql: |
       CREATE USER codacy WITH PASSWORD 'codacy';
-      ALTER ROLE codacy WITH SUPERUSER;
+      ALTER ROLE codacy WITH CREATEDB;
       CREATE DATABASE accounts WITH OWNER=codacy;
       CREATE DATABASE analysis WITH OWNER=codacy;
       CREATE DATABASE results WITH OWNER=codacy;

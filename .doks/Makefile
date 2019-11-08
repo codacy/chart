@@ -21,5 +21,4 @@ deploy_to_doks: setup_helm_repos
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url="http://k8s.dev.codacy.org" \
-		--set global.codacy.backendUrl="http://k8s.dev.codacy.org"
-		--set postgres.initdbScripts."init\.sql"="$(shell cat default.sql)"
+		--set global.codacy.backendUrl="http://k8s.dev.codacy.org" 		
