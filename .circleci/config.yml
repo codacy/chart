@@ -165,6 +165,8 @@ workflows:
           context: CodacyDO
       - update_versions:
           context: CodacyDO
+          requires: 
+            - start_nightly_cluster
       - get_changelogs:
           context: CodacyDO
           requires: 
@@ -172,12 +174,13 @@ workflows:
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires: 
+            - start_nightly_cluster
             - update_versions
             - get_changelogs
       - manual_qa_hold: 
           type: approval
           requires: 
-           - start_nightly_cluster
+           - deploy_to_doks_nightly
       - destroy_nightly_cluster:
           context: CodacyDO
           requires:
