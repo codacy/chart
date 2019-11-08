@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   checkout_and_lint:
     docker:
-      - image: codacy/ci-do:0.2.2
+      - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
     steps:
       - checkout
@@ -12,10 +12,10 @@ jobs:
 
   deploy_to_doks:
     docker:
-      - image: codacy/ci-do:0.2.2
-    working_directory: ~/workdir/
+      - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    working_directory: ~/workdir/
     steps:
       - checkout
       - run:
@@ -27,8 +27,75 @@ jobs:
       - deploy:
           command: make -C .doks/ deploy_to_doks
 
-workflows:
+  deploy_to_doks_nightly:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          command: make -C .doks/ deploy_to_doks
 
+  update_versions:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+    working_directory: ~/workdir/
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Setup helm repos"
+          command: make -C .doks/ setup_helm_repos
+      - run:
+          name: "Store old requirements.lock"
+          command: cp codacy/requirements.lock codacy/requirements_old.lock
+      - run:
+          name: "Get latest chart versions"
+          command: helm dep up codacy/
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+  
+  get_changelogs:
+    docker:
+      - image: codacy/ci-base:1.0.1
+    working_directory: ~/workdir/
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Install requirements"
+          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq 
+      - run:
+          name: "Get changelogs"
+          command: bash ./.circleci/getChangelogs.sh
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+      - store_artifacts:
+          path: ~/workdir/changelogs 
+
+workflows:
   lint_chart:
     jobs:
       - checkout_and_lint:
@@ -38,7 +105,6 @@ workflows:
               ignore:
                 - master
 
-
   deploy_chart_to_cluster:
     jobs:
       - deploy_to_doks:
@@ -47,3 +113,19 @@ workflows:
             branches:
               only:
                 - master
+
+  release:
+    jobs:
+      - update_versions:
+          context: CodacyDO
+
+      - get_changelogs:
+          context: CodacyDO
+          requires: 
+            - update_versions
+
+      - deploy_to_doks_nightly:
+          context: CodacyDO
+          requires: 
+            - update_versions
+            - get_changelogs
