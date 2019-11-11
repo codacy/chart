@@ -1,15 +1,8 @@
-.PHONY: setup_helm_repos
-setup_helm_repos:
+.PHONY: deploy_to_doks
+deploy_to_doks:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
 
-	helm repo add codacy-stable https://charts.codacy.com/stable
-	helm repo add codacy-unstable https://charts.codacy.com/unstable
-	helm repo add codacy-incubator https://charts.codacy.com/incubator
-	helm repo add codacy-external https://charts.codacy.com/external
-
-.PHONY: deploy_to_doks
-deploy_to_doks: setup_helm_repos
-	helm dependency update ../codacy/
+	$(MAKE) -C ../ update_dependencies
 
 	helm upgrade --install codacy ../codacy/ \
 	 	-f values.yaml \
@@ -21,4 +14,4 @@ deploy_to_doks: setup_helm_repos
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url="http://k8s.dev.codacy.org" \
-		--set global.codacy.backendUrl="http://k8s.dev.codacy.org" 		
+		--set global.codacy.backendUrl="http://k8s.dev.codacy.org"
