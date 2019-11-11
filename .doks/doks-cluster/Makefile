@@ -34,6 +34,10 @@ setup_vars:
 	echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
+.PHONY: set_cluster_context
+set_cluster_context:
+	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
+
 .PHONY: cluster
 cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
@@ -46,9 +50,15 @@ populate_cluster: setup_vars create_terraformrc
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
 
+.PHONY: remove_codacy
+remove_codacy:
+	helm delete --purge codacy
+	kubectl delete pvc -n codacy $(shell kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}') &
+	kubectl delete pods -n codacy $(shell kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
+
 .PHONY: destroy_cluster
-destroy_cluster: setup_vars create_terraformrc
+destroy_cluster: setup_vars create_terraformrc set_cluster_context remove_codacy
 	echo '1' | $(TF) init -input=false -reconfigure
-	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+
