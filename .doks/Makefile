@@ -1,5 +1,5 @@
 .PHONY: deploy_to_doks
-deploy_to_doks: setup_helm_repos
+deploy_to_doks:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
 
 	$(MAKE) -C ../ update_dependencies
