@@ -260,9 +260,9 @@ postgres:
   #    memory: 1024Mi
   #    cpu: 1000m
   postgresqlExtendedConf: {"sharedBuffers": "256MB", "maxConnections": "300"}
-  master:
-    extraVolumes:
-      - ./sql/:/docker-entrypoint-initdb.d
+  # initdbScriptsConfigMap: codacy-postgres-config
+  
+
 
 minio:
   image:
