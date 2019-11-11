@@ -122,7 +122,11 @@ jobs:
 workflows:
   branch_checks:
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          filters:
+            branches:
+              ignore:
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
