@@ -1,21 +1,15 @@
 version: 2.1
-jobs:
-  checkout_and_lint:
-    docker:
-      - image: codacy/ci-do:0.2.1
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Helm lint"
-          command: helm lint codacy/
 
+orbs:
+  codacy: codacy/base@1.0.1
+
+jobs:
   deploy_to_doks:
     docker:
-      - image: codacy/ci-do:0.2.1
-    working_directory: ~/workdir/
+      - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    working_directory: ~/workdir/
     steps:
       - checkout
       - run:
@@ -27,17 +21,121 @@ jobs:
       - deploy:
           command: make -C .doks/ deploy_to_doks
 
-workflows:
+  deploy_to_doks_nightly:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          command: make -C .doks/ deploy_to_doks
 
-  lint_chart:
+  start_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  update_versions:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    working_directory: ~/workdir/
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Store old requirements.lock"
+          command: cp codacy/requirements.lock codacy/requirements_old.lock
+      - run:
+          name: "Get latest chart versions"
+          command: make update_dependencies
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  get_changelogs:
+    docker:
+      - image: codacy/ci-base:1.0.1
+    working_directory: ~/workdir/
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Install requirements"
+          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq
+      - run:
+          name: "Get changelogs"
+          command: bash ./.circleci/getChangelogs.sh
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+      - store_artifacts:
+          path: ~/workdir/changelogs
+
+  destroy_nightly_cluster:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+
+workflows:
+  branch_checks:
     jobs:
-      - checkout_and_lint:
-          context: CodacyDO
+      - codacy/checkout_and_version:
           filters:
             branches:
               ignore:
                 - master
-
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+      - update_versions:
+          requires:
+            - codacy/checkout_and_version
 
   deploy_chart_to_cluster:
     jobs:
@@ -47,3 +145,47 @@ workflows:
             branches:
               only:
                 - master
+
+  populate_postgres:
+    jobs:
+      - deploy_to_doks_nightly:
+          context: CodacyDO
+          filters:
+            branches:
+              only:
+                - feature/postgres_init
+
+
+  perform_nightly_release:
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - master
+    jobs:
+      - start_nightly_cluster:
+          context: CodacyDO
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - start_nightly_cluster
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_nightly:
+          context: CodacyDO
+          requires:
+            - start_nightly_cluster
+            - update_versions
+            - get_changelogs
+      - manual_qa_hold:
+          type: approval
+          requires:
+           - deploy_to_doks_nightly
+      - destroy_nightly_cluster:
+          context: CodacyDO
+          requires:
+            - manual_qa_hold

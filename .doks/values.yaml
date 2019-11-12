@@ -56,3 +56,6 @@ engine:
 
 worker-manager:
   replicaCount: 2
+
+fluentdoperator:
+  enabled: true

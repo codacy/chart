@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codacy-postgres-initdb-override
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+  default.sql: |-
+{{ .Files.Get "default.sql" | indent 4}}
+  filestore.sql: |-
+{{ .Files.Get "filestore.sql" | indent 4}}

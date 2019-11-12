@@ -2,11 +2,7 @@
 deploy_to_doks:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
 
-	helm repo add codacy-stable https://charts.codacy.com/stable
-	helm repo add codacy-unstable https://charts.codacy.com/unstable
-	helm repo add codacy-incubator https://charts.codacy.com/incubator
-
-	helm dependency update ../codacy/
+	$(MAKE) -C ../ update_dependencies
 
 	helm upgrade --install codacy ../codacy/ \
 	 	-f values.yaml \
