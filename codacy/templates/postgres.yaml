@@ -7,5 +7,17 @@ metadata:
 data:
   default.sql: |-
 {{ .Files.Get "default.sql" | indent 4}}
+  accounts.sql: |-
+{{ .Files.Get "accounts.sql" | indent 4}}
+  analysis.sql: |-
+{{ .Files.Get "analysis.sql" | indent 4}}  
   filestore.sql: |-
 {{ .Files.Get "filestore.sql" | indent 4}}
+  jobs.sql: |-
+{{ .Files.Get "jobs.sql" | indent 4}}
+  metrics.sql: |-
+{{ .Files.Get "metrics.sql" | indent 4}}
+  results.sql: |-
+{{ .Files.Get "results.sql" | indent 4}}
+  results201709.sql: |-
+{{ .Files.Get "results201709.sql" | indent 4}}
