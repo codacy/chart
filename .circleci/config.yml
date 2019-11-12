@@ -28,7 +28,6 @@ jobs:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     working_directory: ~/workdir/
     steps:
-      - checkout
       - attach_workspace:
           at: ~/
       - run:
@@ -145,16 +144,6 @@ workflows:
             branches:
               only:
                 - master
-
-  populate_postgres:
-    jobs:
-      - deploy_to_doks_nightly:
-          context: CodacyDO
-          filters:
-            branches:
-              only:
-                - feature/postgres_init
-
 
   perform_nightly_release:
     triggers:
