@@ -228,4 +228,4 @@ workflows:
       - destroy_nightly_cluster:
           context: CodacyDO
           requires:
-            - helm_push_stable
+            - promote_chart_to_stable
