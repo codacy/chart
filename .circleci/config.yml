@@ -61,6 +61,24 @@ jobs:
           root: ~/
           paths:
             - workdir
+  
+  set_chart_version:
+    docker:
+      - image: codacy/git-version:1.0.8
+    working_directory: ~/workdir
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set version
+          command: /bin/git-version > .version
+      - run:
+          name: Current version
+          command: cat .version
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   update_versions:
     docker:
@@ -156,25 +174,58 @@ workflows:
     jobs:
       - start_nightly_cluster:
           context: CodacyDO
-      - update_versions:
+
+      - set_chart_version:
           context: CodacyDO
           requires:
             - start_nightly_cluster
+
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - set_chart_version
+
       - get_changelogs:
           context: CodacyDO
           requires:
             - update_versions
+
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires:
             - start_nightly_cluster
             - update_versions
             - get_changelogs
-      - manual_qa_hold:
+
+      - codacy/helm_push:
+        name: helm_push_incubator
+        context: CodacyHelm
+        chart_name: chart
+        charts_repo_url: "https://charts.codacy.com/incubator"
+        requires:
+          - deploy_to_doks_nightly
+
+      - manual_qa_hold: 
           type: approval
-          requires:
-           - deploy_to_doks_nightly
-      - destroy_nightly_cluster:
+          requires: 
+           - helm_push_incubator
+
+      - codacy/tag_version:
+          name: tag_version
           context: CodacyDO
           requires:
             - manual_qa_hold
+
+      - codacy/helm_promote:
+          name: promote_chart_to_stable
+          context: CodacyHelm
+          chart_name: chart
+          source_charts_repo_url: "https://charts.codacy.com/incubator"
+          target_charts_repo_url: "https://charts.codacy.com/stable"
+          requires:
+            - tag_version
+
+      - destroy_nightly_cluster:
+          context: CodacyDO
+          requires:
+            - helm_push_stable
