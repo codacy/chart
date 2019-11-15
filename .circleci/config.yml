@@ -47,34 +47,17 @@ jobs:
       DO_TF_WORKSPACE: nightly
     working_directory: ~/workdir/
     steps:
-      - checkout
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - run:
-          name: "Start Cluster"
-          command: make -C ./.doks/doks-cluster cluster
-      - run:
-          name: "Populate Cluster"
-          command: make -C ./.doks/doks-cluster populate_cluster
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
-  
-  set_chart_version:
-    docker:
-      - image: codacy/git-version:1.0.8
-    working_directory: ~/workdir
-    steps:
       - attach_workspace:
           at: ~/
       - run:
-          name: Set version
-          command: /bin/git-version > .version
-      - run:
-          name: Current version
-          command: cat .version
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - deploy:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - deploy:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
       - persist_to_workspace:
           root: ~/
           paths:
@@ -172,8 +155,12 @@ workflows:
                only:
                  - master
     jobs:
+      - codacy/checkout_and_version
+
       - start_nightly_cluster:
           context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
 
       - set_chart_version:
           context: CodacyDO
