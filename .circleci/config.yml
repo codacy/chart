@@ -162,15 +162,10 @@ workflows:
           requires:
             - codacy/checkout_and_version
 
-      - set_chart_version:
-          context: CodacyDO
-          requires:
-            - start_nightly_cluster
-
       - update_versions:
           context: CodacyDO
           requires:
-            - set_chart_version
+            - start_nightly_cluster
 
       - get_changelogs:
           context: CodacyDO
