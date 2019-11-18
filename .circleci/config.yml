@@ -39,6 +39,33 @@ jobs:
       - deploy:
           command: make -C .doks/ deploy_to_doks
 
+  validate_deployment_status:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+    working_directory: ~/workdir/
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - run:
+          name: "Validate deployment status"
+          command: |
+            set -e
+            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+            DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
+            for DEPLOYMENT in ${DEPLOYMENTS[@]}
+            do
+                kubectl rollout status -n codacy --watch "$DEPLOYMENT"
+            done
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
   start_nightly_cluster:
     docker:
       - image: codacy/ci-do:0.2.3
@@ -170,10 +197,14 @@ workflows:
             - start_nightly_cluster
             - update_versions
             - get_changelogs
+      - validate_deployment_status:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_nightly
       - manual_qa_hold:
           type: approval
           requires:
-           - deploy_to_doks_nightly
+           - validate_deployment_status
       - destroy_nightly_cluster:
           context: CodacyDO
           requires:
