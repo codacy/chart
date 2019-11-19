@@ -26,6 +26,7 @@ jobs:
       - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
     working_directory: ~/workdir/
     steps:
       - attach_workspace:
@@ -48,6 +49,7 @@ jobs:
       - image: codacy/ci-do:0.2.3
     environment:
       DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
     working_directory: ~/workdir/
     steps:
       - attach_workspace:
