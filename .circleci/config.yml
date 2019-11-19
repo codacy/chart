@@ -65,7 +65,7 @@ jobs:
             DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
             for DEPLOYMENT in ${DEPLOYMENTS[@]}
             do
-                kubectl rollout status -n codacy --watch "$DEPLOYMENT"
+                kubectl rollout status -n codacy --timeout=30m --watch "$DEPLOYMENT"
             done
       - persist_to_workspace:
           root: ~/
