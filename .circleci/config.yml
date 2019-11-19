@@ -266,7 +266,6 @@ workflows:
           name: promote_chart_to_stable
           context: CodacyHelm
           chart_name: codacy
-          helm_dir: .
           source_charts_repo_url: "https://charts.codacy.com/incubator"
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
