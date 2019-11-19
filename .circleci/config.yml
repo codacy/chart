@@ -195,13 +195,21 @@ jobs:
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
             ytool -s image.tag "$(cat .version)" -f "./codacy/values.yaml" -e
             git --no-pager diff --no-color
-      - deploy:
+      - run:
           name: Push to charts museum
           command: |
             helm dep up ./codacy
             echo "Adding 'https://charts.codacy.com/incubator'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/incubator
             helm push ./codacy codacy
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+          when: on_fail
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+          when: on_fail
 
 workflows:
   branch_checks:
