@@ -36,8 +36,12 @@ jobs:
       - run:
           name: "Setup DO Credentials"
           command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
+      - run:
           command: make -C .doks/ deploy_to_doks
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+          when: on_fail
 
   validate_deployment_status:
     docker:
@@ -65,6 +69,10 @@ jobs:
           root: ~/
           paths:
             - workdir
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+          when: on_fail
 
   start_nightly_cluster:
     docker:
@@ -107,6 +115,10 @@ jobs:
           root: ~/
           paths:
             - workdir
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+          when: on_fail
 
   get_changelogs:
     docker:
@@ -146,6 +158,24 @@ jobs:
       - deploy:
           name: "Destroy Cluster"
           command: make -C ./.doks/doks-cluster destroy_cluster
+  
+  manual_qa_hold:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    environment:
+      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+      DO_TF_WORKSPACE: nightly
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: "Setup DO Credentials"
+          command: doctl auth init -t $DO_TOKEN &>/dev/null
+          when: on_fail
+      - run:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+          when: on_fail
 
 workflows:
   branch_checks:
@@ -174,13 +204,13 @@ workflows:
                 - master
 
   perform_nightly_release:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
+    # triggers:
+    #    - schedule:
+    #        cron: "0 0 * * 1-5"
+    #        filters:
+    #          branches:
+    #            only:
+    #              - master
     jobs:
       - codacy/checkout_and_version
 
@@ -221,6 +251,7 @@ workflows:
             
       - manual_qa_hold:
           type: approval
+          context: CodacyDO
           requires: 
            - helm_push_incubator
            
