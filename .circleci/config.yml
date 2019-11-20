@@ -142,12 +142,12 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           context: CodacyDO
-      - codacy/doks_cluster_start:
-          context: CodacyDO
           filters:
             branches:
               only:
                 - master
+      - codacy/doks_cluster_start:
+          context: CodacyDO
           cluster_name: "codacy-doks-cluster-nightly"
           kubernetes_version: "1.15"
           tf_workspace: "nightly"
