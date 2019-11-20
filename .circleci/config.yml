@@ -140,6 +140,8 @@ workflows:
 
   create_cluster_pipeline:
     jobs:
+      - codacy/checkout_and_version:
+          context: CodacyDO
       - codacy/doks_cluster_start:
           context: CodacyDO
           filters:
@@ -155,12 +157,14 @@ workflows:
 
   release_pipeline:
     jobs:
-      - codacy/doks_cluster_purge:
+      - codacy/checkout_and_version:
           context: CodacyDO
           filters:
-            branches:
-              only:
-                - master
+              branches:
+                only:
+                  - master
+      - codacy/doks_cluster_purge:
+          context: CodacyDO
           cluster_name: "codacy-doks-cluster-nightly"
       - update_versions:
           context: CodacyDO
