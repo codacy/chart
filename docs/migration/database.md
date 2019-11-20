@@ -46,7 +46,7 @@ To restore a database, you can run a `pg_restore` command to consume the dump fi
 
 ## Sample script
 
-Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, you could easily migrate your databases with the following sample script:
+Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:
 ```
    SRC_HOSTNAME=$1
    DEST_HOSTNAME=$2
