@@ -148,8 +148,8 @@ workflows:
           kubernetes_version: "1.15"
           tf_workspace: "nightly"
           destroy_cluster: true
-          start_cluster_command: "make -C ./workdir/.doks/doks-cluster cluster; make -C ./.doks/doks-cluster populate_cluster"
-          destroy_cluster_command: "make -C ./workdir/.doks/doks-cluster destroy_cluster"
+          start_cluster_command: make -C ./workdir/.doks/doks-cluster cluster; make -C ./.doks/doks-cluster populate_cluster
+          destroy_cluster_command: make -C ./workdir/.doks/doks-cluster destroy_cluster
           requires:
             - codacy/checkout_and_version
 
