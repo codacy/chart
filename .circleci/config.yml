@@ -150,6 +150,8 @@ workflows:
           destroy_cluster: true
           start_cluster_command: "make -C ./.doks/doks-cluster cluster; make -C ./.doks/doks-cluster populate_cluster"
           destroy_cluster_command: "make -C ./.doks/doks-cluster destroy_cluster"
+          requires:
+            - codacy/checkout_and_version
 
   release_pipeline:
     jobs:
