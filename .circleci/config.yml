@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@1.0.1
+  codacy: codacy/base@dev:1.1.0-featuredigitaloceanorbs.526f0b8
 
 jobs:
   deploy_to_doks:
@@ -142,10 +142,6 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           context: CodacyDO
-          filters:
-            branches:
-              only:
-                - master
       - codacy/doks_cluster_start:
           context: CodacyDO
           cluster_name: "codacy-doks-cluster-nightly"
