@@ -191,12 +191,13 @@ jobs:
           at: ~/
       - run:
           name: "Install requirements"
-          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq
+          command: |
+          apk add --no-cache python3
+          pip3 install ytool
       - run:
           name: Set image tag and version using semver
           command: |
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
-            ytool -s image.tag "$(cat .version)" -f "./codacy/values.yaml" -e
             git --no-pager diff --no-color
       - run:
           name: Push to charts museum
@@ -279,7 +280,7 @@ workflows:
             - deploy_to_doks_nightly
             
       - helm_push_incubator:
-          context: CodacyHelm
+          context: CodacyDO
           requires:
             - validate_deployment_status
             
@@ -289,11 +290,11 @@ workflows:
           requires: 
            - helm_push_incubator
            
-      - codacy/tag_version:
-          name: tag_version
-          context: CodacyDO
-          requires:
-            - manual_qa_hold
+      # - codacy/tag_version:
+      #     name: tag_version
+      #     context: CodacyDO
+      #     requires:
+      #       - manual_qa_hold
             
       # - codacy/helm_promote:
       #     name: promote_chart_to_stable
