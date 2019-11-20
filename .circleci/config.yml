@@ -186,7 +186,7 @@ workflows:
       - helm_push_incubator:
           context: CodacyDO
           requires:
-            - validate_deployment_status
+            - codacy/doks_validate
       - manual_qa_hold:
           type: approval
           requires:
