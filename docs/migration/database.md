@@ -35,7 +35,7 @@ This will dump the file with the `.sql.tar` extension into the `/tmp` folder.
 
 [For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/10/app-pgdump.html)
 
-## pg_restore
+### pg_restore
 To restore a database, you can run a `pg_restore` command to consume the dump file and replicate the data onto Postgres:
 
 ```
@@ -43,3 +43,25 @@ To restore a database, you can run a `pg_restore` command to consume the dump fi
 ```
 
 [For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/9.6/app-pgrestore.html)
+
+## Sample script
+
+Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, you could easily migrate your databases with the following sample script:
+```
+   SRC_HOSTNAME=$1
+   DEST_HOSTNAME=$2
+   DB_USER=$3
+   DB_PASSWORD=$4
+   
+   declare -a dbs=(accounts analysis filestore jobs metrics results results201709)
+   for db in ${dbs[@]}
+   do
+      PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -U $DB_USER -d $DB -F t -f /tmp/$DB.sql.tar"
+      PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar
+   done
+
+```
+You could simply invoke it with:
+```
+   $> migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com postgres–instance1.eu-west-1.rds.amazonaws.com super_user secret_password
+```
