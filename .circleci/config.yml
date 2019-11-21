@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 
 orbs:
   codacy: codacy/base@1.0.1
@@ -103,19 +103,49 @@ jobs:
           paths:
             - workdir
 
-  start_doks_cluster:
+  start_doks_nightly_cluster:
     environment:
       <<: *nightly_environment
     <<: *start_cluster
 
-  destroy_doks_cluster:
+  destroy_doks_nightly_cluster:
     environment:
       <<: *nightly_environment
     <<: *destroy_cluster
 
-  purge_codacy_nightly:
+  purge_doks_nightly_codacy:
     environment:
       <<: *nightly_environment
+    <<: *purge_cluster
+
+  start_doks_hourl_cluster:
+    environment:
+      <<: *hourly_environment
+    <<: *start_cluster
+
+  destroy_doks_hourly_cluster:
+    environment:
+      <<: *hourly_environment
+    <<: *destroy_cluster
+
+  purge_doks_hourly_codacy:
+    environment:
+      <<: *hourly_environment
+    <<: *purge_cluster
+
+  start_doks_dev_cluster:
+    environment:
+      <<: *dev_environment
+    <<: *start_cluster
+
+  destroy_doks_dev_cluster:
+    environment:
+      <<: *dev_environment
+    <<: *destroy_cluster
+
+  purge_doks_dev_codacy:
+    environment:
+      <<: *dev_environment
     <<: *purge_cluster
 
   update_versions:
@@ -218,14 +248,14 @@ workflows:
     #              - master
     jobs:
       - codacy/checkout_and_version
-      - purge_codacy_nightly:
+      - purge_doks_codacy:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
       - update_versions:
           context: CodacyDO
           requires:
-            - purge_codacy_nightly
+            - purge_doks_codacy
       - get_changelogs:
           context: CodacyDO
           requires:
