@@ -52,7 +52,7 @@ populate_cluster: setup_vars create_terraformrc
 
 .PHONY: remove_codacy
 remove_codacy:
-	helm delete --purge codacy
+	set +e; helm delete --purge codacy; set -e;
 	kubectl delete pvc -n codacy $(shell kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}') &
 	kubectl delete pods -n codacy $(shell kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
 
