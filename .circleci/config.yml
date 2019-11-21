@@ -326,11 +326,7 @@ workflows:
                only:
                  - develop
     jobs:
-      - codacy/checkout_and_version:
-          filters:
-             branches:
-               only:
-                 - master
+      - codacy/checkout_and_version
       - purge_doks_hourly_codacy:
           context: CodacyDO
           requires:
@@ -354,6 +350,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
@@ -368,11 +368,7 @@ workflows:
                only:
                  - master
     jobs:
-      - codacy/checkout_and_version:
-          filters:
-             branches:
-               only:
-                 - master
+      - codacy/checkout_and_version
       - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
@@ -385,14 +381,12 @@ workflows:
           context: CodacyDO
           requires:
             - update_versions
-
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
             - update_versions
             - get_changelogs
-            
       - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
@@ -401,18 +395,15 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly
-
       - qa_tests_nightly:
           context: CodacyDO
           requires:
             - validate_deployment_status
-
       - codacy/tag_version:
           name: tag_version
           context: CodacyDO
           requires:
             - manual_qa_hold
-            
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
