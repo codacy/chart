@@ -7,9 +7,7 @@ WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 
 # variables
-K8S_VERSION ?= 1.15
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
-NODE_TYPE ?= s-6vcpu-16gb
 NUM_NODES ?= 4
 
 .PHONY: create_terraformrc
