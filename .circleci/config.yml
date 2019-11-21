@@ -10,17 +10,21 @@ references:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
 
+  release_environment: &release_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
+    DO_TF_WORKSPACE: release
+
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     DO_TF_WORKSPACE: nightly
-  
-  dev_environment: &dev_environment
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
-    DO_TF_WORKSPACE: dev
-  
+
   hourly_environment: &hourly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-hourly
     DO_TF_WORKSPACE: hourly
+
+  dev_environment: &dev_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
 
   doctl_authenticate: &doctl_authenticate
     run:
@@ -103,6 +107,21 @@ jobs:
           paths:
             - workdir
 
+  start_doks_release_cluster:
+    environment:
+      <<: *release_environment
+    <<: *start_cluster
+
+  destroy_doks_release_cluster:
+    environment:
+      <<: *release_environment
+    <<: *destroy_cluster
+
+  purge_doks_release_codacy:
+    environment:
+      <<: *release_environment
+    <<: *purge_cluster
+
   start_doks_nightly_cluster:
     environment:
       <<: *nightly_environment
@@ -118,7 +137,7 @@ jobs:
       <<: *nightly_environment
     <<: *purge_cluster
 
-  start_doks_hourl_cluster:
+  start_doks_hourly_cluster:
     environment:
       <<: *hourly_environment
     <<: *start_cluster
