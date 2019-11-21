@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@dev:1.1.0-featuredigitaloceanorbs.16684c6
+  codacy: codacy/base@dev:1.1.0-featuredigitaloceanorbs.a44d917
 
 jobs:
   deploy_to_doks:
