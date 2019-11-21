@@ -3,60 +3,87 @@ version: 2.1
 orbs:
   codacy: codacy/base@1.0.1
 
-jobs:
-  deploy_to_doks:
+references:
+
+  default_doks_image: &default_doks_image
     docker:
       - image: codacy/ci-do:0.2.3
-    environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     working_directory: ~/workdir/
+
+  nightly_environment: &nightly_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
+    DO_TF_WORKSPACE: nightly
+  
+  dev_environment: &dev_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
+  
+  hourly_environment: &hourly_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-hourly
+    DO_TF_WORKSPACE: hourly
+
+  doctl_authenticate: &doctl_authenticate
+    run:
+      name: "Setup DO Credentials"
+      command: doctl auth init -t $DO_TOKEN &>/dev/null
+
+  start_cluster: &start_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  destroy_cluster: &destroy_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - deploy:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
+
+  deploy_to_cluster: &deploy_to_cluster
     steps:
       - checkout
       - run:
           name: "Helm lint"
           command: helm lint codacy/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - <<: *doctl_authenticate
       - deploy:
           command: make -C .doks/ deploy_to_doks
 
-  deploy_to_doks_nightly:
-    docker:
-      - image: codacy/ci-do:0.2.3
+
+jobs:
+  deploy_to_doks:
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Helm lint"
-          command: helm lint codacy/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - run:
-          command: make -C .doks/ deploy_to_doks
-      - run:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-          when: on_fail
+      <<: *dev_environment
+    <<: *deploy_to_cluster
+
+  deploy_to_doks_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *deploy_to_cluster
 
   validate_deployment_status:
-    docker:
-      - image: codacy/ci-do:0.2.3
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
+      <<: *nightly_environment
     steps:
       - attach_workspace:
           at: ~/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
+      - <<: *doctl_authenticate
       - run:
           name: "Validate deployment status"
           command: |
@@ -71,39 +98,19 @@ jobs:
           root: ~/
           paths:
             - workdir
-      - run:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-          when: on_fail
 
-  start_nightly_cluster:
-    docker:
-      - image: codacy/ci-do:0.2.3
+  start_doks_cluster:
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
-          name: "Start Cluster"
-          command: make -C ./.doks/doks-cluster cluster
-      - deploy:
-          name: "Populate Cluster"
-          command: make -C ./.doks/doks-cluster populate_cluster
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
+      <<: *nightly_environment
+    <<: *start_cluster
+
+  destroy_doks_cluster:
+    environment:
+      <<: *nightly_environment
+    <<: *destroy_cluster
 
   update_versions:
-    docker:
-      - image: codacy/ci-do:0.2.3
-    working_directory: ~/workdir/
+    <<: *default_doks_image
     steps:
       - attach_workspace:
           at: ~/
@@ -117,10 +124,6 @@ jobs:
           root: ~/
           paths:
             - workdir
-      - run:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-          when: on_fail
 
   get_changelogs:
     docker:
@@ -145,47 +148,10 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
-  destroy_nightly_cluster:
-    docker:
-      - image: codacy/ci-do:0.2.3
-    environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-  
-  manual_qa_hold:
-    docker:
-      - image: codacy/ci-do:0.2.3
-    environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-          when: on_fail
-      - run:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-          when: on_fail
-
   helm_push_incubator:
-    docker:
-      - image: codacy/ci-do:0.2.3
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
+      <<: *nightly_environment
     steps:
       - attach_workspace:
           at: ~/
@@ -206,14 +172,6 @@ jobs:
             echo "Adding 'https://charts.codacy.com/incubator'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/incubator
             helm push ./codacy codacy
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-          when: on_fail
-      - run:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-          when: on_fail
 
 workflows:
   branch_checks:
@@ -251,17 +209,10 @@ workflows:
     #              - master
     jobs:
       - codacy/checkout_and_version
-
-      - start_nightly_cluster:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
-
       - update_versions:
           context: CodacyDO
           requires:
-            - start_nightly_cluster
-
+            - codacy/checkout_and_version
       - get_changelogs:
           context: CodacyDO
           requires:
@@ -270,7 +221,7 @@ workflows:
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires:
-            - start_nightly_cluster
+            - codacy/checkout_and_version
             - update_versions
             - get_changelogs
             
@@ -278,18 +229,16 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-            
       - helm_push_incubator:
           context: CodacyDO
           requires:
             - validate_deployment_status
-            
       - manual_qa_hold:
           type: approval
           context: CodacyDO
-          requires: 
+          requires:
            - helm_push_incubator
-           
+
       # - codacy/tag_version:
       #     name: tag_version
       #     context: CodacyDO
@@ -304,8 +253,3 @@ workflows:
       #     target_charts_repo_url: "https://charts.codacy.com/stable"
       #     requires:
       #       - tag_version
-            
-      - destroy_nightly_cluster:
-          context: CodacyDO
-          requires:
-            - manual_qa_hold
