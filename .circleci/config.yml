@@ -248,14 +248,14 @@ workflows:
     #              - master
     jobs:
       - codacy/checkout_and_version
-      - purge_doks_codacy:
+      - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
       - update_versions:
           context: CodacyDO
           requires:
-            - purge_doks_codacy
+            - purge_doks_nightly_codacy
       - get_changelogs:
           context: CodacyDO
           requires:
