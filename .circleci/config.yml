@@ -106,7 +106,7 @@ references:
           at: ~/
       - run:
           name: "Fake QA job"
-          command: exit 1
+          command: exit 0
 
 jobs:
   deploy_to_doks:
@@ -400,19 +400,19 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status
-      - codacy/tag_version:
-          name: tag_version
-          context: CodacyDO
-          requires:
-            - manual_qa_hold
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/incubator"
-          target_charts_repo_url: "https://charts.codacy.com/stable"
-          requires:
-            - tag_version
+      # - codacy/tag_version:
+      #     name: tag_version
+      #     context: CodacyDO
+      #     requires:
+      #       - manual_qa_hold
+      # - codacy/helm_promote:
+      #     name: promote_chart_to_stable
+      #     context: CodacyHelm
+      #     chart_name: codacy
+      #     source_charts_repo_url: "https://charts.codacy.com/incubator"
+      #     target_charts_repo_url: "https://charts.codacy.com/stable"
+      #     requires:
+      #       - tag_version
 
   release_pipeline:
     jobs:
@@ -453,16 +453,16 @@ workflows:
           context: CodacyDO
           requires:
            - helm_push_incubator
-      - codacy/tag_version:
-          name: tag_version
-          context: CodacyDO
-          requires:
-            - manual_qa_hold
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/incubator"
-          target_charts_repo_url: "https://charts.codacy.com/stable"
-          requires:
-            - tag_version
+      # - codacy/tag_version:
+      #     name: tag_version
+      #     context: CodacyDO
+      #     requires:
+      #       - manual_qa_hold
+      # - codacy/helm_promote:
+      #     name: promote_chart_to_stable
+      #     context: CodacyHelm
+      #     chart_name: codacy
+      #     source_charts_repo_url: "https://charts.codacy.com/incubator"
+      #     target_charts_repo_url: "https://charts.codacy.com/stable"
+      #     requires:
+      #       - tag_version
