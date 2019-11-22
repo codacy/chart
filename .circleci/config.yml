@@ -358,7 +358,7 @@ workflows:
       - qa_tests_hourly:
           context: CodacyDO
           requires:
-            - validate_deployment_status
+            - validate_deployment_status_hourly
 
   nightly_pipeline:
     triggers:
@@ -399,7 +399,7 @@ workflows:
       - qa_tests_nightly:
           context: CodacyDO
           requires:
-            - validate_deployment_status
+            - validate_deployment_status_nightly
       # - codacy/tag_version:
       #     name: tag_version
       #     context: CodacyDO
@@ -452,7 +452,7 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-           - helm_push_incubator
+           - validate_deployment_status_release
       # - codacy/tag_version:
       #     name: tag_version
       #     context: CodacyDO
