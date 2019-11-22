@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 
 orbs:
   codacy: codacy/base@1.0.1
@@ -10,29 +10,30 @@ references:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
 
+    # doks instance types can be found here https://developers.digitalocean.com/documentation/v2/
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
-    NODE_TYPE: s-6vcpu-16gb
+    NODE_TYPE: s-1vcpu-3gb
     K8S_VERSION: 1.15
 
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     DO_TF_WORKSPACE: nightly
-    NODE_TYPE: s-6vcpu-16gb
+    NODE_TYPE: s-1vcpu-3gb
     K8S_VERSION: 1.15
 
   hourly_environment: &hourly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-hourly
     DO_TF_WORKSPACE: hourly
-    NODE_TYPE: s-6vcpu-16gb
+    NODE_TYPE: s-1vcpu-3gb
     K8S_VERSION: 1.15
 
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
-    NODE_TYPE: s-6vcpu-16gb
-    K8S_VERSION: 1.15
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
 
   doctl_authenticate: &doctl_authenticate
     run:
