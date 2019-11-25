@@ -138,38 +138,46 @@ jobs:
     environment:
       <<: *dev_environment
     <<: *deploy_to_cluster
+
   start_doks_nightly_cluster:
     environment:
       <<: *nightly_environment
     <<: *start_cluster
+
   destroy_doks_nightly_cluster:
     environment:
       <<: *nightly_environment
     <<: *destroy_cluster
+
   deploy_to_doks_nightly:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
     <<: *deploy_to_cluster
+
   purge_doks_nightly_codacy:
     environment:
       <<: *nightly_environment
     <<: *purge_cluster
+
   validate_deployment_status_nightly:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
     <<: *validate_deployment_status_on_cluster
-    helm_push_incubator:
+
+  helm_push_incubator:
     <<: *default_doks_image
     environment:
       <<: *incubator_helm_channel
     <<: *helm_push
+
   qa_tests_nightly:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
     <<: *qa_job
+
   helm_push_unstable:
     <<: *default_doks_image
     environment:
