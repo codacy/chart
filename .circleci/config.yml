@@ -95,8 +95,8 @@ references:
           name: Push to charts museum
           command: |
             helm dep up ./codacy
-            echo "Adding 'https://charts.codacy.com/${PUSH_ENVIRONMENT}'"
-            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${PUSH_ENVIRONMENT}
+            echo "Adding 'https://charts.codacy.com/${NAMESPACE}'"
+            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${NAMESPACE}
             helm push ./codacy codacy
       - persist_to_workspace:
           root: ~/
