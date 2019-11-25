@@ -77,14 +77,6 @@ references:
           paths:
             - workdir
 
-  qa_job: &qa_job
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Fake QA job"
-          command: exit 0
-
   helm_push: &helm_push
     steps:
       - attach_workspace:
@@ -140,12 +132,6 @@ jobs:
     environment:
       <<: *incubator_helm_channel
     <<: *helm_push
-
-  qa_tests_nightly:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment
-    <<: *qa_job
 
   helm_push_unstable:
     <<: *default_doks_image
@@ -264,11 +250,7 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - qa_tests_nightly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_nightly
       - helm_push_incubator:
           context: CodacyDO
           requires:
-            - qa_tests_nightly
+            - validate_deployment_status_nightly
