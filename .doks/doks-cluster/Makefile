@@ -8,7 +8,6 @@ VARS_FILE ?= deploy.tfvars
 
 # variables
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
-NUM_NODES ?= 4
 
 .PHONY: create_terraformrc
 create_terraformrc:

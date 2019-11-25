@@ -14,26 +14,39 @@ references:
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
-    NODE_TYPE: s-1vcpu-3gb
+    NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
+    NUM_NODES: 4
 
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
     DO_TF_WORKSPACE: nightly
-    NODE_TYPE: s-1vcpu-3gb
+    NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
+    NUM_NODES: 4
 
   hourly_environment: &hourly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-hourly
     DO_TF_WORKSPACE: hourly
-    NODE_TYPE: s-1vcpu-3gb
-    K8S_VERSION: 1.15
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
+    NUM_NODES: 4
 
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.14
+    NUM_NODES: 5
+
+  unstable_environment: &unstable_environment
+    PUSH_ENVIRONMENT: unstable
+
+  incubator_environment: &incubator_environment
+    PUSH_ENVIRONMENT: incubator
+
+  stable_environment: &stable_environment
+    PUSH_ENVIRONMENT: stable
 
   doctl_authenticate: &doctl_authenticate
     run:
@@ -107,6 +120,32 @@ references:
       - run:
           name: "Fake QA job"
           command: exit 0
+  
+  helm_push: &helm_push
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Install requirements"
+          command: |
+            apk add --no-cache python3
+            pip3 install ytool
+      - run:
+          name: Set image tag and version using semver
+          command: |
+            ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
+            git --no-pager diff --no-color
+      - run:
+          name: Push to charts museum
+          command: |
+            helm dep up ./codacy
+            echo "Adding 'https://charts.codacy.com/${PUSH_ENVIRONMENT}'"
+            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${PUSH_ENVIRONMENT}
+            helm push ./codacy codacy
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
 jobs:
   deploy_to_doks:
@@ -246,30 +285,15 @@ jobs:
 
   helm_push_incubator:
     <<: *default_doks_image
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Install requirements"
-          command: |
-            apk add --no-cache python3
-            pip3 install ytool
-      - run:
-          name: Set image tag and version using semver
-          command: |
-            ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
-            git --no-pager diff --no-color
-      - run:
-          name: Push to charts museum
-          command: |
-            helm dep up ./codacy
-            echo "Adding 'https://charts.codacy.com/incubator'"
-            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/incubator
-            helm push ./codacy codacy
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
+    environment:
+      <<: *incubator_environment
+    <<: *helm_push
+  
+  helm_push_unstable:
+    <<: *default_doks_image
+    environment:
+      <<: *unstable_environment
+    <<: *helm_push
   
   qa_tests_release:
     <<: *default_doks_image
@@ -316,7 +340,11 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - dev
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks
 
   hourly_pipeline:
     triggers:
@@ -351,6 +379,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
@@ -392,6 +424,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly
       - qa_tests_nightly:
           context: CodacyDO
           requires:
@@ -401,7 +437,6 @@ workflows:
           requires:
             - qa_tests_nightly
       
-
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
