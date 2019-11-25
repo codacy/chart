@@ -37,27 +37,6 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-
-  start_cluster: &start_cluster
-    <<: *default_doks_image
-    steps:
-      - checkout
-      - <<: *doctl_authenticate
-      - run:
-          name: "Start Cluster"
-          command: make -C ./.doks/doks-cluster cluster
-      - run:
-          name: "Populate Cluster"
-          command: make -C ./.doks/doks-cluster populate_cluster
-
-  destroy_cluster: &destroy_cluster
-    <<: *default_doks_image
-    steps:
-      - checkout
-      - <<: *doctl_authenticate
-      - deploy:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
   
   purge_cluster: &purge_cluster
     <<: *default_doks_image
@@ -138,16 +117,6 @@ jobs:
     environment:
       <<: *dev_environment
     <<: *deploy_to_cluster
-
-  start_doks_nightly_cluster:
-    environment:
-      <<: *nightly_environment
-    <<: *start_cluster
-
-  destroy_doks_nightly_cluster:
-    environment:
-      <<: *nightly_environment
-    <<: *destroy_cluster
 
   deploy_to_doks_nightly:
     <<: *default_doks_image
