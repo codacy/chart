@@ -10,9 +10,102 @@ references:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
 
-  unstable_environment: &unstable_environment
-      PUSH_ENVIRONMENT: unstable
+  dev_environment: &dev_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
+    NUM_NODES: 5
+
+  nightly_environment: &nightly_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
+    DO_TF_WORKSPACE: release
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.15
+    NUM_NODES: 4
+
+  unstable_helm_channel: &unstable_helm_channel
+    CHANNEL: unstable
+
+  incubator_helm_channel: &incubator_helm_channel
+    CHANNEL: incubator
+
+  stable_helm_channel: &stable_helm_channel
+    CHANNEL: stable
+
+  doctl_authenticate: &doctl_authenticate
+    run:
+      name: "Setup DO Credentials"
+      command: doctl auth init -t $DO_TOKEN &>/dev/null
+
+  start_cluster: &start_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+
+  destroy_cluster: &destroy_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - deploy:
+          name: "Destroy Cluster"
+          command: make -C ./.doks/doks-cluster destroy_cluster
   
+  purge_cluster: &purge_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - deploy:
+          name: "Purge Cluster"
+          command: make -C ./.doks/doks-cluster remove_codacy  
+  
+  deploy_to_cluster: &deploy_to_cluster
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - <<: *doctl_authenticate
+      - deploy:
+          command: make -C .doks/ deploy_to_doks
+
+  validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
+    steps:
+      - attach_workspace:
+          at: ~/
+      - <<: *doctl_authenticate
+      - run:
+          name: "Validate deployment status"
+          command: |
+            set -e
+            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+            DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
+            for DEPLOYMENT in ${DEPLOYMENTS[@]}
+            do
+                kubectl rollout status -n codacy --timeout=30m --watch "$DEPLOYMENT"
+            done
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  qa_job: &qa_job
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Fake QA job"
+          command: exit 0
+
   helm_push: &helm_push
     steps:
       - attach_workspace:
@@ -41,89 +134,47 @@ references:
 
 jobs:
   deploy_to_doks:
-    docker:
-      - image: codacy/ci-do:0.2.3
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Helm lint"
-          command: helm lint codacy/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
-          command: make -C .doks/ deploy_to_doks
-
+      <<: *dev_environment
+    <<: *deploy_to_cluster
+  start_doks_nightly_cluster:
+    environment:
+      <<: *nightly_environment
+    <<: *start_cluster
+  destroy_doks_nightly_cluster:
+    environment:
+      <<: *nightly_environment
+    <<: *destroy_cluster
   deploy_to_doks_nightly:
-    docker:
-      - image: codacy/ci-do:0.2.3
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-    working_directory: ~/workdir/
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Helm lint"
-          command: helm lint codacy/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
-          command: make -C .doks/ deploy_to_doks
-
-  validate_deployment_status:
-    docker:
-      - image: codacy/ci-do:0.2.3
+      <<: *nightly_environment
+    <<: *deploy_to_cluster
+  purge_doks_nightly_codacy:
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-    working_directory: ~/workdir/
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - run:
-          name: "Validate deployment status"
-          command: |
-            set -e
-            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
-            for DEPLOYMENT in ${DEPLOYMENTS[@]}
-            do
-                kubectl rollout status -n codacy --watch "$DEPLOYMENT"
-            done
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
-
-  start_nightly_cluster:
-    docker:
-      - image: codacy/ci-do:0.2.3
+      <<: *nightly_environment
+    <<: *purge_cluster
+  validate_deployment_status_nightly:
+    <<: *default_doks_image
     environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - run:
-          name: "Start Cluster"
-          command: make -C ./.doks/doks-cluster cluster
-      - run:
-          name: "Populate Cluster"
-          command: make -C ./.doks/doks-cluster populate_cluster
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
+      <<: *nightly_environment
+    <<: *validate_deployment_status_on_cluster
+    helm_push_incubator:
+    <<: *default_doks_image
+    environment:
+      <<: *incubator_helm_channel
+    <<: *helm_push
+  qa_tests_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *qa_job
+  helm_push_unstable:
+    <<: *default_doks_image
+    environment:
+      <<: *unstable_helm_channel
+    <<: *helm_push
 
   update_versions:
     docker:
@@ -166,28 +217,6 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
-  destroy_nightly_cluster:
-    docker:
-      - image: codacy/ci-do:0.2.3
-    environment:
-      DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly
-      DO_TF_WORKSPACE: nightly
-    working_directory: ~/workdir/
-    steps:
-      - checkout
-      - run:
-          name: "Setup DO Credentials"
-          command: doctl auth init -t $DO_TOKEN &>/dev/null
-      - deploy:
-          name: "Destroy Cluster"
-          command: make -C ./.doks/doks-cluster destroy_cluster
-
-  helm_push_unstable:
-    <<: *default_doks_image
-    environment:
-      <<: *unstable_environment
-    <<: *helm_push
-
 workflows:
   branch_checks:
     jobs:
@@ -221,21 +250,24 @@ workflows:
           requires:
             - deploy_to_doks
 
-  perform_nightly_release:
+  nightly_pipeline:
     triggers:
        - schedule:
            cron: "0 0 * * 1-5"
            filters:
              branches:
                only:
-                 - master
+                 - dev
     jobs:
-      - start_nightly_cluster:
+      - codacy/checkout_and_version
+      - purge_doks_nightly_codacy:
           context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - update_versions:
           context: CodacyDO
           requires:
-            - start_nightly_cluster
+            - purge_doks_nightly_codacy
       - get_changelogs:
           context: CodacyDO
           requires:
@@ -243,18 +275,23 @@ workflows:
       - deploy_to_doks_nightly:
           context: CodacyDO
           requires:
-            - start_nightly_cluster
+            - codacy/checkout_and_version
+            - purge_doks_nightly_codacy
             - update_versions
             - get_changelogs
-      - validate_deployment_status:
+      - helm_push_unstable:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - manual_qa_hold:
-          type: approval
-          requires:
-           - validate_deployment_status
-      - destroy_nightly_cluster:
+      - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
-            - manual_qa_hold
+            - deploy_to_doks_nightly
+      - qa_tests_nightly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - qa_tests_nightly
