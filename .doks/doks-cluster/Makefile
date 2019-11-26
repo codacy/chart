@@ -35,7 +35,7 @@ setup_vars:
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
 .PHONY: set_cluster_context
-set_cluster_context:
+set_cluster_context: 
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: cluster
@@ -51,8 +51,8 @@ populate_cluster: setup_vars create_terraformrc
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
 
 .PHONY: remove_codacy
-remove_codacy:
-	helm delete --purge ${NAMESPACE}
+remove_codacy: set_cluster_context
+	helm delete --purge ${NAMESPACE} | exit 0
 	kubectl delete pvc -n ${NAMESPACE} $(shell kubectl get pvc -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') &
 	kubectl delete pods -n ${NAMESPACE} $(shell kubectl get pods -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
 

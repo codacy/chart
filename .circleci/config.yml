@@ -291,7 +291,7 @@ workflows:
           requires:
             - validate_deployment_status_nightly
 
-release_pipeline:
+  release_pipeline:
     jobs:
       - codacy/checkout_and_version:
           filters:
