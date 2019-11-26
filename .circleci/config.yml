@@ -26,6 +26,14 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
+  
+  release_environment: &release_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
+    DO_TF_WORKSPACE: release
+    NAMESPACE: codacy-release
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.15
+    NUM_NODES: 4
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -130,6 +138,23 @@ jobs:
       <<: *nightly_environment
     <<: *validate_deployment_status_on_cluster
 
+  deploy_to_doks_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+    <<: *deploy_to_cluster
+  
+  purge_doks_release_codacy:
+    environment:
+      <<: *release_environment
+    <<: *purge_cluster
+
+  validate_deployment_status_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+    <<: *validate_deployment_status_on_cluster
+
   helm_push_incubator:
     <<: *default_doks_image
     environment:
@@ -186,7 +211,12 @@ jobs:
 workflows:
   helm_lint:
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          filters:
+            branches:
+              ignore:
+                - dev
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -260,3 +290,65 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly
+
+release_pipeline:
+    jobs:
+      - codacy/checkout_and_version:
+          filters:
+             branches:
+               only:
+                 - master
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+      - purge_doks_release_codacy:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - purge_doks_release_codacy
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_release:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
+            - purge_doks_release_codacy
+            - update_versions
+            - get_changelogs
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
+      - validate_deployment_status_release:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_release
+      - manual_qa_hold:
+          type: approval
+          context: CodacyDO
+          requires:
+           - helm_push_incubator
+      - codacy/tag_version:
+          name: tag_version
+          context: CodacyDO
+          requires:
+            - manual_qa_hold
+      - codacy/helm_promote:
+          name: promote_chart_to_stable
+          context: CodacyHelm
+          chart_name: codacy
+          source_charts_repo_url: "https://charts.codacy.com/incubator"
+          target_charts_repo_url: "https://charts.codacy.com/stable"
+          requires:
+            - tag_version
