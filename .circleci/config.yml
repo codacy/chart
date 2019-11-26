@@ -181,6 +181,15 @@ jobs:
           path: ~/workdir/changelogs
 
 workflows:
+  helm_lint:
+    jobs:
+      - codacy/checkout_and_version
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+
   deploy_chart_to_cluster:
     jobs:
       - codacy/checkout_and_version:
