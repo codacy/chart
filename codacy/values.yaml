@@ -233,6 +233,7 @@ crow:
     service:
       port: 5432
 
+## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
   enabled: false
   defaultConfigmap: codacy-fluentd-config
