@@ -4,7 +4,7 @@ deploy_to_doks:
 
 	$(MAKE) -C ../ update_dependencies
 
-	helm upgrade --install codacy ../codacy/ \
+	helm upgrade --install ${NAMESPACE} ../codacy/ \
 	 	-f values.yaml \
 	 	--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
