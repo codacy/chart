@@ -95,8 +95,8 @@ references:
           name: Push to charts museum
           command: |
             helm dep up ./codacy
-            echo "Adding 'https://charts.codacy.com/${PUSH_ENVIRONMENT}'"
-            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${PUSH_ENVIRONMENT}
+            echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
+            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
       - persist_to_workspace:
           root: ~/
@@ -181,19 +181,12 @@ jobs:
           path: ~/workdir/changelogs
 
 workflows:
-  branch_checks:
+  helm_lint:
     jobs:
-      - codacy/checkout_and_version:
-          filters:
-            branches:
-              ignore:
-                - master
+      - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
-          requires:
-            - codacy/checkout_and_version
-      - update_versions:
           requires:
             - codacy/checkout_and_version
 
@@ -204,10 +197,15 @@ workflows:
             branches:
               only:
                 - dev
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
       - deploy_to_doks:
           context: CodacyDO
           requires:
-            - codacy/checkout_and_version
+            - helm_lint
       - helm_push_unstable:
           context: CodacyDO
           requires:
@@ -223,10 +221,15 @@ workflows:
                  - dev
     jobs:
       - codacy/checkout_and_version
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
       - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
-            - codacy/checkout_and_version
+            - helm_lint
       - update_versions:
           context: CodacyDO
           requires:
