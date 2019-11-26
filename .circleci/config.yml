@@ -9,10 +9,12 @@ references:
     docker:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
-
+  
+    # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
+    NAMESPACE: codacy
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.14
     NUM_NODES: 5
@@ -20,6 +22,7 @@ references:
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
+    NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
