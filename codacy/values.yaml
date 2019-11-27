@@ -218,7 +218,7 @@ engine:
 
 codacy-api:
   replicaCount: 1
-  fullnameOverride: codacy-codacy-api
+  fullnameOverride: codacy-api
   config:
     play:
       configFile: "enterprise.conf"
@@ -249,7 +249,6 @@ crow:
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
-  fullnameOverride: codacy-fluentdoperator
   enabled: false
   defaultConfigmap: codacy-fluentd-config
   bucketName: fluentd-bucket
