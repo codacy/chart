@@ -51,14 +51,14 @@ references:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
 
-  purge_cluster: &purge_cluster
+  remove_codacy: &remove_codacy
     <<: *default_doks_image
     steps:
       - checkout
       - <<: *doctl_authenticate
       - deploy:
           name: "Purge Cluster"
-          command: make -C ./.doks/doks-cluster remove_codacy
+          command: make -C .doks/ remove_codacy
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -68,7 +68,7 @@ references:
           command: helm lint codacy/
       - <<: *doctl_authenticate
       - deploy:
-          command: make -C .doks/ deploy_to_doks
+          command: make -C .doks/ install_codacy
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -132,7 +132,7 @@ jobs:
   purge_doks_nightly_codacy:
     environment:
       <<: *nightly_environment
-    <<: *purge_cluster
+    <<: *remove_codacy
 
   validate_deployment_status_nightly:
     <<: *default_doks_image
@@ -149,7 +149,7 @@ jobs:
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
-    <<: *purge_cluster
+    <<: *remove_codacy
 
   validate_deployment_status_release:
     <<: *default_doks_image

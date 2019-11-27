@@ -19,23 +19,23 @@ create_terraformrc:
 .PHONY: setup_vars
 setup_vars:
 	@echo "Appending variables to VARS_FILE..."
-	
+
 	@echo "digital_ocean_token = [REDACTED]"
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
-	
+
 	@echo "docker_username = [REDACTED]"
 	@echo "docker_username = \"$(DOCKER_USERNAME)\"" >> $(VARS_FILE)
 
 	@echo "docker_password = [REDACTED]"
 	@echo "docker_password = \"$(DOCKER_PASSWORD)\"" >> $(VARS_FILE)
-	
+
 	echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
 	echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
 	echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
 .PHONY: set_cluster_context
-set_cluster_context: 
+set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: cluster
@@ -49,13 +49,6 @@ populate_cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
-
-.PHONY: remove_codacy
-remove_codacy: set_cluster_context
-	helm delete --purge ${NAMESPACE} | exit 0
-	kubectl delete jobs -n ${NAMESPACE} $(shell kubectl get jobs -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') &
-	kubectl delete pvc -n ${NAMESPACE} $(shell kubectl get pvc -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') &
-	kubectl delete pods -n ${NAMESPACE} $(shell kubectl get pods -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context remove_codacy
