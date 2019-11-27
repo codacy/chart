@@ -1,10 +1,13 @@
+RELEASE_NAME?=codacy
+NAMESPACE?=codacy
+
 .PHONY: deploy_to_doks
 deploy_to_doks:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
 
 	$(MAKE) -C ../ update_dependencies
 
-	helm upgrade --install ${NAMESPACE} ../codacy/ \
+	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 	 	-f values.yaml \
 	 	--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \

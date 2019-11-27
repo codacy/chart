@@ -9,7 +9,7 @@ references:
     docker:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
-  
+
     # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -22,14 +22,16 @@ references:
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
+    REALEASE: codacy-release
     NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
-  
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
+    REALEASE: codacy-release
     NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
@@ -48,7 +50,7 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-  
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -56,8 +58,8 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: "Purge Cluster"
-          command: make -C ./.doks/doks-cluster remove_codacy  
-  
+          command: make -C ./.doks/doks-cluster remove_codacy
+
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - checkout
@@ -143,7 +145,7 @@ jobs:
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster
-  
+
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
@@ -220,7 +222,7 @@ jobs:
       - run:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
-      
+
 workflows:
   helm_lint:
     jobs:
