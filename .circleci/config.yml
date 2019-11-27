@@ -14,6 +14,7 @@ references:
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
+    RELEASE_NAME: codacy
     NAMESPACE: codacy
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.14
@@ -22,6 +23,7 @@ references:
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
+    RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
@@ -30,7 +32,8 @@ references:
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
-    NAMESPACE: codacy-release
+    RELEASE_NAME: codacy-nightly
+    NAMESPACE: codacy-nightly
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4

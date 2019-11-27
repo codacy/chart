@@ -4,7 +4,7 @@ deploy_to_doks:
 
 	$(MAKE) -C ../ update_dependencies
 
-	helm upgrade --install ${NAMESPACE} ../codacy/ \
+	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 	 	-f values.yaml \
 	 	--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
@@ -14,4 +14,4 @@ deploy_to_doks:
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url="http://k8s.dev.codacy.org" \
-		--set global.codacy.backendUrl="http://k8s.dev.codacy.org"
+		--set global.codacy.backendUrl="http://k8s.dev.codacy.org" 
