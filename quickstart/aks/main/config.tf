@@ -20,3 +20,15 @@ terraform {
 provider "azurerm" {
   version = "~> 1.37"
 }
+
+provider "azuread" {
+  version = "~> 0.7"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
+provider "tls" {
+  version = "~> 2.1"
+}

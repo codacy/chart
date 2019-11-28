@@ -1,4 +1,4 @@
-# AKS cluster quickstart
+# AKS cluster quickstart \[WIP\]
 
 ## Setup cli
 
@@ -18,8 +18,29 @@ az login --use-device-code
 
 this is more stable than not using device code.
 
+## Backend
+
 To create backend run:
 ```bash
 cd backend/
 terraform init && terraform apply
+```
+
+Save the output data and use it to configure the backends of the `main/`
+and `setup/` stacks (in `config.tf`).
+
+
+## main
+
+To create run:
+```bash
+cd backend/
+terraform init && terraform apply
+```
+
+
+get kubeconfig:
+
+```bash
+az aks get-credentials --resource-group codacy-cluster --name codacy-aks-cluster
 ```
