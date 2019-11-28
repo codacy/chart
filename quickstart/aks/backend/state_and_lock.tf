@@ -2,12 +2,12 @@
 #                       https://www.terraform.io/docs/backends/types/azurerm.html
 #                       https://docs.microsoft.com/en-us/azure/terraform/terraform-backend
 
-resource azurerm_resource_group "tfstate" {
+resource "azurerm_resource_group" "tfstate" {
   name = "${var.project_tag}-tfstate"
   location = "North Europe"
 }
 
-resource azurerm_storage_account "tfstate" {
+resource "azurerm_storage_account" "tfstate" {
   name = "${var.project_tag}tf${random_string.rand.result}"
   account_replication_type = "LRS"
   account_tier = "Standard"
@@ -17,7 +17,7 @@ resource azurerm_storage_account "tfstate" {
   location = azurerm_resource_group.tfstate.location
 }
 
-resource azurerm_storage_container "tfstate" {
+resource "azurerm_storage_container" "tfstate" {
   name = "tfstate"
   storage_account_name = azurerm_storage_account.tfstate.name
 }
