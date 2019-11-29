@@ -23,7 +23,7 @@ changelogs
 chart.iml
 
 *.tfstate*
-terraform.tfvars
+terraform.tfvars*
 .terraform/
 # Common backup files
 *.swp
