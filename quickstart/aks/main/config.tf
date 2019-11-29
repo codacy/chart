@@ -5,7 +5,7 @@ terraform {
   # Using a backend is recommended. See https://www.terraform.io/docs/backends/index.html
   # You may used the provided Azure Blob Storage backend configuration by
   #   1. first running `terraform apply` on the `backend/` directory,
-  #   2. getting the state bucket name with `terraform output state_bucket_name`
+  #   2. getting the state storage account name with `terraform output storage_account` and filling it below
   #   3. uncommenting the following lines, and (re)initializing terraform
   #      with `terraform init -reconfigure -backend=true`
 

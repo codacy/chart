@@ -2,7 +2,7 @@
 
 ## Setup cli
 
-https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+<https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest>
 
 for mac
 
@@ -29,8 +29,7 @@ terraform init && terraform apply
 Save the output data and use it to configure the backends of the `main/`
 and `setup/` stacks (in `config.tf`).
 
-
-## main
+## Main
 
 To create run:
 ```bash
@@ -38,9 +37,16 @@ cd backend/
 terraform init && terraform apply
 ```
 
-
 get kubeconfig:
 
 ```bash
 az aks get-credentials --resource-group codacy-cluster --name codacy-aks-cluster
+```
+
+## Setup
+
+To create run:
+```bash
+cd setup/
+terraform init && terraform apply
 ```

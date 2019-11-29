@@ -30,7 +30,12 @@ variable "k8s_version" {
 variable "k8s_worker_type" {
   description = "Instance type used for kubernetes worker nodes"
   type = string
+  ## NOTE: you probaly need larger machines (like those in the commented line below), but
+  #        for that you need to enable Pay-As-You-Go, and ask Azure Support to raise your
+  #        to raise your account limits.
+  #
   #default = "Standard_F4s_v2"
+
   default = "Standard_B2s"
 }
 
