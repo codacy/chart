@@ -15,8 +15,7 @@ deploy_to_doks:
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url="http://k8s.dev.codacy.org" \
 		--set global.codacy.backendUrl="http://k8s.dev.codacy.org" \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
-		--set fluentdoperator.namespaces={"${RELEASE_NAME}"}
+		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
 
 .PHONY: set_cluster_context
 set_cluster_context: 
