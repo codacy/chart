@@ -22,63 +22,64 @@ dependencies:
   repository: https://charts.codacy.com/external
   condition: fluentdoperator.enabled
   alias: fluentdoperator
+  git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: portal
-  version: 4.28.0
+  version: ~4.28.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
 - name: ragnaros
-  version: 14.12.1
+  version: ~14.12.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
 
 - name: activities
-  version: 1.0.175
+  version: ~1.0.175
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-activities.git
 
 - name: remote-provider-service
-  version: ~2.28.4
-  repository: https://charts.codacy.com/stable
+  version: 2.39.3-SNAPSHOT.da26826
+  repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
 - name: hotspots-api
-  version: 1.2.5
+  version: ~1.2.5
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-api.git
 
 - name: hotspots-worker
-  version: 1.2.4
+  version: ~1.2.4
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-worker.git
 
 - name: listener
-  version: 7.3.0
+  version: ~7.3.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/repository-listener.git
 
 - name: core
-  version: 2.10.3
+  version: ~2.10.3
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: 5.47.0
+  version: ~5.47.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.95
+  version: ~4.95
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 8.0.0-releasekubernetes.c2b98cd1
+  version: ~8.2.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
 - name: crow
-  version: 4.3.1
+  version: ~4.3.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/crow.git
