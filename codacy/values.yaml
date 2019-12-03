@@ -177,7 +177,6 @@ listener:
       size: 100Gi
 
   nfsserverprovisioner:
-    fullnameOverride: codacy-nfsserverprovisioner
     enabled: true
     persistence:
       enabled: true
