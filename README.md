@@ -62,6 +62,6 @@ Some of these repositories are private and accessible to Codacy engineers only.
 
 ### Global settings
 
-In order to prevent repetition, we make use of helm's [global values](https://helm.sh/docs/developing_charts/#global-values). In every
+In order to prevent repetition, we make use of helm's [global values](https://helm.sh/docs/topics/chart_template_guide/subcharts_and_globals/). In every
 Codacy component chart or external chart we will try to make use of
 these global settings as much as possible.
