@@ -9,8 +9,22 @@ references:
     docker:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
+
+  qa_automation_image: &qa_automation_image
+    docker:
+      - image: codacy/qa-automation-test-runner:latest
+      - image: circleci/openjdk:8u151-jdk
+        environment:
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+      - image: selenium/standalone-chrome:3.141.0
+        environment:
+          JAVA_OPTS: -Xss256m -Xmx512m
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+      
+    working_directory: ~/workdir/
   
-    # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
+  # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
@@ -37,6 +51,17 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
+
+  qa_environment_nightly: &qa_environment_nightly
+    PROJECT_NAME: codacy-chart
+    TEST_ENVIRONMENT_TYPE: dev
+    TEST_PATH: Suite/API/DEV.xml
+    TEST_NAME: api
+    LAUNCH_NAME: API_DEV_NIGHTLY_DOKS
+    LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
+    LAUNCH_TAG: CIRCLECI;API;DEV;DIGITALOCEAN
+    RP_ENDPOINT: https://reportportal.staging.codacy.org
+    HUB_URL: http://localhost:4444/wd/hub
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -116,13 +141,14 @@ references:
           root: ~/
           paths:
             - workdir
+
   qa_job: &qa_job
     steps:
-      - attach_workspace:
-          at: ~/
       - run:
-          name: "Fake QA job"
-          command: exit 0
+          name: Run tests
+          command: |
+            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
 jobs:
   deploy_to_doks:
@@ -232,9 +258,10 @@ jobs:
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
   qa_tests_nightly:
-    <<: *default_doks_image
+    <<: *qa_automation_image
     environment:
       <<: *nightly_environment
+      <<: *qa_environment_nightly
     <<: *qa_job
       
 workflows:
