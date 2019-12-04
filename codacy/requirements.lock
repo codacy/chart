@@ -22,7 +22,7 @@ dependencies:
   version: 1.0.175
 - name: remote-provider-service
   repository: https://charts.codacy.com/unstable
-  version: 2.39.3-SNAPSHOT.da26826
+  version: 2.39.3-SNAPSHOT.c444593
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.2.5
@@ -47,5 +47,5 @@ dependencies:
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.5
-digest: sha256:23711a0aa767cbde3787f402709e205bb7ab98122af83264cd61d55c957e2951
-generated: "2019-12-03T11:31:49.488719Z"
+digest: sha256:72b9a4c4c1134c389cd886f982cd61449532d9559ea731faf5a2e787a4737576
+generated: "2019-12-04T09:14:54.491469Z"
