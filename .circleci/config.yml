@@ -116,6 +116,13 @@ references:
           root: ~/
           paths:
             - workdir
+  qa_job: &qa_job
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Fake QA job"
+          command: exit 0
 
 jobs:
   deploy_to_doks:
@@ -223,6 +230,12 @@ jobs:
       - run:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+
+  qa_tests_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *qa_job
       
 workflows:
   helm_lint:
@@ -306,6 +319,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
+      - qa_tests_nightly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
