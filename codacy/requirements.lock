@@ -16,13 +16,13 @@ dependencies:
   version: 4.28.0
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 14.12.1
+  version: 14.12.4
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.0.175
 - name: remote-provider-service
-  repository: https://charts.codacy.com/stable
-  version: 2.28.10
+  repository: https://charts.codacy.com/unstable
+  version: 2.39.3-SNAPSHOT.c444593
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.2.5
@@ -34,18 +34,18 @@ dependencies:
   version: 7.3.0
 - name: core
   repository: https://charts.codacy.com/stable
-  version: 2.10.3
+  version: 2.10.4
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 5.47.0
+  version: 5.47.4
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.95.0
+  version: 4.95.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
-  version: 8.0.0-releasekubernetes.c2b98cd1
+  version: 8.2.0
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 4.3.1
-digest: sha256:e47ef550409c62bd1fe70ac0533c22c8e9006926692ea597201d9089ff3f9919
-generated: "2019-11-11T15:48:52.617207Z"
+  version: 4.3.5
+digest: sha256:72b9a4c4c1134c389cd886f982cd61449532d9559ea731faf5a2e787a4737576
+generated: "2019-12-04T09:14:54.491469Z"

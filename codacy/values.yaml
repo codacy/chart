@@ -1,7 +1,7 @@
 global:
   minio:
     create: true
-    location: codacy-minio.codacy.svc.cluster.local
+    location: codacy-minio
     port: 9000
     accessKey: "AKIAIOSFODNN7EXAMPLE"
     secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
@@ -20,7 +20,7 @@ global:
     rabbitmqUsername: rabbitmq
     rabbitmqPassword: rabbitmq
     rabbitmqvHost: "/"
-    host: codacy-rabbitmq-ha.codacy.svc.cluster.local
+    host: codacy-rabbitmq-ha
     port: 5672
     ssl: false
     timeout: 15s
@@ -31,7 +31,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: accounts
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -41,7 +41,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: analysis
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -51,7 +51,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: results
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -61,7 +61,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: results201709
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -71,7 +71,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: metrics
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -81,7 +81,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: filestore
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -91,7 +91,7 @@ global:
     postgresqlUsername: codacy
     postgresqlDatabase: jobs
     postgresqlPassword: codacy
-    host: codacy-postgres.codacy.svc.cluster.local
+    host: codacy-postgres
     service:
       port: 5432
 
@@ -128,44 +128,50 @@ global:
 
 portal:
   replicaCount: 1
+  fullnameOverride: codacy-portal
 
 activities:
   replicaCount: 1
-
+  fullnameOverride: codacy-activities
   activitiesdb:
     create: true
-    host: codacy-activitiesdb.codacy.svc.cluster.local
+    host: codacy-activitiesdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "activities"
     postgresqlPassword: "PLEASE_CHANGE_ME"
     service:
       port: 5432
+    fullnameOverride: codacy-activitiesdb
 
 remote-provider-service:
   replicaCount: 1
+  fullnameOverride: codacy-remote-provider-service
 
 hotspots-api:
   replicaCount: 1
-
+  fullnameOverride: codacy-hotspots-api
   hotspotsdb:
     create: true
-    host: codacy-hotspotsdb.codacy.svc.cluster.local
+    host: codacy-hotspotsdb
     postgresqlUsername: codacy
     postgresqlDatabase: hotspots
     postgresqlPassword: codacy
     service:
       port: 5432
+    fullnameOverride: codacy-hotspotsdb
 
 hotspots-worker:
   replicaCount: 1
+  fullnameOverride: codacy-hotspots-worker
 
 listener:
   replicaCount: 1
+  fullnameOverride: codacy-listener
   config:
     play:
       configFile: application.enterprise.conf
       logFile: logback.xml
-
+  
   persistence:
     claim:
       size: 100Gi
@@ -185,21 +191,24 @@ listener:
 
   listenerdb:
     create: true
-    host: codacy-listenerdb.codacy.svc.cluster.local
+    host: codacy-listenerdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "listener"
     postgresqlPassword: "PLEASE_CHANGE_ME"
     service:
       port: 5432
+    fullnameOverride: codacy-listenerdb
 
 core:
   replicaCount: 1
+  fullnameOverride: codacy-core
   config:
     play:
       configFile: "enterprise.conf"
 
 engine:
   replicaCount: 1
+  fullnameOverride: codacy-engine
   config:
     environment: enterprise
     play:
@@ -208,12 +217,14 @@ engine:
 
 codacy-api:
   replicaCount: 1
+  fullnameOverride: codacy-api
   config:
     play:
       configFile: "enterprise.conf"
 
 worker-manager:
   replicaCount: 1
+  fullnameOverride: codacy-worker-manager
   config:
     codacy:
       worker:
@@ -224,14 +235,16 @@ worker-manager:
 
 crow:
   replicaCount: 1
+  fullnameOverride: codacy-crow
   crowdb:
     create: true
-    host: codacy-crowdb.codacy.svc.cluster.local
+    host: codacy-crowdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "crow"
     postgresqlPassword: "PLEASE_CHANGE_ME"
     service:
       port: 5432
+    fullnameOverride: codacy-crowdb
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
@@ -247,10 +260,12 @@ fluentdoperator:
 ## These values are ignored if 'create: false' in the global variables
 
 rabbitmq-ha:
+  fullnameOverride: codacy-rabbitmq-ha
   rabbitmqUsername: "rabbitmq"
   rabbitmqPassword: "rabbitmq"
 
 postgres:
+  fullnameOverride: codacy-postgres
   imageTag: "9.6.2"
   persistence:
     enabled: false
@@ -274,6 +289,7 @@ postgres:
       CREATE DATABASE jobs WITH OWNER=codacy;
 
 minio:
+  fullnameOverride: codacy-minio
   image:
     # We require this version in order to use lifecycle policies
     tag: RELEASE.2019-10-12T01-39-57Z
@@ -281,3 +297,6 @@ minio:
     size: 20Gi
   minioConfig:
     region: "eu-west-1"
+
+ragnaros:
+  fullnameOverride: codacy-ragnaros
