@@ -94,6 +94,7 @@ references:
           command: helm lint codacy/
       - <<: *doctl_authenticate
       - deploy:
+          name: Install Codacy
           command: make -C .doks/ deploy_to_doks
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
@@ -142,13 +143,34 @@ references:
           paths:
             - workdir
 
+  setup_qa_environment: &setup_qa_environment
+    steps:
+      - <<: *doctl_authenticate
+      - run:
+          name: Install selenium
+          command: |
+            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+            helm repo add stable https://kubernetes-charts.storage.googleapis.com
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium
+
   qa_job: &qa_job
     steps:
+      - <<: *doctl_authenticate
       - run:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
+
+  set_docker_credentials: &set_docker_credentials
+    steps:
+      - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+      - run:
+          name: "Set Docker Credentials"
+          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
 jobs:
   deploy_to_doks:
@@ -244,18 +266,24 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
+  set_docker_credentials_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *set_docker_credentials
+
   set_docker_credentials_release:
     <<: *default_doks_image
     environment:
       <<: *release_environment
-    steps:
-      - <<: *doctl_authenticate
-      - run:
-          name: Set cluster
-          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-      - run:
-          name: "Set Docker Credentials"
-          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+    <<: *set_docker_credentials
+
+  setup_qa_environment_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+      <<: *qa_environment_nightly
+    <<: *setup_qa_environment
 
   qa_tests_nightly:
     <<: *qa_automation_image
@@ -319,14 +347,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - set_docker_credentials_release:
+      - set_docker_credentials_nightly:
           context: CodacyDO
           requires:
             - purge_doks_nightly_codacy
       - update_versions:
           context: CodacyDO
           requires:
-            - set_docker_credentials_release
+            - set_docker_credentials_nightly
       - get_changelogs:
           context: CodacyDO
           requires:
