@@ -10,7 +10,7 @@ references:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
   
-    # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
+  # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
@@ -226,7 +226,6 @@ jobs:
     environment:
       <<: *nightly_environment
     <<: *set_docker_credentials
-
 
   set_docker_credentials_release:
     <<: *default_doks_image
