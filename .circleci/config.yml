@@ -117,6 +117,16 @@ references:
           paths:
             - workdir
 
+  set_docker_credentials: &set_docker_credentials
+    steps:
+      - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+      - run:
+          name: "Set Docker Credentials"
+          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+
 jobs:
   deploy_to_doks:
     <<: *default_doks_image
@@ -211,18 +221,18 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
+  set_docker_credentials_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *set_docker_credentials
+
+
   set_docker_credentials_release:
     <<: *default_doks_image
     environment:
       <<: *release_environment
-    steps:
-      - <<: *doctl_authenticate
-      - run:
-          name: Set cluster
-          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-      - run:
-          name: "Set Docker Credentials"
-          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+    <<: *set_docker_credentials
       
 workflows:
   helm_lint:
