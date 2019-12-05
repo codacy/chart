@@ -289,14 +289,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - set_docker_credentials_release:
+      - set_docker_credentials_nightly:
           context: CodacyDO
           requires:
             - purge_doks_nightly_codacy
       - update_versions:
           context: CodacyDO
           requires:
-            - set_docker_credentials_release
+            - set_docker_credentials_nightly
       - get_changelogs:
           context: CodacyDO
           requires:
