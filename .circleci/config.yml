@@ -12,7 +12,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.2.3
+      - image: codacy/qa-automation-test-runner:1.2.4
       - image: circleci/openjdk:8u151-jdk
         environment:
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
