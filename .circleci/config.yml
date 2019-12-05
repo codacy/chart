@@ -9,6 +9,20 @@ references:
     docker:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
+
+  qa_automation_image: &qa_automation_image
+    docker:
+      - image: codacy/qa-automation-test-runner:1.2.4
+      - image: circleci/openjdk:8u151-jdk
+        environment:
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+      - image: selenium/standalone-chrome:3.141.0
+        environment:
+          JAVA_OPTS: -Xss256m -Xmx512m
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+      
+    working_directory: ~/workdir/
   
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
@@ -37,6 +51,17 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
+
+  qa_environment_nightly: &qa_environment_nightly
+    PROJECT_NAME: codacy-chart
+    TEST_ENVIRONMENT_TYPE: dev
+    TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
+    TEST_NAME: api
+    LAUNCH_NAME: API_DEV_NIGHTLY_DOKS
+    LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
+    LAUNCH_TAG: CIRCLECI;API;DEV;DIGITALOCEAN
+    RP_ENDPOINT: https://reportportal.staging.codacy.org
+    HUB_URL: http://localhost:4444/wd/hub
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -69,6 +94,7 @@ references:
           command: helm lint codacy/
       - <<: *doctl_authenticate
       - deploy:
+          name: Install Codacy
           command: make -C .doks/ deploy_to_doks
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
@@ -116,6 +142,24 @@ references:
           root: ~/
           paths:
             - workdir
+
+  setup_qa_environment: &setup_qa_environment
+    steps:
+      - <<: *doctl_authenticate
+      - run:
+          name: Install selenium
+          command: |
+            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+            helm repo add stable https://kubernetes-charts.storage.googleapis.com
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true
+
+  qa_job: &qa_job
+    steps:
+      - run:
+          name: Run tests
+          command: |
+            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   set_docker_credentials: &set_docker_credentials
     steps:
@@ -232,6 +276,20 @@ jobs:
     environment:
       <<: *release_environment
     <<: *set_docker_credentials
+
+  setup_qa_environment_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+      <<: *qa_environment_nightly
+    <<: *setup_qa_environment
+
+  qa_tests_nightly:
+    <<: *qa_automation_image
+    environment:
+      <<: *nightly_environment
+      <<: *qa_environment_nightly
+    <<: *qa_job
       
 workflows:
   helm_lint:
@@ -315,6 +373,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
+      - qa_tests_nightly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
