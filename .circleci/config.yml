@@ -12,7 +12,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:latest
+      - image: codacy/qa-automation-test-runner:1.2.3
       - image: circleci/openjdk:8u151-jdk
         environment:
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
@@ -55,7 +55,7 @@ references:
   qa_environment_nightly: &qa_environment_nightly
     PROJECT_NAME: codacy-chart
     TEST_ENVIRONMENT_TYPE: dev
-    TEST_PATH: Suite/API/DEV.xml
+    TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
     TEST_NAME: api
     LAUNCH_NAME: API_DEV_NIGHTLY_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
@@ -151,11 +151,10 @@ references:
           command: |
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
-            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true
 
   qa_job: &qa_job
     steps:
-      - <<: *doctl_authenticate
       - run:
           name: Run tests
           command: |
