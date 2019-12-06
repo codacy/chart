@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 
 orbs:
   codacy: codacy/base@1.0.1
@@ -12,16 +12,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.2.4
-      - image: circleci/openjdk:8u151-jdk
-        environment:
-          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
-          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
-      - image: selenium/standalone-chrome:3.141.0
-        environment:
-          JAVA_OPTS: -Xss256m -Xmx512m
-          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
-      
+      - image: codacy/qa-automation-test-runner:1.2.4  
     working_directory: ~/workdir/
   
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
@@ -54,14 +45,11 @@ references:
 
   qa_environment_nightly: &qa_environment_nightly
     PROJECT_NAME: codacy-chart
-    TEST_ENVIRONMENT_TYPE: dev
     TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
-    TEST_NAME: api
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_NIGHTLY_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
-    HUB_URL: http://localhost:4444/wd/hub
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -153,14 +141,21 @@ references:
           command: |
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
-            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
+      - run:
+          name: Persist selenium hub external ip
+          command: |
+            echo "export HUB_URL=http://$(kubectl get services codacy-api --namespace codacy-nightly -o json | jq .status.loadBalancer.ingress[0].ip | sed 's/\"//g'):4444/wd/hub" > .huburl
 
   qa_job: &qa_job
     steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+            source .huburl
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   set_docker_credentials: &set_docker_credentials
@@ -390,7 +385,7 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - validate_deployment_status_nightly
+            - qa_tests_nightly
 
   release_pipeline:
     jobs:
