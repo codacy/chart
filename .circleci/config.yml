@@ -135,6 +135,8 @@ references:
 
   setup_qa_environment: &setup_qa_environment
     steps:
+      - attach_workspace:
+          at: ~/
       - <<: *doctl_authenticate
       - run:
           name: Install selenium
@@ -146,6 +148,10 @@ references:
           name: Persist selenium hub external ip
           command: |
             echo "export HUB_URL=http://$(kubectl get services codacy-api --namespace codacy-nightly -o json | jq .status.loadBalancer.ingress[0].ip | sed 's/\"//g'):4444/wd/hub" > .huburl
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   qa_job: &qa_job
     steps:
