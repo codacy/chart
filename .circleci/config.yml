@@ -84,8 +84,10 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: "Purge Cluster"
-          command: make -C .doks/ remove_codacy  
-  
+          command: |
+            set +e; helm delete --purge selenium; set -e;
+            make -C .doks/ remove_codacy  
+
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - checkout
@@ -373,10 +375,14 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - qa_tests_nightly:
+      - setup_qa_environment_nightly:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly
+      - qa_tests_nightly:
+          context: CodacyDO
+          requires:
+            - setup_qa_environment_nightly
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
