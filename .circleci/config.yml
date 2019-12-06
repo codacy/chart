@@ -57,9 +57,9 @@ references:
     TEST_ENVIRONMENT_TYPE: dev
     TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
     TEST_NAME: api
-    LAUNCH_NAME: API_DEV_NIGHTLY_DOKS
+    LAUNCH_NAME: ENTERPRISE_WEB_DEV_NIGHTLY_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
-    LAUNCH_TAG: CIRCLECI;API;DEV;DIGITALOCEAN
+    LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
     HUB_URL: http://localhost:4444/wd/hub
 
