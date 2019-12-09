@@ -238,12 +238,38 @@ worker-manager:
   replicaCount: 1
   fullnameOverride: codacy-worker-manager
   config:
-    codacy:
-      worker:
-        playConfig: enterprise.conf
+    play:
+      configFile: enterprise.conf
     cloudAmqp:
       workerUser: "rabbitmq"
       workerPass: "rabbitmq"
+    workers:
+      genericMax: 2
+      dedicatedMax: 2
+      analysis:
+        # Ignore files with size bigger than this value during analysis
+        maxFileSizeBytes: 150000
+      # Toleration and nodeSelector for worker/tool pods
+      tolerations: []
+      nodeSelector: {}
+
+    # The resources to assign to a worker pod
+    workerResources:
+      requests:
+        cpu: 1
+        memory: 1Gi
+      limits:
+        cpu: 1
+        memory: 2Gi
+
+    # The resources to assign to a tool pod
+    pluginResources:
+      requests:
+        cpu: 0.5
+        memory: 1000000000 # this value needs to be set in bytes
+      limits:
+        cpu: 1
+        memory: 3000000000 # this value needs to be set in bytes
 
 crow:
   replicaCount: 1
