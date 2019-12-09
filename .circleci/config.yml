@@ -57,6 +57,9 @@ references:
   incubator_helm_channel: &incubator_helm_channel
     CHANNEL: incubator
 
+  nightly_helm_channel: &nightly_helm_channel
+    CHANNEL: nightly
+
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
 
@@ -237,6 +240,12 @@ jobs:
       <<: *incubator_helm_channel
     <<: *helm_push
 
+  helm_push_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_helm_channel
+    <<: *helm_push
+
   helm_push_unstable:
     <<: *default_doks_image
     environment:
@@ -389,14 +398,10 @@ workflows:
             - codacy/checkout_and_version
             - update_versions
             - get_changelogs
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_hourly
       - validate_deployment_status_hourly:
           context: CodacyDO
           requires:
-            - helm_push_unstable
+            - deploy_to_doks_hourly
       - setup_qa_environment_hourly:
           context: CodacyDO
           requires:
@@ -405,10 +410,6 @@ workflows:
           context: CodacyDO
           requires:
             - setup_qa_environment_hourly
-      - helm_push_incubator:
-          context: CodacyDO
-          requires:
-            - qa_tests_hourly
 
   nightly_pipeline:
     triggers:
@@ -448,10 +449,6 @@ workflows:
             - purge_doks_nightly_codacy
             - update_versions
             - get_changelogs
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly
       - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
@@ -464,12 +461,8 @@ workflows:
           context: CodacyDO
           requires:
             - setup_qa_environment_nightly
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/unstable"
-          target_charts_repo_url: "https://charts.codacy.com/nightly"
+      - helm_push_nightly:
+          context: CodacyDO
           requires:
             - qa_tests_nightly
 
