@@ -147,6 +147,7 @@ references:
       - run:
           deploy: Persist selenium hub external ip
           command: |
+            kubectl get services selenium-selenium-hub --namespace codacy-nightly -o json | jq .status.loadBalancer.ingress[0].ip | sed 's/\"//g'
             echo "Selenium hub found at $(kubectl get services selenium-selenium-hub --namespace codacy-nightly -o json | jq .status.loadBalancer.ingress[0].ip | sed 's/\"//g')"
             echo "export HUB_URL=http://$(kubectl get services selenium-selenium-hub --namespace codacy-nightly -o json | jq .status.loadBalancer.ingress[0].ip | sed 's/\"//g'):4444/wd/hub" > .huburl
       - persist_to_workspace:
