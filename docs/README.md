@@ -34,7 +34,8 @@ helm delete codacy
 
 
 ## Requirements
-[All requirements](requirements/index.md)
+- [All requirements](requirements/index.md)
+- [Resource Requirements](requirements/resources.md)
 
 ## Installation methods
 [All installation guides](installation/index.md)
