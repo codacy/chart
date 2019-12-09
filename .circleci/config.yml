@@ -129,14 +129,7 @@ references:
             helm dep up ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
-
-            if "$CHANNEL" == "stable"; then
-                helm push ./codacy codacy --version "$(cat .version)"
-            elif "$CHANNEL" == "nightly"; then
-                helm push ./codacy codacy --version "$(cat .version)-NIGHTLY"
-            else
-                helm push ./codacy codacy --version "$(cat .version)-SNAPSHOT"
-            fi
+            helm push ./codacy codacy --version "$(cat .version)"
             
       - persist_to_workspace:
           root: ~/
@@ -162,6 +155,26 @@ references:
           command: |
             external_ip=""; while [ -z $external_ip ]; do echo "Waiting for Selenium hub end point..."; external_ip=$(kubectl get service -n "$NAMESPACE" selenium-selenium-hub --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
             echo "export HUB_URL=http://$endpoint:4444/wd/hub" > .huburl
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
+  set_chart_version: &set_chart_version
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set chart version suffix
+          command: |
+            if "$CHANNEL" == "stable"; then  
+              echo "$(cat .version)" > .version
+            elif "$CHANNEL" == "nightly"; then
+                echo "$(cat .version)-NIGHTLY" > .version
+            else
+                echo "$(cat .version)-SNAPSHOT" > .version
+            fi 
+            echo $(cat .version)
       - persist_to_workspace:
           root: ~/
           paths:
@@ -259,6 +272,27 @@ jobs:
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
+
+  set_chart_version_dev:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+      <<: *unstable_helm_channel
+    <<: *set_chart_version
+
+  set_chart_version_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+      <<: *nightly_helm_channel
+    <<: *set_chart_version
+    
+  set_chart_version_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+      <<: *stable_helm_channel
+    <<: *set_chart_version
 
   update_versions:
     docker:
@@ -363,11 +397,15 @@ workflows:
             branches:
               only:
                 - dev
+      - set_chart_version_dev:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - codacy/checkout_and_version
+            - set_chart_version_dev
       - deploy_to_doks:
           context: CodacyDO
           requires:
@@ -429,11 +467,15 @@ workflows:
                  - dev
     jobs:
       - codacy/checkout_and_version
+      - set_chart_version_nightly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - codacy/checkout_and_version
+            - set_chart_version_nightly
       - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
@@ -481,11 +523,15 @@ workflows:
              branches:
                only:
                  - master
+      - set_chart_version_release:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - codacy/checkout_and_version
+            - set_chart_version_release
       - purge_doks_release_codacy:
           context: CodacyDO
           requires:
