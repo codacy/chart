@@ -74,7 +74,6 @@ references:
           name: "Purge Cluster"
           command: |
             make -C .doks/ remove_codacy  
-            set +e; helm delete --purge selenium; set -e;
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -143,6 +142,7 @@ references:
           command: |
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
+            set +e; helm delete --purge selenium; set -e;
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
