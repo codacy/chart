@@ -97,10 +97,10 @@ references:
           command: |
             set -e
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
+            DEPLOYMENTS=$(kubectl get deployments -n "$NAMESPACE" | awk '{print "deployment/"$1}' | tail -n +2 )
             for DEPLOYMENT in ${DEPLOYMENTS[@]}
             do
-                kubectl rollout status -n codacy --timeout=30m --watch "$DEPLOYMENT"
+                kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
             done
       - persist_to_workspace:
           root: ~/
@@ -144,6 +144,8 @@ references:
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
       - run:
           deploy: Persist selenium hub external ip
           command: |
