@@ -129,7 +129,7 @@ references:
             helm dep up ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
-            helm push ./codacy codacy --version "$(cat .version)"
+            helm push ./codacy codacy
             
       - persist_to_workspace:
           root: ~/
@@ -375,7 +375,7 @@ workflows:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - odacy/checkout_and_version
+            - codacy/checkout_and_version
       - deploy_to_doks:
           context: CodacyDO
           requires:
