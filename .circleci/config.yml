@@ -167,12 +167,8 @@ references:
       - run:
           name: Set chart version suffix
           command: |
-            if "$CHANNEL" == "stable"; then  
-              echo "$(cat .version)" > .version
-            elif "$CHANNEL" == "nightly"; then
+            if "$CHANNEL" == "nightly"; then
                 echo "$(cat .version)-NIGHTLY" > .version
-            else
-                echo "$(cat .version)-SNAPSHOT" > .version
             fi 
             echo $(cat .version)
       - persist_to_workspace:
