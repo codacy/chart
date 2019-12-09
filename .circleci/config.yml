@@ -73,8 +73,8 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-            set +e; helm delete --purge selenium; set -e;
             make -C .doks/ remove_codacy  
+            set +e; helm delete --purge selenium; set -e;
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
