@@ -162,6 +162,7 @@ references:
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             source .huburl
+            echo "Selenium hub found at $HUB_URL"
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   set_docker_credentials: &set_docker_credentials
@@ -330,7 +331,8 @@ workflows:
           requires:
             - deploy_to_doks
 
-  dev_merge_pipeline:
+  manual_nightly_pipeline:
+
     jobs:
       - codacy/checkout_and_version:
           filters:
