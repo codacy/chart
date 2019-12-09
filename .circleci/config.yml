@@ -74,7 +74,6 @@ references:
           name: "Purge Cluster"
           command: |
             make -C .doks/ remove_codacy  
-            set +e; helm delete --purge selenium; set -e;
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -143,6 +142,7 @@ references:
           command: |
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
+            set +e; helm delete --purge selenium; set -e;
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
@@ -185,6 +185,12 @@ jobs:
       <<: *dev_environment
     <<: *deploy_to_cluster
 
+  deploy_to_doks_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *deploy_to_cluster
+
   deploy_to_doks_nightly:
     <<: *default_doks_image
     environment:
@@ -195,6 +201,12 @@ jobs:
     environment:
       <<: *nightly_environment
     <<: *purge_cluster
+
+  validate_deployment_status_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *validate_deployment_status_on_cluster
 
   validate_deployment_status_nightly:
     <<: *default_doks_image
@@ -284,12 +296,26 @@ jobs:
       <<: *release_environment
     <<: *set_docker_credentials
 
+  setup_qa_environment_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_nightly
+    <<: *setup_qa_environment
+
   setup_qa_environment_nightly:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
       <<: *qa_environment_nightly
     <<: *setup_qa_environment
+
+  qa_tests_hourly:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_nightly
+    <<: *qa_job
 
   qa_tests_nightly:
     <<: *qa_automation_image
@@ -333,6 +359,56 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks
+
+  hourly_pipeline:
+    triggers:
+       - schedule:
+           cron: "0 * * * 1-5"
+           filters:
+             branches:
+               only:
+                 - dev
+    jobs:
+      - codacy/checkout_and_version
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_hourly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
+            - update_versions
+            - get_changelogs
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_hourly
+      - validate_deployment_status_hourly:
+          context: CodacyDO
+          requires:
+            - helm_push_unstable
+      - setup_qa_environment_hourly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - setup_qa_environment_hourly
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - qa_tests_hourly
 
   nightly_pipeline:
     triggers:
