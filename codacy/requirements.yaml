@@ -40,8 +40,8 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-activities.git
 
 - name: remote-provider-service
-  version: 2.39.3-SNAPSHOT.c444593
-  repository: https://charts.codacy.com/unstable
+  version: ~2.41.0
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
 - name: hotspots-api
