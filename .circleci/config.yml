@@ -57,6 +57,9 @@ references:
   incubator_helm_channel: &incubator_helm_channel
     CHANNEL: incubator
 
+  nightly_helm_channel: &nightly_helm_channel
+    CHANNEL: nightly
+
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
 
@@ -127,6 +130,7 @@ references:
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
+            
       - persist_to_workspace:
           root: ~/
           paths:
@@ -237,11 +241,32 @@ jobs:
       <<: *incubator_helm_channel
     <<: *helm_push
 
+  helm_push_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_helm_channel
+    <<: *helm_push
+
   helm_push_unstable:
     <<: *default_doks_image
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
+
+  set_chart_version_nightly:
+    <<: *default_doks_image
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set chart version suffix
+          command: |
+            sed -i .version.bak 's/SNAPSHOT/NIGHTLY/g' .version
+            echo $(cat .version)
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   update_versions:
     docker:
@@ -389,14 +414,10 @@ workflows:
             - codacy/checkout_and_version
             - update_versions
             - get_changelogs
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_hourly
       - validate_deployment_status_hourly:
           context: CodacyDO
           requires:
-            - helm_push_unstable
+            - deploy_to_doks_hourly
       - setup_qa_environment_hourly:
           context: CodacyDO
           requires:
@@ -405,10 +426,6 @@ workflows:
           context: CodacyDO
           requires:
             - setup_qa_environment_hourly
-      - helm_push_incubator:
-          context: CodacyDO
-          requires:
-            - qa_tests_hourly
 
   nightly_pipeline:
     triggers:
@@ -420,11 +437,15 @@ workflows:
                  - dev
     jobs:
       - codacy/checkout_and_version
+      - set_chart_version_nightly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - codacy/checkout_and_version
+            - set_chart_version_nightly
       - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
@@ -448,10 +469,6 @@ workflows:
             - purge_doks_nightly_codacy
             - update_versions
             - get_changelogs
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly
       - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
@@ -464,12 +481,8 @@ workflows:
           context: CodacyDO
           requires:
             - setup_qa_environment_nightly
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/unstable"
-          target_charts_repo_url: "https://charts.codacy.com/nightly"
+      - helm_push_nightly:
+          context: CodacyDO
           requires:
             - qa_tests_nightly
 
