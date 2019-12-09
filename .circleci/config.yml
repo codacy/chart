@@ -160,22 +160,6 @@ references:
           paths:
             - workdir
 
-  set_chart_version: &set_chart_version
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Set chart version suffix
-          command: |
-            if "$CHANNEL" == "nightly"; then
-                echo "$(cat .version)-NIGHTLY" > .version
-            fi 
-            echo $(cat .version)
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
-
   qa_job: &qa_job
     steps:
       - attach_workspace:
@@ -269,26 +253,20 @@ jobs:
       <<: *unstable_helm_channel
     <<: *helm_push
 
-  set_chart_version_dev:
-    <<: *default_doks_image
-    environment:
-      <<: *dev_environment
-      <<: *unstable_helm_channel
-    <<: *set_chart_version
-
   set_chart_version_nightly:
     <<: *default_doks_image
-    environment:
-      <<: *nightly_environment
-      <<: *nightly_helm_channel
-    <<: *set_chart_version
-    
-  set_chart_version_release:
-    <<: *default_doks_image
-    environment:
-      <<: *release_environment
-      <<: *stable_helm_channel
-    <<: *set_chart_version
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set chart version suffix
+          command: |
+            sed -i .version.bak 's/SNAPSHOT/NIGHTLY/g' .version
+            echo $(cat .version)
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   update_versions:
     docker:
@@ -393,15 +371,11 @@ workflows:
             branches:
               only:
                 - dev
-      - set_chart_version_dev:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - set_chart_version_dev
+            - odacy/checkout_and_version
       - deploy_to_doks:
           context: CodacyDO
           requires:
@@ -519,15 +493,11 @@ workflows:
              branches:
                only:
                  - master
-      - set_chart_version_release:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - set_chart_version_release
+            - codacy/checkout_and_version
       - purge_doks_release_codacy:
           context: CodacyDO
           requires:
