@@ -330,16 +330,14 @@ workflows:
           requires:
             - deploy_to_doks
 
-  nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - dev
+  manual_nightly_pipeline:
+
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          filters:
+            branches:
+              only:
+                - dev
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
