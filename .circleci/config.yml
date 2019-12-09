@@ -144,8 +144,8 @@ references:
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
-            kubectl rollout status -n $NAMESPACE --timeout=30m --watch "deployment/selenium-selenium-hub"
-            kubectl rollout status -n $NAMESPACE --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
       - run:
           deploy: Persist selenium hub external ip
           command: |
