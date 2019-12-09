@@ -129,7 +129,15 @@ references:
             helm dep up ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
-            helm push ./codacy codacy
+
+            if "$CHANNEL" == "stable"; then
+                helm push ./codacy codacy --version "$(cat .version)"
+            elif "$CHANNEL" == "nightly"; then
+                helm push ./codacy codacy --version "$(cat .version)-NIGHTLY"
+            else
+                helm push ./codacy codacy --version "$(cat .version)-SNAPSHOT"
+            fi
+            
       - persist_to_workspace:
           root: ~/
           paths:
