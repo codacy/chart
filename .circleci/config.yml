@@ -261,8 +261,7 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            sed -i .version.bak 's/SNAPSHOT/NIGHTLY/g' .version
-            echo $(cat .version)
+            sed -i 's/SNAPSHOT/NIGHTLY/g' .version
       - persist_to_workspace:
           root: ~/
           paths:
