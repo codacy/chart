@@ -87,7 +87,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
+          command: make -C .doks/ deploy_to_doks
       - deploy:
           name: Wait for codacy-api ingress
           command: |
@@ -95,8 +95,8 @@ references:
       - deploy:
           name: Update codacy-api ip address
           command: |
-            ip=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
-            make -C .doks/ deploy_to_doks RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE $CODACY_URL=$ip
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            make -C .doks/ deploy_to_doks
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
