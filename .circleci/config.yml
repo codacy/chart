@@ -95,12 +95,8 @@ references:
       - deploy:
           name: Update codacy-api ip address
           command: |
-            ip=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
-            helm upgrade --install $RELEASE_NAME codacy/ \
-              -f .doks/values.yaml \
-              --namespace $NAMESPACE \
-              --set codacy-api.url=$ip \
-              --set listener.nfsserverprovisioner.storageClass.name="$RELEASE_NAME-listener-cache-class"
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            make -C .doks/ deploy_to_doks
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
