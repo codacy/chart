@@ -92,7 +92,7 @@ references:
           name: Update codacy-api ip address
           command: |
             ip=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
-            helm upgrade $RELEASE_NAME --set codacy-api.url=$ip
+            helm upgrade $RELEASE_NAME codacy/ --set codacy-api.url=$ip
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
