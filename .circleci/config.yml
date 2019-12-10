@@ -158,7 +158,7 @@ references:
             set +e; helm delete --purge selenium; set -e;
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true --set chrome.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
-            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome"
       - run:
           deploy: Persist selenium hub external ip
           command: |
