@@ -88,6 +88,11 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks
+      - deploy:
+          name: Update codacy-api ip address
+          command: |
+            ip=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            helm upgrade $RELEASE_NAME --set codacy-api.url=$ip
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
