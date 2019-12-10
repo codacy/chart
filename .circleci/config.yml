@@ -352,6 +352,24 @@ jobs:
       <<: *nightly_environment
       <<: *qa_environment_nightly
     <<: *qa_job
+
+  commit_requirements: &commit_requirements
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+      <<: *qa_environment_nightly
+    steps:
+      - attach_workspace:
+          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - deploy:
+          name: Commit requirements.lock file
+          command: |
+            git add ./workdir/codacy/requirements.lock
+            git commit -m "[ci skip] requirements.lock version bump."
+            git push
       
 workflows:
   helm_lint:
@@ -485,10 +503,62 @@ workflows:
           context: CodacyDO
           requires:
             - setup_qa_environment_nightly
-      - helm_push_nightly:
+      - commit_requirements:
           context: CodacyDO
           requires:
             - qa_tests_nightly
+      - codacy/checkout_and_version:
+          name: checkout2
+          context: CodacyDO
+          requires:
+            - commit_requirements
+      - set_chart_version_nightly:
+          name: set_version2
+          context: CodacyDO
+          requires:
+            - checkout2
+      - codacy/helm_aws:
+          name: helm_lint2
+          cmd: helm lint codacy/
+          requires:
+            - set_version2
+      - purge_doks_nightly_codacy:
+          name: purge2
+          context: CodacyDO
+          requires:
+            - helm_lint2
+      - set_docker_credentials_nightly:
+          name: docker2
+          context: CodacyDO
+          requires:
+            - purge2
+      - update_versions:
+          name: update2
+          context: CodacyDO
+          requires:
+            - docker2
+      - get_changelogs:
+          name: changelogs2
+          context: CodacyDO
+          requires:
+            - update2
+      - deploy_to_doks_nightly:
+          name: deploy2
+          context: CodacyDO
+          requires:
+            - checkout2
+            - purge2
+            - update2
+            - changelogs2
+      - codacy/tag_version:
+          name: tag_version
+          context: CodacyDO
+          requires:
+            - deploy2
+      - helm_push_nightly:
+          context: CodacyDO
+          requires:
+            - tag_version
 
   release_pipeline:
     jobs:
