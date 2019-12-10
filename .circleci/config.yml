@@ -495,18 +495,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - setup_qa_environment_nightly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_nightly
-      - qa_tests_nightly:
-          context: CodacyDO
-          requires:
-            - setup_qa_environment_nightly
       - commit_requirements:
           context: CodacyDO
           requires:
-            - qa_tests_nightly
+            - validate_deployment_status_nightly
       - codacy/checkout_and_version:
           name: checkout2
           context: CodacyDO
