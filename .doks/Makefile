@@ -1,3 +1,7 @@
+CODACY_URL?="http://k8s.dev.codacy.org"
+RELEASE_NAME?="codacy"
+NAMESPACE?="codacy"
+
 .PHONY: deploy_to_doks
 deploy_to_doks:
 	doctl kubernetes cluster kubeconfig save $${DOKS_CLUSTER_NAME} --set-current-context
@@ -13,8 +17,8 @@ deploy_to_doks:
 		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
-		--set global.codacy.url="http://k8s.dev.codacy.org" \
-		--set global.codacy.backendUrl="http://k8s.dev.codacy.org" \
+		--set global.codacy.url=${CODACY_URL} \
+		--set global.codacy.backendUrl=${CODACY_URL} \
 		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
 
 .PHONY: set_cluster_context

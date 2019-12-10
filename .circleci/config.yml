@@ -89,10 +89,14 @@ references:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks
       - deploy:
+          name: Wait for codacy-api ingress
+          command: |
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+      - deploy:
           name: Update codacy-api ip address
           command: |
-            ip=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
-            helm upgrade $RELEASE_NAME --set codacy-api.url=$ip
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            make -C .doks/ deploy_to_doks
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -152,7 +156,7 @@ references:
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
             set +e; helm delete --purge selenium; set -e;
-            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true --set chrome.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
       - run:
@@ -329,13 +333,6 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
-      <<: *qa_environment_nightly
-    <<: *setup_qa_environment
-
-  setup_qa_environment_nightly:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment
       <<: *qa_environment_nightly
     <<: *setup_qa_environment
 
