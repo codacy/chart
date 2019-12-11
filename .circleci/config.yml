@@ -114,8 +114,6 @@ references:
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
-      - attach_workspace:
-          at: ~/
       - <<: *doctl_authenticate
       - run:
           name: "Validate deployment status"
@@ -127,10 +125,6 @@ references:
             do
                 kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
             done
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
 
   helm_push: &helm_push
     steps:
