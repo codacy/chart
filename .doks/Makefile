@@ -27,8 +27,8 @@ set_cluster_context:
 
 .PHONY: remove_codacy
 remove_codacy: set_cluster_context
-	set +e; helm delete --purge ${RELEASE_NAME};
+	helm delete --purge ${RELEASE_NAME}
 	kubectl delete pods -n ${NAMESPACE} $(shell kubectl get pods -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
 	kubectl delete pvc -n ${NAMESPACE} $(shell kubectl get pvc -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --ignore-not-found=true
 	kubectl delete jobs -n ${NAMESPACE} $(shell kubectl get jobs -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --ignore-not-found=true --all=true
-	kubectl delete secret -n ${NAMESPACE} docker-credentials; set -e;
+	kubectl delete secret -n ${NAMESPACE} docker-credentials

@@ -90,7 +90,7 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-            make -C .doks/ remove_codacy
+            set +e; make -C .doks/ remove_codacy; set -e
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
