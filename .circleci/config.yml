@@ -4,7 +4,6 @@ orbs:
   codacy: codacy/base@1.0.1
 
 references:
-
   default_doks_image: &default_doks_image
     docker:
       - image: codacy/ci-do:0.2.3
@@ -12,9 +11,9 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.2.4  
+      - image: codacy/qa-automation-test-runner:1.2.4
     working_directory: ~/workdir/
-  
+
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -25,15 +24,30 @@ references:
     K8S_VERSION: 1.14
     NUM_NODES: 5
 
-  nightly_environment: &nightly_environment
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
-    DO_TF_WORKSPACE: release
+  nightly_base_environment: &nightly_base_environment
     RELEASE_NAME: codacy-nightly
     NAMESPACE: codacy-nightly
     NODE_TYPE: s-20vcpu-96gb
-    K8S_VERSION: 1.15
     NUM_NODES: 4
-  
+
+  nightly_environment_1_14: &nightly_environment_1_14
+    <<: *nightly_base_environment
+    DO_TF_WORKSPACE: nightly-1-14
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-14
+    K8S_VERSION: 1.14
+
+  nightly_environment_1_15: &nightly_environment_1_15
+    <<: *nightly_base_environment
+    DO_TF_WORKSPACE: nightly-1-15
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-15
+    K8S_VERSION: 1.15
+
+  nightly_environment_1_16: &nightly_environment_1_16
+    <<: *nightly_base_environment
+    DO_TF_WORKSPACE: nightly-1-16
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-16
+    K8S_VERSION: 1.16
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
@@ -67,7 +81,7 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-  
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -76,7 +90,7 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-            make -C .doks/ remove_codacy  
+            make -C .doks/ remove_codacy
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -95,7 +109,7 @@ references:
       - deploy:
           name: Update codacy-api ip address
           command: |
-            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
             make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
@@ -139,7 +153,7 @@ references:
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
-            
+
       - persist_to_workspace:
           root: ~/
           paths:
@@ -204,15 +218,37 @@ jobs:
       <<: *dev_environment
     <<: *deploy_to_cluster
 
-  deploy_to_doks_nightly:
+  deploy_to_doks_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
     <<: *deploy_to_cluster
 
-  purge_doks_nightly_codacy:
+  deploy_to_doks_nightly_1_15:
+    <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_15
+    <<: *deploy_to_cluster
+
+  deploy_to_doks_nightly_1_16:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_16
+    <<: *deploy_to_cluster
+
+  purge_doks_nightly_codacy_1_14:
+    environment:
+      <<: *nightly_environment_1_14
+    <<: *purge_cluster
+
+  purge_doks_nightly_codacy_1_15:
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *purge_cluster
+
+  purge_doks_nightly_codacy_1_16:
+    environment:
+      <<: *nightly_environment_1_15
     <<: *purge_cluster
 
   validate_deployment_status_hourly:
@@ -221,10 +257,22 @@ jobs:
       <<: *dev_environment
     <<: *validate_deployment_status_on_cluster
 
-  validate_deployment_status_nightly:
+  validate_deployment_status_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
+    <<: *validate_deployment_status_on_cluster
+
+  validate_deployment_status_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *validate_deployment_status_on_cluster
+
+  validate_deployment_status_nightly_1_16:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_16
     <<: *validate_deployment_status_on_cluster
 
   deploy_to_doks_release:
@@ -232,7 +280,7 @@ jobs:
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster
-  
+
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
@@ -317,10 +365,22 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
-  set_docker_credentials_nightly:
+  set_docker_credentials_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
+    <<: *set_docker_credentials
+
+  set_docker_credentials_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *set_docker_credentials
+
+  set_docker_credentials_nightly_1_16:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_16
     <<: *set_docker_credentials
 
   set_docker_credentials_release:
@@ -342,7 +402,7 @@ jobs:
       <<: *dev_environment
       <<: *qa_environment_nightly
     <<: *qa_job
-      
+
 workflows:
   helm_lint:
     jobs:
@@ -422,15 +482,13 @@ workflows:
             - setup_qa_environment_hourly
 
   nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - dev
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          filters:
+            branches:
+              only:
+                - dev
+                - feature/nightly-multiple-clusters
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -440,37 +498,82 @@ workflows:
           cmd: helm lint codacy/
           requires:
             - set_chart_version_nightly
-      - purge_doks_nightly_codacy:
+      - purge_doks_nightly_codacy_1_14:
           context: CodacyDO
           requires:
             - helm_lint
-      - set_docker_credentials_nightly:
+      - purge_doks_nightly_codacy_1_15:
           context: CodacyDO
           requires:
-            - purge_doks_nightly_codacy
+            - helm_lint
+      - purge_doks_nightly_codacy_1_16:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - set_docker_credentials_nightly_1_14:
+          context: CodacyDO
+          requires:
+            - purge_doks_nightly_codacy_1_14
+      - set_docker_credentials_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - purge_doks_nightly_codacy_1_15
+      - set_docker_credentials_nightly_1_16:
+          context: CodacyDO
+          requires:
+            - purge_doks_nightly_codacy_1_16
       - update_versions:
           context: CodacyDO
           requires:
-            - set_docker_credentials_nightly
+            - set_docker_credentials_nightly_1_14
+            - set_docker_credentials_nightly_1_15
+            - set_docker_credentials_nightly_1_16
       - get_changelogs:
           context: CodacyDO
           requires:
             - update_versions
-      - deploy_to_doks_nightly:
+      - deploy_to_doks_nightly_1_14:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
-            - purge_doks_nightly_codacy
+            - purge_doks_nightly_codacy_1_14
+            - set_docker_credentials_nightly_1_14
             - update_versions
             - get_changelogs
-      - validate_deployment_status_nightly:
+      - deploy_to_doks_nightly_1_15:
           context: CodacyDO
           requires:
-            - deploy_to_doks_nightly
+            - codacy/checkout_and_version
+            - purge_doks_nightly_codacy_1_15
+            - set_docker_credentials_nightly_1_15
+            - update_versions
+            - get_changelogs
+      - deploy_to_doks_nightly_1_16:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
+            - purge_doks_nightly_codacy_1_16
+            - set_docker_credentials_nightly_1_16
+            - update_versions
+            - get_changelogs
+      - validate_deployment_status_nightly_1_14:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_nightly_1_14
+      - validate_deployment_status_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_nightly_1_15
+      - validate_deployment_status_nightly_1_16:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_nightly_1_16
       - helm_push_nightly:
           context: CodacyDO
           requires:
-            - validate_deployment_status_nightly
+            - validate_deployment_status_nightly_1_14
+            - validate_deployment_status_nightly_1_15
+            - validate_deployment_status_nightly_1_16
 
   release_pipeline:
     jobs:

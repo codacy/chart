@@ -1,10 +1,10 @@
 resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
-  name    = "codacy-doks-cluster-${terraform.workspace}"
+  name    = "${var.cluster_name}"
   region  = "fra1"
   version = var.k8s_version
 
   node_pool {
-    name       = "codacy-doks-pool-${terraform.workspace}"
+    name       = "${var.cluster_name}-pool"
     size       = var.node_type
     node_count = var.num_nodes
   }
