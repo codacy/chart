@@ -203,7 +203,9 @@ references:
           command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
       - run:
           name: "Create namespace"
-          command: kubectl create namespace $NAMESPACE
+          command: |
+            kubectl delete namespace $NAMESPACE
+            kubectl create namespace $NAMESPACE
       - run:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
