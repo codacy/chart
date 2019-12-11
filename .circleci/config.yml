@@ -481,12 +481,15 @@ workflows:
             - setup_qa_environment_hourly
 
   nightly_pipeline:
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - dev
     jobs:
-      - codacy/checkout_and_version:
-          filters:
-            branches:
-              only:
-                - feature/nightly-multiple-clusters
+      - codacy/checkout_and_version
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
