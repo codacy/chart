@@ -492,7 +492,6 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - feature/nightly-multiple-clusters
       - set_chart_version_nightly:
           context: CodacyDO
@@ -511,10 +510,6 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - purge_doks_nightly_codacy_1_16:
-          context: CodacyDO
-          requires:
-            - helm_lint
       - set_docker_credentials_nightly_1_14:
           context: CodacyDO
           requires:
@@ -523,16 +518,11 @@ workflows:
           context: CodacyDO
           requires:
             - purge_doks_nightly_codacy_1_15
-      - set_docker_credentials_nightly_1_16:
-          context: CodacyDO
-          requires:
-            - purge_doks_nightly_codacy_1_16
       - update_versions:
           context: CodacyDO
           requires:
             - set_docker_credentials_nightly_1_14
             - set_docker_credentials_nightly_1_15
-            - set_docker_credentials_nightly_1_16
       - get_changelogs:
           context: CodacyDO
           requires:
@@ -553,14 +543,6 @@ workflows:
             - set_docker_credentials_nightly_1_15
             - update_versions
             - get_changelogs
-      - deploy_to_doks_nightly_1_16:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
-            - purge_doks_nightly_codacy_1_16
-            - set_docker_credentials_nightly_1_16
-            - update_versions
-            - get_changelogs
       - validate_deployment_status_nightly_1_14:
           context: CodacyDO
           requires:
@@ -569,16 +551,11 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly_1_15
-      - validate_deployment_status_nightly_1_16:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_16
       - helm_push_nightly:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_14
             - validate_deployment_status_nightly_1_15
-            - validate_deployment_status_nightly_1_16
 
   release_pipeline:
     jobs:
