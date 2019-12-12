@@ -12,9 +12,9 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.2.4  
+      - image: codacy/qa-automation-test-runner:1.2.4
     working_directory: ~/workdir/
-  
+
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -33,7 +33,7 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
-  
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
@@ -67,7 +67,7 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-  
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -76,7 +76,7 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-            make -C .doks/ remove_codacy  
+            set +e; make -C .doks/ remove_codacy; set -e
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -95,7 +95,7 @@ references:
       - deploy:
           name: Update codacy-api ip address
           command: |
-            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'); 
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
             make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
@@ -139,7 +139,7 @@ references:
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
-            
+
       - persist_to_workspace:
           root: ~/
           paths:
@@ -232,7 +232,7 @@ jobs:
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster
-  
+
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
@@ -342,7 +342,7 @@ jobs:
       <<: *dev_environment
       <<: *qa_environment_nightly
     <<: *qa_job
-      
+
 workflows:
   helm_lint:
     jobs:
