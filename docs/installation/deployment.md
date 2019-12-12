@@ -28,7 +28,8 @@ helm upgrade --install codacy codacy-stable/codacy \
   --set global.filestore.uuidSecret=${SHARED_PLAY_CRYPTO_SECRET} \
   --set global.cacheSecret=${SHARED_PLAY_CRYPTO_SECRET} \
   --set global.codacy.url=${CODACY_URL} \
-  --set global.codacy.backendUrl=${CODACY_URL}
+  --set global.codacy.backendUrl=${CODACY_URL} \
+  --set codacy-api.service.type="LoadBalancer"
 ```
 
 ## Selecting configuration options
