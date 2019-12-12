@@ -16,7 +16,7 @@ kubectl create secret docker-registry docker-credentials --docker-username=$DOCK
 export SHARED_PLAY_CRYPTO_SECRET=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9')
 echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
 
-export CODACY_URL=codacy.example.com
+export CODACY_URL="http://codacy.example.com"
 
 helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
