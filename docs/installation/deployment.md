@@ -13,7 +13,7 @@ Quickly install Codacy for demo without any persistence.
 kubectl create namespace codacy
 kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
 
-export SHARED_PLAY_CRYPTO_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)
+export SHARED_PLAY_CRYPTO_SECRET=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9')
 echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
 
 export CODACY_URL=codacy.example.com

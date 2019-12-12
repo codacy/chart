@@ -96,13 +96,13 @@ global:
       port: 5432
 
   play:
-    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
   filestore:
-    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
-    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
-  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
   codacy:
     url: "http://localhost:9000"
