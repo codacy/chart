@@ -16,7 +16,7 @@ dependencies:
   version: 4.29.3
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 14.13.0
+  version: 14.12.1
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.0.175
