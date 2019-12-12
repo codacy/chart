@@ -2,7 +2,7 @@
 
 Before running `helm install`, you need to make some decisions about how you will run Codacy.
 Options can be specified using helm's `--set option.name=value` command line option.
-A complete list  of command line options can be found [here](./command-line-options.md).
+A complete list of command line options can be found [here](./command-line-options.md).
 This guide will cover required values and common options.
 
 ## Selecting configuration options
@@ -11,7 +11,15 @@ In each section collect the options that will be combined to use with `helm inst
 
 ### Secrets
 
-There are some secrets that need to be created (e.g. ssh keys). By default they will be generated automatically, but if you want to specify them, you can follow the [secrets guide](secrets.md).
+There are some secrets that need to be created (eg. cryptosecret)
+
+Also, some Codacy images are currently private. For this, you need to
+create a secret in the same namespace were you will install Codacy.
+You should receive these credentials together with your license.
+
+```
+kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+```
 
 ### Networking and DNS
 
@@ -20,7 +28,7 @@ to expose Codacy services using name-based virtual servers configured with`Ingre
 objects. You'll need to specify a domain which will contain records to resolve
 `codacy`, `registry`, and `minio` (if enabled) to the appropriate IP for your chart.
 
-*Include these options in your helm install command:*
+_Include these options in your helm install command:_
 
 ```
 --set global.hosts.domain=example.com
@@ -45,7 +53,7 @@ If you are using GKE, there is some documentation [here](cloud/gke.md#creating-t
 for configuring static IPs and DNS. Consult your Cloud and/or DNS provider's
 documentation for more help on this process.
 
-*Include these options in your helm install command:*
+_Include these options in your helm install command:_
 
 ```
 --set global.hosts.externalIP=10.10.10.10
@@ -68,7 +76,7 @@ have some other way of obtaining TLS certificates, [read about more TLS options 
 
 For the default configuration, you must specify an email address to register your TLS
 certificates.
-*Include these options in your helm install command:*
+_Include these options in your helm install command:_
 
 ```
 --set certmanager-issuer.email=me@example.com
@@ -89,7 +97,7 @@ You can read more about setting up your production-ready database in the [advanc
 If you have an external postgres database ready, the chart can be configured to
 use it as shown below.
 
-*Include these options in your helm install command:*
+_Include these options in your helm install command:_
 
 ```
 --set postgresql.install=false
@@ -102,7 +110,7 @@ use it as shown below.
 
 By default we use an single, non-replicated Redis instance. If desired, a highly available redis can be deployed instead. You can learn more about configuring: [Redis](../charts/redis) and [Redis-ha](../charts/redis-ha).
 
-*To deploy `redis-ha` instead of the default `redis`, include these options in your helm install command:*
+_To deploy `redis-ha` instead of the default `redis`, include these options in your helm install command:_
 
 ```
 --set redis.enabled=false
@@ -206,11 +214,17 @@ run helm. In this example, we've named our helm release "codacy".
 ```
 helm repo add codacy https://charts.codacy.com/stable/
 helm repo update
-helm upgrade --install codacy codacy/codacy \
-  --timeout 600 \
-  --set global.hosts.domain=example.com \
-  --set global.hosts.externalIP=10.10.10.10 \
-  --set certmanager-issuer.email=me@example.com
+helm upgrade --install ${RELEASE_NAME} ../codacy/ \
+  -f values.yaml \
+  --namespace ${NAMESPACE} \
+  --set global.imagePullSecrets[0].name=docker-credentials \
+  --set global.play.cryptoSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.contentsSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.uuidSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.cacheSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set codacy-api.config.license=${CODACY_LICENSE} \
+  --set global.codacy.url=${CODACY_URL} \
+  --set global.codacy.backendUrl=${CODACY_URL}
 ```
 
 ## Monitoring the Deployment
