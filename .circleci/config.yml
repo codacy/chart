@@ -12,9 +12,9 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.2.4  
+      - image: codacy/qa-automation-test-runner:1.2.4
     working_directory: ~/workdir/
-  
+
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -33,7 +33,7 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
-  
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
@@ -67,7 +67,7 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-  
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -76,7 +76,7 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-            make -C .doks/ remove_codacy  
+            set +e; make -C .doks/ remove_codacy; set -e
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -87,7 +87,16 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks
+          command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
+      - deploy:
+          name: Wait for codacy-api ingress
+          command: |
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+      - deploy:
+          name: Update codacy-api ip address
+          command: |
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
+            make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -130,7 +139,7 @@ references:
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
-            
+
       - persist_to_workspace:
           root: ~/
           paths:
@@ -147,9 +156,9 @@ references:
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             helm repo add stable https://kubernetes-charts.storage.googleapis.com
             set +e; helm delete --purge selenium; set -e;
-            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chromeDebug.enabled=true --set chromeDebug.replicas=4
+            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true --set chrome.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
-            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome"
       - run:
           deploy: Persist selenium hub external ip
           command: |
@@ -223,7 +232,7 @@ jobs:
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster
-  
+
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
@@ -261,8 +270,7 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            sed -i .version.bak 's/SNAPSHOT/NIGHTLY/g' .version
-            echo $(cat .version)
+            sed -i 's/SNAPSHOT/NIGHTLY/g' .version
       - persist_to_workspace:
           root: ~/
           paths:
@@ -328,13 +336,6 @@ jobs:
       <<: *qa_environment_nightly
     <<: *setup_qa_environment
 
-  setup_qa_environment_nightly:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment
-      <<: *qa_environment_nightly
-    <<: *setup_qa_environment
-
   qa_tests_hourly:
     <<: *qa_automation_image
     environment:
@@ -342,13 +343,6 @@ jobs:
       <<: *qa_environment_nightly
     <<: *qa_job
 
-  qa_tests_nightly:
-    <<: *qa_automation_image
-    environment:
-      <<: *nightly_environment
-      <<: *qa_environment_nightly
-    <<: *qa_job
-      
 workflows:
   helm_lint:
     jobs:
@@ -473,18 +467,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - setup_qa_environment_nightly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_nightly
-      - qa_tests_nightly:
-          context: CodacyDO
-          requires:
-            - setup_qa_environment_nightly
       - helm_push_nightly:
           context: CodacyDO
           requires:
-            - qa_tests_nightly
+            - validate_deployment_status_nightly
 
   release_pipeline:
     jobs:
