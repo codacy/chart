@@ -251,8 +251,8 @@ crow:
 githubEnterprise:
   enabled: "false"
   # hostname = "example.host.com"
-  # port: 80
   # protocol = "https"
+  # port: 80
   # isPrivateMode = true
   # disableSSL = false
 
