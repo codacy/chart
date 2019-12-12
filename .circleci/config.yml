@@ -553,6 +553,16 @@ workflows:
           requires:
             - validate_deployment_status_nightly_1_14
             - validate_deployment_status_nightly_1_15
+      - purge_doks_nightly_codacy_1_14:
+          name: purge_1_14_2
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly_1_14
+      - purge_doks_nightly_codacy_1_15:
+          name: purge_1_15_2
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly_1_15
 
   release_pipeline:
     jobs:
