@@ -499,22 +499,14 @@ workflows:
           cmd: helm lint codacy/
           requires:
             - set_chart_version_nightly
-      - purge_doks_nightly_codacy_1_14:
-          context: CodacyDO
-          requires:
-            - helm_lint
-      - purge_doks_nightly_codacy_1_15:
-          context: CodacyDO
-          requires:
-            - helm_lint
       - set_docker_credentials_nightly_1_14:
           context: CodacyDO
           requires:
-            - purge_doks_nightly_codacy_1_14
+            - helm_lint
       - set_docker_credentials_nightly_1_15:
           context: CodacyDO
           requires:
-            - purge_doks_nightly_codacy_1_15
+            - helm_lint
       - update_versions:
           context: CodacyDO
           requires:
@@ -554,12 +546,10 @@ workflows:
             - validate_deployment_status_nightly_1_14
             - validate_deployment_status_nightly_1_15
       - purge_doks_nightly_codacy_1_14:
-          name: purge_1_14_2
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_14
       - purge_doks_nightly_codacy_1_15:
-          name: purge_1_15_2
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_15
