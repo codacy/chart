@@ -253,8 +253,8 @@ githubEnterprise:
   # hostname = "example.host.com"
   # port: 80
   # protocol = "https"
-  # disableSSL = false
   # isPrivateMode = true
+  # disableSSL = false
 
 gitlabEnterprise:
   enabled: "false"
