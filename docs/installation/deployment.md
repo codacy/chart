@@ -8,6 +8,9 @@ This guide will cover required values and common options.
 ## TL;DR
 
 ```
+kubectl create namespace codacy
+kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
+
 export SHARED_PLAY_CRYPTO_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)
 echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
 
