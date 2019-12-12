@@ -8,3 +8,4 @@ setup_helm_repos:
 .PHONY: update_dependencies
 update_dependencies: setup_helm_repos
 	helm dependency update codacy/
+	ls -l codacy/charts/
