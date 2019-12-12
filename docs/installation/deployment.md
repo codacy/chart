@@ -7,6 +7,8 @@ This guide will cover required values and common options.
 
 ## TL;DR
 
+Quickly install Codacy for demo without any persistence.
+
 ```
 kubectl create namespace codacy
 kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
@@ -16,11 +18,10 @@ echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
 
 export CODACY_URL=codacy.example.com
 
-helm repo add codacy https://charts.codacy.com/stable/
+helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
-helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-  -f values.yaml \
-  --namespace ${NAMESPACE} \
+helm upgrade --install codacy codacy-stable/codacy \
+  --namespace codacy \
   --set global.imagePullSecrets[0].name=docker-credentials \
   --set global.play.cryptoSecret=${SHARED_PLAY_CRYPTO_SECRET} \
   --set global.filestore.contentsSecret=${SHARED_PLAY_CRYPTO_SECRET} \
