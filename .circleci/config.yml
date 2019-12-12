@@ -520,7 +520,6 @@ workflows:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
-            - purge_doks_nightly_codacy_1_14
             - set_docker_credentials_nightly_1_14
             - update_versions
             - get_changelogs
@@ -528,7 +527,6 @@ workflows:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
-            - purge_doks_nightly_codacy_1_15
             - set_docker_credentials_nightly_1_15
             - update_versions
             - get_changelogs
