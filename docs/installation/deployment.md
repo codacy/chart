@@ -5,6 +5,28 @@ Options can be specified using helm's `--set option.name=value` command line opt
 A complete list of command line options can be found [here](./command-line-options.md).
 This guide will cover required values and common options.
 
+## TL;DR
+
+```
+export SHARED_PLAY_CRYPTO_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)
+echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
+
+export CODACY_URL=codacy.example.com
+
+helm repo add codacy https://charts.codacy.com/stable/
+helm repo update
+helm upgrade --install ${RELEASE_NAME} ../codacy/ \
+  -f values.yaml \
+  --namespace ${NAMESPACE} \
+  --set global.imagePullSecrets[0].name=docker-credentials \
+  --set global.play.cryptoSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.contentsSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.uuidSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.cacheSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.codacy.url=${CODACY_URL} \
+  --set global.codacy.backendUrl=${CODACY_URL}
+```
+
 ## Selecting configuration options
 
 In each section collect the options that will be combined to use with `helm install`.
@@ -205,27 +227,6 @@ to fit within a 3vCPU 12gb cluster.
 
 The [minimal minikube example values file](https://gitlab.com/gitlab-org/charts/gitlab/tree/master/examples/values-minikube-minimum.yaml) provides an example of tuning the
 resources to fit within a 2vCPU, 4gb minikube instance.
-
-## Deploy using helm
-
-Once you have all of your configuration options collected, we can get any dependencies and
-run helm. In this example, we've named our helm release "codacy".
-
-```
-helm repo add codacy https://charts.codacy.com/stable/
-helm repo update
-helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-  -f values.yaml \
-  --namespace ${NAMESPACE} \
-  --set global.imagePullSecrets[0].name=docker-credentials \
-  --set global.play.cryptoSecret=${SHARED_PLAY_CRYPTO_SECRET} \
-  --set global.filestore.contentsSecret=${SHARED_PLAY_CRYPTO_SECRET} \
-  --set global.filestore.uuidSecret=${SHARED_PLAY_CRYPTO_SECRET} \
-  --set global.cacheSecret=${SHARED_PLAY_CRYPTO_SECRET} \
-  --set codacy-api.config.license=${CODACY_LICENSE} \
-  --set global.codacy.url=${CODACY_URL} \
-  --set global.codacy.backendUrl=${CODACY_URL}
-```
 
 ## Monitoring the Deployment
 
