@@ -572,7 +572,7 @@ workflows:
       - get_changelogs:
           context: CodacyDO
           requires:
-            - update_versions
+            - set_docker_credentials_release
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
