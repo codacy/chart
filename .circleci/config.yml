@@ -42,12 +42,6 @@ references:
     DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-15
     K8S_VERSION: 1.15
 
-  nightly_environment_1_16: &nightly_environment_1_16
-    <<: *nightly_base_environment
-    DO_TF_WORKSPACE: nightly-1-16
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-16
-    K8S_VERSION: 1.16
-
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
@@ -229,23 +223,12 @@ jobs:
       <<: *nightly_environment_1_15
     <<: *deploy_to_cluster
 
-  deploy_to_doks_nightly_1_16:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_16
-    <<: *deploy_to_cluster
-
   purge_doks_nightly_codacy_1_14:
     environment:
       <<: *nightly_environment_1_14
     <<: *purge_cluster
 
   purge_doks_nightly_codacy_1_15:
-    environment:
-      <<: *nightly_environment_1_15
-    <<: *purge_cluster
-
-  purge_doks_nightly_codacy_1_16:
     environment:
       <<: *nightly_environment_1_15
     <<: *purge_cluster
@@ -266,12 +249,6 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_15
-    <<: *validate_deployment_status_on_cluster
-
-  validate_deployment_status_nightly_1_16:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_16
     <<: *validate_deployment_status_on_cluster
 
   deploy_to_doks_release:
@@ -374,12 +351,6 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_15
-    <<: *set_docker_credentials
-
-  set_docker_credentials_nightly_1_16:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_16
     <<: *set_docker_credentials
 
   set_docker_credentials_release:
