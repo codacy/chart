@@ -76,11 +76,7 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
-<<<<<<< HEAD
-            make -C .doks/ remove_codacy
-=======
             set +e; make -C .doks/ remove_codacy; set -e
->>>>>>> eebf728cf6a0d947d5dcfb8a5c43d596f0e33645
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -100,11 +96,7 @@ references:
           name: Update codacy-api ip address
           command: |
             CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-<<<<<<< HEAD
-            make -C .doks/ deploy_to_doks
-=======
             make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
->>>>>>> eebf728cf6a0d947d5dcfb8a5c43d596f0e33645
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
