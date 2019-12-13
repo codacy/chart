@@ -318,13 +318,6 @@ jobs:
       <<: *release_environment
     <<: *set_docker_credentials
 
-  setup_qa_environment_hourly:
-    <<: *default_doks_image
-    environment:
-      <<: *dev_environment
-      <<: *qa_environment_nightly
-    <<: *setup_qa_environment
-
   qa_tests_hourly:
     <<: *qa_automation_image
     environment:
@@ -369,15 +362,12 @@ workflows:
             - deploy_to_doks
 
   hourly_pipeline:
-    triggers:
-      - schedule:
-          cron: "0 * * * 1-5"
-          filters:
-            branches:
-              only:
-                - dev
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          filters:
+              branches:
+                only:
+                  - feature/selenium_tests
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
