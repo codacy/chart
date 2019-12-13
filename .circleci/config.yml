@@ -367,7 +367,7 @@ workflows:
           filters:
               branches:
                 only:
-                  - feature/selenium_tests
+                  - fix/selenium_tests
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
