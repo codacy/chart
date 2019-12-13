@@ -10,7 +10,7 @@ dependencies:
   version: 4.2.2
 - name: log-router
   repository: https://charts.codacy.com/external
-  version: 0.3.0
+  version: ^0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 4.29.3
@@ -47,5 +47,5 @@ dependencies:
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.5
-digest: sha256:5ee88e61e771d95198db4c960470912aab5cbc65f97f56f37e3e5e547f863b47
-generated: "2019-12-13T10:34:56.295714Z"
+digest: sha256:d1ed90b23ad49dcecd758ec2261d63d57f92e61a049758326d440279b0934eef
+generated: "2019-12-13T15:53:58.804863Z"
