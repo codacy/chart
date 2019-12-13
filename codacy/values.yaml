@@ -96,13 +96,13 @@ global:
       port: 5432
 
   play:
-    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
   filestore:
-    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
-    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
-  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `head -c 128 /dev/urandom | base64`
+  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
 
   codacy:
     url: "http://localhost:9000"
@@ -171,7 +171,7 @@ listener:
     play:
       configFile: application.enterprise.conf
       logFile: logback.xml
-  
+
   persistence:
     claim:
       size: 100Gi
@@ -219,6 +219,8 @@ codacy-api:
   replicaCount: 1
   fullnameOverride: codacy-api
   config:
+    # Trial license. Valid for 4 users until the end of 2020
+    license: "RAjlCYb/DxsAME0TjIn55neFSYOt0yxxnXBh4nKe/hbz4mjr0dDs3TLOehzQ3QyaLfONRva7T2iSkA57bMdpI/ZwAOUQtjO5XiU1KDaSUXCFZwDu1mBJMlMONCVOV3AuB6y56tsL0CZXnBqZD3R9dShTVXiSYDt/+2dhlVqGb70="
     play:
       configFile: "enterprise.conf"
 

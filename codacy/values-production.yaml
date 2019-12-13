@@ -1,0 +1,154 @@
+global:
+  defaultdb:
+    create: false
+  analysisdb:
+    create: false
+  resultsdb201709:
+    create: false
+  resultsdb:
+    create: false
+  metricsdb:
+    create: false
+  filestoredb:
+    create: false
+  jobsdb:
+    create: false
+  jobsdb:
+    create: false
+
+postgres:
+  persistence:
+    enabled: true
+    size: 1000Gi
+
+portal:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+activities:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  activitiesdb:
+    create: false
+
+remote-provider-service:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 750Mi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+
+hotspots-api:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  hotspotsdb:
+    create: false
+
+hotspots-worker:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+listener:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 2
+      memory: 8Gi
+    requests:
+      cpu: 1
+      memory: 6Gi
+
+  listenerdb:
+    create: false
+
+  persistence:
+    claim:
+      size: 140Gi
+
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 200Gi
+
+core:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1500Mi
+    requests:
+      cpu: 100m
+      memory: 750Mi
+
+engine:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 15000Mi
+    requests:
+      cpu: 1000m
+      memory: 10000Mi
+
+codacy-api:
+  replicaCount: 2
+  service:
+    type: LoadBalancer
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2000Mi
+    requests:
+      cpu: 100m
+      memory: 1000Mi
+
+worker-manager:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1000Mi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+crow:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+
+fluentdoperator:
+  enabled: true
