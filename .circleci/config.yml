@@ -13,7 +13,12 @@ references:
   qa_automation_image: &qa_automation_image
     docker:
       - image: codacy/qa-automation-test-runner:1.2.4
-    working_directory: ~/workdir/
+      - image: selenium/standalone-chrome:3.141.0
+        environment:
+          JAVA_OPTS: -Xss256m -Xmx512m
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+    working_directory: ~/workdir
+    parallelism: 8
 
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
@@ -43,7 +48,9 @@ references:
     K8S_VERSION: 1.15
     NUM_NODES: 4
 
-  qa_environment_nightly: &qa_environment_nightly
+  qa_environment_hourly: &qa_environment_hourly
+    SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+    HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
     TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_NIGHTLY_DOKS
@@ -139,31 +146,6 @@ references:
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
-
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
-
-  setup_qa_environment: &setup_qa_environment
-    steps:
-      - attach_workspace:
-          at: ~/
-      - <<: *doctl_authenticate
-      - run:
-          name: Install selenium
-          command: |
-            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            helm repo add stable https://kubernetes-charts.storage.googleapis.com
-            set +e; helm delete --purge selenium; set -e;
-            helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true --set chrome.replicas=4
-            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
-            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome"
-      - run:
-          deploy: Persist selenium hub external ip
-          command: |
-            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for Selenium hub end point..."; external_ip=$(kubectl get service -n "$NAMESPACE" selenium-selenium-hub --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
-            echo "export HUB_URL=http://$endpoint:4444/wd/hub" > .huburl
       - persist_to_workspace:
           root: ~/
           paths:
@@ -177,7 +159,7 @@ references:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-            source .huburl
+            # source .huburl
             echo "Selenium hub found at $HUB_URL"
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
@@ -329,18 +311,11 @@ jobs:
       <<: *release_environment
     <<: *set_docker_credentials
 
-  setup_qa_environment_hourly:
-    <<: *default_doks_image
-    environment:
-      <<: *dev_environment
-      <<: *qa_environment_nightly
-    <<: *setup_qa_environment
-
   qa_tests_hourly:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
-      <<: *qa_environment_nightly
+      <<: *qa_environment_hourly
     <<: *qa_job
 
 workflows:
@@ -381,12 +356,12 @@ workflows:
 
   hourly_pipeline:
     triggers:
-       - schedule:
-           cron: "0 * * * 1-5"
-           filters:
-             branches:
-               only:
-                 - dev
+      - schedule:
+          cron: "0 * * * 1-5"
+          filters:
+            branches:
+              only:
+                - dev
     jobs:
       - codacy/checkout_and_version
       - codacy/helm_aws:
@@ -412,14 +387,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
-      - setup_qa_environment_hourly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
-            - setup_qa_environment_hourly
+            - validate_deployment_status_hourly
 
   nightly_pipeline:
     triggers:
