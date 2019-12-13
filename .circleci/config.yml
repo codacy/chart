@@ -318,18 +318,12 @@ jobs:
       <<: *qa_environment_hourly
     <<: *qa_job
 
-  qa_tests_nightly:
-    <<: *qa_automation_image
-    environment:
-      <<: *nightly_environment
-      <<: *qa_environment_nightly
-    <<: *qa_job
 
   commit_requirements: &commit_requirements
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
-      <<: *qa_environment_nightly
+      <<: *qa_environment_hourly
     steps:
       - attach_workspace:
           at: ~/
