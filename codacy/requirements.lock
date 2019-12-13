@@ -4,25 +4,25 @@ dependencies:
   version: 2.5.18
 - name: rabbitmq-ha
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.27.2
+  version: 1.36.5
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.2.2
 - name: log-router
   repository: https://charts.codacy.com/external
-  version: 0.3.0
+  version: ^0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 4.28.0
+  version: 4.29.3
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 14.12.1
+  version: 14.13.0
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.0.175
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 2.41.0
+  version: 2.41.1
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.2.5
@@ -31,21 +31,21 @@ dependencies:
   version: 1.2.4
 - name: listener
   repository: https://charts.codacy.com/stable
-  version: 7.3.0
+  version: 7.6.0
 - name: core
   repository: https://charts.codacy.com/stable
-  version: 2.10.3
+  version: 2.10.4
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 5.47.0
+  version: 5.50.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.95.1
+  version: 4.109.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
-  version: 8.2.0
+  version: 8.4.1
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 4.3.1
-digest: sha256:56dd5662a660a5fca5ae149085a9145e6678f210c28cd4411c0341b9bc3f83cf
-generated: "2019-12-12T19:15:36.068798Z"
+  version: 4.3.5
+digest: sha256:d1ed90b23ad49dcecd758ec2261d63d57f92e61a049758326d440279b0934eef
+generated: "2019-12-13T15:53:58.804863Z"
