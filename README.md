@@ -24,7 +24,7 @@ Core goals for this project:
 
 We will try to leverage standard Kubernetes features:
 
-- ConfigMaps for managing configuration. These will then get mapped or passed to Docker containers
+-   ConfigMaps for managing configuration. These will then get mapped or passed to Docker containers
 
 ## Helm Charts
 
@@ -43,22 +43,22 @@ of Helm.
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
 
-- [Minio](https://github.com/helm/charts/tree/master/stable/minio)
-- [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
-- [Postgres](https://github.com/helm/charts/tree/master/stable/postgresql)
-- [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
-- Codacy/[Token Management](https://bitbucket.org/qamine/token-management/src/master/.helm/)
-- Codacy/[Website](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
-- Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
-- Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
-- Codacy/[Activities](https://bitbucket.org/qamine/codacy-activities/src/master/.helm/)
-- Codacy/[Repository Listener](https://bitbucket.org/qamine/repository-listener/src/master/.helm/)
-- Codacy/[Portal](https://bitbucket.org/qamine/portal/src/master/.helm/)
-- Codacy/[Worker Manager](https://bitbucket.org/qamine/worker-manager/src/master/.helm/)
-- Codacy/[Engine](https://bitbucket.org/qamine/codacy-worker/src/master/.helm/)
-- Codacy/[Core](https://bitbucket.org/qamine/codacy-core/src/master/.helm/)
-- Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
-- Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
+-   [Minio](https://github.com/helm/charts/tree/master/stable/minio)
+-   [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
+-   [Postgres](https://github.com/helm/charts/tree/master/stable/postgresql)
+-   [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
+-   Codacy/[Token Management](https://bitbucket.org/qamine/token-management/src/master/.helm/)
+-   Codacy/[Website](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
+-   Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
+-   Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
+-   Codacy/[Activities](https://bitbucket.org/qamine/codacy-activities/src/master/.helm/)
+-   Codacy/[Repository Listener](https://bitbucket.org/qamine/repository-listener/src/master/.helm/)
+-   Codacy/[Portal](https://bitbucket.org/qamine/portal/src/master/.helm/)
+-   Codacy/[Worker Manager](https://bitbucket.org/qamine/worker-manager/src/master/.helm/)
+-   Codacy/[Engine](https://bitbucket.org/qamine/codacy-worker/src/master/.helm/)
+-   Codacy/[Core](https://bitbucket.org/qamine/codacy-core/src/master/.helm/)
+-   Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
+-   Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
 
 ## Configuration
 
