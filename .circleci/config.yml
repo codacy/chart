@@ -76,7 +76,11 @@ references:
       - deploy:
           name: "Purge Cluster"
           command: |
+<<<<<<< HEAD
             make -C .doks/ remove_codacy
+=======
+            set +e; make -C .doks/ remove_codacy; set -e
+>>>>>>> eebf728cf6a0d947d5dcfb8a5c43d596f0e33645
 
   deploy_to_cluster: &deploy_to_cluster
     steps:
@@ -87,7 +91,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks
+          command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
       - deploy:
           name: Wait for codacy-api ingress
           command: |
@@ -96,7 +100,11 @@ references:
           name: Update codacy-api ip address
           command: |
             CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
+<<<<<<< HEAD
             make -C .doks/ deploy_to_doks
+=======
+            make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
+>>>>>>> eebf728cf6a0d947d5dcfb8a5c43d596f0e33645
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -158,7 +166,7 @@ references:
             set +e; helm delete --purge selenium; set -e;
             helm install --name=selenium --namespace=$NAMESPACE stable/selenium --set chrome.enabled=true --set chrome.replicas=4
             kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-hub"
-            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome-debug"
+            kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "deployment/selenium-selenium-chrome"
       - run:
           deploy: Persist selenium hub external ip
           command: |
