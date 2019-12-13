@@ -52,7 +52,7 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
-    TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
+    TEST_PATH: Suite/Enterprise/WEB_DEV.xml
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_NIGHTLY_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
@@ -99,11 +99,16 @@ references:
           name: Wait for codacy-api ingress
           command: |
             external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+            echo "CODACY_API=$endpoint" > .apiurl
       - deploy:
           name: Update codacy-api ip address
           command: |
             CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
             make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -159,8 +164,10 @@ references:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-            # source .huburl
-            echo "Selenium hub found at $HUB_URL"
+            source .apiurl
+            export URL=https://$CODACY_API
+            export URLLANDING=$URL/
+            export URLLLOGGED=$URL/projects
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   set_docker_credentials: &set_docker_credentials
@@ -310,6 +317,13 @@ jobs:
     environment:
       <<: *release_environment
     <<: *set_docker_credentials
+
+  setup_qa_environment_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_nightly
+    <<: *setup_qa_environment
 
   qa_tests_hourly:
     <<: *qa_automation_image
