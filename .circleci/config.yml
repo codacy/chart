@@ -371,7 +371,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - dev
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
