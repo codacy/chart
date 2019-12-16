@@ -4,7 +4,7 @@ dependencies:
   version: 2.5.18
 - name: rabbitmq-ha
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.36.5
+  version: 1.27.2
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.2.2
@@ -47,5 +47,5 @@ dependencies:
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.5
-digest: sha256:d1ed90b23ad49dcecd758ec2261d63d57f92e61a049758326d440279b0934eef
-generated: "2019-12-16T12:02:00.925521Z"
+digest: sha256:43cc696184ce790cdd462b25bc863ca1e0fa61ae582cbe705ea25abdf7bb2565
+generated: "2019-12-16T13:10:44.223687Z"
