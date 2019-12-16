@@ -5,7 +5,7 @@ TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
-
+NAMESPACE ?= codacy
 # variables
 K8S_VERSION ?= 1.15
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
@@ -19,23 +19,26 @@ create_terraformrc:
 .PHONY: setup_vars
 setup_vars:
 	@echo "Appending variables to VARS_FILE..."
-	
+
 	@echo "digital_ocean_token = [REDACTED]"
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
-	
+
 	@echo "docker_username = [REDACTED]"
 	@echo "docker_username = \"$(DOCKER_USERNAME)\"" >> $(VARS_FILE)
 
 	@echo "docker_password = [REDACTED]"
 	@echo "docker_password = \"$(DOCKER_PASSWORD)\"" >> $(VARS_FILE)
-	
+
+	@echo "main_namespace = [REDACTED]"
+	@echo "main_namespace = \"${NAMESPACE}\"" >> ${VARS_FILE}
+
 	echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
 	echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
 	echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
 .PHONY: set_cluster_context
-set_cluster_context: 
+set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: cluster
