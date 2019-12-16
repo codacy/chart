@@ -15,9 +15,9 @@ has been created to automate much of the setup process for users on EKS.
 
 The script will:
 
-1. Create a new EKS cluster.
-1. Setup `kubectl`, and connect it to the cluster.
-1. Initialize Helm and install Tiller.
+1.  Create a new EKS cluster.
+2.  Setup `kubectl`, and connect it to the cluster.
+3.  Initialize Helm and install Tiller.
 
 The script uses [eksctl](https://eksctl.io) to initialize the cluster. If eksctl can not be located in your PATH, the script will install it for you.
 
@@ -69,8 +69,8 @@ keep that in mind when planning for deployment.
 
 There are two methods to manage volume claims on Kubernetes:
 
-- Manually create a persistent volume.
-- Automatic persistent volume creation through dynamic provisioning.
+-   Manually create a persistent volume.
+-   Automatic persistent volume creation through dynamic provisioning.
 
 We currently recommend using manual provisioning of persistent volumes. Amazon EKS
 clusters default to spanning multiple zones. Dynamic provisioning, if not configured

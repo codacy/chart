@@ -9,7 +9,7 @@ This guide will cover required values and common options.
 
 Quickly install Codacy for demo without any persistence.
 
-```
+```bash
 kubectl create namespace codacy
 kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
 
@@ -46,9 +46,7 @@ Also, some Codacy images are currently private. For this, you need to
 create a secret in the same namespace were you will install Codacy.
 You should receive these credentials together with your license.
 
-```
-kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
-```
+    kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
 ## Monitoring the Deployment
 
