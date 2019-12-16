@@ -75,6 +75,18 @@ references:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
 
+  start_cluster: &start_cluster
+    <<: *default_doks_image
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -174,6 +186,11 @@ references:
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
 jobs:
+  start_doks_dev_cluster:
+    environment:
+      <<: *dev_environment
+    <<: *start_cluster
+
   deploy_to_doks:
     <<: *default_doks_image
     environment:
@@ -185,6 +202,11 @@ jobs:
     environment:
       <<: *dev_environment
     <<: *deploy_to_cluster
+
+  start_doks_nightly_cluster:
+    environment:
+      <<: *nightly_environment
+    <<: *start_cluster
 
   deploy_to_doks_nightly:
     <<: *default_doks_image
@@ -208,6 +230,11 @@ jobs:
     environment:
       <<: *nightly_environment
     <<: *validate_deployment_status_on_cluster
+
+  start_doks_release_cluster:
+    environment:
+      <<: *release_environment
+    <<: *start_cluster
 
   deploy_to_doks_release:
     <<: *default_doks_image
