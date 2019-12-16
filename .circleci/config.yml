@@ -105,6 +105,7 @@ references:
           command: |
             set +e; make -C .doks/ remove_codacy;
 
+
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - checkout
@@ -365,12 +366,13 @@ jobs:
       <<: *nightly_environment_1_15
     <<: *set_docker_credentials
 
+
   set_docker_credentials_release:
     <<: *default_doks_image
     environment:
       <<: *release_environment
     <<: *set_docker_credentials
-
+    
   qa_tests_hourly:
     <<: *qa_automation_image
     environment:
