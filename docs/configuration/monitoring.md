@@ -1,6 +1,6 @@
 # Monitoring
 
-In older versions, codacy was monitored using an application we build
+In older versions, Codacy was monitored using an application we build
 in-house called "Crow". Going forward, we are deprecating Crow and
 setting up "Prometheus style" metrics in all our components that
 can be accessed using the Prometheus + Grafana ecosystem.

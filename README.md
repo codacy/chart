@@ -1,47 +1,31 @@
 # Codacy Chart
 
-This is the top level chart to run Codacy in self-hosted mode.
-With this chart, it is possible to run all the components from Codacy,
-plugging all the dependencies with a single command line, including Codacy,
-PostgreSQL, RabbitMQ, Minio, Ingress etc...
+With the Codacy chart it is possible to run all Codacy components and
+its dependencies with a single command line.
+
+![K8s Love](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/export/png?id=1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4&pageid=p)
+[edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
+
+Each service/component in Codacy has its chart published to `https://charts.codacy.com/stable`.
+
+This chart bundles all the components and their dependencies. For the bundle, we make use of the
+[requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
+of Helm.
 
 ## Work in progress
 
-This chart is still a **Work In Progress** and is not ready for general usage. Our docker images are currently private,
+This chart is still a **Work In Progress** and is not ready for general usage. Our docker images are currently private and
 you will not be able to run the chart by yourself. If you are
-interested in trying out codacy contact our support at support@codacy.com.
-
-## Goals
-
-Core goals for this project:
-
-1.  Easy to scale pods horizontally
-2.  Easy to deploy, upgrade, maintain
-3.  Wide support of cloud service providers
-4.  Use external data stores, such as Minio (S3) or Amazon RDS (Postgres), whenever possible
-5.  Users should be able to use their own certificates or use Let's Encrypt
-6.  Users should be able to use a load balancer or an ingess
-
-We will try to leverage standard Kubernetes features:
-
--   ConfigMaps for managing configuration. These will then get mapped or passed to Docker containers
-
-## Helm Charts
-
-![Helm Chart Structure](./images/charts.png)
-
-[edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
-
-Each service/component in Codacy has it's own chart published to `https://charts.codacy.com/stable`.
-
-This chart bundles all the components and their dependencies. For the bundle we make use of the
-[requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
-of Helm.
+interested in trying out Codacy contact our support at support@codacy.com.
 
 ### Charts
 
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
+
+![Helm Chart Structure](./images/charts.png)
+
+[edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
 -   [Minio](https://github.com/helm/charts/tree/master/stable/minio)
 -   [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
@@ -64,7 +48,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 
 The following table lists the configurable parameters of the Codacy chart and their default values.
 
-Global parameters are applicable to all sub-charts and make it easier to configure resources across different components.
+Global parameters apply to all sub-charts and make it easier to configure resources across different components.
 
 | Parameter                                   | Description                                                                                                                 | Default         |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------- |
@@ -190,14 +174,14 @@ The following parameters are specific to each Codacy component.
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |
 
-The following parameters refer to components that are not internal to codacy, but go as part of this bundle so that you can bootstrap codacy faster.
+The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 
 | Parameter                        | Description                                                                                            | Default    |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
 | `fluentdoperator.enable`         | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed. | `false`    |
-| `fluentdoperator.expirationDays` | Nubmer of days to retain logs. More time uses more disk on minio.                                      | `14`       |
-| `rabbitmq-ha.rabbitmqUsername`   | Username for the bundled rabbitmq.                                                                     | `rabbitmq` |
-| `rabbitmq-ha.rabbitmqPassword`   | Password for the bundled rabbitmq.                                                                     | `rabbitmq` |
+| `fluentdoperator.expirationDays` | Number of days to retain logs. More time uses more disk on minio.                                      | `14`       |
+| `rabbitmq-ha.rabbitmqUsername`   | Username for the bundled RabbitMQ.                                                                     | `rabbitmq` |
+| `rabbitmq-ha.rabbitmqPassword`   | Password for the bundled RabbitMQ.                                                                     | `rabbitmq` |
 
 You can also configure values for the PostgreSQL database via the Postgresql [README.md](https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md)
 

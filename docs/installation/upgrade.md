@@ -1,4 +1,4 @@
-# Upgrade Guide
+# Upgrade
 
 NOTE: **Note:**
 You can retrieve your previous `--set` arguments cleanly, with

@@ -182,7 +182,7 @@ kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}'
 
 ### 2. Remove the cluster setup required to install Codacy
 
-To cleanup your cluster back to a *vanilla* state you can now run, in the `setup/` folder,
+To cleanup your cluster back to a _vanilla_ state you can now run, in the `setup/` folder,
 the following command
 
 ```bash
@@ -216,7 +216,6 @@ terraform apply && terraform destroy
 
 Note that you first have to apply to change the bucket settings, and only
 then will destroy work.
-
 
 ## TL;DR
 
