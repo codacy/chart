@@ -7,4 +7,12 @@ setup_helm_repos:
 
 .PHONY: update_dependencies
 update_dependencies: setup_helm_repos
+	helm repo update
+
+	# we explicitly delete the lock file since there is an issue with helm 2.15
+	# where if the .lock digest hasn't changed, the versions will not be updated.
+	# https://github.com/helm/helm/issues/2731
+	rm codacy/requirements.lock
+
 	helm dependency update codacy/
+	ls -l codacy/charts/
