@@ -570,13 +570,13 @@ This guide will cover the required values and common options.</p>
 <p>Before starting, make sure you are aware of the <a href="../requirements/">requirements</a>.</p>
 <h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
 <p>Quickly install Codacy for demo without any persistence.</p>
-<p>Create a new <a href="#secrets">secret</a>. This will be used by Codacy to
-encrypt data before storing it in the database. Don't lose it, don't
-change it.</p>
 <div class="codehilite"><pre><span></span><span class="nb">export</span> <span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="o">=</span><span class="k">$(</span>openssl rand -base64 <span class="m">32</span> <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span><span class="k">)</span>
 <span class="nb">echo</span> <span class="s2">&quot;Store this secret: </span><span class="nv">$SHARED_PLAY_CRYPTO_SECRET</span><span class="s2">&quot;</span>
 </pre></div>
 
+<p>Create a new <a href="#secrets">secret</a>. This will be used by Codacy to
+encrypt data before storing it in the database. Don't lose it, don't
+change it.</p>
 <div class="codehilite"><pre><span></span>kubectl create namespace codacy
 kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
 
