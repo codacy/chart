@@ -9,14 +9,14 @@ Before starting, make sure you are aware of the [requirements](../requirements/i
 
 Quickly install Codacy for demo without any persistence.
 
-Create a new [secret](#secrets). This will be used by Codacy to
-encrypt data before storing it in the database. Don't lose it, don't
-change it.
-
 ```bash
 export SHARED_PLAY_CRYPTO_SECRET=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9')
 echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
 ```
+
+Create a new [secret](#secrets). This will be used by Codacy to
+encrypt data before storing it in the database. Don't lose it, don't
+change it.
 
 ```bash
 kubectl create namespace codacy
