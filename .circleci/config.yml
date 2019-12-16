@@ -165,7 +165,7 @@ references:
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             source .apiurl
-            export URL=https://$CODACY_API
+            export URL=http://$CODACY_API
             export URLLANDING=$URL/
             export URLLLOGGED=$URL/projects
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
