@@ -179,6 +179,8 @@ references:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
+
+
 jobs:
   deploy_to_doks:
     <<: *default_doks_image
@@ -278,6 +280,19 @@ jobs:
           root: ~/
           paths:
             - workdir
+
+  upload_docs:
+    docker:
+      - image: codacy/ci-do:0.2.3
+    working_directory: ~/workdir/
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set cluster
+          command: |
+            pip install -r requirements.pip
+            mkdocs gh-deploy
 
   get_changelogs:
     docker:
