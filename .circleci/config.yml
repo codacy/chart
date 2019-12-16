@@ -18,7 +18,7 @@ references:
           JAVA_OPTS: -Xss256m -Xmx512m
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
     working_directory: ~/workdir
-    parallelism: 8
+    # parallelism: 8
 
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
