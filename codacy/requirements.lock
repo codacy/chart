@@ -10,7 +10,7 @@ dependencies:
   version: 4.2.2
 - name: log-router
   repository: https://charts.codacy.com/external
-  version: ^0.3.0
+  version: 0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 4.29.3
@@ -40,7 +40,7 @@ dependencies:
   version: 5.50.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.109.0
+  version: 4.110.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 8.4.1
@@ -48,4 +48,4 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 4.3.5
 digest: sha256:d1ed90b23ad49dcecd758ec2261d63d57f92e61a049758326d440279b0934eef
-generated: "2019-12-13T15:53:58.804863Z"
+generated: "2019-12-16T12:02:00.925521Z"
