@@ -32,15 +32,15 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
-        <title>Installing Codacy using Helm - Codacy Chart</title>
+        <title>Install - Codacy Chart</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -85,7 +85,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#installing-codacy-using-helm" tabindex="1" class="md-skip">
+      <a href="#install" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -111,7 +111,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Installing Codacy using Helm
+                Install
               
             </span>
           
@@ -211,6 +211,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../configuration/index.html" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../configuration/logging.html" title="Logging" class="md-nav__link">
       Logging
     </a>
@@ -270,11 +282,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Installing Codacy using Helm
+        Install
       </label>
     
-    <a href="index.html" title="Installing Codacy using Helm" class="md-nav__link md-nav__link--active">
-      Installing Codacy using Helm
+    <a href="index.html" title="Install" class="md-nav__link md-nav__link--active">
+      Install
     </a>
     
       
@@ -288,16 +300,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
+  <a href="#tldr" class="md-nav__link">
+    TL;DR
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selecting-configuration-options" class="md-nav__link">
+    Selecting configuration options
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tools" class="md-nav__link">
-    Tools
+  <a href="#secrets" class="md-nav__link">
+    Secrets
   </a>
   
 </li>
@@ -308,15 +327,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploying-codacy" class="md-nav__link">
-    Deploying Codacy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upgrading-codacy" class="md-nav__link">
-    Upgrading Codacy
+  <a href="#monitoring-the-deployment" class="md-nav__link">
+    Monitoring the Deployment
   </a>
   
 </li>
@@ -338,8 +350,8 @@
 
 
   <li class="md-nav__item">
-    <a href="deployment.html" title="Deployment Guide" class="md-nav__link">
-      Deployment Guide
+    <a href="uninstall.html" title="Uninstall" class="md-nav__link">
+      Uninstall
     </a>
   </li>
 
@@ -350,8 +362,8 @@
 
 
   <li class="md-nav__item">
-    <a href="upgrade.html" title="Upgrade Guide" class="md-nav__link">
-      Upgrade Guide
+    <a href="upgrade.html" title="Upgrade" class="md-nav__link">
+      Upgrade
     </a>
   </li>
 
@@ -526,16 +538,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
+  <a href="#tldr" class="md-nav__link">
+    TL;DR
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selecting-configuration-options" class="md-nav__link">
+    Selecting configuration options
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tools" class="md-nav__link">
-    Tools
+  <a href="#secrets" class="md-nav__link">
+    Secrets
   </a>
   
 </li>
@@ -546,15 +565,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploying-codacy" class="md-nav__link">
-    Deploying Codacy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upgrading-codacy" class="md-nav__link">
-    Upgrading Codacy
+  <a href="#monitoring-the-deployment" class="md-nav__link">
+    Monitoring the Deployment
   </a>
   
 </li>
@@ -576,54 +588,65 @@
               
                 
                 
-                <h1 id="installing-codacy-using-helm">Installing Codacy using Helm<a class="headerlink" href="#installing-codacy-using-helm" title="Permanent link">&para;</a></h1>
-<p>Install Codacy on Kubernetes with the cloud native Codacy Helm chart.</p>
-<h2 id="environment-setup">Environment setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h2>
-<p>Before proceeding to deploying Codacy, you need to prepare your environment.</p>
-<h3 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h3>
-<p><a href="https://helm.sh/docs/using_helm/#installing-helm"><code class="codehilite"><span class="err">helm</span></code></a> and <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos"><code class="codehilite"><span class="err">kubectl</span></code></a> need to be installed.</p>
-<h2 id="deploying-codacy">Deploying Codacy<a class="headerlink" href="#deploying-codacy" title="Permanent link">&para;</a></h2>
-<p>With the environment set up and configuration generated, you can now proceed to
-the <a href="deployment.html">deployment of Codacy</a>.</p>
-<h2 id="upgrading-codacy">Upgrading Codacy<a class="headerlink" href="#upgrading-codacy" title="Permanent link">&para;</a></h2>
-<p>If you are upgrading an existing Kubernetes installation, follow the
-<a href="upgrade.html">upgrade documentation</a> instead.</p>
-<h1 id="codacy-self-hosted-installation">Codacy Self-hosted Installation<a class="headerlink" href="#codacy-self-hosted-installation" title="Permanent link">&para;</a></h1>
-<p>To have your setup fully functional, Codacy will need to download the code analyzers after running for the first time. This process can take up to an extra hour, depending on network speed.</p>
-<h2 id="installing-codacy-using-the-helm-chart">Installing Codacy using the Helm Chart<a class="headerlink" href="#installing-codacy-using-the-helm-chart" title="Permanent link">&para;</a></h2>
-<p>The <code class="codehilite"><span class="err">codacy</span></code> chart includes all required dependencies, and takes a few minutes
-to deploy:</p>
-<ol>
-<li><a href="index.html">Preparation</a></li>
-<li><a href="deployment.html">Deployment</a></li>
-</ol>
-<h2 id="updating-codacy-using-the-helm-chart">Updating Codacy using the Helm Chart<a class="headerlink" href="#updating-codacy-using-the-helm-chart" title="Permanent link">&para;</a></h2>
-<p>Once your Codacy Chart is installed, configuration changes and chart updates
-should be done using <code class="codehilite"><span class="err">helm upgrade</span></code>:</p>
-<div class="codehilite"><pre><span></span>helm repo add codacy https://charts.codacy.com/stable/
+                <h1 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h1>
+<p>Install Codacy on Kubernetes with the cloud native Codacy Helm chart.
+This guide will cover the required values and common options.</p>
+<p>Before starting, make sure you are aware of the <a href="../requirements/index.html">requirements</a>.</p>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<p>Quickly install Codacy for demo without any persistence.</p>
+<p>Create a new <a href="#secrets">secret</a>. This will be used by Codacy to
+encrypt data before storing it in the database. Don't lose it, don't
+change it.</p>
+<div class="codehilite"><pre><span></span><span class="nb">export</span> <span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="o">=</span><span class="k">$(</span>openssl rand -base64 <span class="m">32</span> <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Store this secret: </span><span class="nv">$SHARED_PLAY_CRYPTO_SECRET</span><span class="s2">&quot;</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>kubectl create namespace codacy
+kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
+
+<span class="nb">export</span> <span class="nv">CODACY_URL</span><span class="o">=</span><span class="s2">&quot;http://codacy.example.com&quot;</span>
+
+helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
-helm get values codacy &gt; codacy.yaml
-helm upgrade codacy codacy/codacy -f codacy.yaml
+helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
+  --namespace codacy <span class="se">\</span>
+  --set global.imagePullSecrets<span class="o">[</span><span class="m">0</span><span class="o">]</span>.name<span class="o">=</span>docker-credentials <span class="se">\</span>
+  --set global.play.cryptoSecret<span class="o">=</span><span class="si">${</span><span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="si">}</span> <span class="se">\</span>
+  --set global.filestore.contentsSecret<span class="o">=</span><span class="si">${</span><span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="si">}</span> <span class="se">\</span>
+  --set global.filestore.uuidSecret<span class="o">=</span><span class="si">${</span><span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="si">}</span> <span class="se">\</span>
+  --set global.cacheSecret<span class="o">=</span><span class="si">${</span><span class="nv">SHARED_PLAY_CRYPTO_SECRET</span><span class="si">}</span> <span class="se">\</span>
+  --set global.codacy.url<span class="o">=</span><span class="si">${</span><span class="nv">CODACY_URL</span><span class="si">}</span> <span class="se">\</span>
+  --set global.codacy.backendUrl<span class="o">=</span><span class="si">${</span><span class="nv">CODACY_URL</span><span class="si">}</span>
 </pre></div>
 
-<p>For more detailed information see <a href="upgrade.html">Upgrading</a>.</p>
-<h2 id="uninstalling-codacy-using-the-helm-chart">Uninstalling Codacy using the Helm Chart<a class="headerlink" href="#uninstalling-codacy-using-the-helm-chart" title="Permanent link">&para;</a></h2>
-<p>To uninstall the Codacy Chart, run the following:</p>
-<div class="codehilite"><pre><span></span>helm delete codacy
+<p>By now all pods should be starting, but you can only access Codacy from
+withing your cluster. You should either configure and
+<a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Ingress</a>
+or set the service type of the <code class="codehilite"><span class="err">codacy-api</span></code> to LoadBalancer.</p>
+<p>Next steps:</p>
+<ol>
+<li>Enable persistence</li>
+<li>Enable the Ingress</li>
+<li>Proceed to more advanced <a href="../configuration/index.html">configurations</a>.</li>
+</ol>
+<h2 id="selecting-configuration-options">Selecting configuration options<a class="headerlink" href="#selecting-configuration-options" title="Permanent link">&para;</a></h2>
+<p>In each section collect the options that will be combined to use with <code class="codehilite"><span class="err">helm install</span></code>.</p>
+<h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h3>
+<p>Some secrets need to be created (eg. cryptosecret)</p>
+<p>Also, some Codacy images are currently private. For this, you need to
+create a secret in the same namespace were you will install Codacy.
+You should receive these credentials together with your license.</p>
+<div class="codehilite"><pre><span></span><span class="err">kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE</span>
 </pre></div>
 
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../requirements/index.html">All requirements</a></li>
-<li><a href="../requirements/resources.html">Resource Requirements</a></li>
-</ul>
-<h2 id="installation-methods">Installation methods<a class="headerlink" href="#installation-methods" title="Permanent link">&para;</a></h2>
-<p><a href="index.html">All installation guides</a></p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p><a href="../configuration/logging.html">Logging</a></p>
-<p><a href="../configuration/monitoring.html">Monitoring</a></p>
+
+<h2 id="monitoring-the-deployment">Monitoring the Deployment<a class="headerlink" href="#monitoring-the-deployment" title="Permanent link">&para;</a></h2>
+<p>This will output the list of resources installed once the deployment finishes which may take 5-10 minutes.</p>
+<p>The status of the deployment can be checked by running <code class="codehilite"><span class="err">helm status codacy</span></code> which can also be done while
+the deployment is taking place if you run the command in another terminal.</p>
                 
                   
+                
                 
               
               
@@ -657,13 +680,13 @@ helm upgrade codacy codacy/codacy -f codacy.yaml
           </a>
         
         
-          <a href="deployment.html" title="Deployment Guide" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="uninstall.html" title="Uninstall" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Deployment Guide
+                Uninstall
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -695,7 +718,7 @@ helm upgrade codacy codacy/codacy -f codacy.yaml
       
     </div>
     
-      <script src="../assets/javascripts/application.c648116f.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

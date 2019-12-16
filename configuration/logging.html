@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -211,6 +211,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="index.html" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -218,50 +230,12 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Logging
-      </label>
     
     <a href="logging.html" title="Logging" class="md-nav__link md-nav__link--active">
       Logging
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#logging" class="md-nav__link">
-    Logging
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#log-collection-using-fluentd" class="md-nav__link">
-    Log collection using fluentd
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -308,8 +282,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../installation/index.html" title="Installing Codacy using Helm" class="md-nav__link">
-      Installing Codacy using Helm
+    <a href="../installation/index.html" title="Install" class="md-nav__link">
+      Install
     </a>
   </li>
 
@@ -320,8 +294,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../installation/deployment.html" title="Deployment Guide" class="md-nav__link">
-      Deployment Guide
+    <a href="../installation/uninstall.html" title="Uninstall" class="md-nav__link">
+      Uninstall
     </a>
   </li>
 
@@ -332,8 +306,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../installation/upgrade.html" title="Upgrade Guide" class="md-nav__link">
-      Upgrade Guide
+    <a href="../installation/upgrade.html" title="Upgrade" class="md-nav__link">
+      Upgrade
     </a>
   </li>
 
@@ -501,35 +475,8 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#logging" class="md-nav__link">
-    Logging
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#log-collection-using-fluentd" class="md-nav__link">
-    Log collection using fluentd
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
   
 </nav>
                   </div>
@@ -542,10 +489,7 @@
               
                 
                 
-                  <h1>Logging</h1>
-                
-                <h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h2>
-<h3 id="log-collection-using-fluentd">Log collection using fluentd<a class="headerlink" href="#log-collection-using-fluentd" title="Permanent link">&para;</a></h3>
+                <h1 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h1>
 <p>To collect logs from your Codacy installation using fluentd change <code class="codehilite"><span class="err">fluentdoperator.enabled</span></code> to true.</p>
 <div class="codehilite"><pre><span></span>--set fluentdoperator.enabled<span class="o">=</span><span class="nb">true</span>
 </pre></div>
@@ -556,6 +500,7 @@
 </pre></div>
                 
                   
+                
                 
               
               
@@ -574,7 +519,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../index.html" title="Codacy Chart" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="index.html" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -583,7 +528,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Codacy Chart
+                Configuration
               </span>
             </div>
           </a>
@@ -627,7 +572,7 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.c648116f.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
