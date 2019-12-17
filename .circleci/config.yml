@@ -336,6 +336,8 @@ workflows:
   deploy_chart_to_cluster:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
             branches:
               only:
@@ -363,7 +365,9 @@ workflows:
               only:
                 - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -401,7 +405,9 @@ workflows:
                only:
                  - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -446,6 +452,8 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
              branches:
                only:
