@@ -6,17 +6,20 @@ its dependencies with a single command line.
 ![K8s Love](./images/k8s_love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
-Each service/component in Codacy has its chart published to `https://charts.codacy.com/stable`.
+Each service in Codacy has its chart published to our
+[charts repository](https://charts.codacy.com/stable/api/charts).
 
-This chart bundles all the components and their dependencies. For the bundle, we make use of the
+This chart bundles all the components and their dependencies.
+For the bundle, we make use of the
 [requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
 of Helm.
 
 ## Work in progress
 
-This chart is still a **Work In Progress** and is not ready for general usage. Our docker images are currently private and
-you will not be able to run the chart by yourself. If you are
-interested in trying out Codacy contact our support at support@codacy.com.
+This chart is still a **Work In Progress** and is not ready for general
+usage. Our docker images are currently private and you will not be
+able to run the chart by yourself. If you are interested in trying
+out Codacy contact our support at support@codacy.com.
 
 ### Charts
 

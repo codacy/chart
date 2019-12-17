@@ -23,7 +23,7 @@ Memory: 39 GB
 ```
 
 Check the
-[values-production.yaml](../../codacy/values-production.yaml)
+[values-production.yaml](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml)
 file to find a configuration reference that should work for you to run
 a "production ready" version of Codacy.
 
@@ -34,22 +34,12 @@ Each analysis runs a maximum number of 4 plugins in parallel (not configurable)
 Note: All the following configurations are nested inside the `worker-manager.config`
 configuration object, but for simplicity, we decided to omit the full path.
 
-#### CPU
-
 ```text
-workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
-```
+CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
 
-#### Memory
+Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
 
-```text
-workerResources.requests.memory + (pluginResources.requests.memory * 4)
-```
-
-#### Number of concurrent analysis
-
-```text
-workers.genericMax + workers.dedicatedMax
+Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
 ```
 
 #### Total resources
@@ -58,7 +48,7 @@ Given the previous values, the total number of resources required should be the 
 
 ### Example
 
-##### Maximum of 6 concurrent analysis
+_Maximum of 6 concurrent analysis_
 
 ```yaml
 worker-manager:
@@ -83,7 +73,7 @@ CPU: 6 * (1 + (0.5 * 4)) = 18 CPU
 Memory: 6 * (2 + (1 * 4)) = 36 GB
 ```
 
-### Total
+**Total:**
 
 ```text
 CPU: 7 CPU + 18 CPU = 25 CPU
