@@ -283,15 +283,22 @@ jobs:
 
   upload_docs:
     docker:
-      - image: codacy/ci-do:0.2.3
+      - image: circleci/python:3.8
     working_directory: ~/workdir/
     steps:
       - attach_workspace:
           at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: ssh keyscan
+          command: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
           name: Set cluster
           command: |
-            pip install -r requirements.pip
+            sudo pip install -r requirements.pip
             mkdocs gh-deploy
 
   get_changelogs:
@@ -365,7 +372,6 @@ workflows:
             branches:
               only:
                 - master
-                - docs/improve-docs-v3
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -379,7 +385,9 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks
-      - upload_docs
+      - upload_docs:
+          requires:
+            - deploy_to_doks
 
   hourly_pipeline:
     triggers:
@@ -388,7 +396,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
