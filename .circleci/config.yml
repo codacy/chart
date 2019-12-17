@@ -378,6 +378,7 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks
+      - upload_docs
 
   hourly_pipeline:
     triggers:
