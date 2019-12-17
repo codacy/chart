@@ -3,8 +3,8 @@
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
-![K8s Love](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/export/png?id=1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4&pageid=p)
-[edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
+![K8s Love](./images/k8s_love.png)
+[edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
 Each service/component in Codacy has its chart published to `https://charts.codacy.com/stable`.
 
