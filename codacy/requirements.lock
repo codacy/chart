@@ -34,7 +34,7 @@ dependencies:
   version: 7.6.0
 - name: core
   repository: https://charts.codacy.com/stable
-  version: 2.10.4
+  version: 2.10.3
 - name: engine
   repository: https://charts.codacy.com/stable
   version: 5.50.1
