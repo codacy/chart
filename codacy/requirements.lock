@@ -13,16 +13,16 @@ dependencies:
   version: 0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 4.28.0
+  version: 4.29.3
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 14.12.1
+  version: 14.13.0
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.0.175
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 2.41.0
+  version: 2.41.1
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.2.5
@@ -31,7 +31,7 @@ dependencies:
   version: 1.2.4
 - name: listener
   repository: https://charts.codacy.com/stable
-  version: 7.3.0
+  version: 7.6.0
 - name: core
   repository: https://charts.codacy.com/stable
   version: 2.10.3
@@ -40,10 +40,10 @@ dependencies:
   version: 5.47.0
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.95.1
+  version: 4.103.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
-  version: 8.2.0
+  version: 8.4.1
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.1
