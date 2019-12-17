@@ -52,50 +52,50 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 
 | Parameter                                   | Description                                                                                                                 | Default         |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `global.codacy.url`                         | Hostname to your Codacy installation                                                                                        | None            |
-| `global.codacy.backendUrl`                  | Hostname to your Codacy installation                                                                                        | None            |
-| `global.play.cryptoSecret`                  | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | None            |
-| `global.filestore.contentsSecret`           | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | None            |
-| `global.filestore.uuidSecret`               | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | None            |
-| `global.cacheSecret`                        | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | None            |
-| `global.minio.create`                       | Create minio internally                                                                                                     | None            |
-| `global.rabbitmq.create`                    | Create rabbitmq internally                                                                                                  | None            |
-| `global.rabbitmq.rabbitmqUsername`          | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also.                | None            |
-| `global.rabbitmq.rabbitmqPassword`          | Password for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqPassword` also.                | None            |
+| `global.codacy.url`                         | Hostname to your Codacy installation                                                                                        | `nil`           |
+| `global.codacy.backendUrl`                  | Hostname to your Codacy installation                                                                                        | `nil`           |
+| `global.play.cryptoSecret`                  | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | `nil`           |
+| `global.filestore.contentsSecret`           | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | `nil`           |
+| `global.filestore.uuidSecret`               | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | `nil`           |
+| `global.cacheSecret`                        | Secrets used internally for encryption. Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` | `nil`           |
+| `global.minio.create`                       | Create minio internally                                                                                                     | `nil`           |
+| `global.rabbitmq.create`                    | Create rabbitmq internally                                                                                                  | `nil`           |
+| `global.rabbitmq.rabbitmqUsername`          | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also.                | `nil`           |
+| `global.rabbitmq.rabbitmqPassword`          | Password for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqPassword` also.                | `nil`           |
 | `global.defaultdb.postgresqlUsername`       | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.defaultdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                                      | `default`       |
-| `global.defaultdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | None            |
-| `global.defaultdb.host`                     | Hostname of the Postgresql server                                                                                           | None            |
+| `global.defaultdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.defaultdb.host`                     | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.defaultdb.service.port`             | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.analysisdb.postgresqlUsername`      | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.analysisdb.postgresqlDatabase`      | Database name of the Postgresql server                                                                                      | `analysis`      |
-| `global.analysisdb.postgresqlPassword`      | Hostname of the Postgresql server                                                                                           | None            |
-| `global.analysisdb.host`                    | Hostname of the Postgresql server                                                                                           | None            |
+| `global.analysisdb.postgresqlPassword`      | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.analysisdb.host`                    | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.analysisdb.service.port`            | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.resultsdb.postgresqlUsername`       | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.resultsdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                                      | `results`       |
-| `global.resultsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | None            |
-| `global.resultsdb.host`                     | Hostname of the Postgresql server                                                                                           | None            |
+| `global.resultsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.resultsdb.host`                     | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.resultsdb.service.port`             | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.resultsdb201709.postgresqlUsername` | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.resultsdb201709.postgresqlDatabase` | Database name of the Postgresql server                                                                                      | `results201709` |
-| `global.resultsdb201709.postgresqlPassword` | Hostname of the Postgresql server                                                                                           | None            |
-| `global.resultsdb201709.host`               | Hostname of the Postgresql server                                                                                           | None            |
+| `global.resultsdb201709.postgresqlPassword` | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.resultsdb201709.host`               | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.resultsdb201709.service.port`       | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.metricsdb.postgresqlUsername`       | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.metricsdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                                      | `metrics`       |
-| `global.metricsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | None            |
-| `global.metricsdb.host`                     | Hostname of the Postgresql server                                                                                           | None            |
+| `global.metricsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.metricsdb.host`                     | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.metricsdb.service.port`             | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.filestoredb.postgresqlUsername`     | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.filestoredb.postgresqlDatabase`     | Database name of the Postgresql server                                                                                      | `filestore`     |
-| `global.filestoredb.postgresqlPassword`     | Hostname of the Postgresql server                                                                                           | None            |
-| `global.filestoredb.host`                   | Hostname of the Postgresql server                                                                                           | None            |
+| `global.filestoredb.postgresqlPassword`     | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.filestoredb.host`                   | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.filestoredb.service.port`           | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.jobsdb.postgresqlUsername`          | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.jobsdb.postgresqlDatabase`          | Database name of the Postgresql server                                                                                      | `jobs`          |
-| `global.jobsdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                                           | None            |
-| `global.jobsdb.host`                        | Hostname of the Postgresql server                                                                                           | None            |
+| `global.jobsdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                                           | `nil`           |
+| `global.jobsdb.host`                        | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.jobsdb.service.port`                | Port of the Postgresql server                                                                                               | `5432`          |
 
 The following parameters are specific to each Codacy component.
@@ -119,8 +119,8 @@ The following parameters are specific to each Codacy component.
 | `activities.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `activities.activitiesdb.postgresqlUsername`        | Username of the Postgresql server                                                                   | `codacy`                                     |
 | `activities.activitiesdb.postgresqlDatabase`        | Database name of the Postgresql server                                                              | `jobs`                                       |
-| `activities.activitiesdb.postgresqlPassword`        | Hostname of the Postgresql server                                                                   | None                                         |
-| `activities.activitiesdb.host`                      | Hostname of the Postgresql server                                                                   | None                                         |
+| `activities.activitiesdb.postgresqlPassword`        | Hostname of the Postgresql server                                                                   | `nil`                                        |
+| `activities.activitiesdb.host`                      | Hostname of the Postgresql server                                                                   | `nil`                                        |
 | `activities.activitiesdb.service.port`              | Port of the Postgresql server                                                                       | `5432`                                       |
 | `hotspots-api.replicaCount`                         | Number of replicas                                                                                  | `1`                                          |
 | `hotspots-api.image.repository`                     | Image repository                                                                                    | from dependency                              |
@@ -129,8 +129,8 @@ The following parameters are specific to each Codacy component.
 | `hotspots-api.service.annotations`                  | Annotations to be added to the service                                                              | `{}`                                         |
 | `hotspots-api.hotspotsdb.postgresqlUsername`        | Username of the Postgresql server                                                                   | `codacy`                                     |
 | `hotspots-api.hotspotsdb.postgresqlDatabase`        | Database name of the Postgresql server                                                              | `hotspots`                                   |
-| `hotspots-api.hotspotsdb.postgresqlPassword`        | Hostname of the Postgresql server                                                                   | None                                         |
-| `hotspots-api.hotspotsdb.host`                      | Hostname of the Postgresql server                                                                   | None                                         |
+| `hotspots-api.hotspotsdb.postgresqlPassword`        | Hostname of the Postgresql server                                                                   | `nil`                                        |
+| `hotspots-api.hotspotsdb.host`                      | Hostname of the Postgresql server                                                                   | `nil`                                        |
 | `hotspots-api.hotspotsdb.service.port`              | Port of the Postgresql server                                                                       | `5432`                                       |
 | `hotspots-worker.replicaCount`                      | Number of replicas                                                                                  | `1`                                          |
 | `hotspots-worker.image.repository`                  | Image repository                                                                                    | from dependency                              |
@@ -164,7 +164,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.image.repository`                       | Image repository                                                                                    | from dependency                              |
 | `codacy-api.image.tag`                              | Image tag                                                                                           | from dependency                              |
 | `codacy-api.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
-| `codacy-api.config.license`                         | Codacy license for your installation                                                                | None                                         |
+| `codacy-api.config.license`                         | Codacy license for your installation                                                                | `nil`                                        |
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
