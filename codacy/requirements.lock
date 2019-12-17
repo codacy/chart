@@ -40,7 +40,7 @@ dependencies:
   version: 5.50.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.110.0
+  version: 4.103.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 8.4.1
