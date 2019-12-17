@@ -325,8 +325,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - dev
                 - master
+                - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -339,7 +339,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -361,7 +361,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - master
     jobs:
       - codacy/checkout_and_version
       - codacy/helm_aws:
@@ -399,7 +399,7 @@ workflows:
            filters:
              branches:
                only:
-                 - dev
+                 - master
     jobs:
       - codacy/checkout_and_version
       - set_chart_version_nightly:
@@ -449,7 +449,7 @@ workflows:
           filters:
              branches:
                only:
-                 - master
+                 - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
