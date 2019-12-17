@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@1.0.1
+  codacy: codacy/base@1.2.0
 
 references:
 
@@ -344,8 +344,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - dev
                 - master
+                - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -355,10 +355,12 @@ workflows:
   deploy_chart_to_cluster:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
             branches:
               only:
-                - dev
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -380,9 +382,11 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -418,9 +422,11 @@ workflows:
            filters:
              branches:
                only:
-                 - dev
+                 - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -517,10 +523,12 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
              branches:
                only:
-                 - master
+                 - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/

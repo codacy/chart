@@ -1,4 +1,35 @@
 global:
+  codacy:
+    url: "http://localhost:9000"
+    backendUrl: "http://localhost:9000"
+    api:
+      url: "codacy-api"
+    portal:
+      url: "codacy-portal"
+    hotspots:
+      url: "codacy-hotspots-api"
+    engine:
+      url: "codacy-engine"
+    listener:
+      url: "codacy-listener"
+    activities:
+      url: "codacy-activities"
+    core:
+      url: "codacy-core"
+    remoteProviderService:
+      url: "codacy-remote-provider-service"
+    workerManager:
+      url: "codacy-worker-manager"
+
+  play:
+    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
+
+  filestore:
+    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
+    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
+
+  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
+
   minio:
     create: true
     location: codacy-minio
@@ -214,6 +245,11 @@ engine:
     play:
       configFile: 'enterprise-engine.conf'
       logFile: 'logback.xml'
+  metrics:
+    serviceMonitor:
+      enabled: false
+    grafana_dashboards:
+      enabled: false
 
 codacy-api:
   replicaCount: 1
@@ -223,6 +259,11 @@ codacy-api:
     license: "RAjlCYb/DxsAME0TjIn55neFSYOt0yxxnXBh4nKe/hbz4mjr0dDs3TLOehzQ3QyaLfONRva7T2iSkA57bMdpI/ZwAOUQtjO5XiU1KDaSUXCFZwDu1mBJMlMONCVOV3AuB6y56tsL0CZXnBqZD3R9dShTVXiSYDt/+2dhlVqGb70="
     play:
       configFile: "enterprise.conf"
+  metrics:
+    serviceMonitor:
+      enabled: false
+    grafana_dashboards:
+      enabled: false
 
 worker-manager:
   replicaCount: 1

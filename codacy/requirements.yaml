@@ -1,18 +1,18 @@
 dependencies:
 - name: minio
-  version: ^2.5.18
+  version: 2.5.18
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.minio.create
   alias: minio
 
 - name: rabbitmq-ha
-  version: ^1.27.2
+  version: 1.27.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 
 - name: postgresql
-  version: ^4.2.2
+  version: 4.2.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   alias: postgres
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create, global.resultsdb.create, global.metricsdb.create, global.filestoredb.create, global.jobsdb.create, global.jobsdb.create
@@ -70,7 +70,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: ^4.109.0
+  version: 4.103.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
