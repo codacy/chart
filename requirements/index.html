@@ -460,27 +460,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cpu" class="md-nav__link">
-    CPU
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#memory" class="md-nav__link">
-    Memory
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#number-of-concurrent-analysis" class="md-nav__link">
-    Number of concurrent analysis
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#total-resources" class="md-nav__link">
     Total resources
   </a>
@@ -496,19 +475,6 @@
   <a href="#example" class="md-nav__link">
     Example
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#maximum-of-6-concurrent-analysis" class="md-nav__link">
-    Maximum of 6 concurrent analysis
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -570,27 +536,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cpu" class="md-nav__link">
-    CPU
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#memory" class="md-nav__link">
-    Memory
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#number-of-concurrent-analysis" class="md-nav__link">
-    Number of concurrent analysis
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#total-resources" class="md-nav__link">
     Total resources
   </a>
@@ -606,19 +551,6 @@
   <a href="#example" class="md-nav__link">
     Example
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#maximum-of-6-concurrent-analysis" class="md-nav__link">
-    Maximum of 6 concurrent analysis
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -654,22 +586,34 @@
 <li>Postgres database (<a href="https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise">https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise</a>)</li>
 </ol>
 <h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<p>To have an enjoyable experience with Codacy, you should have the
+following calculations in mind when allocating resources for the
+installation and defining the number of concurrent analysis.</p>
+<p>Without accounting for analysis (<a href="#analysis">next section</a>),
+you should need at least the following resources:</p>
+<div class="codehilite"><pre><span></span>CPU: 7 CPU
+Memory: 39 GB
+</pre></div>
+
+<p>Check the
+<a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml">values-production.yaml</a>
+file to find a configuration reference that should work for you to run
+a "production ready" version of Codacy.</p>
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
-<p>To have an enjoyable experience with Codacy, you should have the following
-calculations in mind when setting the number of concurrent analysis.</p>
 <p>Each analysis runs a maximum number of 4 plugins in parallel (not configurable)</p>
 <p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="err">worker-manager.config</span></code>
 configuration object, but for simplicity, we decided to omit the full path.</p>
-<h4 id="cpu">CPU<a class="headerlink" href="#cpu" title="Permanent link">&para;</a></h4>
-<p><code class="codehilite"><span class="err">workerResources.requests.cpu + (pluginResources.requests.cpu * 4)</span></code></p>
-<h4 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">&para;</a></h4>
-<p><code class="codehilite"><span class="err">workerResources.requests.memory + (pluginResources.requests.memory * 4)</span></code></p>
-<h4 id="number-of-concurrent-analysis">Number of concurrent analysis<a class="headerlink" href="#number-of-concurrent-analysis" title="Permanent link">&para;</a></h4>
-<p><code class="codehilite"><span class="err">workers.genericMax + workers.dedicatedMax</span></code></p>
+<div class="codehilite"><pre><span></span>CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
+
+Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
+
+Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
+</pre></div>
+
 <h4 id="total-resources">Total resources<a class="headerlink" href="#total-resources" title="Permanent link">&para;</a></h4>
 <p>Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.</p>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
-<h5 id="maximum-of-6-concurrent-analysis">Maximum of 6 concurrent analysis<a class="headerlink" href="#maximum-of-6-concurrent-analysis" title="Permanent link">&para;</a></h5>
+<p><em>Maximum of 6 concurrent analysis</em></p>
 <div class="codehilite"><pre><span></span><span class="nt">worker-manager</span><span class="p">:</span>
   <span class="nt">config</span><span class="p">:</span>
     <span class="nt">workers</span><span class="p">:</span>
@@ -686,8 +630,14 @@ configuration object, but for simplicity, we decided to omit the full path.</p>
 </pre></div>
 
 <p>In this example the minimum number of resources required would be:</p>
-<p>CPU: <code class="codehilite"><span class="err">6 * (1 + (0.5 * 4))</span></code> = 18 CPU</p>
-<p>Memory: <code class="codehilite"><span class="err">6 * (2 + (1 * 4))</span></code> = 36 GB</p>
+<div class="codehilite"><pre><span></span>CPU: 6 * (1 + (0.5 * 4)) = 18 CPU
+Memory: 6 * (2 + (1 * 4)) = 36 GB
+</pre></div>
+
+<p><strong>Total:</strong></p>
+<div class="codehilite"><pre><span></span>CPU: 7 CPU + 18 CPU = 25 CPU
+Memory: 39 GB + 36 GB = 75 GB
+</pre></div>
                 
                   
                 
