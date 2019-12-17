@@ -365,6 +365,7 @@ workflows:
             branches:
               only:
                 - master
+                - docs/improve-docs-v3
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
