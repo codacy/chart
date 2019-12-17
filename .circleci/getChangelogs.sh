@@ -3,6 +3,8 @@ set -e
 REQUIREMENTS_FILE="codacy/requirements.yaml"
 OLD_LOCK_FILE="codacy/requirements_old.lock"
 NEW_LOCK_FILE="codacy/requirements.lock"
+LATEST_TAG=$(git tags | tail -n 1)
+git cat-file blob "$LATEST_TAG":codacy/requirements.lock > codacy/requirements_old.lock
 DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
 
 function getChangelog() {
@@ -10,8 +12,10 @@ function getChangelog() {
     JIRA_CHANGELOG_FILENAME=$4
     git fetch --all
     git checkout tags/"$1" --quiet
-    git log --pretty=format:"  * %s" "$1"'..'"$2" > "../changelogs/$CHANGELOG_FILENAME"
-    git log --pretty=format:"  * %s" "$1"'..'"$2" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq > "../changelogs/$JIRA_CHANGELOG_FILENAME"
+    echo "$PROJECT_NAME($REPOSITORY_URL) : $OLD_VERSION -> $NEW_VERSION" >> "../changelogs/$CHANGELOG_FILENAME"
+    echo "$PROJECT_NAME($REPOSITORY_URL) : $OLD_VERSION -> $NEW_VERSION" >> "../changelogs/$JIRA_CHANGELOG_FILENAME"
+    git log --pretty=format:"  * %s" "$1"'..'"$2" >> "../changelogs/$CHANGELOG_FILENAME"
+    git log --pretty=format:"  * %s" "$1"'..'"$2" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq >> "../changelogs/$JIRA_CHANGELOG_FILENAME"
 }
 
 function cloneRepository() {
@@ -24,7 +28,7 @@ function cloneRepository() {
 
     if [ "$REPOSITORY_URL" != "null" ];
         then
-            echo "[OK] $PROJECT_NAME($REPOSITORY_URL) -> $OLD_VERSION : $NEW_VERSION"
+            echo "[OK] $PROJECT_NAME($REPOSITORY_URL) : $OLD_VERSION -> $NEW_VERSION"
             git clone "$REPOSITORY_URL" "$PROJECT_NAME" --quiet
             cd "$PROJECT_NAME"
             getChangelog "$OLD_VERSION" "$NEW_VERSION" "$CHANGELOG_FILENAME" "$JIRA_CHANGELOG_FILENAME";
@@ -52,4 +56,5 @@ else
     echo "$((count / 2)) component(s) changed. "
 fi
 
+rm "$OLD_LOCK_FILE"
 exit 0

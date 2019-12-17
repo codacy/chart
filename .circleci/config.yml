@@ -266,9 +266,6 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: "Store old requirements.lock"
-          command: cp codacy/requirements.lock codacy/requirements_old.lock
-      - run:
           name: "Get latest chart versions"
           command: make update_dependencies
       - persist_to_workspace:
