@@ -27,7 +27,6 @@ data:
     <match **>
       # docs: https://github.com/fluent/fluent-plugin-s3 and https://docs.fluentd.org/output/s3
       @type s3
-      @id out_s3
       @log_level info
 
       aws_key_id {{ .Values.global.minio.accessKey }}

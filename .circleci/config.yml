@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@1.0.1
+  codacy: codacy/base@1.2.0
 
 references:
 
@@ -9,11 +9,22 @@ references:
     docker:
       - image: codacy/ci-do:0.2.3
     working_directory: ~/workdir/
-  
-    # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
+
+  qa_automation_image: &qa_automation_image
+    docker:
+      - image: codacy/qa-automation-test-runner:1.2.4
+      - image: selenium/standalone-chrome:3.141.0
+        environment:
+          JAVA_OPTS: -Xss256m -Xmx512m
+          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+    working_directory: ~/workdir
+    parallelism: 8
+
+  # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
+    RELEASE_NAME: codacy
     NAMESPACE: codacy
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.14
@@ -22,24 +33,39 @@ references:
   nightly_environment: &nightly_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
-    NAMESPACE: codacy-release
+    RELEASE_NAME: codacy-nightly
+    NAMESPACE: codacy-nightly
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
-  
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: release
+    RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
+
+  qa_environment_hourly: &qa_environment_hourly
+    SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+    HUB_URL: http://localhost:4444/wd/hub
+    PROJECT_NAME: codacy-chart
+    TEST_PATH: Suite/Enterprise/Nightly/WEB_DEV.xml
+    LAUNCH_NAME: ENTERPRISE_WEB_DEV_NIGHTLY_DOKS
+    LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
+    LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
+    RP_ENDPOINT: https://reportportal.staging.codacy.org
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
 
   incubator_helm_channel: &incubator_helm_channel
     CHANNEL: incubator
+
+  nightly_helm_channel: &nightly_helm_channel
+    CHANNEL: nightly
 
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
@@ -48,7 +74,7 @@ references:
     run:
       name: "Setup DO Credentials"
       command: doctl auth init -t $DO_TOKEN &>/dev/null
-  
+
   purge_cluster: &purge_cluster
     <<: *default_doks_image
     steps:
@@ -56,8 +82,9 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: "Purge Cluster"
-          command: make -C ./.doks/doks-cluster remove_codacy  
-  
+          command: |
+            set +e; make -C .doks/ remove_codacy; set -e
+
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - checkout
@@ -66,7 +93,17 @@ references:
           command: helm lint codacy/
       - <<: *doctl_authenticate
       - deploy:
-          command: make -C .doks/ deploy_to_doks
+          name: Install Codacy
+          command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
+      - deploy:
+          name: Wait for codacy-api ingress
+          command: |
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+      - deploy:
+          name: Update codacy-api ip address
+          command: |
+            CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
+            make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -78,10 +115,10 @@ references:
           command: |
             set -e
             doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            DEPLOYMENTS=$(kubectl get deployments -n codacy | awk '{print "deployment/"$1}' | tail -n +2 )
+            DEPLOYMENTS=$(kubectl get deployments -n "$NAMESPACE" | awk '{print "deployment/"$1}' | tail -n +2 )
             for DEPLOYMENT in ${DEPLOYMENTS[@]}
             do
-                kubectl rollout status -n codacy --timeout=30m --watch "$DEPLOYMENT"
+                kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
             done
       - persist_to_workspace:
           root: ~/
@@ -114,8 +151,36 @@ references:
           paths:
             - workdir
 
+  qa_job: &qa_job
+    steps:
+      - attach_workspace:
+          at: ~/
+      - deploy:
+          name: Run tests
+          command: |
+            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+            # source .huburl
+            echo "Selenium hub found at $HUB_URL"
+            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
+
+  set_docker_credentials: &set_docker_credentials
+    steps:
+      - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+      - run:
+          name: "Set Docker Credentials"
+          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+
 jobs:
   deploy_to_doks:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *deploy_to_cluster
+
+  deploy_to_doks_hourly:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
@@ -132,6 +197,12 @@ jobs:
       <<: *nightly_environment
     <<: *purge_cluster
 
+  validate_deployment_status_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *validate_deployment_status_on_cluster
+
   validate_deployment_status_nightly:
     <<: *default_doks_image
     environment:
@@ -143,7 +214,7 @@ jobs:
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster
-  
+
   purge_doks_release_codacy:
     environment:
       <<: *release_environment
@@ -161,11 +232,31 @@ jobs:
       <<: *incubator_helm_channel
     <<: *helm_push
 
+  helm_push_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_helm_channel
+    <<: *helm_push
+
   helm_push_unstable:
     <<: *default_doks_image
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
+
+  set_chart_version_nightly:
+    <<: *default_doks_image
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set chart version suffix
+          command: |
+            sed -i 's/SNAPSHOT/NIGHTLY/g' .version
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
 
   update_versions:
     docker:
@@ -208,19 +299,25 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
+  set_docker_credentials_nightly:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment
+    <<: *set_docker_credentials
+
   set_docker_credentials_release:
     <<: *default_doks_image
     environment:
       <<: *release_environment
-    steps:
-      - <<: *doctl_authenticate
-      - run:
-          name: Set cluster
-          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-      - run:
-          name: "Set Docker Credentials"
-          command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
-      
+    <<: *set_docker_credentials
+
+  qa_tests_hourly:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_hourly
+    <<: *qa_job
+
 workflows:
   helm_lint:
     jobs:
@@ -228,8 +325,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - dev
                 - master
+                - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -239,10 +336,12 @@ workflows:
   deploy_chart_to_cluster:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
             branches:
               only:
-                - dev
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -257,6 +356,46 @@ workflows:
           requires:
             - deploy_to_doks
 
+  hourly_pipeline:
+    triggers:
+      - schedule:
+          cron: "0 * * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_hourly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
+            - update_versions
+            - get_changelogs
+      - validate_deployment_status_hourly:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_hourly
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
+
   nightly_pipeline:
     triggers:
        - schedule:
@@ -264,26 +403,32 @@ workflows:
            filters:
              branches:
                only:
-                 - dev
+                 - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
+      - set_chart_version_nightly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
-            - codacy/checkout_and_version
+            - set_chart_version_nightly
       - purge_doks_nightly_codacy:
           context: CodacyDO
           requires:
             - helm_lint
-      - set_docker_credentials_release:
+      - set_docker_credentials_nightly:
           context: CodacyDO
           requires:
             - purge_doks_nightly_codacy
       - update_versions:
           context: CodacyDO
           requires:
-            - set_docker_credentials_release
+            - set_docker_credentials_nightly
       - get_changelogs:
           context: CodacyDO
           requires:
@@ -295,30 +440,24 @@ workflows:
             - purge_doks_nightly_codacy
             - update_versions
             - get_changelogs
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly
       - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/unstable"
-          target_charts_repo_url: "https://charts.codacy.com/nightly"
+      - helm_push_nightly:
+          context: CodacyDO
           requires:
             - validate_deployment_status_nightly
 
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
              branches:
                only:
-                 - master
+                 - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/

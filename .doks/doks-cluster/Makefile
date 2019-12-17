@@ -50,15 +50,8 @@ populate_cluster: setup_vars create_terraformrc
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
 
-.PHONY: remove_codacy
-remove_codacy: set_cluster_context
-	helm delete --purge ${NAMESPACE} | exit 0
-	kubectl delete jobs -n ${NAMESPACE} $(shell kubectl get jobs -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') &
-	kubectl delete pvc -n ${NAMESPACE} $(shell kubectl get pvc -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') &
-	kubectl delete pods -n ${NAMESPACE} $(shell kubectl get pods -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0 --ignore-not-found=true &
-
 .PHONY: destroy_cluster
-destroy_cluster: setup_vars create_terraformrc set_cluster_context remove_codacy
+destroy_cluster: setup_vars create_terraformrc set_cluster_context
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve

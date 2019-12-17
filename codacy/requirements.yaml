@@ -1,84 +1,85 @@
 dependencies:
 - name: minio
-  version: ~2.5.18
+  version: 2.5.18
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.minio.create
   alias: minio
 
 - name: rabbitmq-ha
-  version: ~1.27.2
+  version: 1.27.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 
 - name: postgresql
-  version: ~4.2.2
+  version: 4.2.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   alias: postgres
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create, global.resultsdb.create, global.metricsdb.create, global.filestoredb.create, global.jobsdb.create, global.jobsdb.create
 
 - name: log-router
-  version: ~0.3.0
+  version: ^0.3.0
   repository: https://charts.codacy.com/external
   condition: fluentdoperator.enabled
   alias: fluentdoperator
+  git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: portal
-  version: 4.28.0
+  version: ^4.28.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
 - name: ragnaros
-  version: 14.12.1
+  version: ^14.12.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
 
 - name: activities
-  version: 1.0.175
+  version: ^1.0.175
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-activities.git
 
 - name: remote-provider-service
-  version: ~2.28.4
+  version: ^2.41.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
 - name: hotspots-api
-  version: 1.2.5
+  version: ^1.2.5
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-api.git
 
 - name: hotspots-worker
-  version: 1.2.4
+  version: ^1.2.4
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-worker.git
 
 - name: listener
-  version: 7.3.0
+  version: ^7.3.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/repository-listener.git
 
 - name: core
-  version: 2.10.3
+  version: ^2.10.3
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: 5.47.0
+  version: ^5.47.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.95
+  version: 4.103.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 8.0.0-releasekubernetes.c2b98cd1
+  version: ^8.2.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
 - name: crow
-  version: 4.3.1
+  version: ^4.3.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/crow.git
