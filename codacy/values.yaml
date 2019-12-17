@@ -126,6 +126,37 @@ global:
     service:
       port: 5432
 
+  play:
+    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+
+  filestore:
+    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+
+  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+
+  codacy:
+    url: "http://localhost:9000"
+    backendUrl: "http://localhost:9000"
+    api:
+      url: "codacy-api"
+    portal:
+      url: "codacy-portal"
+    hotspots:
+      url: "codacy-hotspots-api"
+    engine:
+      url: "codacy-engine"
+    listener:
+      url: "codacy-listener"
+    activities:
+      url: "codacy-activities"
+    core:
+      url: "codacy-core"
+    remoteProviderService:
+      url: "codacy-remote-provider-service"
+    workerManager:
+      url: "codacy-worker-manager"
+
 portal:
   replicaCount: 1
   fullnameOverride: codacy-portal
