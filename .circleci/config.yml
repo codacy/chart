@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@1.0.1
+  codacy: codacy/base@1.2.0
 
 references:
 
@@ -18,7 +18,6 @@ references:
           JAVA_OPTS: -Xss256m -Xmx512m
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
     working_directory: ~/workdir
-    # parallelism: 8
 
   # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
   dev_environment: &dev_environment
@@ -332,8 +331,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - dev
                 - master
+                - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -343,10 +342,12 @@ workflows:
   deploy_chart_to_cluster:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
             branches:
               only:
-                - dev
+                - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -362,12 +363,17 @@ workflows:
             - deploy_to_doks
 
   hourly_pipeline:
+    triggers:
+      - schedule:
+          cron: "0 * * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - codacy/checkout_and_version:
-          filters:
-              branches:
-                only:
-                  - fix/selenium_tests
+          dev_branch: "master"
+          release_branch: "release"
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -403,9 +409,11 @@ workflows:
            filters:
              branches:
                only:
-                 - dev
+                 - master
     jobs:
-      - codacy/checkout_and_version
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -450,10 +458,12 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
           filters:
              branches:
                only:
-                 - master
+                 - release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
