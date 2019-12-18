@@ -49,6 +49,8 @@ To restore a database, you can run a `pg_restore` command to consume the dump fi
 PGPASSWORD=$DB_PASSWORD pg_restore -h $HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar
 ```
 
+*NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called `jobs` created there)*
+
 [For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/9.6/app-pgrestore.html)
 
 ## Sample script
