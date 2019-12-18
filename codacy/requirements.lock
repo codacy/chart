@@ -37,7 +37,7 @@ dependencies:
   version: 2.10.3
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 5.47.0
+  version: 5.50.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
   version: 4.103.0
@@ -46,6 +46,6 @@ dependencies:
   version: 8.4.1
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 4.3.1
-digest: sha256:56dd5662a660a5fca5ae149085a9145e6678f210c28cd4411c0341b9bc3f83cf
-generated: "2019-12-12T19:15:36.068798Z"
+  version: 4.3.5
+digest: sha256:43cc696184ce790cdd462b25bc863ca1e0fa61ae582cbe705ea25abdf7bb2565
+generated: "2019-12-16T13:10:44.223687Z"

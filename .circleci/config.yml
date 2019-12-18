@@ -266,9 +266,6 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: "Store old requirements.lock"
-          command: cp codacy/requirements.lock codacy/requirements_old.lock
-      - run:
           name: "Get latest chart versions"
           command: make update_dependencies
       - persist_to_workspace:
@@ -289,6 +286,11 @@ jobs:
       - run:
           name: "Install requirements"
           command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq
+      - run:
+          name: setup ssh
+          command: |
+            ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
           name: "Get changelogs"
           command: bash ./.circleci/getChangelogs.sh
