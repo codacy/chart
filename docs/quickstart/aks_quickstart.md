@@ -1,6 +1,6 @@
-# AKS cluster quickstart \[WIP\]
+# AKS cluster quickstart
 
-## Setup cli
+## Setup the Azure CLI
 
 <https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest>
 
@@ -18,9 +18,12 @@ az login --use-device-code
 
 this is more stable than not using device code.
 
-## Backend
+## Create the backend for Terraform
 
-To create backend run:
+<https://www.terraform.io/docs/backends/index.html>
+
+To create the backend run:
+
 ```bash
 cd backend/
 terraform init && terraform apply
@@ -29,9 +32,10 @@ terraform init && terraform apply
 Save the output data and use it to configure the backends of the `main/`
 and `setup/` stacks (in `config.tf`).
 
-## Main
+## Create a cluster
 
 To create run:
+
 ```bash
 cd backend/
 terraform init && terraform apply
@@ -46,6 +50,7 @@ az aks get-credentials --resource-group codacy-cluster --name codacy-aks-cluster
 ## Setup
 
 To create run:
+
 ```bash
 cd setup/
 terraform init && terraform apply

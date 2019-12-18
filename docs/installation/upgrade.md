@@ -1,4 +1,4 @@
-# Upgrade Guide
+# Upgrade
 
 NOTE: **Note:**
 You can retrieve your previous `--set` arguments cleanly, with
@@ -11,17 +11,17 @@ This safely replaces the behavior of `--reuse-values`
 
 The following are the steps to upgrade Codacy to a newer version:
 
-1. Extract your previous `--set` arguments with
+1.  Extract your previous `--set` arguments with
 
-   ```
-   helm get values codacy > codacy.yaml
-   ```
+    ```bash
+    helm get values codacy > codacy.yaml
+    ```
 
-2. Decide on all the values you need to set
-3. Perform the upgrade, with all `--set` arguments extracted in step 2
+2.  Decide on all the values you need to set
+3.  Perform the upgrade, with all `--set` arguments extracted in step 2
 
-   ```
-   helm upgrade codacy codacy/codacy \
-     -f codacy.yaml \
-     --set ...
-   ```
+    ```bash
+    helm upgrade codacy codacy/codacy \
+      -f codacy.yaml \
+      --set ...
+    ```

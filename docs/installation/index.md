@@ -1,45 +1,70 @@
-# Installing Codacy using Helm
+# Install
 
 Install Codacy on Kubernetes with the cloud native Codacy Helm chart.
+This guide will cover the required values and common options.
 
-## Requirements
+Before starting, make sure you are aware of the [requirements](../requirements/index.md).
 
-If you want to deploy Codacy on Kubernetes, the following requirements must be met:
+## TL;DR
 
-1. kubectl 1.13 or higher, compatible with your cluster
-   ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin)).
-2. Helm 2.14 or higher.
-3. A Kubernetes cluster, between version 1.13 and 1.15. 16vCPU and 64GB of RAM is recommended.
-4. Nginx ingress (or some other ingress controller)
-5. CertManager (if you want to setup https)
-6. Postgres database (https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise)
+Quickly install Codacy for demo without any persistence.
 
-## Environment setup
+```bash
+export SHARED_PLAY_CRYPTO_SECRET=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9')
+echo "Store this secret: $SHARED_PLAY_CRYPTO_SECRET"
+```
 
-Before proceeding to deploying Codacy, you need to prepare your environment.
+Create a new [secret](#secrets). This will be used by Codacy to
+encrypt data before storing it in the database. Don't lose it, don't
+change it.
 
-### Tools
+```bash
+kubectl create namespace codacy
+kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
 
-[`helm`](https://helm.sh/docs/using_helm/#installing-helm) and [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos) need to be installed.
+export CODACY_URL="http://codacy.example.com"
 
-### Cloud cluster preparation
+helm repo add codacy-stable https://charts.codacy.com/stable/
+helm repo update
+helm upgrade --install codacy codacy-stable/codacy \
+  --namespace codacy \
+  --set global.imagePullSecrets[0].name=docker-credentials \
+  --set global.play.cryptoSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.contentsSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.filestore.uuidSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.cacheSecret=${SHARED_PLAY_CRYPTO_SECRET} \
+  --set global.codacy.url=${CODACY_URL} \
+  --set global.codacy.backendUrl=${CODACY_URL}
+```
 
-NOTE: **Note**:
-[Kubernetes 1.13 or higher is required](#requirements), due to the usage of certain
-Kubernetes features.
+By now all pods should be starting, but you can only access Codacy from
+withing your cluster. You should either configure and
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+or set the service type of the `codacy-api` to LoadBalancer.
 
-Follow the instructions to create and connect to the Kubernetes cluster of your
-choice:
+Next steps:
 
-- [Amazon EKS](../installation/cloud/eks.md)
-- On-Premises solutions - Documentation to be added.
+1.  Enable persistence
+2.  Enable the Ingress
+3.  Proceed to more advanced [configurations](../configuration/index.md).
 
-## Deploying Codacy
+## Selecting configuration options
 
-With the environment set up and configuration generated, you can now proceed to
-the [deployment of Codacy](../installation/deployment.md).
+In each section collect the options that will be combined to use with `helm install`.
 
-## Upgrading Codacy
+### Secrets
 
-If you are upgrading an existing Kubernetes installation, follow the
-[upgrade documentation](../installation/upgrade.md) instead.
+Some secrets need to be created (eg. cryptosecret)
+
+Also, some Codacy images are currently private. For this, you need to
+create a secret in the same namespace were you will install Codacy.
+You should receive these credentials together with your license.
+
+    kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
+
+## Monitoring the Deployment
+
+This will output the list of resources installed once the deployment finishes which may take 5-10 minutes.
+
+The status of the deployment can be checked by running `helm status codacy` which can also be done while
+the deployment is taking place if you run the command in another terminal.
