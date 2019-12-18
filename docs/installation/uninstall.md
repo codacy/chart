@@ -16,6 +16,6 @@ commands' effect please run the each of the `bash` subcommands and validate thei
 ```bash
 echo "PVCs to delete:"
 kubectl get pvc -n codacy -o jsonpath='{.items[*].metadata.name}'
-echo "PODs to delte:"
+echo "PODS to delete:"
 kubectl get pods -n codacy -o jsonpath='{.items[*].metadata.name}'
 ```
