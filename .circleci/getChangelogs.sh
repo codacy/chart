@@ -42,7 +42,7 @@ function cloneRepository() {
 rm -rf ./changelogs
 mkdir changelogs
 
-LATEST_TAG=$(git tags | tail -n 1)
+LATEST_TAG=$(git tag | tail -n 1)
 git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
 DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
 
