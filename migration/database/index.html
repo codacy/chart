@@ -617,6 +617,7 @@
 <div class="codehilite"><pre><span></span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar
 </pre></div>
 
+<p><em>NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called <code class="codehilite"><span class="err">jobs</span></code> created there)</em></p>
 <p><a href="https://www.postgresql.org/docs/9.6/app-pgrestore.html">For more information and additional options, please check the official documentation.</a></p>
 <h2 id="sample-script">Sample script<a class="headerlink" href="#sample-script" title="Permanent link">&para;</a></h2>
 <p>Assuming you have the same <code class="codehilite"><span class="err">$DB_USER</span></code> and <code class="codehilite"><span class="err">$DB_PASSWORD</span></code>, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:</p>

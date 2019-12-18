@@ -478,7 +478,7 @@ due to a cyclic dependency in one of the components. If you are unsure of these
 commands' effect please run the each of the <code class="codehilite"><span class="err">bash</span></code> subcommands and validate their output, viz.</p>
 <div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;PVCs to delete:&quot;</span>
 kubectl get pvc -n codacy -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[*].metadata.name}&#39;</span>
-<span class="nb">echo</span> <span class="s2">&quot;PODs to delte:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;PODS to delete:&quot;</span>
 kubectl get pods -n codacy -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[*].metadata.name}&#39;</span>
 </pre></div>
                 
