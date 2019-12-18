@@ -126,15 +126,6 @@ global:
     service:
       port: 5432
 
-  play:
-    cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-
-  filestore:
-    contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-    uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-
-  cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-
 portal:
   replicaCount: 1
   fullnameOverride: codacy-portal
