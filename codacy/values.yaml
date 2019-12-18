@@ -21,6 +21,24 @@ global:
     workerManager:
       url: "codacy-worker-manager"
 
+  githubEnterprise: {}
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # port: 80
+    # protocol: "https"
+    # disableSSL: "false"
+    # isPrivateMode: "true"
+
+  gitlabEnterprise: {}
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "https"
+
+  bitbucketEnterprise: {}
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "https"
+
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
 

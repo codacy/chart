@@ -100,6 +100,15 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.jobsdb.host`                        | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.jobsdb.service.port`                | Port of the Postgresql server                                                                                               | `5432`          |
+| `global.githubEnterprise.hostname`          | Hostname of githubEnterprise instance                                                                                       | `nil`           |
+| `global.githubEnterprise.protocol`          | Protocol of githubEnterprise instance                                                                                       | `nil`           |
+| `global.githubEnterprise.port`              | Port of githubEnterprise instance                                                                                           | `nil`           |
+| `global.githubEnterprise.isPrivateMode`     | Status of private mode on githubEnterprise instance                                                                         | `nil`           |
+| `global.githubEnterprise.disableSSL`        | Disable certificate validation on interaction with githubEnterprise instance                                                | `nil`           |
+| `global.gitlabEnterprise.hostname`          | Hostname of gitlabEnterprise instance                                                                                       | `nil`           |
+| `global.gitlabEnterprise.protocol`          | Protocol of gitlabEnterprise instance                                                                                       | `nil`           |
+| `global.bitbucketEnterprise.hostname`       | Hostname of bitbucketEnterprise instance                                                                                    | `nil`           |
+| `global.bitbucketEnterprise.protocol`       | Protocol of bitbucketEnterprise instance                                                                                    | `nil`           |
 
 The following parameters are specific to each Codacy component.
 
