@@ -179,6 +179,8 @@ references:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
+
+
 jobs:
   deploy_to_doks:
     <<: *default_doks_image
@@ -279,6 +281,26 @@ jobs:
           paths:
             - workdir
 
+  upload_docs:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/workdir/
+    steps:
+      - attach_workspace:
+          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: ssh keyscan
+          command: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: Set cluster
+          command: |
+            sudo pip install -r requirements.pip
+            mkdocs gh-deploy
+
   get_changelogs:
     docker:
       - image: codacy/ci-base:1.0.1
@@ -361,6 +383,9 @@ workflows:
             - helm_lint
       - helm_push_unstable:
           context: CodacyDO
+          requires:
+            - deploy_to_doks
+      - upload_docs:
           requires:
             - deploy_to_doks
 
