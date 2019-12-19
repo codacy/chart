@@ -302,24 +302,6 @@ crow:
       port: 5432
     fullnameOverride: codacy-crowdb
 
-githubEnterprise:
-  enabled: "false"
-  # hostname = "example.host.com"
-  # protocol = "https"
-  # port: 80
-  # isPrivateMode = true
-  # disableSSL = false
-
-gitlabEnterprise:
-  enabled: "false"
-  # hostname: "example.host.com"
-  # protocol: "https"
-
-bitbucketEnterprise:
-  enabled: "false"
-  # hostname: "example.host.com"
-  # protocol: "https"
-
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
   enabled: false
