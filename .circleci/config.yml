@@ -513,7 +513,6 @@ workflows:
           requires:
             - codacy/checkout_and_version
             - purge_doks_release_codacy
-            - update_versions
             - get_changelogs
       - validate_deployment_status_release:
           context: CodacyDO
