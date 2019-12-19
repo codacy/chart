@@ -42,10 +42,10 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 4.111.0
 - name: worker-manager
-  repository: https://charts.codacy.com/unstable
-  version: 8.6.1-fixenterpriseconfiguration.b2917dfd
+  repository: https://charts.codacy.com/stable
+  version: 8.6.1
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.5
-digest: sha256:b6e0ce1e0cd250df16ca837ca2038f9d7193d9dac4ed9dd727076d62e6139178
-generated: "2019-12-19T12:04:16.790403Z"
+digest: sha256:ab4b8248dbba6f83960954f25a15615c00d9d542c7774eb1fe0438246776ca5b
+generated: "2019-12-19T15:12:56.199002Z"
