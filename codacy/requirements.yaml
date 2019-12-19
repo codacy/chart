@@ -70,7 +70,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.113.0-SNAPSHOT.7fc761534
+  version: 4.113.0-SNAPSHOT.2cb9f33ee
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-website.git
 
