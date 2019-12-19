@@ -372,6 +372,7 @@ workflows:
             branches:
               only:
                 - master
+                - force-new-versions
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
