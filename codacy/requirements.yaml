@@ -18,7 +18,7 @@ dependencies:
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create, global.resultsdb.create, global.metricsdb.create, global.filestoredb.create, global.jobsdb.create, global.jobsdb.create
 
 - name: log-router
-  version: ^0.3.0
+  version: 0.3.0
   repository: https://charts.codacy.com/external
   condition: fluentdoperator.enabled
   alias: fluentdoperator
