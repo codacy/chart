@@ -14,5 +14,5 @@ global:
 
   bitbucketEnterprise:
     enabled: "true"
-    hostname: "bitbucket-server.codacy.org"
+    hostname: "bitbucket-server.codacy.org:7909"
     protocol: "http"
