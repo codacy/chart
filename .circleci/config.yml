@@ -356,11 +356,6 @@ jobs:
       <<: *qa_environment_hourly
     <<: *qa_job
 
-  set_codacy_url:
-    <<: *default_doks_image
-    environment:
-
-
 workflows:
   helm_lint:
     jobs:
@@ -534,7 +529,7 @@ workflows:
       - update_codacy_url:
           context: CodacyDO
           requires:
-            - deploy_to_doks_nightly
+            - deploy_to_doks_release
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
