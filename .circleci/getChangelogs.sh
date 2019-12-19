@@ -14,7 +14,7 @@ function getChangelog() {
     jira_changelog_filename="$project_name-jira.txt"
     echo " * getting changelog ..."
     cd "$project_name"
-    git fetch --all
+    git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
     echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$changelog_filename"
     echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$jira_changelog_filename"
@@ -29,16 +29,10 @@ function cloneRepository() {
     old_version=$2
     new_version=$3
     repository_url=$4
-
-
-    if [ "$repository_url" != "null" ];
-        then
-            echo "[OK] $project_name($repository_url) : $old_version -> $new_version"
-            git clone "$repository_url" "$project_name" --quiet
-        else
-            echo "[Skipped] $project_name has no repository url."
-    fi
+    echo "[OK] $project_name($repository_url) : $old_version -> $new_version"
+    git clone "$repository_url" "$project_name" --quiet
 }
+
 rm -rf ./changelogs
 mkdir changelogs
 
@@ -51,7 +45,15 @@ do
     old_version=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
     new_version=$(yq r $NEW_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
     repository_url=$(yq r $REQUIREMENTS_FILE dependencies -j | jq ".[] | select(.name==\"$key\").git" | sed "s/\"//g")
-    [ "$old_version" != "$new_version" ] && cloneRepository "$key" "$old_version" "$new_version" "$repository_url" && getChangelog "$key" "$old_version" "$new_version" "$repository_url"
+    if [ "$old_version" != "$new_version" ] && [ "$repository_url" != "null" ];
+        then
+            cloneRepository "$key" "$old_version" "$new_version" "$repository_url"
+            getChangelog "$key" "$old_version" "$new_version" "$repository_url"
+        else
+            echo "[Skipped] $key:"
+            [ "$repository_url" == "null" ] && echo "  * has no repository url."
+            [ "$old_version" == "$new_version" ] && echo "  * $old_version is the same as $new_version"
+    fi
 done
 
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
