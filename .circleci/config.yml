@@ -504,20 +504,15 @@ workflows:
           context: CodacyDO
           requires:
             - purge_doks_release_codacy
-      - update_versions:
-          context: CodacyDO
-          requires:
-            - set_docker_credentials_release
       - get_changelogs:
           context: CodacyDO
           requires:
-            - update_versions
+            - set_docker_credentials_release
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
             - codacy/checkout_and_version
             - purge_doks_release_codacy
-            - update_versions
             - get_changelogs
       - validate_deployment_status_release:
           context: CodacyDO
