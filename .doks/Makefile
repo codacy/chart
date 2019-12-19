@@ -10,6 +10,7 @@ deploy_to_doks:
 
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 	 	-f values.yaml \
+		-f providers.yaml \
 	 	--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
