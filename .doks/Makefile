@@ -10,6 +10,7 @@ deploy_to_doks:
 
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 	 	-f values.yaml \
+		-f providers.yaml \
 	 	--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
@@ -19,19 +20,7 @@ deploy_to_doks:
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url=${CODACY_URL} \
 		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
-		--set global.githubEnterprise.enabled=true \
-		--set global.githubEnterprise.hostname=${GITHUB_ENTERPRISE_HOSTNAME} \
-		--set global.githubEnterprise.protocol=${GITHUB_ENTERPRISE_PROTOCOL} \
-		--set global.githubEnterprise.port=${GITHUB_ENTERPRISE_PORT} \
-		--set global.githubEnterprise.isPrivateMode=${GITHUB_ENTERPRISE_PRIVATEMODE} \
-		--set global.githubEnterprise.disableSSL=${GITHUB_ENTERPRISE_DISABLESSL} \
-		--set global.gitlabEnterprise.enabled=true \
-		--set global.gitlabEnterprise.hostname=${GITLAB_ENTERPRISE_HOSTNAME} \
-		--set global.gitlabEnterprise.protocol=${GITLAB_ENTERPRISE_PROTOCOL} \
-		--set global.bitbucketEnterprise.enabled=true \
-		--set global.bitbucketEnterprise.hostname=${BITBUCKET_ENTERPRISE_HOSTNAME} \
-		--set global.bitbucketEnterprise.protocol=${BITBUCKET_ENTERPRISE_PROTOCOL}
+		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
 
 .PHONY: set_cluster_context
 set_cluster_context:
