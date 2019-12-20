@@ -259,6 +259,9 @@ jobs:
     steps:
       - checkout
       - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
       - deploy:
           name: Wait for codacy-api ingress
           command: |
