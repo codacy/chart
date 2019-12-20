@@ -139,6 +139,10 @@ worker-manager:
     requests:
       cpu: 100m
       memory: 500Mi
+  config:
+    workers:
+      genericMax: 20
+      dedicatedMax: 20
 
 crow:
   replicaCount: 1
