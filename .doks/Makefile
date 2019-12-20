@@ -25,6 +25,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${CHANNEL}/codacy \
+		-f values.yaml \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
