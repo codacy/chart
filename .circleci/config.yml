@@ -169,6 +169,28 @@ references:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
+  update_codacy_url:
+    steps:
+      - checkout
+      - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
+      - deploy:
+          name: Wait for codacy-api ingress
+          command: |
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+            echo "CODACY_API=$endpoint" > .apiurl
+      - deploy:
+          name: Update codacy-api ip address
+          command: |
+              CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
+              make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
 jobs:
   deploy_to_doks:
     <<: *default_doks_image
@@ -254,28 +276,17 @@ jobs:
           paths:
             - workdir
 
-  update_codacy_url:
+  update_codacy_url_nightly:
     <<: *default_doks_image
-    steps:
-      - checkout
-      - <<: *doctl_authenticate
-      - run:
-          name: Set cluster
-          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-      - deploy:
-          name: Wait for codacy-api ingress
-          command: |
-            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
-            echo "CODACY_API=$endpoint" > .apiurl
-      - deploy:
-          name: Update codacy-api ip address
-          command: |
-              CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-              make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workdir
+    environment:
+      <<: *nightly_environment
+    <<: *update_codacy_url
+
+  update_codacy_url_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+    <<: *update_codacy_url
 
   update_versions:
     docker:
@@ -445,7 +456,7 @@ workflows:
             - purge_doks_nightly_codacy
             - update_versions
             - get_changelogs
-      - update_codacy_url:
+      - update_codacy_url_nightly:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly
@@ -490,7 +501,7 @@ workflows:
             - codacy/checkout_and_version
             - purge_doks_release_codacy
             - get_changelogs
-      - update_codacy_url:
+      - update_codacy_url_release:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
