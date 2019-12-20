@@ -56,6 +56,10 @@ engine:
 
 worker-manager:
   replicaCount: 2
+  config:
+    workers:
+      genericMax: 20
+      dedicatedMax: 20
 
 fluentdoperator:
   enabled: true
