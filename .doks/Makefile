@@ -1,14 +1,15 @@
 CODACY_URL?="http://k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
+CHANNEL?=codacy-incubator
 
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-	 	-f values.yaml \
+		-f values.yaml \
 		-f providers.yaml \
-	 	--namespace ${NAMESPACE} \
+		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
@@ -23,7 +24,7 @@ deploy_to_doks: set_cluster_context
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	helm upgrade --install ${RELEASE_NAME} codacy \
+	helm upgrade --install ${RELEASE_NAME} ${CHANNEL}/codacy \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
