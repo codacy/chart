@@ -99,6 +99,21 @@ references:
           paths:
             - workdir
 
+  deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
+    steps:
+      - checkout
+      - run:
+          name: "Helm lint"
+          command: helm lint codacy/
+      - <<: *doctl_authenticate
+      - deploy:
+          name: Install Codacy
+          command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version)
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workdir
+
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
       - attach_workspace:
@@ -231,7 +246,7 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *release_environment
-    <<: *deploy_to_cluster
+    <<: *deploy_to_cluster_from_chartmuseum
 
   purge_doks_release_codacy:
     environment:
@@ -483,6 +498,10 @@ workflows:
           cmd: helm lint codacy/
           requires:
             - codacy/checkout_and_version
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - helm_lint
       - purge_doks_release_codacy:
           context: CodacyDO
           requires:
@@ -509,15 +528,11 @@ workflows:
           context: CodacyDO
           requires:
             - update_codacy_url_release
-      - helm_push_incubator:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
-           - helm_push_incubator
+           - validate_deployment_status_release
       - codacy/tag_version:
           name: tag_version
           context: CodacyDO
