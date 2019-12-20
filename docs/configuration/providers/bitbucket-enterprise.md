@@ -12,8 +12,6 @@ global:
 
 Go to `admin/integration` on Codacy and set the **Project Keys** on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.
 
-
-
 ![Stash Application Link](./images/stash-application-link.png)
 
 ## Stash Application Link
