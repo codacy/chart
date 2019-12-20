@@ -1,0 +1,20 @@
+global:
+  githubEnterprise:
+    enabled: "true"
+    hostname: "githubenterprise.codacy.org"
+    port: 80
+    protocol: "https"
+    disableSSL: "true"
+    isPrivateMode: "true"
+
+  gitlabEnterprise:
+    enabled: "true"
+    hostname: "gitlab.dev.codacy.org"
+    protocol: "http"
+    port: 80
+
+  bitbucketEnterprise:
+    enabled: "true"
+    hostname: "bitbucket-server.codacy.org"
+    protocol: "http"
+    port: 7990

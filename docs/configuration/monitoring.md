@@ -1,6 +1,6 @@
 # Monitoring
 
-In older versions, codacy was monitored using an application we build
+In older versions, Codacy was monitored using an application we build
 in-house called "Crow". Going forward, we are deprecating Crow and
 setting up "Prometheus style" metrics in all our components that
 can be accessed using the Prometheus + Grafana ecosystem.
@@ -61,7 +61,5 @@ The Crow tool is installed along side Codacy after the helm chart is deployed to
 
 This tool is in the process of being replaced by Grafana (which will handle authentication) and therefore the credentials to login can be freely shared since there is no sensitive information displayed in the platform. The current credentials are the following:
 
-```
-username: codacy
-password: C0dacy123
-```
+    username: codacy
+    password: C0dacy123

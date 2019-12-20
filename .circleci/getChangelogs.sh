@@ -1,47 +1,59 @@
 #!/bin/bash
+set -e
 REQUIREMENTS_FILE="codacy/requirements.yaml"
 OLD_LOCK_FILE="codacy/requirements_old.lock"
 NEW_LOCK_FILE="codacy/requirements.lock"
-DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
 
 function getChangelog() {
-    CHANGELOG_FILENAME=$3
-    JIRA_CHANGELOG_FILENAME=$4
-    git fetch --all
-    git checkout tags/"$1" --quiet
-    git log --pretty=format:"  * %s" "$1"'..'"$2" > "../changelogs/$CHANGELOG_FILENAME"
-    git log --pretty=format:"  * %s" "$1"'..'"$2" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq > "../changelogs/$JIRA_CHANGELOG_FILENAME"
+
+    project_name=$1
+    old_version=$2
+    new_version=$3
+    repository_url=$4
+    changelog_filename="$project_name-changelog.txt"
+    jira_changelog_filename="$project_name-jira.txt"
+    echo " * getting changelog ..."
+    cd "$project_name"
+    git fetch --all --quiet
+    git checkout tags/"$old_version" --quiet
+    echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$changelog_filename"
+    echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$jira_changelog_filename"
+    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" >> "../changelogs/$changelog_filename"
+    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq >> "../changelogs/$jira_changelog_filename"
+    cd ..
+    rm -rf "./$project_name"
 }
 
 function cloneRepository() {
-    PROJECT_NAME=$1
-    REPOSITORY_URL=$(yq r $REQUIREMENTS_FILE dependencies -j | jq ".[] | select(.name==\"$PROJECT_NAME\").git" | sed "s/\"//g")
-    OLD_VERSION=$2
-    NEW_VERSION=$3
-    CHANGELOG_FILENAME="$PROJECT_NAME-changelog.txt"
-    JIRA_CHANGELOG_FILENAME="$PROJECT_NAME-jira.txt"
-
-    
-    if [ "$REPOSITORY_URL" != "null" ];
-        then
-            echo "[OK] $PROJECT_NAME($REPOSITORY_URL) -> $OLD_VERSION : $NEW_VERSION"
-            git clone "$REPOSITORY_URL $PROJECT_NAME" --quiet
-            cd "$PROJECT_NAME"
-            getChangelog "$OLD_VERSION" "$NEW_VERSION" "$CHANGELOG_FILENAME" "$JIRA_CHANGELOG_FILENAME";
-            cd ..
-            rm -rf "./$PROJECT_NAME"
-        else
-            echo "[Skipped] $PROJECT_NAME has no repository url."
-    fi
-    
+    project_name=$1
+    old_version=$2
+    new_version=$3
+    repository_url=$4
+    echo "[OK] $project_name($repository_url) : $old_version -> $new_version"
+    git clone "$repository_url" "$project_name" --quiet
 }
+
 rm -rf ./changelogs
 mkdir changelogs
+
+LATEST_TAG=$(git tag | tail -n 1)
+git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
+DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
+
 for key in $DEPENDENCIES
 do
-    OLD_VERSION=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
-    NEW_VERSION=$(yq r $NEW_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
-    [ "$OLD_VERSION" != "$NEW_VERSION" ] && cloneRepository "$key" "$OLD_VERSION" "$NEW_VERSION" 
+    old_version=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
+    new_version=$(yq r $NEW_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
+    repository_url=$(yq r $REQUIREMENTS_FILE dependencies -j | jq ".[] | select(.name==\"$key\").git" | sed "s/\"//g")
+    if [ "$old_version" != "$new_version" ] && [ "$repository_url" != "null" ];
+        then
+            cloneRepository "$key" "$old_version" "$new_version" "$repository_url"
+            getChangelog "$key" "$old_version" "$new_version" "$repository_url"
+        else
+            echo "[Skipped] $key:"
+            [ "$repository_url" == "null" ] && echo "  * has no repository url."
+            [ "$old_version" == "$new_version" ] && echo "  * $old_version is the same as $new_version"
+    fi
 done
 
 count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
@@ -53,5 +65,5 @@ else
     echo "$((count / 2)) component(s) changed. "
 fi
 
-
+rm "$OLD_LOCK_FILE"
 exit 0
