@@ -46,6 +46,7 @@ references:
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 4
+    CODACY_URL: http://release.dev.codacy.org
 
   qa_environment_hourly: &qa_environment_hourly
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
@@ -201,8 +202,8 @@ references:
       - deploy:
           name: Update codacy-api ip address
           command: |
-              CODACY_URL=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-              make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=$CODACY_URL
+              CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
+              make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
       - persist_to_workspace:
           root: ~/
           paths:
@@ -297,12 +298,6 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment
-    <<: *update_codacy_url
-
-  update_codacy_url_release:
-    <<: *default_doks_image
-    environment:
-      <<: *release_environment
     <<: *update_codacy_url
 
   update_versions:
@@ -504,32 +499,18 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - purge_doks_release_codacy:
-          context: CodacyDO
-          requires:
-            - helm_push_incubator
-      - set_docker_credentials_release:
-          context: CodacyDO
-          requires:
-            - purge_doks_release_codacy
       - get_changelogs:
           context: CodacyDO
           requires:
-            - set_docker_credentials_release
+            - helm_push_incubator
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
-            - codacy/checkout_and_version
-            - purge_doks_release_codacy
-            - get_changelogs
-      - update_codacy_url_release:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_release
+            - helm_push_incubator
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - update_codacy_url_release
+            - deploy_to_doks_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO

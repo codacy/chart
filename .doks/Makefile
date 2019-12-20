@@ -7,6 +7,7 @@ CHANNEL?=codacy-incubator
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
+		--recreate-pods \
 		-f values.yaml \
 		-f providers.yaml \
 		--namespace ${NAMESPACE} \
@@ -25,6 +26,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${CHANNEL}/codacy \
+		--recreate-pods \
 		-f values.yaml \
 		-f providers.yaml \
 		--version ${VERSION} \
