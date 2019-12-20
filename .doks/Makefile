@@ -26,7 +26,7 @@ deploy_to_doks: set_cluster_context
 deploy_to_doks_from_chartmuseum: set_cluster_context
 
 	$(MAKE) -C ../ setup_helm_repos
-
+	helm repo update
 	helm upgrade --install ${RELEASE_NAME} codacy \
 		--version ${VERSION} \
 	 	--namespace ${NAMESPACE} \
