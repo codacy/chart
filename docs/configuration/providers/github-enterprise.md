@@ -12,6 +12,8 @@ global:
       disableSSL: "CHANGE_ME"                # This is an optional field
 ```
 
+**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
+
 ## GitHub Application
 
 To integrate with GitHub we use a GitHub Application.

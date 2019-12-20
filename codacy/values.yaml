@@ -22,6 +22,7 @@ global:
       url: "codacy-worker-manager"
 
   githubEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
     # hostname: "example.host.com"
     # port: 80
@@ -30,11 +31,13 @@ global:
     # isPrivateMode: "true"
 
   gitlabEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
     # hostname: "example.host.com"
     # protocol: "https"
 
   bitbucketEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
     # hostname: "example.host.com"
     # protocol: "https"
