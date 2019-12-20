@@ -262,8 +262,8 @@ worker-manager:
       workerUser: "rabbitmq"
       workerPass: "rabbitmq"
     workers:
-      genericMax: 2
-      dedicatedMax: 2
+      genericMax: 5
+      dedicatedMax: 5
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000
