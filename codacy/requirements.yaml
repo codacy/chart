@@ -71,12 +71,12 @@ dependencies:
 
 - name: codacy-api
   version: 4.113.0
-  repository: https://charts.codacy.com/incubator
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 8.6.2-SNAPSHOT.ac7d1909
-  repository: https://charts.codacy.com/unstable
+  version: 8.6.2
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
 - name: crow
