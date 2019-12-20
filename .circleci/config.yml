@@ -463,7 +463,7 @@ workflows:
       - validate_deployment_status_nightly:
           context: CodacyDO
           requires:
-            - update_codacy_url
+            - update_codacy_url_nightly
       - helm_push_nightly:
           context: CodacyDO
           requires:
@@ -508,7 +508,7 @@ workflows:
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - update_codacy_url
+            - update_codacy_url_release
       - helm_push_incubator:
           context: CodacyDO
           requires:
