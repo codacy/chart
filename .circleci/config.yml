@@ -397,46 +397,6 @@ workflows:
           requires:
             - deploy_to_doks
 
-  hourly_pipeline:
-    triggers:
-      - schedule:
-          cron: "0 * * * 1-5"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - codacy/checkout_and_version:
-          dev_branch: "master"
-          release_branch: "release"
-      - codacy/helm_aws:
-          name: helm_lint
-          cmd: helm lint codacy/
-          requires:
-            - codacy/checkout_and_version
-      - update_versions:
-          context: CodacyDO
-          requires:
-            - helm_lint
-      - get_changelogs:
-          context: CodacyDO
-          requires:
-            - update_versions
-      - deploy_to_doks_hourly:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
-            - update_versions
-            - get_changelogs
-      - validate_deployment_status_hourly:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_hourly
-      - qa_tests_hourly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_hourly
-
   nightly_pipeline:
     triggers:
        - schedule:
