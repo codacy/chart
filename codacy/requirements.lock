@@ -39,13 +39,13 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 5.52.0
 - name: codacy-api
-  repository: https://charts.codacy.com/unstable
-  version: 4.113.0-SNAPSHOT.2cb9f33ee
+  repository: https://charts.codacy.com/incubator
+  version: 4.113.0
 - name: worker-manager
   repository: https://charts.codacy.com/unstable
   version: 8.6.2-SNAPSHOT.ac7d1909
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.3.5
-digest: sha256:5593ddeeb157e8d1fc0a0e225b7c2232fc480f46141809facaac3978be4b62e2
-generated: "2019-12-20T10:12:55.599275Z"
+digest: sha256:4985ef7dc46c6fbd4787188ac07727ffde071a7b256c04368ebd8731951f8edf
+generated: "2019-12-20T10:15:26.081377Z"

@@ -70,8 +70,8 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.113.0-SNAPSHOT.2cb9f33ee
-  repository: https://charts.codacy.com/unstable
+  version: 4.113.0
+  repository: https://charts.codacy.com/incubator
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
