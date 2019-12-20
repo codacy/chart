@@ -259,6 +259,9 @@ jobs:
     steps:
       - checkout
       - <<: *doctl_authenticate
+      - run:
+          name: Set cluster
+          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
       - deploy:
           name: Wait for codacy-api ingress
           command: |
@@ -494,7 +497,7 @@ workflows:
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - deploy_to_doks_release
+            - update_codacy_url
       - helm_push_incubator:
           context: CodacyDO
           requires:
