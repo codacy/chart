@@ -505,7 +505,7 @@ workflows:
       - purge_doks_release_codacy:
           context: CodacyDO
           requires:
-            - helm_lint
+            - helm_push_incubator
       - set_docker_credentials_release:
           context: CodacyDO
           requires:
