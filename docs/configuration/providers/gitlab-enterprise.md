@@ -8,6 +8,7 @@ global:
       hostname: "CHANGE_ME"
       protocol: "CHANGE_ME"
 ```
+**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 ## GitLab Application
 
