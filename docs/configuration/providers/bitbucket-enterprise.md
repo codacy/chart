@@ -8,8 +8,11 @@ global:
       hostname: "CHANGE_ME"
       protocol: "CHANGE_ME"
 ```
+**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 Go to `admin/integration` on Codacy and set the **Project Keys** on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.
+
+
 
 ![Stash Application Link](./images/stash-application-link.png)
 
