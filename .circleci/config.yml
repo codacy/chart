@@ -494,7 +494,7 @@ workflows:
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - deploy_to_doks_release
+            - update_codacy_url
       - helm_push_incubator:
           context: CodacyDO
           requires:
