@@ -169,7 +169,7 @@ references:
           name: "Set Docker Credentials"
           command: kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE
 
-  update_codacy_url:
+  update_codacy_url: &update_codacy_url
     steps:
       - checkout
       - <<: *doctl_authenticate
