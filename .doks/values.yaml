@@ -1,7 +1,26 @@
+global:
+  codacy:
+    remote:
+      provider:
+        service:
+          app:
+            github:
+              enterprise:
+                 enabled: true
+                 hostname: "github.dev.codacy.org"
+                 protocol: "https"
+                 disableSSL: true
+                 isInPrivateMode: true
+
 codacy-api:
   replicaCount: 3
   service:
     type: LoadBalancer
+  config:
+    features:
+      githubSync: true
+      onboarding: true
+      authors: false
 
 postgres:
   persistence:
