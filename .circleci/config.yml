@@ -63,15 +63,19 @@ references:
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
+    HELM_REPOSITORY: codacy-unstable
 
   incubator_helm_channel: &incubator_helm_channel
     CHANNEL: incubator
+    HELM_REPOSITORY: codacy-incubator
 
   nightly_helm_channel: &nightly_helm_channel
     CHANNEL: nightly
+    HELM_REPOSITORY: codacy-nightly
 
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
+    HELM_REPOSITORY: codacy-stable
 
   doctl_authenticate: &doctl_authenticate
     run:
