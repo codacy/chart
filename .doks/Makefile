@@ -1,7 +1,7 @@
 CODACY_URL?="http://k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
-CHANNEL?=codacy-incubator
+HELM_REPOSITORY?=codacy-incubator
 
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
@@ -25,7 +25,7 @@ deploy_to_doks: set_cluster_context
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	helm upgrade --install ${RELEASE_NAME} ${CHANNEL}/codacy \
+	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
 		--recreate-pods \
 		-f values.yaml \
 		-f providers.yaml \
