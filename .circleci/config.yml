@@ -152,7 +152,7 @@ references:
             helm dep up ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
-            helm push ./codacy codacy
+            helm push ./codacy ${HELM_REPOSITORY}
       - <<: *persist_to_workspace
 
   qa_job: &qa_job
