@@ -361,12 +361,15 @@ workflows:
             - deploy_to_doks
 
   nightly_pipeline:
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - master
     jobs:
       - codacy/checkout_and_version:
-          filters:
-            branches:
-              only:
-                - feature/consume-from-museum
           dev_branch: "master"
           release_branch: "release"
       - set_chart_version_nightly:
