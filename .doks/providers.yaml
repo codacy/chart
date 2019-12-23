@@ -2,7 +2,7 @@ global:
   githubEnterprise:
     enabled: "true"
     hostname: "githubenterprise.codacy.org"
-    port: 80
+    port: 443
     protocol: "https"
     disableSSL: "true"
     isPrivateMode: "true"
