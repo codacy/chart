@@ -150,8 +150,8 @@ references:
           name: Push to charts museum
           command: |
             helm dep up ./codacy
-            echo "Adding 'https://charts.codacy.com/${CHANNEL} as ${HELM_REPOSITORY}'"
-            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
+            echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
+            helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" codacy https://charts.codacy.com/${CHANNEL}
             helm push ./codacy codacy
       - <<: *persist_to_workspace
 
