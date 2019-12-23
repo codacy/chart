@@ -16,10 +16,9 @@ function getChangelog() {
     cd "$project_name"
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
-    echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$changelog_filename"
-    echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/$jira_changelog_filename"
-    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" >> "../changelogs/$changelog_filename"
-    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" --quiet | grep -iEow 'ft-[0-9]+' | sort | uniq >> "../changelogs/$jira_changelog_filename"
+    echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/changelog.txt"
+    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" --quiet | grep -iEw 'ft-[0-9]+' | grep -vi "merge" | sort | uniq >> "../changelogs/changelog.txt"
+    echo "" >> "../changelogs/changelog.txt"
     cd ..
     rm -rf "./$project_name"
 }
