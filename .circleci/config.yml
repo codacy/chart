@@ -286,7 +286,7 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            sed -i 's/SNAPSHOT/NIGHTLY/g' .version
+            sed -E 's/(codacy-[0-9]+\.[0-9]+\.[0-9]+)-(.*)\.(.*)/\1-NIGHTLY.\3/g' .version
       - <<: *persist_to_workspace
 
   update_versions:
