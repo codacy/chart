@@ -385,17 +385,21 @@ workflows:
             - deploy_to_doks
 
   nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
+    # triggers:
+    #    - schedule:
+    #        cron: "0 0 * * 1-5"
+    #        filters:
+    #          branches:
+    #            only:
+    #              - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "release"
+          filters:
+             branches:
+               only:
+                 - feature/multiple_nightly
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
