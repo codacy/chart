@@ -40,7 +40,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-activities.git
 
 - name: remote-provider-service
-  version: ^2.41.0
+  version: 2.42.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
@@ -70,7 +70,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.113.0
+  version: 4.114.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
