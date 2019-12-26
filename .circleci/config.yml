@@ -4,7 +4,6 @@ orbs:
   codacy: codacy/base@1.2.1
 
 references:
-
   default_doks_image: &default_doks_image
     docker:
       - image: codacy/ci-do:0.2.3
@@ -30,15 +29,24 @@ references:
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
 
-  nightly_environment: &nightly_environment
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
-    DO_TF_WORKSPACE: release
+  nightly_base_environment: &nightly_base_environment
     RELEASE_NAME: codacy-nightly
     NAMESPACE: codacy-nightly
     NODE_TYPE: s-20vcpu-96gb
-    K8S_VERSION: 1.15
     NUM_NODES: 4
     HELM_REPOSITORY: codacy-unstable
+
+  nightly_environment_1_14: &nightly_environment_1_14
+    <<: *nightly_base_environment
+    DO_TF_WORKSPACE: nightly-1-14
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-14
+    K8S_VERSION: 1.14
+
+  nightly_environment_1_15: &nightly_environment_1_15
+    <<: *nightly_base_environment
+    DO_TF_WORKSPACE: nightly-1-15
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-15
+    K8S_VERSION: 1.15
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
@@ -105,7 +113,6 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
-      - <<: *persist_to_workspace
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -115,7 +122,7 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
-      - <<: *persist_to_workspace
+
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -131,7 +138,6 @@ references:
             do
                 kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
             done
-      - <<: *persist_to_workspace
 
   helm_push: &helm_push
     steps:
@@ -185,9 +191,9 @@ references:
           command: |
               CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
               make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
-      - <<: *persist_to_workspace
 
 jobs:
+
   deploy_to_doks:
     <<: *default_doks_image
     environment:
@@ -200,10 +206,16 @@ jobs:
       <<: *dev_environment
     <<: *deploy_to_cluster_from_chartmuseum
 
-  deploy_to_doks_nightly:
+  deploy_to_doks_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
+    <<: *deploy_to_cluster_from_chartmuseum
+
+  deploy_to_doks_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
     <<: *deploy_to_cluster_from_chartmuseum
 
   validate_deployment_status_hourly:
@@ -212,10 +224,16 @@ jobs:
       <<: *dev_environment
     <<: *validate_deployment_status_on_cluster
 
-  validate_deployment_status_nightly:
+  validate_deployment_status_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
+    <<: *validate_deployment_status_on_cluster
+
+  validate_deployment_status_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
     <<: *validate_deployment_status_on_cluster
 
   deploy_to_doks_release:
@@ -242,10 +260,16 @@ jobs:
       <<: *unstable_helm_channel
     <<: *helm_push
 
-  update_codacy_url_nightly:
+  update_codacy_url_nightly_1_14:
     <<: *default_doks_image
     environment:
-      <<: *nightly_environment
+      <<: *nightly_environment_1_14
+    <<: *update_codacy_url
+
+  update_codacy_url_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
     <<: *update_codacy_url
 
   qa_tests_hourly:
@@ -361,17 +385,21 @@ workflows:
             - deploy_to_doks
 
   nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
+    # triggers:
+    #    - schedule:
+    #        cron: "0 0 * * 1-5"
+    #        filters:
+    #          branches:
+    #            only:
+    #              - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "release"
+          filters:
+             branches:
+               only:
+                 - feature/multiple_nightly
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -393,18 +421,30 @@ workflows:
           context: CodacyDO
           requires:
             - update_versions
-      - deploy_to_doks_nightly:
+      - deploy_to_doks_nightly_1_14:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - update_codacy_url_nightly:
+      - validate_deployment_status_nightly_1_14:
           context: CodacyDO
           requires:
-            - deploy_to_doks_nightly
-      - validate_deployment_status_nightly:
+            - deploy_to_doks_nightly_1_14
+      - update_codacy_url_nightly_1_14:
           context: CodacyDO
           requires:
-            - update_codacy_url_nightly
+            - validate_deployment_status_nightly_1_14
+      - deploy_to_doks_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - helm_push_unstable
+      - validate_deployment_status_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_nightly_1_15
+      - update_codacy_url_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_nightly_1_15
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -412,7 +452,8 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - validate_deployment_status_nightly
+            - update_codacy_url_nightly_1_14
+            - update_codacy_url_nightly_1_15
 
   release_pipeline:
     jobs:
