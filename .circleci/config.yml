@@ -431,7 +431,7 @@ workflows:
       - validate_deployment_status_hourly:
           context: CodacyDO
           requires:
-            - get_changelogs
+            - deploy_to_doks_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
