@@ -328,8 +328,8 @@ postgres:
   imageTag: "9.6.2"
   persistence:
     enabled: false
-    storageClass:
-      size: 20Gi
+    # storageClass:
+    size: 20Gi
   #resources:
   #  requests:
   #    memory: 1024Mi
