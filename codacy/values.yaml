@@ -329,7 +329,7 @@ postgres:
   persistence:
     enabled: false
     # storageClass:
-    size: 20Gi
+    # size: 20Gi
   #resources:
   #  requests:
   #    memory: 1024Mi
