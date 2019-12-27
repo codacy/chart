@@ -68,8 +68,8 @@ references:
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
-    DO_TF_WORKSPACE: dev
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-hourly
+    DO_TF_WORKSPACE: hourly
     RELEASE_NAME: codacy-hourly
     NAMESPACE: codacy-hourly
     NODE_TYPE: s-20vcpu-96gb
