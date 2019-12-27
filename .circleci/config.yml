@@ -407,6 +407,11 @@ workflows:
               branches:
                 only:
                   - feature/hourly_tests
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
       - update_versions:
           context: CodacyDO
           requires:
