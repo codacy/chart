@@ -68,6 +68,14 @@ references:
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
+    RELEASE_NAME: codacy-hourly
+    NAMESPACE: codacy-hourly
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
+    NUM_NODES: 5
+    HELM_REPOSITORY: codacy-unstable
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -193,7 +201,6 @@ references:
               make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
 
 jobs:
-
   deploy_to_doks:
     <<: *default_doks_image
     environment:
@@ -203,7 +210,7 @@ jobs:
   deploy_to_doks_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_nightly_1_14:
@@ -383,6 +390,43 @@ workflows:
       - upload_docs:
           requires:
             - deploy_to_doks
+
+  hourly_pipeline:
+    triggers:
+        - schedule:
+            cron: "* 0 * * 1-5"
+            filters:
+              branches:
+                only:
+                  - master
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_hourly:
+          context: CodacyDO
+          requires:
+            - helm_push_unstable
+      - validate_deployment_status_hourly:
+          context: CodacyDO
+          requires:
+            - get_changelogs
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
 
   nightly_pipeline:
     # triggers:
