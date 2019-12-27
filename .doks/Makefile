@@ -25,21 +25,6 @@ deploy_to_doks: set_cluster_context
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	# helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
-		--recreate-pods \
-		-f values.yaml \
-		-f providers.yaml \
-		--version ${VERSION} \
-		--namespace ${NAMESPACE} \
-		--set global.imagePullSecrets[0].name=docker-credentials \
-		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set codacy-api.config.license=$${CODACY_LICENSE} \
-		--set global.codacy.url=${CODACY_URL} \
-		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
 
 	helm install ${HELM_REPOSITORY}/codacy --name=${RELEASE_NAME}\
 		-f values.yaml \
