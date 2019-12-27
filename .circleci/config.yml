@@ -279,6 +279,12 @@ jobs:
       <<: *nightly_environment_1_15
     <<: *update_codacy_url
 
+  update_codacy_url_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *qa_environment_hourly
+    <<: *update_codacy_url
+
   qa_tests_hourly:
     <<: *qa_automation_image
     environment:
@@ -432,10 +438,14 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
-      - qa_tests_hourly:
+      - update_codacy_url_hourly:
           context: CodacyDO
           requires:
             - validate_deployment_status_hourly
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - update_codacy_url_hourly
 
   nightly_pipeline:
     triggers:

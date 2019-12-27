@@ -25,8 +25,8 @@ deploy_to_doks: set_cluster_context
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
-		--recreate-pods \
+
+	helm install ${HELM_REPOSITORY}/codacy --name=${RELEASE_NAME}\
 		-f values.yaml \
 		-f providers.yaml \
 		--version ${VERSION} \
@@ -43,7 +43,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 
 .PHONY: set_cluster_context
 set_cluster_context:
-	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
+	# echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: remove_codacy
 remove_codacy: set_cluster_context
