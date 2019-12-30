@@ -63,7 +63,7 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
-    TEST_PATH: Suite/Enterprise/WEB_DEV.xml
+    TEST_SUITES: Suite/Enterprise/WEB_DEV.xml;Suite/Enterprise/E2E_DEV.xml;Suite/Enterprise/API_DEV.xml
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
@@ -175,12 +175,21 @@ references:
       - deploy:
           name: Run tests
           command: |
-            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             source .apiurl
             export URL=http://$CODACY_API
             export URLLANDING=$URL/
             export URLLOGGED=$URL/projects
-            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
+            OLD_IFS=$IFS
+            IFS=';' read -ra suites <<< "$TEST_SUITES"
+            IFS=$OLD_IFS
+            for suite in "${suites[@]}"
+            do
+                export TEST_PATH=$suite
+                export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+                sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
+                echo "Testing $suite"
+            done
+
 
   update_codacy_url: &update_codacy_url
     steps:
