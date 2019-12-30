@@ -180,7 +180,7 @@ references:
             export URLLANDING=$URL/
             export URLLOGGED=$URL/projects
             OLD_IFS=$IFS
-            IFS=';' read -ra suites <<< "$TEST_SUITES"
+            IFS=';' read -ra suites \<<< "$TEST_SUITES"
             IFS=$OLD_IFS
             for suite in "${suites[@]}"
             do
