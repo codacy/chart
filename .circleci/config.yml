@@ -184,7 +184,7 @@ references:
 
   update_codacy_url: &update_codacy_url
     steps:
-      - checkout
+      - <<: *attach_workspace
       - <<: *doctl_authenticate
       - run:
           name: Set cluster
@@ -199,6 +199,10 @@ references:
           command: |
               CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
               make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
+      - when:
+          condition: <<parameters.persist_codacy_url>>
+          steps:
+            - <<: *persist_to_workspace
 
 jobs:
   deploy_to_doks:
@@ -271,18 +275,30 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_14
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: false
     <<: *update_codacy_url
 
   update_codacy_url_nightly_1_15:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_15
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: false
     <<: *update_codacy_url
 
   update_codacy_url_hourly:
     <<: *default_doks_image
     environment:
       <<: *qa_environment_hourly
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: true
     <<: *update_codacy_url
 
   qa_tests_hourly:
