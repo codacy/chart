@@ -76,6 +76,7 @@ references:
     K8S_VERSION: 1.14
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
+    CODACY_URL: http://k8s.hourly.dev.codacy.org
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
