@@ -464,14 +464,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
-      - update_codacy_url_hourly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
-            - update_codacy_url_hourly
+            - validate_deployment_status_hourly
 
   nightly_pipeline:
     triggers:
