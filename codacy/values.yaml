@@ -99,21 +99,11 @@ global:
     service:
       port: 5432
 
-  resultsdb:
-    create: true
-    imageTag: "9.6.2"
-    postgresqlUsername: codacy
-    postgresqlDatabase: results
-    postgresqlPassword: codacy
-    host: codacy-postgres
-    service:
-      port: 5432
-
   resultsdb201709:
     create: true
     imageTag: "9.6.2"
     postgresqlUsername: codacy
-    postgresqlDatabase: results201709
+    postgresqlDatabase: results
     postgresqlPassword: codacy
     host: codacy-postgres
     service:
@@ -344,7 +334,6 @@ postgres:
       CREATE DATABASE accounts WITH OWNER=codacy;
       CREATE DATABASE analysis WITH OWNER=codacy;
       CREATE DATABASE results WITH OWNER=codacy;
-      CREATE DATABASE results201709 WITH OWNER=codacy;
       CREATE DATABASE metrics WITH OWNER=codacy;
       CREATE DATABASE filestore WITH OWNER=codacy;
       CREATE DATABASE jobs WITH OWNER=codacy;
