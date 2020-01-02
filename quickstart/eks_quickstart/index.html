@@ -799,7 +799,7 @@ macOS, if you are using <a href="https://brew.sh">Homebrew</a>, you can just run
 to do it the <a href="https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html">AWS</a>
 and <a href="https://www.terraform.io/docs/providers/aws/index.html">Terraform</a> documentation.
 Note that, as stated in the documentation, if your <code class="codehilite"><span class="na">.aws</span><span class="err">/</span><span class="no">credentials</span></code> are fairly
-complex you might need to set <code class="codehilite"><span class="err">AWS_SDK_LOAD_CONFIG=1</span></code> for Terraform to work correctly.</p>
+complex you might need to set <code class="codehilite"><span class="n">AWS_SDK_LOAD_CONFIG</span><span class="o">=</span><span class="mi">1</span></code> for Terraform to work correctly.</p>
 <h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
 <h3 id="seting-up-an-eks-cluster-for-codacy">Seting up an EKS cluster for Codacy<a class="headerlink" href="#seting-up-an-eks-cluster-for-codacy" title="Permanent link">&para;</a></h3>
 <p>Assuming AWS is well configured and you fulfill all the prerequisites,
@@ -813,7 +813,7 @@ aws eks update-kubeconfig --name codacy-cluster
 </pre></div>
 
 <h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
-<h3 id="1-backend-setup-terraform-state-storage">1. <code class="codehilite"><span class="err">backend</span></code> - setup terraform state storage<a class="headerlink" href="#1-backend-setup-terraform-state-storage" title="Permanent link">&para;</a></h3>
+<h3 id="1-backend-setup-terraform-state-storage">1. <code class="codehilite"><span class="n">backend</span></code> - setup terraform state storage<a class="headerlink" href="#1-backend-setup-terraform-state-storage" title="Permanent link">&para;</a></h3>
 <p>The <a href="https://www.terraform.io/docs/backends/index.html">backend</a> stores
 the current and historical state of your infrastructure. Deploying and using
 it is optional, but it might make your life easier if you are planning to use
@@ -822,25 +822,25 @@ these templates to make modifications to the cluster in the future.</p>
 <div class="codehilite"><pre><span></span>terraform init <span class="o">&amp;&amp;</span> terraform apply
 </pre></div>
 
-<p>inside the <code class="codehilite"><span class="err">backend/</span></code> folder and follow terraform's instructions.</p>
+<p>inside the <code class="codehilite"><span class="n">backend</span><span class="o">/</span></code> folder and follow terraform's instructions.</p>
 <p>An S3 bucket with an unique name to save your state will be created. Note this
-bucket's name and set it on the <code class="codehilite"><span class="err">config.tf</span></code> file of the <code class="codehilite"><span class="err">main/</span></code> and <code class="codehilite"><span class="err">setup/</span></code>
+bucket's name and set it on the <code class="codehilite"><span class="n">config</span><span class="p">.</span><span class="n">tf</span></code> file of the <code class="codehilite"><span class="n">main</span><span class="o">/</span></code> and <code class="codehilite"><span class="n">setup</span><span class="o">/</span></code>
 stacks where indicated.</p>
-<h3 id="2-main-create-a-vanilla-eks-cluster">2. <code class="codehilite"><span class="err">main</span></code> - create a vanilla EKS cluster<a class="headerlink" href="#2-main-create-a-vanilla-eks-cluster" title="Permanent link">&para;</a></h3>
+<h3 id="2-main-create-a-vanilla-eks-cluster">2. <code class="codehilite"><span class="n">main</span></code> - create a vanilla EKS cluster<a class="headerlink" href="#2-main-create-a-vanilla-eks-cluster" title="Permanent link">&para;</a></h3>
 <p>To create a cluster, along with all the necessary network and nodes setup
 it requires, run:</p>
 <div class="codehilite"><pre><span></span>terraform init <span class="o">&amp;&amp;</span> terraform apply
 </pre></div>
 
-<p>inside the <code class="codehilite"><span class="err">main/</span></code> folder and follow terraform's instructions. This takes a while (~10min).</p>
+<p>inside the <code class="codehilite"><span class="n">main</span><span class="o">/</span></code> folder and follow terraform's instructions. This takes a while (~10min).</p>
 <p>The cluster configuration (e.g., type/number of nodes, network CIDRs,...)
-are exposed as variables in the <code class="codehilite"><span class="err">variables.tf</span></code> file. You may tailor the cluster
+are exposed as variables in the <code class="codehilite"><span class="n">variables</span><span class="p">.</span><span class="n">tf</span></code> file. You may tailor the cluster
 to your needs by editing the defaults that file, by using
 <a href="https://www.terraform.io/docs/configuration/variables.html">CLI</a> options, viz.</p>
 <div class="codehilite"><pre><span></span>terraform apply -var<span class="o">=</span><span class="s2">&quot;some_key=some_value&quot;</span>
 </pre></div>
 
-<p>or by writing them on a file named <code class="codehilite"><span class="err">terraform.tfvars</span></code> in the same folder
+<p>or by writing them on a file named <code class="codehilite"><span class="n">terraform</span><span class="p">.</span><span class="n">tfvars</span></code> in the same folder
 as the infrastructure code, which is loaded by default when you run apply.
 For instance:</p>
 <div class="codehilite"><pre><span></span><span class="nv">some_key</span> <span class="o">=</span> <span class="s2">&quot;a_string_value&quot;</span>
@@ -848,7 +848,7 @@ For instance:</p>
 <span class="nv">someting_else</span> <span class="o">=</span> <span class="nb">true</span>
 </pre></div>
 
-<p>To connect to the cluster get its <code class="codehilite"><span class="err">kubeconfig</span></code> and set it the as default
+<p>To connect to the cluster get its <code class="codehilite"><span class="n">kubeconfig</span></code> and set it the as default
 context with:</p>
 <div class="codehilite"><pre><span></span>aws eks update-kubeconfig --name codacy-cluster
 </pre></div>
@@ -860,9 +860,9 @@ context with:</p>
 <p>you'll see that nothing is scheduled. That's because you haven't yet allowed
 the worker nodes to join the cluster
 (see the <a href="https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html">EKS docs</a> for more info). We'll do that on step 3.</p>
-<h3 id="3-setup-configure-your-eks-cluster-to-deploy-codacy">3. <code class="codehilite"><span class="err">setup</span></code> - configure your EKS cluster to deploy codacy<a class="headerlink" href="#3-setup-configure-your-eks-cluster-to-deploy-codacy" title="Permanent link">&para;</a></h3>
+<h3 id="3-setup-configure-your-eks-cluster-to-deploy-codacy">3. <code class="codehilite"><span class="n">setup</span></code> - configure your EKS cluster to deploy codacy<a class="headerlink" href="#3-setup-configure-your-eks-cluster-to-deploy-codacy" title="Permanent link">&para;</a></h3>
 <p>Some additional setup  is necessary to run Codacy on the cluster you just created.
-For one, you need to allow workers to join the cluster. Docker pull secrets need to be added to the <code class="codehilite"><span class="err">codacy</span></code> namespace, which will also be added here,
+For one, you need to allow workers to join the cluster. Docker pull secrets need to be added to the <code class="codehilite"><span class="n">codacy</span></code> namespace, which will also be added here,
 and the following helm charts will be installed:
 <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">kubernetes-dashboard</a>,
 <a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">nginx-ingress</a>, and
@@ -882,20 +882,20 @@ by running</p>
 </pre></div>
 
 <p>and then connect to <a href="http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy">the dashboard url</a>,
-select <code class="codehilite"><span class="err">token</span></code> and paste the value you saved above.</p>
+select <code class="codehilite"><span class="n">token</span></code> and paste the value you saved above.</p>
 <h3 id="4-installing-codacy">4. Installing Codacy<a class="headerlink" href="#4-installing-codacy" title="Permanent link">&para;</a></h3>
 <p>To install Codacy please see the <a href="../../installation/">installation documentation</a>.</p>
 <h2 id="uninstalling">Uninstalling<a class="headerlink" href="#uninstalling" title="Permanent link">&para;</a></h2>
 <p><strong>WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS</strong></p>
 <h3 id="1-remove-the-cluster-setup-required-to-install-codacy">1.  Remove the cluster setup required to install Codacy<a class="headerlink" href="#1-remove-the-cluster-setup-required-to-install-codacy" title="Permanent link">&para;</a></h3>
 <p>To cleanup your cluster back to a <em>vanilla</em> state you can now run,
-the following command in the <code class="codehilite"><span class="err">setup/</span></code> folder:</p>
+the following command in the <code class="codehilite"><span class="n">setup</span><span class="o">/</span></code> folder:</p>
 <div class="codehilite"><pre><span></span>terraform destroy
 </pre></div>
 
 <h3 id="2-remove-the-cluster">2.  Remove the cluster<a class="headerlink" href="#2-remove-the-cluster" title="Permanent link">&para;</a></h3>
 <p>After removing all the above stacks and setup, you may now delete the kubernetes
-cluster by running in the <code class="codehilite"><span class="err">main/</span></code> directory:</p>
+cluster by running in the <code class="codehilite"><span class="n">main</span><span class="o">/</span></code> directory:</p>
 <div class="codehilite"><pre><span></span>terraform destroy
 </pre></div>
 
@@ -904,7 +904,7 @@ cluster by running in the <code class="codehilite"><span class="err">main/</span
 <p>If you created the terraform backend with the above stack you can now safely
 delete it. The backend is purposely created with extra settings to prevent
 its accidental destruction. To destroy it cleanly the easiest path is to disable
-these extra settings. Go to the <code class="codehilite"><span class="err">backend/</span></code> folder and change the <code class="codehilite"><span class="err">state_and_lock.tf</span></code>
+these extra settings. Go to the <code class="codehilite"><span class="n">backend</span><span class="o">/</span></code> folder and change the <code class="codehilite"><span class="n">state_and_lock</span><span class="p">.</span><span class="n">tf</span></code>
 file as instructed therein.</p>
 <p>Afterwards, you can now destroy it by running</p>
 <div class="codehilite"><pre><span></span>terraform apply <span class="o">&amp;&amp;</span> terraform destroy

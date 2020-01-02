@@ -670,7 +670,7 @@ helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
 <p>By now all pods should be starting, but you can only access Codacy from
 withing your cluster. You should either configure and
 <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Ingress</a>
-or set the service type of the <code class="codehilite"><span class="err">codacy-api</span></code> to LoadBalancer.</p>
+or set the service type of the <code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span></code> to LoadBalancer.</p>
 <p>Next steps:</p>
 <ol>
 <li>Enable persistence</li>
@@ -678,19 +678,19 @@ or set the service type of the <code class="codehilite"><span class="err">codacy
 <li>Proceed to more advanced <a href="../configuration/">configurations</a>.</li>
 </ol>
 <h2 id="selecting-configuration-options">Selecting configuration options<a class="headerlink" href="#selecting-configuration-options" title="Permanent link">&para;</a></h2>
-<p>In each section collect the options that will be combined to use with <code class="codehilite"><span class="err">helm install</span></code>.</p>
+<p>In each section collect the options that will be combined to use with <code class="codehilite"><span class="n">helm</span> <span class="n">install</span></code>.</p>
 <h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h3>
 <p>Some secrets need to be created (eg. cryptosecret)</p>
 <p>Also, some Codacy images are currently private. For this, you need to
 create a secret in the same namespace were you will install Codacy.
 You should receive these credentials together with your license.</p>
-<div class="codehilite"><pre><span></span><span class="err">kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE</span>
+<div class="codehilite"><pre><span></span><span class="n">kubectl</span> <span class="k">create</span> <span class="n">secret</span> <span class="n">docker</span><span class="o">-</span><span class="n">registry</span> <span class="n">docker</span><span class="o">-</span><span class="n">credentials</span> <span class="c1">--docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace $NAMESPACE</span>
 </pre></div>
 
 
 <h2 id="monitoring-the-deployment">Monitoring the Deployment<a class="headerlink" href="#monitoring-the-deployment" title="Permanent link">&para;</a></h2>
 <p>This will output the list of resources installed once the deployment finishes which may take 5-10 minutes.</p>
-<p>The status of the deployment can be checked by running <code class="codehilite"><span class="err">helm status codacy</span></code> which can also be done while
+<p>The status of the deployment can be checked by running <code class="codehilite"><span class="n">helm</span> <span class="n">status</span> <span class="n">codacy</span></code> which can also be done while
 the deployment is taking place if you run the command in another terminal.</p>
                 
                   

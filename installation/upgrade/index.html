@@ -584,16 +584,16 @@
                 
                 <h1 id="upgrade">Upgrade<a class="headerlink" href="#upgrade" title="Permanent link">&para;</a></h1>
 <p>NOTE: <strong>Note:</strong>
-You can retrieve your previous <code class="codehilite"><span class="err">--set</span></code> arguments cleanly, with
-<code class="codehilite"><span class="err">helm get values &lt;release name&gt;</span></code>. If you direct this into a file
-(<code class="codehilite"><span class="err">helm get values &lt;release name&gt; &gt; codacy.yaml</span></code>), you can safely pass this
-file via <code class="codehilite"><span class="err">-f</span></code>. Thus <code class="codehilite"><span class="err">helm upgrade codacy codacy/codacy -f codacy.yaml</span></code>.
-This safely replaces the behavior of <code class="codehilite"><span class="err">--reuse-values</span></code></p>
+You can retrieve your previous <code class="codehilite"><span class="c1">--set</span></code> arguments cleanly, with
+<code class="codehilite"><span class="n">helm</span> <span class="k">get</span> <span class="k">values</span> <span class="o">&lt;</span><span class="n">release</span> <span class="n">name</span><span class="o">&gt;</span></code>. If you direct this into a file
+(<code class="codehilite"><span class="n">helm</span> <span class="k">get</span> <span class="k">values</span> <span class="o">&lt;</span><span class="n">release</span> <span class="n">name</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">codacy</span><span class="p">.</span><span class="n">yaml</span></code>), you can safely pass this
+file via <code class="codehilite"><span class="o">-</span><span class="n">f</span></code>. Thus <code class="codehilite"><span class="n">helm</span> <span class="n">upgrade</span> <span class="n">codacy</span> <span class="n">codacy</span><span class="o">/</span><span class="n">codacy</span> <span class="o">-</span><span class="n">f</span> <span class="n">codacy</span><span class="p">.</span><span class="n">yaml</span></code>.
+This safely replaces the behavior of <code class="codehilite"><span class="c1">--reuse-values</span></code></p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <p>The following are the steps to upgrade Codacy to a newer version:</p>
 <ol>
 <li>
-<p>Extract your previous <code class="codehilite"><span class="err">--set</span></code> arguments with</p>
+<p>Extract your previous <code class="codehilite"><span class="c1">--set</span></code> arguments with</p>
 <div class="codehilite"><pre><span></span>helm get values codacy &gt; codacy.yaml
 </pre></div>
 
@@ -602,7 +602,7 @@ This safely replaces the behavior of <code class="codehilite"><span class="err">
 <p>Decide on all the values you need to set</p>
 </li>
 <li>
-<p>Perform the upgrade, with all <code class="codehilite"><span class="err">--set</span></code> arguments extracted in step 2</p>
+<p>Perform the upgrade, with all <code class="codehilite"><span class="c1">--set</span></code> arguments extracted in step 2</p>
 <div class="codehilite"><pre><span></span>helm upgrade codacy codacy/codacy <span class="se">\</span>
   -f codacy.yaml <span class="se">\</span>
   --set ...

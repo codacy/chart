@@ -585,20 +585,15 @@
                 
                 
                 <h1 id="gitlab-enterprise">GitLab Enterprise<a class="headerlink" href="#gitlab-enterprise" title="Permanent link">&para;</a></h1>
-<p>Set the following configurations from your GitLab instance on the values.yaml file:</p>
-<p><div class="codehilite"><pre><span></span><span class="nt">global</span><span class="p">:</span>
-  <span class="nt">gitLabEnterprise</span><span class="p">:</span>
-      <span class="nt">hostname</span><span class="p">:</span> <span class="s">&quot;CHANGE_ME&quot;</span>
-      <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;CHANGE_ME&quot;</span>
-</pre></div>
-<strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
+<p>Set your configuration values for your GitLab instance on the <code class="codehilite"><span class="k">values</span><span class="p">.</span><span class="n">yaml</span></code> file.
+<strong>Please note that you must go to <code class="codehilite"><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">codacy</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="k">admin</span><span class="o">/</span><span class="n">integrations</span></code>, select the desired provider and <code class="codehilite"><span class="n">Test</span> <span class="o">&amp;</span> <span class="n">Save</span></code> your configuration for it to be applied.</strong></p>
 <h2 id="gitlab-application">GitLab Application<a class="headerlink" href="#gitlab-application" title="Permanent link">&para;</a></h2>
 <p>To integrate with GitHub we use a GitLab Application.</p>
 <p>Create an application pointing to your local Codacy deployment URL.</p>
 <p>You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your domain name as well. Keep in mind this field is case sensitive.</p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/login/GitLabEnterprise</span></code></p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/add/addProvider/GitLabEnterprise</span></code></p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/add/addService/GitLabEnterprise</span></code></p>
+<p><code class="codehilite"><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">codacy</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">login</span><span class="o">/</span><span class="n">GitLabEnterprise</span></code></p>
+<p><code class="codehilite"><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">codacy</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="k">add</span><span class="o">/</span><span class="n">addProvider</span><span class="o">/</span><span class="n">GitLabEnterprise</span></code></p>
+<p><code class="codehilite"><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">codacy</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="k">add</span><span class="o">/</span><span class="n">addService</span><span class="o">/</span><span class="n">GitLabEnterprise</span></code></p>
 <p><img alt="GitLab Application" src="../images/gitlab-application.png" /></p>
 <p>Then paste the application ID and secret in Codacy Self-hosted.</p>
 <p><img alt="GitLab Final Application" src="../images/gitlab-created-application.png" /></p>
