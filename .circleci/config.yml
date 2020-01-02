@@ -285,7 +285,9 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            sed -E 's/SNAPSHOT/NIGHTLY/g' .version
+            mv .version .version_tmp
+            sed -E 's/SNAPSHOT/NIGHTLY/g' .version_tmp >> .version
+            rm .version_tmp
       - <<: *persist_to_workspace
 
   update_versions:
