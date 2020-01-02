@@ -15,7 +15,7 @@ dependencies:
   version: 4.2.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   alias: postgres
-  condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create, global.resultsdb.create, global.metricsdb.create, global.filestoredb.create, global.jobsdb.create, global.jobsdb.create
+  condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create, global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
 
 - name: log-router
   version: 0.3.0
@@ -25,12 +25,12 @@ dependencies:
   git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: portal
-  version: ^4.28.0
+  version: 4.31.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
 - name: ragnaros
-  version: ^14.12.1
+  version: 15.1.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
 
@@ -55,27 +55,27 @@ dependencies:
   git: git@bitbucket.org:qamine/hotspots-worker.git
 
 - name: listener
-  version: ^7.3.0
+  version: 7.9.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/repository-listener.git
 
 - name: core
-  version: ^2.10.3
+  version: 2.13.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: ^5.47.0
+  version: 5.56.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 4.114.0
+  version: 4.120.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 8.6.2
+  version: 8.10.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
