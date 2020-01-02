@@ -193,7 +193,6 @@ references:
               make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
 
 jobs:
-
   deploy_to_doks:
     <<: *default_doks_image
     environment:
@@ -345,6 +344,23 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
+  commit_requirements:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_14
+    steps:
+      - <<: *attach_workspace
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - deploy:
+          name: Commit and push requirements.lock file
+          command: |
+            git add ./workdir/codacy/requirements.lock
+            git commit -m "[ci skip] requirements.lock version bump."
+            git push
+      - <<: *persist_to_workspace
+
 workflows:
   helm_lint:
     jobs:
@@ -443,6 +459,16 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_15
+      - commit_requirements:
+          context: CodacyDO
+          requires:
+            - update_codacy_url_nightly_1_14
+            - update_codacy_url_nightly_1_15
+      - codacy/tag_version:
+          name: tag_version
+          context: CodacyDO
+          requires:
+            - commit_requirements
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -450,8 +476,7 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - update_codacy_url_nightly_1_14
-            - update_codacy_url_nightly_1_15
+            - tag_version
 
   release_pipeline:
     jobs:
