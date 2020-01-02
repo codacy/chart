@@ -9,7 +9,6 @@ deploy_to_doks: set_cluster_context
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 		--recreate-pods \
 		-f values.yaml \
-		-f providers.yaml \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
@@ -28,7 +27,6 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
 		--recreate-pods \
 		-f values.yaml \
-		-f providers.yaml \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \

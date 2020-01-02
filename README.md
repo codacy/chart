@@ -3,7 +3,7 @@
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
-![K8s Love](./docs/images/k8s_love.png)
+![K8s Love](images/k8s_love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
 Each service in Codacy has its chart published to our
@@ -26,7 +26,7 @@ out Codacy contact our support at support@codacy.com.
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
 
-![Helm Chart Structure](./docs/images/charts.png)
+![Helm Chart Structure](images/charts.png)
 
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
@@ -100,15 +100,20 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.jobsdb.host`                        | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.jobsdb.service.port`                | Port of the Postgresql server                                                                                               | `5432`          |
+| `global.githubEnterprise.enabled`           | Enable githubEnterprise                                                                                                     | `nil`           |
 | `global.githubEnterprise.hostname`          | Hostname of githubEnterprise instance                                                                                       | `nil`           |
 | `global.githubEnterprise.protocol`          | Protocol of githubEnterprise instance                                                                                       | `nil`           |
 | `global.githubEnterprise.port`              | Port of githubEnterprise instance                                                                                           | `nil`           |
 | `global.githubEnterprise.isPrivateMode`     | Status of private mode on githubEnterprise instance                                                                         | `nil`           |
 | `global.githubEnterprise.disableSSL`        | Disable certificate validation on interaction with githubEnterprise instance                                                | `nil`           |
+| `global.gitlabEnterprise.enabled`           | Enable gitlabEnterprise                                                                                                     | `nil`           |
 | `global.gitlabEnterprise.hostname`          | Hostname of gitlabEnterprise instance                                                                                       | `nil`           |
 | `global.gitlabEnterprise.protocol`          | Protocol of gitlabEnterprise instance                                                                                       | `nil`           |
+| `global.gitlabEnterprise.port`              | Port of gitlabEnterprise instance                                                                                           | `nil`           |
+| `global.bitbucketEnterprise.enabled`        | Enable bitbucketEnterprise                                                                                                  | `nil`           |
 | `global.bitbucketEnterprise.hostname`       | Hostname of bitbucketEnterprise instance                                                                                    | `nil`           |
 | `global.bitbucketEnterprise.protocol`       | Protocol of bitbucketEnterprise instance                                                                                    | `nil`           |
+| `global.bitbucketEnterprise.port`           | Port of bitbucketEnterprise instance                                                                                        | `nil`           |
 
 The following parameters are specific to each Codacy component.
 

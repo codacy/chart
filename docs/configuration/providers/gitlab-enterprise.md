@@ -1,13 +1,6 @@
 # GitLab Enterprise
 
-Set the following configurations from your GitLab instance on the values.yaml file:
-
-```yaml
-global:
-  gitLabEnterprise:
-      hostname: "CHANGE_ME"
-      protocol: "CHANGE_ME"
-```
+Set your configuration values for your GitLab instance on the `values.yaml` file.
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 ## GitLab Application

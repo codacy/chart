@@ -1,13 +1,6 @@
 # Bitbucket Stash
 
-Set the following configurations from your Bitbucket instance on the `values.yaml` file:
-
-```yaml
-global:
-  bitbucketEnterprise:
-      hostname: "CHANGE_ME"
-      protocol: "CHANGE_ME"
-```
+Set your configuration values for your Bitbucket instance on the `values.yaml` file.
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 Go to `admin/integration` on Codacy and set the **Project Keys** on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.
