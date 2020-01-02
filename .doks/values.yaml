@@ -63,3 +63,24 @@ worker-manager:
 
 fluentdoperator:
   enabled: true
+
+global:
+  githubEnterprise:
+    enabled: "true"
+    hostname: "github.dev.codacy.org"
+    port: 443
+    protocol: "https"
+    disableSSL: "true"
+    isPrivateMode: "true"
+
+  gitlabEnterprise:
+    enabled: "true"
+    hostname: "gitlab.dev.codacy.org"
+    protocol: "http"
+    port: 80
+
+  bitbucketEnterprise:
+    enabled: "true"
+    hostname: "bitbucket-server.codacy.org"
+    protocol: "http"
+    port: 7990
