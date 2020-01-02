@@ -1,17 +1,6 @@
 # GitHub Enterprise
 
-Set the following configuration from your GitHub instance on the values.yaml file:
-
-```yaml
-global:
-  gitHubEnterprise:
-      hostname: "CHANGE_ME"
-      protocol: "CHANGE_ME"
-      isPrivateMode: "CHANGE_ME"
-      port: "CHANGE_ME"                      # This is an optional field
-      disableSSL: "CHANGE_ME"                # This is an optional field
-```
-
+Set your configuration values for your GitHub instance on the `values.yaml` file.
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 ## GitHub Application
