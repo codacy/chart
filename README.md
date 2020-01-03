@@ -3,7 +3,7 @@
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
-![K8s Love](images/k8s_love.png)
+![K8s Love](./docs/images/k8s_love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
 Each service in Codacy has its chart published to our
@@ -26,7 +26,7 @@ out Codacy contact our support at support@codacy.com.
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
 
-![Helm Chart Structure](images/charts.png)
+![Helm Chart Structure](./docs/images/charts.png)
 
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
