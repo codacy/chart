@@ -616,7 +616,7 @@
                 <h1 id="codacy-chart">Codacy Chart<a class="headerlink" href="#codacy-chart" title="Permanent link">&para;</a></h1>
 <p>With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.</p>
-<p><img alt="K8s Love" src="images/k8s_love.png" />
+<p><img alt="K8s Love" src="./docs/images/k8s_love.png" />
 <a href="https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit">edit image</a></p>
 <p>Each service in Codacy has its chart published to our
 <a href="https://charts.codacy.com/stable/api/charts">charts repository</a>.</p>
@@ -632,7 +632,7 @@ out Codacy contact our support at support@codacy.com.</p>
 <h3 id="charts">Charts<a class="headerlink" href="#charts" title="Permanent link">&para;</a></h3>
 <p>Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.</p>
-<p><img alt="Helm Chart Structure" src="images/charts.png" /></p>
+<p><img alt="Helm Chart Structure" src="./docs/images/charts.png" /></p>
 <p><a href="https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit">edit image</a></p>
 <ul>
 <li><a href="https://github.com/helm/charts/tree/master/stable/minio">Minio</a></li>
@@ -665,299 +665,299 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 </thead>
 <tbody>
 <tr>
-<td><code class="codehilite"><span class="err">global.codacy.url</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">codacy</span><span class="p">.</span><span class="n">url</span></code></td>
 <td>Hostname to your Codacy installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.codacy.backendUrl</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">codacy</span><span class="p">.</span><span class="n">backendUrl</span></code></td>
 <td>Hostname to your Codacy installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.play.cryptoSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">play</span><span class="p">.</span><span class="n">cryptoSecret</span></code></td>
+<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="n">cat</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="o">|</span> <span class="n">tr</span> <span class="o">-</span><span class="n">dc</span> <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="o">|</span> <span class="n">fold</span> <span class="o">-</span><span class="n">w</span> <span class="mi">128</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestore.contentsSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestore</span><span class="p">.</span><span class="n">contentsSecret</span></code></td>
+<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="n">cat</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="o">|</span> <span class="n">tr</span> <span class="o">-</span><span class="n">dc</span> <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="o">|</span> <span class="n">fold</span> <span class="o">-</span><span class="n">w</span> <span class="mi">128</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestore.uuidSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestore</span><span class="p">.</span><span class="n">uuidSecret</span></code></td>
+<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="n">cat</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="o">|</span> <span class="n">tr</span> <span class="o">-</span><span class="n">dc</span> <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="o">|</span> <span class="n">fold</span> <span class="o">-</span><span class="n">w</span> <span class="mi">128</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.cacheSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">cacheSecret</span></code></td>
+<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="n">cat</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="o">|</span> <span class="n">tr</span> <span class="o">-</span><span class="n">dc</span> <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="o">|</span> <span class="n">fold</span> <span class="o">-</span><span class="n">w</span> <span class="mi">128</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.minio.create</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">minio</span><span class="p">.</span><span class="k">create</span></code></td>
 <td>Create minio internally</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.create</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">rabbitmq</span><span class="p">.</span><span class="k">create</span></code></td>
 <td>Create rabbitmq internally</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqUsername</span></code></td>
-<td>Username for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqUsername</span></code> also.</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">rabbitmq</span><span class="p">.</span><span class="n">rabbitmqUsername</span></code></td>
+<td>Username for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="n">rabbitmq</span><span class="o">-</span><span class="n">ha</span><span class="p">.</span><span class="n">rabbitmqUsername</span></code> also.</td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqPassword</span></code></td>
-<td>Password for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqPassword</span></code> also.</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">rabbitmq</span><span class="p">.</span><span class="n">rabbitmqPassword</span></code></td>
+<td>Password for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="n">rabbitmq</span><span class="o">-</span><span class="n">ha</span><span class="p">.</span><span class="n">rabbitmqPassword</span></code> also.</td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">defaultdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">defaultdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">default</span></code></td>
+<td><code class="codehilite"><span class="k">default</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">defaultdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">defaultdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">defaultdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">analysisdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">analysisdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">analysis</span></code></td>
+<td><code class="codehilite"><span class="n">analysis</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">analysisdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">analysisdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">analysisdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">results</span></code></td>
+<td><code class="codehilite"><span class="n">results</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb201709</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb201709</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">results201709</span></code></td>
+<td><code class="codehilite"><span class="n">results201709</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb201709</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb201709</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">resultsdb201709</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">metricsdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">metricsdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">metrics</span></code></td>
+<td><code class="codehilite"><span class="n">metrics</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">metricsdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">metricsdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">metricsdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestoredb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestoredb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">filestore</span></code></td>
+<td><code class="codehilite"><span class="n">filestore</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestoredb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestoredb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">filestoredb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">jobsdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">jobsdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">jobs</span></code></td>
+<td><code class="codehilite"><span class="n">jobs</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">jobsdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.host</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">jobsdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">jobsdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.enabled</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Enable githubEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.hostname</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">hostname</span></code></td>
 <td>Hostname of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.protocol</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">protocol</span></code></td>
 <td>Protocol of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.isPrivateMode</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">isPrivateMode</span></code></td>
 <td>Status of private mode on githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.disableSSL</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">githubEnterprise</span><span class="p">.</span><span class="n">disableSSL</span></code></td>
 <td>Disable certificate validation on interaction with githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.enabled</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">gitlabEnterprise</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Enable gitlabEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.hostname</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">gitlabEnterprise</span><span class="p">.</span><span class="n">hostname</span></code></td>
 <td>Hostname of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.protocol</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">gitlabEnterprise</span><span class="p">.</span><span class="n">protocol</span></code></td>
 <td>Protocol of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">gitlabEnterprise</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.enabled</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">bitbucketEnterprise</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Enable bitbucketEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.hostname</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">bitbucketEnterprise</span><span class="p">.</span><span class="n">hostname</span></code></td>
 <td>Hostname of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.protocol</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">bitbucketEnterprise</span><span class="p">.</span><span class="n">protocol</span></code></td>
 <td>Protocol of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.port</span></code></td>
+<td><code class="codehilite"><span class="k">global</span><span class="p">.</span><span class="n">bitbucketEnterprise</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -972,357 +972,357 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 </thead>
 <tbody>
 <tr>
-<td><code class="codehilite"><span class="err">portal.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">portal</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">portal.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">portal</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">portal.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">portal</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">portal.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">portal</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Portal service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">portal.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">portal</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the Portal service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">remote</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">service</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">remote</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">service</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">remote</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">service</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">remote</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">service</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Remote Provider service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">remote</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">service</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the Remote Provider service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">activitiesdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">activitiesdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">jobs</span></code></td>
+<td><code class="codehilite"><span class="n">jobs</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">activitiesdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.host</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">activitiesdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="n">activities</span><span class="p">.</span><span class="n">activitiesdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">hotspotsdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">hotspotsdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">hotspots</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">hotspotsdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.host</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">hotspotsdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">hotspotsdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">worker</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">worker</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">worker</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">worker</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">hotspots</span><span class="o">-</span><span class="n">worker</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.persistence.claim.size</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">persistence</span><span class="p">.</span><span class="n">claim</span><span class="p">.</span><span class="k">size</span></code></td>
 <td>Each pod mounts and NFS disk and claims this size.</td>
-<td><code class="codehilite"><span class="err">100Gi</span></code></td>
+<td><code class="codehilite"><span class="mi">100</span><span class="n">Gi</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.enabled</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">nfsserverprovisioner</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Creates an NFS server and a storage class to mount volumes in that server.</td>
-<td><code class="codehilite"><span class="err">true</span></code></td>
+<td><code class="codehilite"><span class="k">true</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.persistence.enabled</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">nfsserverprovisioner</span><span class="p">.</span><span class="n">persistence</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Creates an NFS provisioner</td>
-<td><code class="codehilite"><span class="err">true</span></code></td>
+<td><code class="codehilite"><span class="k">true</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.persistence.size</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">nfsserverprovisioner</span><span class="p">.</span><span class="n">persistence</span><span class="p">.</span><span class="k">size</span></code></td>
 <td>Size of the NFS server disk</td>
-<td><code class="codehilite"><span class="err">120Gi</span></code></td>
+<td><code class="codehilite"><span class="mi">120</span><span class="n">Gi</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlUsername</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">listenerdb</span><span class="p">.</span><span class="n">postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlDatabase</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">listenerdb</span><span class="p">.</span><span class="n">postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">listener</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlPassword</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">listenerdb</span><span class="p">.</span><span class="n">postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">PLEASE_CHANGE_ME</span></code></td>
+<td><code class="codehilite"><span class="n">PLEASE_CHANGE_ME</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.host</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">listenerdb</span><span class="p">.</span><span class="k">host</span></code></td>
 <td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy-listenerdb.codacy.svc.cluster.local</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">listenerdb</span><span class="p">.</span><span class="n">codacy</span><span class="p">.</span><span class="n">svc</span><span class="p">.</span><span class="k">cluster</span><span class="p">.</span><span class="k">local</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.service.port</span></code></td>
+<td><code class="codehilite"><span class="n">listener</span><span class="p">.</span><span class="n">listenerdb</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">port</span></code></td>
 <td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
+<td><code class="codehilite"><span class="mi">5432</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">core.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">core</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">core.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">core</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">core.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">core</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">core.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">core</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">engine.metrics.serviceMonitor.enabled</span></code></td>
+<td><code class="codehilite"><span class="n">engine</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">serviceMonitor</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Create the ServiceMonitor resource type to be read by prometheus operator.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
+<td><code class="codehilite"><span class="k">false</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.service.type</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="k">type</span></code></td>
 <td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
+<td><code class="codehilite"><span class="n">ClusterIP</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.config.license</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">license</span></code></td>
 <td>Codacy license for your installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
+<td><code class="codehilite"><span class="n">nil</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.service.annotations</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">annotations</span></code></td>
 <td>Annotations to be added to the service</td>
 <td><code class="codehilite"><span class="err">{}</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.metrics.serviceMonitor.enabled</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">serviceMonitor</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Create the ServiceMonitor resource type to be read by prometheus operator.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
+<td><code class="codehilite"><span class="k">false</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">codacy-api.metrics.grafana_dashboards.enabled</span></code></td>
+<td><code class="codehilite"><span class="n">codacy</span><span class="o">-</span><span class="n">api</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">grafana_dashboards</span><span class="p">.</span><span class="n">enabled</span></code></td>
 <td>Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
+<td><code class="codehilite"><span class="k">false</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">worker-manager.config.workers.genericMax</span></code></td>
+<td><code class="codehilite"><span class="n">worker</span><span class="o">-</span><span class="n">manager</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">workers</span><span class="p">.</span><span class="n">genericMax</span></code></td>
 <td>TBD</td>
-<td><code class="codehilite"><span class="err">100</span></code></td>
+<td><code class="codehilite"><span class="mi">100</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">worker-manager.config.workers.dedicatedMax</span></code></td>
+<td><code class="codehilite"><span class="n">worker</span><span class="o">-</span><span class="n">manager</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">workers</span><span class="p">.</span><span class="n">dedicatedMax</span></code></td>
 <td>TBD</td>
-<td><code class="codehilite"><span class="err">100</span></code></td>
+<td><code class="codehilite"><span class="mi">100</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">crow.replicaCount</span></code></td>
+<td><code class="codehilite"><span class="n">crow</span><span class="p">.</span><span class="n">replicaCount</span></code></td>
 <td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
+<td><code class="codehilite"><span class="mi">1</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">crow.image.repository</span></code></td>
+<td><code class="codehilite"><span class="n">crow</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">repository</span></code></td>
 <td>Image repository</td>
 <td>from dependency</td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">crow.image.tag</span></code></td>
+<td><code class="codehilite"><span class="n">crow</span><span class="p">.</span><span class="n">image</span><span class="p">.</span><span class="n">tag</span></code></td>
 <td>Image tag</td>
 <td>from dependency</td>
 </tr>
@@ -1339,24 +1339,24 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 </thead>
 <tbody>
 <tr>
-<td><code class="codehilite"><span class="err">fluentdoperator.enable</span></code></td>
+<td><code class="codehilite"><span class="n">fluentdoperator</span><span class="p">.</span><span class="n">enable</span></code></td>
 <td>Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
+<td><code class="codehilite"><span class="k">false</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">fluentdoperator.expirationDays</span></code></td>
+<td><code class="codehilite"><span class="n">fluentdoperator</span><span class="p">.</span><span class="n">expirationDays</span></code></td>
 <td>Number of days to retain logs. More time uses more disk on minio.</td>
-<td><code class="codehilite"><span class="err">14</span></code></td>
+<td><code class="codehilite"><span class="mi">14</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqUsername</span></code></td>
+<td><code class="codehilite"><span class="n">rabbitmq</span><span class="o">-</span><span class="n">ha</span><span class="p">.</span><span class="n">rabbitmqUsername</span></code></td>
 <td>Username for the bundled RabbitMQ.</td>
-<td><code class="codehilite"><span class="err">rabbitmq</span></code></td>
+<td><code class="codehilite"><span class="n">rabbitmq</span></code></td>
 </tr>
 <tr>
-<td><code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqPassword</span></code></td>
+<td><code class="codehilite"><span class="n">rabbitmq</span><span class="o">-</span><span class="n">ha</span><span class="p">.</span><span class="n">rabbitmqPassword</span></code></td>
 <td>Password for the bundled RabbitMQ.</td>
-<td><code class="codehilite"><span class="err">rabbitmq</span></code></td>
+<td><code class="codehilite"><span class="n">rabbitmq</span></code></td>
 </tr>
 </tbody>
 </table>
