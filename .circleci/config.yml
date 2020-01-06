@@ -443,21 +443,18 @@ workflows:
             - deploy_to_doks
 
   hourly_pipeline:
-    # triggers:
-    #     - schedule:
-    #         cron: "* 0 * * 1-5"
-    #         filters:
-    #           branches:
-    #             only:
-    #               - master
+    triggers:
+        - schedule:
+            cron: "* 0 * * 1-5"
+            filters:
+              branches:
+                only:
+                  - master
+                  - feature/hourly_tests
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "release"
-          filters:
-              branches:
-                only:
-                  - feature/hourly_tests
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
