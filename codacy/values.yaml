@@ -360,4 +360,4 @@ ragnaros:
   config:
     play:
       configFile: enterprise.conf
-      logFile: application-loggger.xml
+      logFile: application-logger.xml
