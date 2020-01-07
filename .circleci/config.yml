@@ -274,7 +274,7 @@ jobs:
   validate_deployment_status_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *validate_deployment_status_on_cluster
 
   validate_deployment_status_nightly_1_14:
