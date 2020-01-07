@@ -113,6 +113,9 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
+      - deploy:
+          name: Rotate Pods
+          command: make -C .doks/ rotate_pods NAMESPACE=$NAMESPACE
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -122,6 +125,9 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
+      - deploy:
+          name: Rotate Pods
+          command: make -C .doks/ rotate_pods NAMESPACE=$NAMESPACE
 
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster

@@ -2,12 +2,12 @@ CODACY_URL?="http://k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
+DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 )
 
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-		--recreate-pods \
 		-f values.yaml \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
@@ -25,7 +25,6 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
-		--recreate-pods \
 		-f values.yaml \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
@@ -38,6 +37,15 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 		--set global.codacy.url=${CODACY_URL} \
 		--set global.codacy.backendUrl=${CODACY_URL} \
 		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
+
+define rotate_pod
+kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
+kubectl rollout status "deployment/$(strip $(1))";
+endef
+
+.PHONY: rotate_pods
+rotate_pods: set_cluster_context
+	$(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 
 .PHONY: set_cluster_context
 set_cluster_context:
