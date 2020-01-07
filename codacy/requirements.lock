@@ -13,7 +13,7 @@ dependencies:
   version: 0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 4.31.0
+  version: 4.32.1
 - name: ragnaros
   repository: https://charts.codacy.com/stable
   version: 15.1.3
@@ -22,7 +22,7 @@ dependencies:
   version: 1.1.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 2.42.0
+  version: 2.43.0
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.3.0
@@ -40,12 +40,12 @@ dependencies:
   version: 5.56.0
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 4.120.0
+  version: 4.124.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 8.10.0
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.4.0
-digest: sha256:27119a9496269f7b16029bd31db3cb4f3d5041808f6b846a99d9f04e56236655
-generated: "2020-01-07T10:37:29.377403Z"
+digest: sha256:bf598a483e160aec19b0fc8d6025c8cefb3fc26b88e59fda537b8f7243b9a02a
+generated: "2020-01-07T12:48:06.90049Z"
