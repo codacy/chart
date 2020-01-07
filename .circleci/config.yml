@@ -250,7 +250,7 @@ jobs:
   rotate_pods_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *rotate_pods
 
   rotate_pods_nightly_1_14:
@@ -511,10 +511,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_hourly:
+      - rotate_pods_hourly:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
+      - validate_deployment_status_hourly:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
