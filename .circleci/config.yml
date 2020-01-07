@@ -122,9 +122,6 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
-      - deploy:
-          name: Rotate Pods
-          command: make -C .doks/ rotate_pods NAMESPACE=$NAMESPACE
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -134,10 +131,15 @@ references:
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
+
+  rotate_pods: &rotate_pods
+    steps:
+      - <<: *attach_workspace
+      - <<: *helm_lint
+      - <<: *doctl_authenticate
       - deploy:
           name: Rotate Pods
           command: make -C .doks/ rotate_pods NAMESPACE=$NAMESPACE
-
 
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
@@ -244,6 +246,30 @@ jobs:
     environment:
       <<: *nightly_environment_1_15
     <<: *deploy_to_cluster_from_chartmuseum
+
+  rotate_pods_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *rotate_pods
+
+  rotate_pods_nightly_1_14:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_14
+    <<: *rotate_pods
+
+  rotate_pods_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *rotate_pods
+
+  rotate_pods_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+    <<: *rotate_pods
 
   validate_deployment_status_hourly:
     <<: *default_doks_image
@@ -531,10 +557,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_nightly_1_14:
+      - rotate_pods_nightly_1_14:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly_1_14
+      - validate_deployment_status_nightly_1_14:
+          context: CodacyDO
+          requires:
+            - rotate_pods_nightly_1_14
       - update_codacy_url_nightly_1_14:
           context: CodacyDO
           requires:
@@ -543,10 +573,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_nightly_1_15:
+      - rotate_pods_nightly_1_15:
           context: CodacyDO
           requires:
             - deploy_to_doks_nightly_1_15
+      - validate_deployment_status_nightly_1_15:
+          context: CodacyDO
+          requires:
+            - rotate_pods_nightly_1_15
       - update_codacy_url_nightly_1_15:
           context: CodacyDO
           requires:
@@ -596,10 +630,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_incubator
-      - validate_deployment_status_release:
+      - rotate_pods_release:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
+      - validate_deployment_status_release:
+          context: CodacyDO
+          requires:
+            - rotate_pods_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
