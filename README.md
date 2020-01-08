@@ -1,5 +1,8 @@
 # Codacy Chart
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6a38f8edc57d4a6aaaa38e87d76a3520)](https://www.codacy.com/gh/codacy/chart?utm_source=github.com&utm_medium=referral&utm_content=codacy/chart&utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/gh/codacy/chart.svg?style=svg)](https://circleci.com/gh/codacy/chart)
+
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
