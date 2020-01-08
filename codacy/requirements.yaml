@@ -75,7 +75,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 8.10.0
+  version: 8.11.2
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
