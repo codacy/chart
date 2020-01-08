@@ -625,7 +625,7 @@ helm upgrade --install monitoring stable/prometheus-operator <span class="se">\<
 kubectl get svc monitoring-grafana -n monitoring
 </pre></div>
 
-<p>Now that you have prometheus and grafana you can enable <code class="codehilite"><span class="n">ServiceMonitors</span></code> and <code class="codehilite"><span class="n">GrafanaDashboards</span></code>
+<p>Now that you have prometheus and grafana you can enable <code class="codehilite"><span class="err">ServiceMonitors</span></code> and <code class="codehilite"><span class="err">GrafanaDashboards</span></code>
 for Codacy components:</p>
 <div class="codehilite"><pre><span></span><span class="nt">codacy-api</span><span class="p">:</span>
   <span class="nt">metrics</span><span class="p">:</span>

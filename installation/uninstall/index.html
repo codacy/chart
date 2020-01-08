@@ -545,9 +545,9 @@ kubectl delete pvc -n codacy <span class="k">$(</span>kubectl get pvc -n codacy 
 kubectl delete pods -n codacy <span class="k">$(</span>kubectl get pods -n codacy -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[*].metadata.name}&#39;</span><span class="k">)</span> --force --grace-period<span class="o">=</span><span class="m">0</span>
 </pre></div>
 
-<p>Note that the deletion of <code class="codehilite"><span class="n">pvc</span></code>s in the above command has to run in the background
+<p>Note that the deletion of <code class="codehilite"><span class="err">pvc</span></code>s in the above command has to run in the background
 due to a cyclic dependency in one of the components. If you are unsure of these
-commands' effect please run the each of the <code class="codehilite"><span class="n">bash</span></code> subcommands and validate their output, viz.</p>
+commands' effect please run the each of the <code class="codehilite"><span class="err">bash</span></code> subcommands and validate their output, viz.</p>
 <div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;PVCs to delete:&quot;</span>
 kubectl get pvc -n codacy -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[*].metadata.name}&#39;</span>
 <span class="nb">echo</span> <span class="s2">&quot;PODS to delete:&quot;</span>

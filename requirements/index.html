@@ -673,7 +673,7 @@ file to find a configuration reference that should work for you to run
 a "production ready" version of Codacy.</p>
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
 <p>Each analysis runs a maximum number of 4 plugins in parallel (not configurable)</p>
-<p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="n">worker</span><span class="o">-</span><span class="n">manager</span><span class="p">.</span><span class="n">config</span></code>
+<p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="err">worker-manager.config</span></code>
 configuration object, but for simplicity, we decided to omit the full path.</p>
 <div class="codehilite"><pre><span></span>CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
 

@@ -611,13 +611,13 @@
                 
                 
                 <h1 id="github-enterprise">GitHub Enterprise<a class="headerlink" href="#github-enterprise" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your GitHub instance on the <code class="codehilite"><span class="k">values</span><span class="p">.</span><span class="n">yaml</span></code> file.
-<strong>Please note that you must go to <code class="codehilite"><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">codacy</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="k">admin</span><span class="o">/</span><span class="n">integrations</span></code>, select the desired provider and <code class="codehilite"><span class="n">Test</span> <span class="o">&amp;</span> <span class="n">Save</span></code> your configuration for it to be applied.</strong></p>
+<p>Set your configuration values for your GitHub instance on the <code class="codehilite"><span class="err">values.yaml</span></code> file.
+<strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
 <h2 id="github-application">GitHub Application<a class="headerlink" href="#github-application" title="Permanent link">&para;</a></h2>
 <p>To integrate with GitHub we use a GitHub Application.</p>
-<p>To create the application in your GitHub Enterprise, visit <code class="codehilite"><span class="n">settings</span><span class="o">/</span><span class="n">applications</span><span class="o">/</span><span class="k">new</span></code> and create an application pointing to your local Codacy deployment URL.</p>
+<p>To create the application in your GitHub Enterprise, visit <code class="codehilite"><span class="err">settings/applications/new</span></code> and create an application pointing to your local Codacy deployment URL.</p>
 <p><img alt="GitHub Application" src="../images/github-application.png" /></p>
-<p>You can fill all the fields with the suggested text above or use your own text except for the field <code class="codehilite"><span class="k">Authorization</span> <span class="n">callback</span> <span class="n">URL</span></code> where you must insert your local Codacy deployment url.</p>
+<p>You can fill all the fields with the suggested text above or use your own text except for the field <code class="codehilite"><span class="err">Authorization callback URL</span></code> where you must insert your local Codacy deployment url.</p>
 <p>The URL should contain the endpoint/ip, the protocol (HTTP or HTTPS), and, if applicable, the port where it is running.</p>
 <p>Correct:</p>
 <ul>
@@ -634,7 +634,7 @@
 <li>
 <p>53.43.42.12:9000</p>
 <h3 id="token-retrieval">Token retrieval<a class="headerlink" href="#token-retrieval" title="Permanent link">&para;</a></h3>
-<p>After the application is created, you should copy both the <code class="codehilite"><span class="n">Client</span> <span class="n">ID</span></code> and the <code class="codehilite"><span class="n">Client</span> <span class="n">Secret</span></code> and paste them in the setup page on your Codacy Self-hosted.</p>
+<p>After the application is created, you should copy both the <code class="codehilite"><span class="err">Client ID</span></code> and the <code class="codehilite"><span class="err">Client Secret</span></code> and paste them in the setup page on your Codacy Self-hosted.</p>
 </li>
 </ul>
 <p><img alt="GitHub Application" src="../images/github-token-retrieval.png" /></p>
