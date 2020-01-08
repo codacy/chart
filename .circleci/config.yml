@@ -388,8 +388,8 @@ jobs:
       - deploy:
           name: Commit and push requirements.lock file
           command: |
-            git add ./workdir/codacy/requirements.lock
-            git commit -m "[ci skip] requirements.lock version bump."
+            git add codacy/requirements.lock
+            git commit -m "[ci skip] nightly requirements.lock commit."
             git push
       - <<: *persist_to_workspace
 
