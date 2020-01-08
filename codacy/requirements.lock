@@ -13,7 +13,7 @@ dependencies:
   version: 0.3.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 4.32.1
+  version: 4.32.2
 - name: ragnaros
   repository: https://charts.codacy.com/stable
   version: 15.1.3
@@ -47,5 +47,5 @@ dependencies:
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.4.0
-digest: sha256:bf598a483e160aec19b0fc8d6025c8cefb3fc26b88e59fda537b8f7243b9a02a
-generated: "2020-01-07T12:48:06.90049Z"
+digest: sha256:f2a6f3b7773f8de0b938f3aae1c8639ef5db3f79c0c4b2fa53759d01e637a9b2
+generated: "2020-01-08T09:07:54.487184Z"
