@@ -25,3 +25,13 @@ The following are the steps to upgrade Codacy to a newer version:
       -f codacy.yaml \
       --set ...
     ```
+
+4.  If required, force the rollout new versions of pods using
+
+    ```bash
+    DEPLOYMENTS=$(kubectl get deployments -n codacy -o jsonpath='{.items[?(@.metadata.name!="codacy-minio")].metadata.name}')
+    for app in $DEPLOYMENTS; do
+      kubectl patch deployment $app -n codacy -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(date +'%Y-%m-%dT%H:%M:%S')'" }}}}}'
+      kubectl rollout status "deployment/$app" -n codacy
+    done
+    ```
