@@ -40,7 +40,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 
 define rotate_pod
 kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE};
+kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
 endef
 
 .PHONY: rotate_pods
