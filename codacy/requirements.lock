@@ -19,7 +19,7 @@ dependencies:
   version: 15.1.3
 - name: activities
   repository: https://charts.codacy.com/stable
-  version: 1.1.0
+  version: 1.2.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
   version: 2.43.0
@@ -48,4 +48,4 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 4.4.0
 digest: sha256:f2a6f3b7773f8de0b938f3aae1c8639ef5db3f79c0c4b2fa53759d01e637a9b2
-generated: "2020-01-08T09:07:54.487184Z"
+generated: "2020-01-09T15:18:50.58016667Z"
