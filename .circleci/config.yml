@@ -387,9 +387,10 @@ jobs:
       - deploy:
           name: Commit and push requirements.lock file
           command: |
+            BRANCH=$(git rev-parse --abbrev-ref HEAD)
             git add codacy/requirements.lock
             git commit -m "[ci skip] nightly requirements.lock commit."
-            git push
+            git push --set-upstream origin $BRANCH
       - <<: *persist_to_workspace
 
 workflows:
