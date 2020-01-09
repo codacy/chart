@@ -14,7 +14,6 @@ You will have to dump all the following databases:
 4.  jobs
 5.  metrics
 6.  results
-7.  results201709
 
 ## Requirements
 
@@ -34,7 +33,7 @@ You will need to know the following:
 The following command lets you extract a given database into a dump file:
 
 ```bash
-PGPASSWORD=$DB_PASSWORD pg_dump -h $HOSTNAME -U $DB_USER -d $DB -F t -f /tmp/$DB.sql.tar"
+PGPASSWORD=$DB_PASSWORD pg_dump -h $HOSTNAME -U $DB_USER -d $DB -F t -f /tmp/$DB.sql.tar
 ```
 
 This will dump the file with the `.sql.tar` extension into the `/tmp` folder.
@@ -63,11 +62,11 @@ DEST_HOSTNAME=$2
 DB_USER=$3
 DB_PASSWORD=$4
 
-declare -a dbs=(accounts analysis filestore jobs metrics results results201709)
+declare -a dbs=(accounts analysis filestore jobs metrics results)
 for db in ${dbs[@]}
 do
-  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -U $DB_USER -d $DB -F t -f /tmp/$DB.sql.tar"
-  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar
+  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -U $DB_USER -d $db -F t -f /tmp/$db.sql.tar
+  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $db -F t /tmp/$db.sql.tar
 done
 ```
 
