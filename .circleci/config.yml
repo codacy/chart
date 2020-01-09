@@ -329,6 +329,12 @@ jobs:
     steps:
       - <<: *attach_workspace
       - run:
+          name: "Update worker version"
+          command: |
+            ENGINE_VERSION=$(helm dependency list codacy/ | grep engine | awk '{print $2}')
+            ytool -f "./codacy/values.yaml" -s worker-manager.config.codacy.worker.image "$ENGINE_VERSION"
+            git --no-pager diff --no-color
+      - run:
           name: "Get latest chart versions"
           command: make update_dependencies
       - <<: *persist_to_workspace
