@@ -344,7 +344,7 @@ jobs:
           name: Set cluster
           command: |
             sudo pip install -r requirements.pip
-            mkdocs gh-deploy
+            mkdocs gh-deploy -m "[ci skip] Updated documentation."
 
   get_changelogs:
     docker:
@@ -379,6 +379,11 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: "Setup git"
+          command: |
+            git config --global user.email "circleci@codacy.com"
+            git config --global user.name "codacycircleci"
       - deploy:
           name: Commit and push requirements.lock file
           command: |
