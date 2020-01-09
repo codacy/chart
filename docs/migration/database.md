@@ -45,7 +45,7 @@ This will dump the file with the `.sql.tar` extension into the `/tmp` folder.
 To restore a database, you can run a `pg_restore` command to consume the dump file and replicate the data onto Postgres:
 
 ```bash
-PGPASSWORD=$DB_PASSWORD pg_restore -h $HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar
+PGPASSWORD=$DB_PASSWORD pg_restore -h $HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar --clean --if-exists --create
 ```
 
 *NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called `jobs` created there)*
@@ -66,7 +66,7 @@ declare -a dbs=(accounts analysis filestore jobs metrics results)
 for db in ${dbs[@]}
 do
   PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -U $DB_USER -d $db -F t -f /tmp/$db.sql.tar
-  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $db -F t /tmp/$db.sql.tar
+  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $db -F t /tmp/$db.sql.tar --clean --if-exists --create
 done
 ```
 
