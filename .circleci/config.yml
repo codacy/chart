@@ -344,7 +344,7 @@ jobs:
           name: Set cluster
           command: |
             sudo pip install -r requirements.pip
-            mkdocs gh-deploy
+            mkdocs gh-deploy -m "[ci skip] Updated documentation."
 
   get_changelogs:
     docker:
