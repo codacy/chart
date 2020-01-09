@@ -1,3 +1,5 @@
+ENGINE_VERSION:=$(shell helm dependency list codacy/ | grep engine | awk '{print $$2}')
+
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add codacy-stable https://charts.codacy.com/stable
@@ -5,8 +7,13 @@ setup_helm_repos:
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
 	helm repo add codacy-external https://charts.codacy.com/external
 
+.PHONY: update_worker_version
+update_worker_version:
+	@echo ${ENGINE_VERSION}
+	ytool -f "./codacy/values.yaml" -s worker-manager.config.codacy.worker.image "${ENGINE_VERSION}" -e
+
 .PHONY: update_dependencies
-update_dependencies: setup_helm_repos
+update_dependencies: setup_helm_repos update_worker_version
 	helm repo update
 
 	# we explicitly delete the lock file since there is an issue with helm 2.15
