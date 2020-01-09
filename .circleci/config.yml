@@ -6,7 +6,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:0.2.3
+      - image: codacy/ci-do:0.3.0
     working_directory: ~/workdir/
 
   qa_automation_image: &qa_automation_image
@@ -150,11 +150,6 @@ references:
   helm_push: &helm_push
     steps:
       - <<: *attach_workspace
-      - run:
-          name: "Install requirements"
-          command: |
-            apk add --no-cache python3
-            pip3 install ytool
       - run:
           name: Set image tag and version using semver
           command: |
@@ -323,8 +318,7 @@ jobs:
       - <<: *persist_to_workspace
 
   update_versions:
-    docker:
-      - image: codacy/ci-do:0.2.3
+    <<: *default_doks_image
     working_directory: ~/workdir/
     steps:
       - <<: *attach_workspace
@@ -394,8 +388,8 @@ jobs:
       - deploy:
           name: Commit and push requirements.lock file
           command: |
-            git add ./workdir/codacy/requirements.lock
-            git commit -m "[ci skip] requirements.lock version bump."
+            git add codacy/requirements.lock
+            git commit -m "[ci skip] nightly requirements.lock commit."
             git push
       - <<: *persist_to_workspace
 
