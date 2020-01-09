@@ -1,9 +1,12 @@
 # Codacy Chart
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6a38f8edc57d4a6aaaa38e87d76a3520)](https://www.codacy.com/gh/codacy/chart?utm_source=github.com&utm_medium=referral&utm_content=codacy/chart&utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/gh/codacy/chart.svg?style=svg)](https://circleci.com/gh/codacy/chart)
+
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
-![K8s Love](./docs/images/k8s_love.png)
+![K8s Love](https://raw.githubusercontent.com/codacy/chart/master/docs/images/k8s_love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
 Each service in Codacy has its chart published to our
@@ -26,7 +29,7 @@ out Codacy contact our support at support@codacy.com.
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
 
-![Helm Chart Structure](./docs/images/charts.png)
+![Helm Chart Structure](https://raw.githubusercontent.com/codacy/chart/master/docs/images/charts.png)
 
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
@@ -75,11 +78,6 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.analysisdb.postgresqlPassword`      | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.analysisdb.host`                    | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.analysisdb.service.port`            | Port of the Postgresql server                                                                                               | `5432`          |
-| `global.resultsdb.postgresqlUsername`       | Username of the Postgresql server                                                                                           | `codacy`        |
-| `global.resultsdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                                      | `results`       |
-| `global.resultsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | `nil`           |
-| `global.resultsdb.host`                     | Hostname of the Postgresql server                                                                                           | `nil`           |
-| `global.resultsdb.service.port`             | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.resultsdb201709.postgresqlUsername` | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.resultsdb201709.postgresqlDatabase` | Database name of the Postgresql server                                                                                      | `results201709` |
 | `global.resultsdb201709.postgresqlPassword` | Hostname of the Postgresql server                                                                                           | `nil`           |
