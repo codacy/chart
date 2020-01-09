@@ -5,8 +5,6 @@ global:
     create: false
   resultsdb201709:
     create: false
-  resultsdb:
-    create: false
   metricsdb:
     create: false
   filestoredb:
