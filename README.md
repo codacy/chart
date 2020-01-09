@@ -78,11 +78,6 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.analysisdb.postgresqlPassword`      | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.analysisdb.host`                    | Hostname of the Postgresql server                                                                                           | `nil`           |
 | `global.analysisdb.service.port`            | Port of the Postgresql server                                                                                               | `5432`          |
-| `global.resultsdb.postgresqlUsername`       | Username of the Postgresql server                                                                                           | `codacy`        |
-| `global.resultsdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                                      | `results`       |
-| `global.resultsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                                           | `nil`           |
-| `global.resultsdb.host`                     | Hostname of the Postgresql server                                                                                           | `nil`           |
-| `global.resultsdb.service.port`             | Port of the Postgresql server                                                                                               | `5432`          |
 | `global.resultsdb201709.postgresqlUsername` | Username of the Postgresql server                                                                                           | `codacy`        |
 | `global.resultsdb201709.postgresqlDatabase` | Database name of the Postgresql server                                                                                      | `results201709` |
 | `global.resultsdb201709.postgresqlPassword` | Hostname of the Postgresql server                                                                                           | `nil`           |
