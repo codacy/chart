@@ -2,7 +2,7 @@ CODACY_URL?="http://k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
-DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" -o jsonpath='{.items[?(@.metadata.name!="codacy-minio")].metadata.name}'
+DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" -o jsonpath='{.items[?(@.metadata.name!="codacy-minio")].metadata.name})'
 
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
