@@ -511,22 +511,22 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - rotate_pods_hourly:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_hourly
       - validate_deployment_status_hourly:
           context: CodacyDO
           requires:
-            - rotate_pods_hourly
+            - deploy_to_doks_hourly
       - update_codacy_url_hourly:
           context: CodacyDO
           requires:
             - validate_deployment_status_hourly
-      - qa_tests_hourly:
+      - rotate_pods_hourly:
           context: CodacyDO
           requires:
             - update_codacy_url_hourly
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
 
   nightly_pipeline:
     triggers:
