@@ -180,8 +180,7 @@ references:
       - deploy:
           name: Run tests
           command: |
-            source .apiurl
-            export URL=http://$CODACY_API
+            export URL=$CODACY_URL
             export URLLANDING=$URL/
             export URLLOGGED=$URL/projects
             OLD_IFS=$IFS
@@ -194,7 +193,6 @@ references:
                 sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
                 echo "Testing $suite"
             done
-
 
   update_codacy_url: &update_codacy_url
     steps:
@@ -515,14 +513,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
-      - update_codacy_url_hourly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_hourly
       - rotate_pods_hourly:
           context: CodacyDO
           requires:
-            - update_codacy_url_hourly
+            - validate_deployment_status_hourly
       - qa_tests_hourly:
           context: CodacyDO
           requires:
