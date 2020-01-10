@@ -519,10 +519,14 @@ workflows:
           context: CodacyDO
           requires:
             - rotate_pods_hourly
-      - qa_tests_hourly:
+      - update_codacy_url_hourly:
           context: CodacyDO
           requires:
             - validate_deployment_status_hourly
+      - qa_tests_hourly:
+          context: CodacyDO
+          requires:
+            - update_codacy_url_hourly
 
   nightly_pipeline:
     triggers:
