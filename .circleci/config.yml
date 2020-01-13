@@ -146,6 +146,10 @@ references:
             do
                 kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
             done
+      - run:
+          name: "Rollback to previous deployment"
+          command: helm rollback "$RELEASE_NAME" 0 && exit $?
+          when: on_fail
 
   helm_push: &helm_push
     steps:
