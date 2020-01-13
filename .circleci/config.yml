@@ -64,7 +64,7 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
-    TEST_SUITES: Suite/Enterprise/WEB_DEV.xml;Suite/Enterprise/E2E_DEV.xml;Suite/Enterprise/API_DEV.xml
+    TEST_SUITES: Suite/Enterprise/K8S_HOURLY/API_DEV.xml;Suite/Enterprise/K8S_HOURLY/E2E_DEV.xml;Suite/Enterprise/K8S_HOURLY/WEB_DEV.xml
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
