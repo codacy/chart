@@ -473,44 +473,34 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - rotate_pods_nightly_1_14:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_14
       - validate_deployment_status_nightly_1_14:
           context: CodacyDO
           requires:
-            - rotate_pods_nightly_1_14
+            - deploy_to_doks_nightly_1_14
       - update_codacy_url_nightly_1_14:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_14
+      - rotate_pods_nightly_1_14:
+          context: CodacyDO
+          requires:
+            - update_codacy_url_nightly_1_14
       - deploy_to_doks_nightly_1_15:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - rotate_pods_nightly_1_15:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_15
       - validate_deployment_status_nightly_1_15:
           context: CodacyDO
           requires:
-            - rotate_pods_nightly_1_15
+            - deploy_to_doks_nightly_1_15
       - update_codacy_url_nightly_1_15:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_15
-      - commit_requirements:
+      - rotate_pods_nightly_1_15:
           context: CodacyDO
           requires:
-            - update_codacy_url_nightly_1_14
             - update_codacy_url_nightly_1_15
-      - codacy/tag_version:
-          name: tag_version
-          context: CodacyDO
-          requires:
-            - commit_requirements
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -518,7 +508,8 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - tag_version
+            - rotate_pods_nightly_1_14
+            - rotate_pods_nightly_1_15
 
   release_pipeline:
     jobs:
