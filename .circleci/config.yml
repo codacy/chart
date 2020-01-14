@@ -515,11 +515,12 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
-          release_branch: "release"
+          release_branch: "${CIRCLE_BRANCH}"
           filters:
-             branches:
-               only:
-                 - release
+            tags:
+              only: /^release-.*/
+            branches:
+              ignore: /.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
