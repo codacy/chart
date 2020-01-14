@@ -64,7 +64,6 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
-    TEST_SUITES: Suite/Enterprise/K8S_HOURLY/API_DEV.xml;Suite/Enterprise/K8S_HOURLY/E2E_DEV.xml;Suite/Enterprise/K8S_HOURLY/WEB_DEV.xml
     LAUNCH_NAME: ENTERPRISE_WEB_DEV_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
@@ -183,16 +182,8 @@ references:
             export URL=$CODACY_URL
             export URLLANDING=$URL/
             export URLLOGGED=$URL/projects
-            OLD_IFS=$IFS
-            IFS=';' read -ra suites \<<< "$TEST_SUITES"
-            IFS=$OLD_IFS
-            for suite in "${suites[@]}"
-            do
-                export TEST_PATH=$suite
-                export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-                sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
-                echo "Testing $suite"
-            done
+            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
+            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   update_codacy_url: &update_codacy_url
     steps:
@@ -337,11 +328,28 @@ jobs:
         default: true
     <<: *update_codacy_url
 
-  qa_tests_hourly:
+  test_api_dev:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
       <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/API_DEV.xml
+    <<: *qa_job
+
+  test_e2e_dev:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/E2E_DEV.xml
+    <<: *qa_job
+
+  test_web_dev:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/WEB_DEV.xml
     <<: *qa_job
 
   set_chart_version_nightly:
@@ -517,7 +525,15 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_hourly
-      - qa_tests_hourly:
+      - test_api_dev:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
+      - test_e2e_dev:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
+      - test_web_dev:
           context: CodacyDO
           requires:
             - rotate_pods_hourly
