@@ -99,7 +99,7 @@ global:
     service:
       port: 5432
 
-  resultsdb201709:
+  resultsdb:
     create: true
     imageTag: "9.6.2"
     postgresqlUsername: codacy
