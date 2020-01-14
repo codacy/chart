@@ -689,7 +689,6 @@
 <li>jobs</li>
 <li>metrics</li>
 <li>results</li>
-<li>results201709</li>
 </ol>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <p>The following operations must be executed by a user which has elevated access (<code class="codehilite"><span class="err">SUPERUSER</span></code>) in the Postgres databases.</p>
@@ -703,14 +702,14 @@
 </ul>
 <h3 id="pg_dump">pg_dump<a class="headerlink" href="#pg_dump" title="Permanent link">&para;</a></h3>
 <p>The following command lets you extract a given database into a dump file:</p>
-<div class="codehilite"><pre><span></span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar<span class="s2">&quot;</span>
+<div class="codehilite"><pre><span></span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar
 </pre></div>
 
 <p>This will dump the file with the <code class="codehilite"><span class="na">.sql.tar</span></code> extension into the <code class="codehilite"><span class="err">/tmp</span></code> folder.</p>
 <p><a href="https://www.postgresql.org/docs/10/app-pgdump.html">For more information and additional options, please check the official documentation.</a></p>
 <h3 id="pg_restore">pg_restore<a class="headerlink" href="#pg_restore" title="Permanent link">&para;</a></h3>
 <p>To restore a database, you can run a <code class="codehilite"><span class="err">pg_restore</span></code> command to consume the dump file and replicate the data onto Postgres:</p>
-<div class="codehilite"><pre><span></span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar
+<div class="codehilite"><pre><span></span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar --clean --if-exists --create
 </pre></div>
 
 <p><em>NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called <code class="codehilite"><span class="err">jobs</span></code> created there)</em></p>
@@ -722,12 +721,12 @@
 <span class="nv">DB_USER</span><span class="o">=</span><span class="nv">$3</span>
 <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="nv">$4</span>
 
-<span class="nb">declare</span> -a <span class="nv">dbs</span><span class="o">=(</span>accounts analysis filestore <span class="nb">jobs</span> metrics results results201709<span class="o">)</span>
+<span class="nb">declare</span> -a <span class="nv">dbs</span><span class="o">=(</span>accounts analysis filestore <span class="nb">jobs</span> metrics results<span class="o">)</span>
 <span class="k">for</span> db in <span class="si">${</span><span class="nv">dbs</span><span class="p">[@]</span><span class="si">}</span>
 <span class="k">do</span>
-  <span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$SRC_HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar<span class="s2">&quot;</span>
-<span class="s2">  PGPASSWORD=</span><span class="nv">$DB_PASSWORD</span><span class="s2"> pg_restore -h </span><span class="nv">$DEST_HOSTNAME</span><span class="s2"> -U </span><span class="nv">$DB_USER</span><span class="s2"> -d </span><span class="nv">$DB</span><span class="s2"> -F t /tmp/</span><span class="nv">$DB</span><span class="s2">.sql.tar</span>
-<span class="s2">done</span>
+  <span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$SRC_HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$db</span> -F t -f /tmp/<span class="nv">$db</span>.sql.tar
+  <span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$DEST_HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$db</span> -F t /tmp/<span class="nv">$db</span>.sql.tar --clean --if-exists --create
+<span class="k">done</span>
 </pre></div>
 
 <p>You could simply invoke it with:</p>
