@@ -139,6 +139,10 @@ global:
     service:
       port: 5432
 
+  features:
+    #If you use git submodules to share configuration files for the tools you will need to enable this feature so codacy can detect these files on the submodules
+    cloneSubmodules: false
+
 portal:
   replicaCount: 1
   fullnameOverride: codacy-portal
@@ -272,10 +276,6 @@ worker-manager:
       # Toleration and nodeSelector for worker/tool pods
       tolerations: []
       nodeSelector: {}
-
-    features:
-      #If you use git submodules to share configuration files for the tools you will need to enable this feature so codacy can detect these files on the submodules
-      cloneSubmodules: false
 
     codacy:
       worker:
