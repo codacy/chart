@@ -273,6 +273,10 @@ worker-manager:
       tolerations: []
       nodeSelector: {}
 
+    features:
+      #If you use git submodules to share configuration files for the tools you will need to enable this feature so codacy can detect these files on the submodules
+      cloneSubmodules: false
+
     codacy:
       worker:
         image: 6.0.0
