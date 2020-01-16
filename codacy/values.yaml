@@ -275,7 +275,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: 5.56.0
+        image: 6.0.0
 
     # The resources to assign to a worker pod
     workerResources:
