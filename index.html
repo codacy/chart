@@ -687,6 +687,9 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 <th>Parameter</th>
 <th>Description</th>
 <th>Default</th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -694,271 +697,449 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 <td><code class="codehilite"><span class="err">global.codacy.url</span></code></td>
 <td>Hostname to your Codacy installation</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.codacy.backendUrl</span></code></td>
 <td>Hostname to your Codacy installation</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.play.cryptoSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
+<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
+<td>tr -dc 'a-zA-Z0-9'</td>
+<td>fold -w 128</td>
+<td>head -n 1`</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestore.contentsSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
+<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
+<td>tr -dc 'a-zA-Z0-9'</td>
+<td>fold -w 128</td>
+<td>head -n 1`</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestore.uuidSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
+<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
+<td>tr -dc 'a-zA-Z0-9'</td>
+<td>fold -w 128</td>
+<td>head -n 1`</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.cacheSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with <code class="codehilite"><span class="err">cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 128 | head -n 1</span></code></td>
+<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
+<td>tr -dc 'a-zA-Z0-9'</td>
+<td>fold -w 128</td>
+<td>head -n 1`</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.minio.create</span></code></td>
 <td>Create minio internally</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.rabbitmq.create</span></code></td>
 <td>Create rabbitmq internally</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqUsername</span></code></td>
 <td>Username for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqUsername</span></code> also.</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqPassword</span></code></td>
 <td>Password for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqPassword</span></code> also.</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.defaultdb.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.defaultdb.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">default</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.defaultdb.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.defaultdb.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.defaultdb.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.analysisdb.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.analysisdb.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">analysis</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.analysisdb.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.analysisdb.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.analysisdb.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">results201709</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.resultsdb201709.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.resultsdb201709.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.metricsdb.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.metricsdb.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">metrics</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.metricsdb.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.metricsdb.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.metricsdb.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestoredb.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestoredb.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">filestore</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestoredb.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestoredb.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.filestoredb.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.jobsdb.postgresqlUsername</span></code></td>
 <td>Username of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">codacy</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.jobsdb.postgresqlDatabase</span></code></td>
 <td>Database name of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">jobs</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.jobsdb.postgresqlPassword</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.jobsdb.host</span></code></td>
 <td>Hostname of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.jobsdb.service.port</span></code></td>
 <td>Port of the Postgresql server</td>
 <td><code class="codehilite"><span class="err">5432</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.enabled</span></code></td>
 <td>Enable githubEnterprise</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.hostname</span></code></td>
 <td>Hostname of githubEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.protocol</span></code></td>
 <td>Protocol of githubEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.port</span></code></td>
 <td>Port of githubEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.isPrivateMode</span></code></td>
 <td>Status of private mode on githubEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.githubEnterprise.disableSSL</span></code></td>
 <td>Disable certificate validation on interaction with githubEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.gitlabEnterprise.enabled</span></code></td>
 <td>Enable gitlabEnterprise</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.gitlabEnterprise.hostname</span></code></td>
 <td>Hostname of gitlabEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.gitlabEnterprise.protocol</span></code></td>
 <td>Protocol of gitlabEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.gitlabEnterprise.port</span></code></td>
 <td>Port of gitlabEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.bitbucketEnterprise.enabled</span></code></td>
 <td>Enable bitbucketEnterprise</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.bitbucketEnterprise.hostname</span></code></td>
 <td>Hostname of bitbucketEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.bitbucketEnterprise.protocol</span></code></td>
 <td>Protocol of bitbucketEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">global.bitbucketEnterprise.port</span></code></td>
 <td>Port of bitbucketEnterprise instance</td>
 <td><code class="codehilite"><span class="err">nil</span></code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code class="codehilite"><span class="err">global.features.cloneSubmodules</span></code></td>
+<td>Enable sharing of configuration files for the analysis tools placed on git submodules</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code class="codehilite"><span class="err">false</span></code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -1311,11 +1492,6 @@ Some of these repositories are private and accessible to Codacy engineers only.<
 <td><code class="codehilite"><span class="err">worker-manager.config.workers.dedicatedMax</span></code></td>
 <td>TBD</td>
 <td><code class="codehilite"><span class="err">100</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">worker-manager.config.features.cloneSubmodules</span></code></td>
-<td>Enable sharing of configuration files for the analysis tools placed on git submodules</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
 </tr>
 <tr>
 <td><code class="codehilite"><span class="err">crow.replicaCount</span></code></td>
