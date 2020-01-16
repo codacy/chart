@@ -99,7 +99,7 @@ global:
     service:
       port: 5432
 
-  resultsdb201709:
+  resultsdb:
     create: true
     imageTag: "9.6.2"
     postgresqlUsername: codacy
@@ -138,6 +138,10 @@ global:
     host: codacy-postgres
     service:
       port: 5432
+
+  features:
+    #If you use git submodules to share configuration files for the tools you will need to enable this feature so codacy can detect these files on the submodules
+    cloneSubmodules: false
 
 portal:
   replicaCount: 1
@@ -275,7 +279,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: 5.56.0
+        image: ENGINE_VERSION
 
     # The resources to assign to a worker pod
     workerResources:
