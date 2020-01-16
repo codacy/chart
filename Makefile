@@ -1,5 +1,4 @@
-ENGINE_VERSION:=$(shell helm dependency list codacy/ | grep engine | awk '{print $$2}')
-
+ENGINE_VERSION:=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add codacy-stable https://charts.codacy.com/stable
