@@ -1,3 +1,35 @@
+# Use external databases
+
+Even thought we deliver postgres as a requirements so
+that you can start Codacy really fast, it's really not
+recommended for a production ready installation.
+
+Assuming you have a postgres database available. Follow the following steps to have Codacy using it:
+
+1.  Create a user to be used by Codacy in your postgres:
+
+```sql
+  CREATE USER codacy WITH PASSWORD 'codacy';
+  ALTER ROLE codacy WITH CREATEDB;
+```
+
+2.  Create the different databases needed for the different services in postgres:
+
+```sql
+  CREATE DATABASE accounts WITH OWNER=codacy;
+  CREATE DATABASE analysis WITH OWNER=codacy;
+  CREATE DATABASE results WITH OWNER=codacy;
+  CREATE DATABASE metrics WITH OWNER=codacy;
+  CREATE DATABASE filestore WITH OWNER=codacy;
+  CREATE DATABASE jobs WITH OWNER=codacy;
+  CREATE DATABASE activities WITH OWNER=codacy;
+  CREATE DATABASE hotsposts WITH OWNER=codacy;
+  CREATE DATABASE listener WITH OWNER=codacy;
+```
+
+3.  Create a `database-values.yaml` file that disables the creation of the DBs inside the cluster and configure the correct external `hostname`, `username`, `password` and `databaseName`.
+
+```yaml
 global:
   defaultdb:
     create: false
@@ -48,39 +80,7 @@ global:
     service:
       port: 5432
 
-codacy-api:
-  ingress:
-    enabled: true ## Enable ingress
-  replicaCount: 2
-  service:
-    type: LoadBalancer
-  resources:
-    limits:
-      cpu: 500m
-      memory: 2000Mi
-    requests:
-      cpu: 100m
-      memory: 1000Mi
-
-portal:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 500Mi
-
 activities:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 500Mi
   activitiesdb:
     create: false
     postgresqlUsername: codacy
@@ -90,25 +90,7 @@ activities:
     service:
       port: 5432
 
-remote-provider-service:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 750Mi
-    requests:
-      cpu: 100m
-      memory: 300Mi
-
 hotspots-api:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 500Mi
   hotspotsdb:
     create: false
     postgresqlUsername: codacy
@@ -118,28 +100,8 @@ hotspots-api:
     service:
       port: 5432
 
-hotspots-worker:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 500Mi
-
 listener:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 2
-      memory: 8Gi
-    requests:
-      cpu: 1
-      memory: 6Gi
-
   listenerdb:
-    create: false
     create: false
     postgresqlUsername: codacy
     postgresqlDatabase: listener # You need to create the DB manually
@@ -147,66 +109,4 @@ listener:
     host: codacy-database.internal
     service:
       port: 5432
-
-  persistence:
-    claim:
-      size: 140Gi
-
-  nfsserverprovisioner:
-    enabled: true
-    persistence:
-      enabled: true
-      size: 200Gi
-
-core:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1500Mi
-    requests:
-      cpu: 100m
-      memory: 750Mi
-
-engine:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 2000m
-      memory: 15000Mi
-    requests:
-      cpu: 1000m
-      memory: 10000Mi
-
-worker-manager:
-  replicaCount: 2
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1000Mi
-    requests:
-      cpu: 100m
-      memory: 500Mi
-  config:
-    workers:
-      genericMax: 20
-      dedicatedMax: 20
-
-crow:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 1
-      memory: 2Gi
-    requests:
-      cpu: 0.5
-      memory: 1Gi
-
-fluentdoperator:
-  enabled: true
-
-minio:
-  persistence:
-    enabled: true
-  persistence:
-    size: 20Gi
+```
