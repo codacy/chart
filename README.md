@@ -185,6 +185,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
 | `worker-manager.config.workers.genericMax`          | TBD                                                                                                 | `100`                                        |
 | `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `100`                                        |
+| `worker-manager.config.features.cloneSubmodules`    | Enable sharing of configuration files for the analysis tools placed on git submodules               | `false`                                      |
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |

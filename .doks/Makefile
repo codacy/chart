@@ -18,7 +18,8 @@ deploy_to_doks: set_cluster_context
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url=${CODACY_URL} \
 		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
+		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
+		--set worker-manager.config.features.cloneSubmodules=true
 
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context
@@ -36,7 +37,8 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 		--set codacy-api.config.license=$${CODACY_LICENSE} \
 		--set global.codacy.url=${CODACY_URL} \
 		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class"
+		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
+		--set worker-manager.config.features.cloneSubmodules=true
 
 define rotate_pod
 kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
