@@ -313,7 +313,7 @@ jobs:
           name: Set chart version suffix
           command: |
             mv .version .version_tmp
-            sed -E 's/SNAPSHOT/NIGHTLY/g' .version_tmp >> .version
+            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
             rm .version_tmp
       - <<: *persist_to_workspace
 
