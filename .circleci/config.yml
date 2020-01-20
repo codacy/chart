@@ -620,47 +620,70 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
-          dev_branch: "master"
-          release_branch: "release"
           filters:
-             branches:
-               only:
-                 - release
+            tags:
+              only: /^release-.*/
+            branches:
+              ignore: /.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
           requires:
             - codacy/checkout_and_version
+          filters:
+            tags:
+              only: /^release-.*/
       - helm_push_incubator:
           context: CodacyDO
           requires:
             - helm_lint
+          filters:
+            tags:
+              only: /^release-.*/
       - get_changelogs:
           context: CodacyDO
           requires:
             - helm_push_incubator
+          filters:
+            tags:
+              only: /^release-.*/
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
             - helm_push_incubator
+          filters:
+            tags:
+              only: /^release-.*/
       - rotate_pods_release:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
+          filters:
+            tags:
+              only: /^release-.*/
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
             - rotate_pods_release
+          filters:
+            tags:
+              only: /^release-.*/
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
            - validate_deployment_status_release
+          filters:
+            tags:
+              only: /^release-.*/
       - codacy/tag_version:
           name: tag_version
           context: CodacyDO
           requires:
             - manual_qa_hold
+          filters:
+            tags:
+              only: /^release-.*/
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -669,3 +692,6 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
+          filters:
+            tags:
+              only: /^release-.*/
