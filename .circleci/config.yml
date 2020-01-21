@@ -401,7 +401,7 @@ jobs:
     steps:
       - <<: *attach_workspace
       - slack/notify:
-          channel: '#sh_release'
+          channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
           message: $(cat changelogs/changelog.txt)
@@ -529,7 +529,7 @@ workflows:
             tags:
               only: /^release-.*/
             branches:
-              ignore: /.*/
+              only: master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
