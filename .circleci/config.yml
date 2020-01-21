@@ -555,11 +555,11 @@ workflows:
       - update_versions:
           context: CodacyDO
           requires:
-            - get_changelogs
+            - helm_push_incubator
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
-            - helm_push_incubator
+            - update_versions
           filters:
             tags:
               only: /^release-.*/
