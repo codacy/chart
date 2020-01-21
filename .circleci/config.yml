@@ -608,6 +608,7 @@ workflows:
           context: CodacyDO
           requires:
             - promote_chart_to_stable
+            - get_changelogs
           filters:
             tags:
               only: /^release-.*/
