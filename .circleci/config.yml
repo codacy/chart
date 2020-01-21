@@ -552,6 +552,10 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - get_changelogs
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
