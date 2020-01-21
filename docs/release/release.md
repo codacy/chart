@@ -40,7 +40,7 @@ Otherwise, you can find instructions here:
 4. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message must be "`release: start release [DD-MM-YYYY]`".
 5. Create a pull request to `master`.
 6. Wait for the merge. :)
-7. Tag the merge with `RELEASE-[DD-MM-YYYY]`
+7. Tag the merge with `release-[DD-MM-YYYY].[version]`
 8. This tag will automatically trigger a release candidate build. You chart will be deployed to `release.dev.codacy.org` (`codacy-doks-cluster-release` cluster in digital ocean).
 9. Follow the `release` workflow of the `chart` project on circleci.
 
@@ -64,5 +64,5 @@ After the release is complete:
 ## Something went wrong
 
 If you would like to abandon the current release:
-1. Delete the `RELEASE-[DD-MM-YYYY]` tag that you have pushed.
+1. Delete the `release-[DD-MM-YYYY].[version]` tag that you have pushed.
 2. Run `helm rollback codacy-release 0` on the `codacy-doks-cluster-release`. This will roll back the release to its previous successful deployment.
