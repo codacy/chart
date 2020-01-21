@@ -711,7 +711,7 @@ On MacOS:</p>
 <li>Commit both <code class="codehilite"><span class="err">requirements.yaml</span></code> and <code class="codehilite"><span class="err">requirements.lock</span></code> to the branch. The commit message must be "<code class="codehilite"><span class="n">release</span><span class="o">:</span> <span class="n">start</span> <span class="n">release</span> <span class="o">[</span><span class="n">DD</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">YYYY</span><span class="o">]</span></code>".</li>
 <li>Create a pull request to <code class="codehilite"><span class="err">master</span></code>.</li>
 <li>Wait for the merge. :)</li>
-<li>Tag the merge with <code class="codehilite"><span class="err">RELEASE-[DD-MM-YYYY]</span></code></li>
+<li>Tag the merge with <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">version</span><span class="o">]</span><span class="w"></span></code></li>
 <li>This tag will automatically trigger a release candidate build. You chart will be deployed to <code class="codehilite"><span class="err">release.dev.codacy.org</span></code> (<code class="codehilite"><span class="err">codacy-doks-cluster-release</span></code> cluster in digital ocean).</li>
 <li>Follow the <code class="codehilite"><span class="err">release</span></code> workflow of the <code class="codehilite"><span class="err">chart</span></code> project on circleci.</li>
 </ol>
@@ -730,7 +730,7 @@ On MacOS:</p>
 4. Create a pull request.</p>
 <h2 id="something-went-wrong">Something went wrong<a class="headerlink" href="#something-went-wrong" title="Permanent link">&para;</a></h2>
 <p>If you would like to abandon the current release:
-1. Delete the <code class="codehilite"><span class="err">RELEASE-[DD-MM-YYYY]</span></code> tag that you have pushed.
+1. Delete the <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">version</span><span class="o">]</span><span class="w"></span></code> tag that you have pushed.
 2. Run <code class="codehilite"><span class="err">helm rollback codacy-release 0</span></code> on the <code class="codehilite"><span class="err">codacy-doks-cluster-release</span></code>. This will roll back the release to its previous successful deployment.</p>
                 
                   
