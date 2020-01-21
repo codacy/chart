@@ -538,10 +538,17 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - helm_push_incubator:
+      - update_versions:
           context: CodacyDO
           requires:
             - helm_lint
+          filters:
+            tags:
+              only: /^release-.*/
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - update_versions
           filters:
             tags:
               only: /^release-.*/
@@ -552,17 +559,10 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - update_versions:
-          context: CodacyDO
-          requires:
-            - helm_push_incubator
-          filters:
-            tags:
-              only: /^release-.*/
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
-            - update_versions
+            - helm_push_incubator
           filters:
             tags:
               only: /^release-.*/
