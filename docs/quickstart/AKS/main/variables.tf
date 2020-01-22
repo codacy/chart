@@ -24,14 +24,14 @@ variable "azuread_password_validity" {
 variable "k8s_version" {
   description = "Kubernetes version to use in the cluster"
   type = string
-  default = "1.12"
+  default = "1.14"
 }
 
 variable "k8s_worker_type" {
-  description = "Instance type used for kubernetes worker nodes"
+  description = "Instance type used for Kubernetes worker nodes"
   type = string
-  ## NOTE: you probaly need larger machines (like those in the commented line below), but
-  #        for that you need to enable Pay-As-You-Go, and ask Azure Support to raise your
+  ## NOTE: you probably need larger machines (like those in the commented line below), but
+  #        for that you need to enable Pay-As-You-Go and ask Azure Support to raise your
   #        to raise your account limits.
   #
   #default = "Standard_F4s_v2"
