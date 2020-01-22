@@ -2,10 +2,10 @@
 
 If you want to deploy Codacy on Kubernetes, the following requirements must be met:
 
-1.  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 1.13 or higher, compatible with your cluster
+1.  A Kubernetes cluster, between version 1.13 and 1.15. 16vCPU and 64GB of RAM is the recommended minimum.
+2.  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 1.13 or higher, compatible with your cluster
     ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin)).
-2.  [Helm](https://helm.sh/docs/using_helm/#installing-helm) 2.14> &lt;3.0
-3.  A Kubernetes cluster, between version 1.13 and 1.15. 16vCPU and 64GB of RAM is the recommended minimum.
+3.  [Helm](https://helm.sh/docs/using_helm/#installing-helm) 2.14> &lt;3.0
 4.  Postgres database (<https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise>)
 
 ## Resources

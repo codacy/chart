@@ -1,6 +1,7 @@
 # Install
 
-Install Codacy on Kubernetes with the cloud native Codacy Helm chart.
+Install Codacy in an existing Kubernetes cluster with the
+cloud-native Codacy Helm chart.
 This guide will cover the required values and common options.
 
 Before starting, make sure you are aware of the [requirements](../requirements/index.md).
@@ -8,7 +9,7 @@ Before starting, make sure you are aware of the [requirements](../requirements/i
 ## TL;DR - Quickly install Codacy for demo without any persistence.
 
 Some Codacy images are currently private. For this, you need to
-create a secret in the same namespace were you will install Codacy.
+create a secret in the same namespace where you will install Codacy.
 **You should receive these credentials together with your license.**
 
 ```bash
