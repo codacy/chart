@@ -458,7 +458,7 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
-          release_branch: "release"
+          release_branch: "releases"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -525,6 +525,8 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "releases"
           filters:
             tags:
               only: /^release-.*/
