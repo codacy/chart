@@ -1,12 +1,19 @@
 # EKS cluster setup using terraform
 
-This folder includes the terraform templates needed to create an EKS
+[This folder](https://github.com/codacy/chart/tree/master/docs/quickstart/EKS) includes the terraform templates needed to create an EKS
 cluster from scratch, including all the necessary underlying
 infrastructure. It includes the following infrastructure stacks:
 
 -   **backend** - (optional) the S3 bucket for storing the terraform state and the DynamoDB table for state locking.
 -   **main** - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.
 -   **setup** - additional setup you must perform before installing Codacy on your vanilla EKS cluster.
+
+Clone the project and go to that directory:
+
+```bash
+$ git clone git@github.com:codacy/chart.git
+$ cd chart/docs/quickstart/EKS/
+```
 
 ## Requirements
 
@@ -33,21 +40,21 @@ complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work corr
 
 ## TL;DR
 
-### Seting up an EKS cluster for Codacy
+### Setting up an EKS cluster for Codacy
 
-Assuming AWS is well configured and you fulfill all the prerequisites,
+Assuming **AWS is well configured** and you fulfill all the prerequisites,
 the setup without state storage, can be done with:
 
 ```bash
-export AWS_SDK_LOAD_CONFIG=1
-cd main/
-terraform init && terraform apply
-cd ../setup/
-terraform init && terraform apply
-aws eks update-kubeconfig --name codacy-cluster
+$ export AWS_SDK_LOAD_CONFIG=1
+$ cd main/
+$ terraform init && terraform apply
+$ cd ../setup/
+$ terraform init && terraform apply
+$ aws eks update-kubeconfig --name codacy-cluster
 ```
 
-## Deployment
+## Deployment - Long version
 
 ### 1. `backend` - setup terraform state storage
 

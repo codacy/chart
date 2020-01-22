@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   codacy: codacy/base@1.2.1
+  slack: circleci/slack@3.4.2
 
 references:
   default_doks_image: &default_doks_image
@@ -361,8 +362,26 @@ jobs:
           name: Set chart version suffix
           command: |
             mv .version .version_tmp
-            sed -E 's/SNAPSHOT/NIGHTLY/g' .version_tmp >> .version
+            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
             rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
+      - <<: *persist_to_workspace
+
+  set_chart_version_release:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - run:
+          name: Set chart version suffix
+          command: |
+            mv .version .version_tmp
+            sed -E "s/-.*//g" .version_tmp >> .version
+            rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
       - <<: *persist_to_workspace
 
   update_versions:
@@ -442,6 +461,16 @@ jobs:
             git commit -m "[ci skip] nightly requirements.lock commit."
             git push --set-upstream origin $BRANCH
       - <<: *persist_to_workspace
+
+  slack_notify_release:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - slack/notify:
+          channel: '#sh_releases'
+          color: '#2EB67D'
+          title: $(cat .version)
+          message: $(cat changelogs/changelog.txt)
 
 workflows:
   helm_lint:
@@ -553,7 +582,7 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
-          release_branch: "release"
+          release_branch: "releases"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -620,6 +649,8 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "releases"
           filters:
             tags:
               only: /^release-.*/
@@ -633,10 +664,24 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - helm_push_incubator:
+      - set_chart_version_release:
           context: CodacyDO
           requires:
             - helm_lint
+          filters:
+            tags:
+              only: /^release-.*/
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - set_chart_version_release
+          filters:
+            tags:
+              only: /^release-.*/
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - update_versions
           filters:
             tags:
               only: /^release-.*/
@@ -692,6 +737,14 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
+          filters:
+            tags:
+              only: /^release-.*/
+      - slack_notify_release:
+          context: CodacyDO
+          requires:
+            - promote_chart_to_stable
+            - get_changelogs
           filters:
             tags:
               only: /^release-.*/
