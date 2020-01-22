@@ -519,8 +519,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#seting-up-an-eks-cluster-for-codacy" class="md-nav__link">
-    Seting up an EKS cluster for Codacy
+  <a href="#setting-up-an-eks-cluster-for-codacy" class="md-nav__link">
+    Setting up an EKS cluster for Codacy
   </a>
   
 </li>
@@ -531,8 +531,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    Deployment
+  <a href="#deployment-long-version" class="md-nav__link">
+    Deployment - Long version
   </a>
   
     <nav class="md-nav">
@@ -729,8 +729,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#seting-up-an-eks-cluster-for-codacy" class="md-nav__link">
-    Seting up an EKS cluster for Codacy
+  <a href="#setting-up-an-eks-cluster-for-codacy" class="md-nav__link">
+    Setting up an EKS cluster for Codacy
   </a>
   
 </li>
@@ -741,8 +741,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    Deployment
+  <a href="#deployment-long-version" class="md-nav__link">
+    Deployment - Long version
   </a>
   
     <nav class="md-nav">
@@ -833,7 +833,7 @@
                 
                 
                 <h1 id="eks-cluster-setup-using-terraform">EKS cluster setup using terraform<a class="headerlink" href="#eks-cluster-setup-using-terraform" title="Permanent link">&para;</a></h1>
-<p>This folder includes the terraform templates needed to create an EKS
+<p><a href="https://github.com/codacy/chart/tree/master/docs/quickstart/EKS">This folder</a> includes the terraform templates needed to create an EKS
 cluster from scratch, including all the necessary underlying
 infrastructure. It includes the following infrastructure stacks:</p>
 <ul>
@@ -841,6 +841,11 @@ infrastructure. It includes the following infrastructure stacks:</p>
 <li><strong>main</strong> - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.</li>
 <li><strong>setup</strong> - additional setup you must perform before installing Codacy on your vanilla EKS cluster.</li>
 </ul>
+<p>Clone the project and go to that directory:</p>
+<div class="codehilite"><pre><span></span>$ git clone git@github.com:codacy/chart.git
+$ <span class="nb">cd</span> chart/docs/quickstart/EKS/
+</pre></div>
+
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <p>In order to setup the infrastructure you'll need recent versions of:</p>
 <ul>
@@ -861,18 +866,18 @@ and <a href="https://www.terraform.io/docs/providers/aws/index.html">Terraform</
 Note that, as stated in the documentation, if your <code class="codehilite"><span class="na">.aws</span><span class="err">/</span><span class="no">credentials</span></code> are fairly
 complex you might need to set <code class="codehilite"><span class="err">AWS_SDK_LOAD_CONFIG=1</span></code> for Terraform to work correctly.</p>
 <h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<h3 id="seting-up-an-eks-cluster-for-codacy">Seting up an EKS cluster for Codacy<a class="headerlink" href="#seting-up-an-eks-cluster-for-codacy" title="Permanent link">&para;</a></h3>
-<p>Assuming AWS is well configured and you fulfill all the prerequisites,
+<h3 id="setting-up-an-eks-cluster-for-codacy">Setting up an EKS cluster for Codacy<a class="headerlink" href="#setting-up-an-eks-cluster-for-codacy" title="Permanent link">&para;</a></h3>
+<p>Assuming <strong>AWS is well configured</strong> and you fulfill all the prerequisites,
 the setup without state storage, can be done with:</p>
-<div class="codehilite"><pre><span></span><span class="nb">export</span> <span class="nv">AWS_SDK_LOAD_CONFIG</span><span class="o">=</span><span class="m">1</span>
-<span class="nb">cd</span> main/
-terraform init <span class="o">&amp;&amp;</span> terraform apply
-<span class="nb">cd</span> ../setup/
-terraform init <span class="o">&amp;&amp;</span> terraform apply
-aws eks update-kubeconfig --name codacy-cluster
+<div class="codehilite"><pre><span></span>$ <span class="nb">export</span> <span class="nv">AWS_SDK_LOAD_CONFIG</span><span class="o">=</span><span class="m">1</span>
+$ <span class="nb">cd</span> main/
+$ terraform init <span class="o">&amp;&amp;</span> terraform apply
+$ <span class="nb">cd</span> ../setup/
+$ terraform init <span class="o">&amp;&amp;</span> terraform apply
+$ aws eks update-kubeconfig --name codacy-cluster
 </pre></div>
 
-<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
+<h2 id="deployment-long-version">Deployment - Long version<a class="headerlink" href="#deployment-long-version" title="Permanent link">&para;</a></h2>
 <h3 id="1-backend-setup-terraform-state-storage">1. <code class="codehilite"><span class="err">backend</span></code> - setup terraform state storage<a class="headerlink" href="#1-backend-setup-terraform-state-storage" title="Permanent link">&para;</a></h3>
 <p>The <a href="https://www.terraform.io/docs/backends/index.html">backend</a> stores
 the current and historical state of your infrastructure. Deploying and using
