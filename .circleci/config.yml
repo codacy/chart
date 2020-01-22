@@ -316,6 +316,24 @@ jobs:
             mv .version .version_tmp
             sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
             rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
+      - <<: *persist_to_workspace
+
+  set_chart_version_release:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - run:
+          name: Set chart version suffix
+          command: |
+            mv .version .version_tmp
+            sed -E "s/-.*//g" .version_tmp >> .version
+            rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
       - <<: *persist_to_workspace
 
   update_versions:
@@ -531,7 +549,7 @@ workflows:
             tags:
               only: /^release-.*/
             branches:
-              only: releases
+              ignore: /.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
@@ -540,10 +558,17 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - update_versions:
+      - set_chart_version_release:
           context: CodacyDO
           requires:
             - helm_lint
+          filters:
+            tags:
+              only: /^release-.*/
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - set_chart_version_release
           filters:
             tags:
               only: /^release-.*/
