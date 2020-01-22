@@ -531,7 +531,7 @@ workflows:
             tags:
               only: /^release-.*/
             branches:
-              ignore: /.*/
+              only: releases
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
