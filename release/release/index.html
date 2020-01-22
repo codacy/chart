@@ -672,7 +672,7 @@
                 
                 <h1 id="preparing-the-release">Preparing the release<a class="headerlink" href="#preparing-the-release" title="Permanent link">&para;</a></h1>
 <ol>
-<li>Create a release branch in the form of <code class="codehilite"><span class="err">release/[DD-MM-YYYY]</span></code></li>
+<li>Checkout the <code class="codehilite"><span class="err">releases</span></code> branch.</li>
 <li>Freeze the versions of each component on the requirements.yaml file to this branch.
 The following sample script will output all the latest versions of the codacy owned components from the <code class="codehilite"><span class="err">STABLE</span></code> charts museum:
 <div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
@@ -709,28 +709,24 @@ On MacOS:</p>
 <ol>
 <li>Run <code class="codehilite"><span class="err">helm dep up</span></code>.</li>
 <li>Commit both <code class="codehilite"><span class="err">requirements.yaml</span></code> and <code class="codehilite"><span class="err">requirements.lock</span></code> to the branch. The commit message must be "<code class="codehilite"><span class="n">release</span><span class="o">:</span> <span class="n">start</span> <span class="n">release</span> <span class="o">[</span><span class="n">DD</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">YYYY</span><span class="o">]</span></code>".</li>
-<li>Create a pull request to <code class="codehilite"><span class="err">master</span></code>.</li>
-<li>Wait for the merge. :)</li>
-<li>Tag the merge with <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">version</span><span class="o">]</span><span class="w"></span></code></li>
-<li>This tag will automatically trigger a release candidate build. You chart will be deployed to <code class="codehilite"><span class="err">release.dev.codacy.org</span></code> (<code class="codehilite"><span class="err">codacy-doks-cluster-release</span></code> cluster in digital ocean).</li>
+<li>Tag the commit with <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">buildversion</span><span class="o">]</span><span class="w"></span></code> and push.</li>
+<li>This tag will automatically trigger a release candidate build. You chart will be deployed to <code class="codehilite"><span class="err">k8s.release.dev.codacy.org</span></code> (<code class="codehilite"><span class="err">codacy-doks-cluster-release</span></code> cluster in digital ocean).</li>
 <li>Follow the <code class="codehilite"><span class="err">release</span></code> workflow of the <code class="codehilite"><span class="err">chart</span></code> project on circleci.</li>
 </ol>
 <h2 id="during-the-release">During the release<a class="headerlink" href="#during-the-release" title="Permanent link">&para;</a></h2>
 <p>If there are things that need to be fixed:
-1. Re-open the release branch.
-2. After the components have been fixed, update the versions on the requirements.yaml file.
-3. Run <code class="codehilite"><span class="err">helm dep up</span></code>.
-4. Commit both <code class="codehilite"><span class="err">requirements.yaml</span></code> and <code class="codehilite"><span class="err">requirements.lock</span></code> to the branch. The commit message shoul contain something such as "<code class="codehilite"><span class="nl">bump</span><span class="p">:</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="o">[</span><span class="n">component</span><span class="o">]</span><span class="w"> </span><span class="n">version</span><span class="w"></span></code>".
-5. Repeat steps 5. to 9. .</p>
+1. After the components have been fixed, update the versions on the requirements.yaml file.
+2. Run <code class="codehilite"><span class="err">helm dep up</span></code>.
+3. Commit both <code class="codehilite"><span class="err">requirements.yaml</span></code> and <code class="codehilite"><span class="err">requirements.lock</span></code> to the branch. The commit message shoul contain something such as "<code class="codehilite"><span class="nl">bump</span><span class="p">:</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="o">[</span><span class="n">component</span><span class="o">]</span><span class="w"> </span><span class="n">version</span><span class="w"></span></code>".
+4. Repeat steps 5. to 7. from the section above.</p>
 <h2 id="after-the-release">After the release<a class="headerlink" href="#after-the-release" title="Permanent link">&para;</a></h2>
 <p>After the release is complete:
-1. Put back semantic version syntax on the <code class="codehilite"><span class="err">requirements.yaml</span></code> file, using the versions of the release.
-2. Run <code class="codehilite"><span class="err">helm dep up</span></code>
-3. Commit both <code class="codehilite"><span class="err">requirements.yaml</span></code> and <code class="codehilite"><span class="err">requirements.lock</span></code> to the branch. The commit message must be "<code class="codehilite"><span class="n">release</span><span class="o">:</span><span class="n">finish</span> <span class="n">release</span> <span class="o">[</span><span class="n">DD</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">YYYY</span><span class="o">]</span></code>".
-4. Create a pull request.</p>
+1. There will be a <code class="codehilite"><span class="err">x.y.z</span></code> tag if the release has been successful.
+2. We adopt a long-lived <code class="codehilite"><span class="err">releases</span></code> branch approach so there is nothing you need to do in particular.
+   1. Optionally, you can delete the <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">buildversion</span><span class="o">]</span><span class="w"></span></code> you have created.</p>
 <h2 id="something-went-wrong">Something went wrong<a class="headerlink" href="#something-went-wrong" title="Permanent link">&para;</a></h2>
 <p>If you would like to abandon the current release:
-1. Delete the <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">version</span><span class="o">]</span><span class="w"></span></code> tag that you have pushed.
+1. Delete the <code class="codehilite"><span class="k">release</span><span class="o">-[</span><span class="n">DD-MM-YYYY</span><span class="o">]</span><span class="p">.</span><span class="o">[</span><span class="n">buildversion</span><span class="o">]</span><span class="w"></span></code> tag that you have pushed.
 2. Run <code class="codehilite"><span class="err">helm rollback codacy-release 0</span></code> on the <code class="codehilite"><span class="err">codacy-doks-cluster-release</span></code>. This will roll back the release to its previous successful deployment.</p>
                 
                   
