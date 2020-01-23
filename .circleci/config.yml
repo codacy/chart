@@ -12,7 +12,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.3.0
+      - image: codacy/qa-automation-test-runner:1.7.2
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -64,11 +64,18 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
-    TEST_PATH: Suite/Enterprise/WEB_DEV.xml
-    LAUNCH_NAME: ENTERPRISE_WEB_DEV_DOKS
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: hourly
+    RELEASE_NAME: codacy-hourly
+    NAMESPACE: codacy-hourly
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
+    NUM_NODES: 5
+    HELM_REPOSITORY: codacy-unstable
+    CODACY_URL: http://k8s.hourly.dev.codacy.org
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -171,16 +178,15 @@ references:
       - deploy:
           name: Run tests
           command: |
-            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-            source .apiurl
-            export URL=http://$CODACY_API
+            export URL=$CODACY_URL
             export URLLANDING=$URL/
             export URLLOGGED=$URL/projects
+            export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   update_codacy_url: &update_codacy_url
     steps:
-      - checkout
+      - <<: *attach_workspace
       - <<: *doctl_authenticate
       - run:
           name: Set cluster
@@ -195,6 +201,10 @@ references:
           command: |
               CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
               make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
+      - when:
+          condition: <<parameters.persist_codacy_url>>
+          steps:
+            - <<: *persist_to_workspace
 
 jobs:
   deploy_to_doks:
@@ -206,7 +216,7 @@ jobs:
   deploy_to_doks_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_nightly_1_14:
@@ -224,7 +234,7 @@ jobs:
   rotate_pods_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *rotate_pods
 
   rotate_pods_nightly_1_14:
@@ -248,7 +258,7 @@ jobs:
   validate_deployment_status_hourly:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *qa_environment_hourly
     <<: *validate_deployment_status_on_cluster
 
   validate_deployment_status_nightly_1_14:
@@ -291,19 +301,57 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_14
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: false
     <<: *update_codacy_url
 
   update_codacy_url_nightly_1_15:
     <<: *default_doks_image
     environment:
       <<: *nightly_environment_1_15
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: false
     <<: *update_codacy_url
 
-  qa_tests_hourly:
+  update_codacy_url_hourly:
+    <<: *default_doks_image
+    environment:
+      <<: *qa_environment_hourly
+    parameters:
+      persist_codacy_url:
+        type: boolean
+        default: true
+    <<: *update_codacy_url
+
+  test_api_dev:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
       <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/API_DEV.xml
+      LAUNCH_NAME: ENTERPRISE_API_HOURLY_TESTS
+    <<: *qa_job
+
+  test_e2e_dev:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/E2E_DEV.xml
+      LAUNCH_NAME: ENTERPRISE_E2E_HOURLY_TESTS
+    <<: *qa_job
+
+  test_web_dev:
+    <<: *qa_automation_image
+    environment:
+      <<: *dev_environment
+      <<: *qa_environment_hourly
+      TEST_PATH: Suite/Enterprise/K8S_HOURLY/WEB_DEV.xml
+      LAUNCH_NAME: ENTERPRISE_WEB_HOURLY_TESTS
     <<: *qa_job
 
   set_chart_version_nightly:
@@ -316,6 +364,24 @@ jobs:
             mv .version .version_tmp
             sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
             rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
+      - <<: *persist_to_workspace
+
+  set_chart_version_release:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - run:
+          name: Set chart version suffix
+          command: |
+            mv .version .version_tmp
+            sed -E "s/-.*//g" .version_tmp >> .version
+            rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
       - <<: *persist_to_workspace
 
   update_versions:
@@ -401,7 +467,7 @@ jobs:
     steps:
       - <<: *attach_workspace
       - slack/notify:
-          channel: '#sh_release'
+          channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
           message: $(cat changelogs/changelog.txt)
@@ -447,6 +513,57 @@ workflows:
           requires:
             - deploy_to_doks
 
+  hourly_pipeline:
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
+          filters:
+              branches:
+                only:
+                  - feature/hourly_tests
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint codacy/
+          requires:
+            - codacy/checkout_and_version
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - update_versions
+      - deploy_to_doks_hourly:
+          context: CodacyDO
+          requires:
+            - helm_push_unstable
+      - validate_deployment_status_hourly:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_hourly
+      - rotate_pods_hourly:
+          context: CodacyDO
+          requires:
+            - validate_deployment_status_hourly
+      - test_api_dev:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
+      - test_e2e_dev:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
+      - test_web_dev:
+          context: CodacyDO
+          requires:
+            - rotate_pods_hourly
+
   nightly_pipeline:
     triggers:
        - schedule:
@@ -458,7 +575,7 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
-          release_branch: "release"
+          release_branch: "releases"
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
@@ -525,6 +642,8 @@ workflows:
   release_pipeline:
     jobs:
       - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "releases"
           filters:
             tags:
               only: /^release-.*/
@@ -538,10 +657,24 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - helm_push_incubator:
+      - set_chart_version_release:
           context: CodacyDO
           requires:
             - helm_lint
+          filters:
+            tags:
+              only: /^release-.*/
+      - update_versions:
+          context: CodacyDO
+          requires:
+            - set_chart_version_release
+          filters:
+            tags:
+              only: /^release-.*/
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - update_versions
           filters:
             tags:
               only: /^release-.*/
@@ -604,6 +737,7 @@ workflows:
           context: CodacyDO
           requires:
             - promote_chart_to_stable
+            - get_changelogs
           filters:
             tags:
               only: /^release-.*/

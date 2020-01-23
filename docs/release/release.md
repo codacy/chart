@@ -1,6 +1,6 @@
 # Preparing the release
 
-1. Create a release branch in the form of `release/[DD-MM-YYYY]`
+1. Checkout the `releases` branch.
 2. Freeze the versions of each component on the requirements.yaml file to this branch.
 The following sample script will output all the latest versions of the codacy owned components from the `STABLE` charts museum:
 ```bash
@@ -38,31 +38,27 @@ Otherwise, you can find instructions here:
 
 3. Run `helm dep up`.
 4. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message must be "`release: start release [DD-MM-YYYY]`".
-5. Create a pull request to `master`.
-6. Wait for the merge. :)
-7. Tag the merge with `RELEASE-[DD-MM-YYYY]`
-8. This tag will automatically trigger a release candidate build. You chart will be deployed to `release.dev.codacy.org` (`codacy-doks-cluster-release` cluster in digital ocean).
-9. Follow the `release` workflow of the `chart` project on circleci.
+5. Tag the commit with `release-[DD-MM-YYYY].[buildversion]` and push.
+6. This tag will automatically trigger a release candidate build. You chart will be deployed to `k8s.release.dev.codacy.org` (`codacy-doks-cluster-release` cluster in digital ocean).
+7. Follow the `release` workflow of the `chart` project on circleci.
 
 ## During the release
 
 If there are things that need to be fixed:
-1. Re-open the release branch.
-2. After the components have been fixed, update the versions on the requirements.yaml file.
-3. Run `helm dep up`.
-4. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message shoul contain something such as "`bump: updated [component] version`".
-5. Repeat steps 5. to 9. .
+1. After the components have been fixed, update the versions on the requirements.yaml file.
+2. Run `helm dep up`.
+3. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message shoul contain something such as "`bump: updated [component] version`".
+4. Repeat steps 5. to 7. from the section above.
 
 ## After the release
 
 After the release is complete:
-1. Put back semantic version syntax on the `requirements.yaml` file, using the versions of the release.
-2. Run `helm dep up`
-3. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message must be "`release:finish release [DD-MM-YYYY]`".
-4. Create a pull request.
+1. There will be a `x.y.z` tag if the release has been successful.
+2. We adopt a long-lived `releases` branch approach so there is nothing you need to do in particular.
+   1. Optionally, you can delete the `release-[DD-MM-YYYY].[buildversion]` you have created.
 
 ## Something went wrong
 
 If you would like to abandon the current release:
-1. Delete the `RELEASE-[DD-MM-YYYY]` tag that you have pushed.
+1. Delete the `release-[DD-MM-YYYY].[buildversion]` tag that you have pushed.
 2. Run `helm rollback codacy-release 0` on the `codacy-doks-cluster-release`. This will roll back the release to its previous successful deployment.
