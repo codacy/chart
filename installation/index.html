@@ -671,7 +671,7 @@ $ kubectl create secret docker-registry docker-credentials --docker-username<spa
 <p>Create a file named <code class="codehilite"><span class="err">values.yaml</span></code>, using a text editor of your choice.</p>
 <div class="codehilite"><pre><span></span><span class="nt">global</span><span class="p">:</span>
   <span class="nt">imagePullSecrets</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span> <span class="c1"># Access private codacy docker images</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span> <span class="c1"># Access private codacy docker images</span>
   <span class="nt">codacy</span><span class="p">:</span>
     <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.mycompany.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
     <span class="nt">backendUrl</span><span class="p">:</span> <span class="s">&quot;http://codacy.mycompany.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
@@ -687,7 +687,7 @@ $ kubectl create secret docker-registry docker-credentials --docker-username<spa
 $ helm repo update
 $ helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
   --namespace codacy <span class="se">\</span>
-  --recreate-pod <span class="se">\</span>
+  --recreate-pods <span class="se">\</span>
   --values values.yaml
 </pre></div>
 
