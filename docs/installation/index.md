@@ -21,7 +21,7 @@ Create a file named `values.yaml`, using a text editor of your choice.
 ```yaml
 global:
   imagePullSecrets:
-    - docker-credentials # Access private codacy docker images
+    - name: docker-credentials # Access private codacy docker images
   codacy:
     url: "http://codacy.mycompany.com" # This value is important for VCS configuration and badges to work
     backendUrl: "http://codacy.mycompany.com" # This value is important for VCS configuration and badges to work
@@ -38,7 +38,7 @@ $ helm repo add codacy-stable https://charts.codacy.com/stable/
 $ helm repo update
 $ helm upgrade --install codacy codacy-stable/codacy \
   --namespace codacy \
-  --recreate-pod \
+  --recreate-pods \
   --values values.yaml
 ```
 
