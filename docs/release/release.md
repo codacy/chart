@@ -8,7 +8,7 @@ The following sample script will output all the latest versions of the codacy ow
 DEPENDENCIES=$(yq r codacy/requirements.yaml dependencies -j | jq ".[].name" | sed "s/\"//g" | grep -v "minio\|rabbitmq-ha\|postgresql\|log-router")
 for key in $DEPENDENCIES
 do
-    version=$(curl -s https://charts.codacy.com/stable/api/charts/$key | jq .[0].version | sed "s/\"//g")
+    version=$(curl -s https://charts.codacy.com/stable/api/charts/$key | jq '. | sort_by(.created) | .[-1].version' | sed "s/\"//g")
     printf "%30s %10s\n" $key $version
 done
 ```
