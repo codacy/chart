@@ -547,22 +547,18 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_hourly
-      - rotate_pods_hourly:
-          context: CodacyDO
-          requires:
-            - validate_deployment_status_hourly
       - test_api_dev:
           context: CodacyDO
           requires:
-            - rotate_pods_hourly
+            - validate_deployment_status_hourly
       - test_e2e_dev:
           context: CodacyDO
           requires:
-            - rotate_pods_hourly
+            - validate_deployment_status_hourly
       - test_web_dev:
           context: CodacyDO
           requires:
-            - rotate_pods_hourly
+            - validate_deployment_status_hourly
 
   nightly_pipeline:
     triggers:
@@ -609,10 +605,6 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_14
-      - rotate_pods_nightly_1_14:
-          context: CodacyDO
-          requires:
-            - update_codacy_url_nightly_1_14
       - deploy_to_doks_nightly_1_15:
           context: CodacyDO
           requires:
@@ -625,10 +617,6 @@ workflows:
           context: CodacyDO
           requires:
             - validate_deployment_status_nightly_1_15
-      - rotate_pods_nightly_1_15:
-          context: CodacyDO
-          requires:
-            - update_codacy_url_nightly_1_15
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -636,8 +624,8 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - rotate_pods_nightly_1_14
-            - rotate_pods_nightly_1_15
+            - update_codacy_url_nightly_1_14
+            - update_codacy_url_nightly_1_15
 
   release_pipeline:
     jobs:
@@ -692,17 +680,10 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - rotate_pods_release:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_release
-          filters:
-            tags:
-              only: /^release-.*/
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - rotate_pods_release
+            - deploy_to_doks_release
           filters:
             tags:
               only: /^release-.*/
