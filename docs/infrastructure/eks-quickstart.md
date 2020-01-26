@@ -155,10 +155,6 @@ kubectl proxy
 and then connect to [the dashboard url](http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy),
 select `token` and paste the value you saved above.
 
-### 4. Installing Codacy
-
-To install Codacy please see the [installation documentation](../installation/index.md).
-
 ## Uninstalling
 
 **WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS**
