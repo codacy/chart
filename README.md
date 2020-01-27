@@ -49,6 +49,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   Codacy/[Core](https://bitbucket.org/qamine/codacy-core/src/master/.helm/)
 -   Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
 -   Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
+-   Codacy/[Remote Provider Service](https://bitbucket.org/qamine/remote-provider-service/src/master/.helm/)
 
 ## Configuration
 

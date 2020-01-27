@@ -9,12 +9,12 @@ Before you start, review the following requirements that must be met when provis
 
 To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:
 
-*  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 1.13 or higher, compatible with your cluster ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin)).
+*  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) compatible with your cluster ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
 *  [Helm](https://helm.sh/docs/using_helm/#installing-helm) 2.14> <3.0
 
 ## Setting up the Kubernetes infrastructure
 
-To install Codacy you need a Kubernetes cluster, between version 1.13 and 1.15.
+To install Codacy you need a Kubernetes cluster, between version 1.14 and 1.15.
 
 You can follow one of the quickstart guides below to set up a Kubernetes cluster on your cloud infrastructure:
 
