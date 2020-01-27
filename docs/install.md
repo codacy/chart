@@ -26,6 +26,8 @@ global:
     backendUrl: "http://codacy.mycompany.com" # This value is important for VCS configuration and badges to work
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+  akka:
+    sessionSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
   filestore:
     contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
     uuidSecret: "PLEASE_CHANGE_ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`

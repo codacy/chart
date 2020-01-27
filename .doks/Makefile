@@ -13,6 +13,7 @@ deploy_to_doks: set_cluster_context
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+		--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
 		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
@@ -33,6 +34,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
 		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+		--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
 		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
