@@ -85,7 +85,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#codacy-chart" tabindex="1" class="md-skip">
+      <a href="#how-to-install-codacy-on-kubernetes" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -106,7 +106,14 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
-            Codacy Chart
+            <span class="md-header-nav__topic">
+              Codacy Chart
+            </span>
+            <span class="md-header-nav__topic">
+              
+                How to install Codacy on Kubernetes
+              
+            </span>
           
         </div>
       </div>
@@ -182,11 +189,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Codacy Chart
+        How to install Codacy on Kubernetes
       </label>
     
-    <a href="." title="Codacy Chart" class="md-nav__link md-nav__link--active">
-      Codacy Chart
+    <a href="." title="How to install Codacy on Kubernetes" class="md-nav__link md-nav__link--active">
+      How to install Codacy on Kubernetes
     </a>
     
       
@@ -200,28 +207,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#work-in-progress" class="md-nav__link">
-    Work in progress
+  <a href="#preparing-to-install-codacy" class="md-nav__link">
+    Preparing to install Codacy
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#charts" class="md-nav__link">
-    Charts
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
+  <a href="#setting-up-the-kubernetes-infrastructure" class="md-nav__link">
+    Setting up the Kubernetes infrastructure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-codacy" class="md-nav__link">
+    Installing Codacy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-install-configuration" class="md-nav__link">
+    Post-install configuration
   </a>
   
 </li>
@@ -242,31 +250,43 @@
       
 
 
+  <li class="md-nav__item">
+    <a href="install/" title="Install" class="md-nav__link">
+      Install
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="resource-requirements/" title="System requirements" class="md-nav__link">
+      System requirements
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-2">
+    <label class="md-nav__link" for="nav-4">
       Configuration
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
+      <label class="md-nav__title" for="nav-4">
         Configuration
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="configuration/" title="Configuration" class="md-nav__link">
-      Configuration
-    </a>
-  </li>
-
         
           
           
@@ -311,29 +331,17 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-5" type="checkbox" id="nav-2-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
     
-    <label class="md-nav__link" for="nav-2-5">
+    <label class="md-nav__link" for="nav-4-4">
       Providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-2-5">
+      <label class="md-nav__title" for="nav-4-4">
         Providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="configuration/providers/" title="Providers" class="md-nav__link">
-      Providers
-    </a>
-  </li>
-
         
           
           
@@ -400,14 +408,14 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
-    <label class="md-nav__link" for="nav-3">
-      Installation
+    <label class="md-nav__link" for="nav-5">
+      Extra
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Installation
+      <label class="md-nav__title" for="nav-5">
+        Extra
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -418,8 +426,8 @@
 
 
   <li class="md-nav__item">
-    <a href="installation/" title="Install" class="md-nav__link">
-      Install
+    <a href="extra/database/" title="Database Migration Guide" class="md-nav__link">
+      Database Migration Guide
     </a>
   </li>
 
@@ -430,7 +438,7 @@
 
 
   <li class="md-nav__item">
-    <a href="installation/uninstall/" title="Uninstall" class="md-nav__link">
+    <a href="extra/uninstall/" title="Uninstall" class="md-nav__link">
       Uninstall
     </a>
   </li>
@@ -442,92 +450,8 @@
 
 
   <li class="md-nav__item">
-    <a href="installation/upgrade/" title="Upgrade" class="md-nav__link">
+    <a href="extra/upgrade/" title="Upgrade" class="md-nav__link">
       Upgrade
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
-      Migration
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        Migration
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="migration/database/" title="Database Migration Guide" class="md-nav__link">
-      Database Migration Guide
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Quickstart
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        Quickstart
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="quickstart/aks_quickstart/" title="AKS cluster quickstart" class="md-nav__link">
-      AKS cluster quickstart
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="quickstart/eks_quickstart/" title="EKS cluster setup using terraform" class="md-nav__link">
-      EKS cluster setup using terraform
     </a>
   </li>
 
@@ -547,11 +471,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
-      Release
+      Infrastructure
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
-        Release
+        Infrastructure
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -562,44 +486,20 @@
 
 
   <li class="md-nav__item">
-    <a href="release/release/" title="Preparing the release" class="md-nav__link">
-      Preparing the release
+    <a href="infrastructure/aks-quickstart/" title="AKS cluster quickstart" class="md-nav__link">
+      AKS cluster quickstart
     </a>
   </li>
 
         
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
-    
-    <label class="md-nav__link" for="nav-7">
-      Requirements
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
-        Requirements
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
           
           
           
 
 
   <li class="md-nav__item">
-    <a href="requirements/" title="Requirements" class="md-nav__link">
-      Requirements
+    <a href="infrastructure/eks-quickstart/" title="EKS cluster setup using terraform" class="md-nav__link">
+      EKS cluster setup using terraform
     </a>
   </li>
 
@@ -630,28 +530,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#work-in-progress" class="md-nav__link">
-    Work in progress
+  <a href="#preparing-to-install-codacy" class="md-nav__link">
+    Preparing to install Codacy
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#charts" class="md-nav__link">
-    Charts
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
+  <a href="#setting-up-the-kubernetes-infrastructure" class="md-nav__link">
+    Setting up the Kubernetes infrastructure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-codacy" class="md-nav__link">
+    Installing Codacy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-install-configuration" class="md-nav__link">
+    Post-install configuration
   </a>
   
 </li>
@@ -673,913 +574,43 @@
               
                 
                 
-                <h1 id="codacy-chart">Codacy Chart<a class="headerlink" href="#codacy-chart" title="Permanent link">&para;</a></h1>
-<p><a href="https://www.codacy.com/gh/codacy/chart?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/chart&amp;utm_campaign=Badge_Grade"><img alt="Codacy Badge" src="https://api.codacy.com/project/badge/Grade/6a38f8edc57d4a6aaaa38e87d76a3520" /></a>
-<a href="https://circleci.com/gh/codacy/chart"><img alt="CircleCI" src="https://circleci.com/gh/codacy/chart.svg?style=svg" /></a></p>
-<p>With the Codacy chart it is possible to run all Codacy components and
-its dependencies with a single command line.</p>
-<p><img alt="K8s Love" src="https://raw.githubusercontent.com/codacy/chart/master/docs/images/k8s_love.png" />
-<a href="https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit">edit image</a></p>
-<p>Each service in Codacy has its chart published to our
-<a href="https://charts.codacy.com/stable/api/charts">charts repository</a>.</p>
-<p>This chart bundles all the components and their dependencies.
-For the bundle, we make use of the
-<a href="https://helm.sh/docs/chart_best_practices/#requirements-files">requirements capability</a>
-of Helm.</p>
-<h2 id="work-in-progress">Work in progress<a class="headerlink" href="#work-in-progress" title="Permanent link">&para;</a></h2>
-<p>This chart is still a <strong>Work In Progress</strong> and is not ready for general
-usage. Our docker images are currently private and you will not be
-able to run the chart by yourself. If you are interested in trying
-out Codacy contact our support at support@codacy.com.</p>
-<h3 id="charts">Charts<a class="headerlink" href="#charts" title="Permanent link">&para;</a></h3>
-<p>Documentation on a per-chart basis is listed here.
-Some of these repositories are private and accessible to Codacy engineers only.</p>
-<p><img alt="Helm Chart Structure" src="https://raw.githubusercontent.com/codacy/chart/master/docs/images/charts.png" /></p>
-<p><a href="https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit">edit image</a></p>
+                <h1 id="how-to-install-codacy-on-kubernetes">How to install Codacy on Kubernetes<a class="headerlink" href="#how-to-install-codacy-on-kubernetes" title="Permanent link">&para;</a></h1>
+<p>Before you start, review the following requirements that must be met when provisioning the infrastructure that will host Codacy:</p>
 <ul>
-<li><a href="https://github.com/helm/charts/tree/master/stable/minio">Minio</a></li>
-<li><a href="https://github.com/helm/charts/tree/master/stable/rabbitmq-ha">RabbitMQ-HA</a></li>
-<li><a href="https://github.com/helm/charts/tree/master/stable/postgresql">Postgres</a></li>
-<li><a href="https://github.com/codacy/kube-fluentd-operator">kube-fluentd-operator</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/token-management/src/master/.helm/">Token Management</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/codacy-website/src/master/.helm/">Website</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/codacy-website/src/master/.helm/">API</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/ragnaros/src/master/.helm/">Ragnaros</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/codacy-activities/src/master/.helm/">Activities</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/repository-listener/src/master/.helm/">Repository Listener</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/portal/src/master/.helm/">Portal</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/worker-manager/src/master/.helm/">Worker Manager</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/codacy-worker/src/master/.helm/">Engine</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/codacy-core/src/master/.helm/">Core</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/hotspots-api/src/master/.helm/">Hotspots API</a></li>
-<li>Codacy/<a href="https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/">Hotspots Worker</a></li>
+<li><a href="resource-requirements/">Resource requirements</a></li>
+<li>Postgres database (follow the documentation on how to <a href="https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise">install Postgres for Codacy</a>)</li>
 </ul>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The following table lists the configurable parameters of the Codacy chart and their default values.</p>
-<p>Global parameters apply to all sub-charts and make it easier to configure resources across different components.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code class="codehilite"><span class="err">global.codacy.url</span></code></td>
-<td>Hostname to your Codacy installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.codacy.backendUrl</span></code></td>
-<td>Hostname to your Codacy installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.play.cryptoSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
-<td>tr -dc 'a-zA-Z0-9'</td>
-<td>fold -w 128</td>
-<td>head -n 1`</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestore.contentsSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
-<td>tr -dc 'a-zA-Z0-9'</td>
-<td>fold -w 128</td>
-<td>head -n 1`</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestore.uuidSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
-<td>tr -dc 'a-zA-Z0-9'</td>
-<td>fold -w 128</td>
-<td>head -n 1`</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.cacheSecret</span></code></td>
-<td>Secrets used internally for encryption. Generate one with `cat /dev/urandom</td>
-<td>tr -dc 'a-zA-Z0-9'</td>
-<td>fold -w 128</td>
-<td>head -n 1`</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.minio.create</span></code></td>
-<td>Create minio internally</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.create</span></code></td>
-<td>Create rabbitmq internally</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqUsername</span></code></td>
-<td>Username for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqUsername</span></code> also.</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.rabbitmq.rabbitmqPassword</span></code></td>
-<td>Password for rabbitmq. If you are using the bundled version, change the <code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqPassword</span></code> also.</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">default</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.defaultdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">analysis</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.analysisdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">results201709</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.resultsdb201709.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">metrics</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.metricsdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">filestore</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.filestoredb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">jobs</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.jobsdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.enabled</span></code></td>
-<td>Enable githubEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.hostname</span></code></td>
-<td>Hostname of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.protocol</span></code></td>
-<td>Protocol of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.port</span></code></td>
-<td>Port of githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.isPrivateMode</span></code></td>
-<td>Status of private mode on githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.githubEnterprise.disableSSL</span></code></td>
-<td>Disable certificate validation on interaction with githubEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.enabled</span></code></td>
-<td>Enable gitlabEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.hostname</span></code></td>
-<td>Hostname of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.protocol</span></code></td>
-<td>Protocol of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.gitlabEnterprise.port</span></code></td>
-<td>Port of gitlabEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.enabled</span></code></td>
-<td>Enable bitbucketEnterprise</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.hostname</span></code></td>
-<td>Hostname of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.protocol</span></code></td>
-<td>Protocol of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.bitbucketEnterprise.port</span></code></td>
-<td>Port of bitbucketEnterprise instance</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">global.features.cloneSubmodules</span></code></td>
-<td>Enable sharing of configuration files for the analysis tools placed on git submodules</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">false</span></code></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>The following parameters are specific to each Codacy component.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code class="codehilite"><span class="err">portal.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">portal.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">portal.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">portal.service.type</span></code></td>
-<td>Portal service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">portal.service.annotations</span></code></td>
-<td>Annotations to be added to the Portal service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.service.type</span></code></td>
-<td>Remote Provider service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">remote-provider-service.service.annotations</span></code></td>
-<td>Annotations to be added to the Remote Provider service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">jobs</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">activities.activitiesdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">hotspots</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-api.hotspotsdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">hotspots-worker.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.persistence.claim.size</span></code></td>
-<td>Each pod mounts and NFS disk and claims this size.</td>
-<td><code class="codehilite"><span class="err">100Gi</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.enabled</span></code></td>
-<td>Creates an NFS server and a storage class to mount volumes in that server.</td>
-<td><code class="codehilite"><span class="err">true</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.persistence.enabled</span></code></td>
-<td>Creates an NFS provisioner</td>
-<td><code class="codehilite"><span class="err">true</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.nfsserverprovisioner.persistence.size</span></code></td>
-<td>Size of the NFS server disk</td>
-<td><code class="codehilite"><span class="err">120Gi</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlUsername</span></code></td>
-<td>Username of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlDatabase</span></code></td>
-<td>Database name of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">listener</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.postgresqlPassword</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">PLEASE_CHANGE_ME</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.host</span></code></td>
-<td>Hostname of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">codacy-listenerdb.codacy.svc.cluster.local</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">listener.listenerdb.service.port</span></code></td>
-<td>Port of the Postgresql server</td>
-<td><code class="codehilite"><span class="err">5432</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">core.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">core.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">core.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">core.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">engine.metrics.serviceMonitor.enabled</span></code></td>
-<td>Create the ServiceMonitor resource type to be read by prometheus operator.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.service.type</span></code></td>
-<td>Service type</td>
-<td><code class="codehilite"><span class="err">ClusterIP</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.config.license</span></code></td>
-<td>Codacy license for your installation</td>
-<td><code class="codehilite"><span class="err">nil</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.service.annotations</span></code></td>
-<td>Annotations to be added to the service</td>
-<td><code class="codehilite"><span class="err">{}</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.metrics.serviceMonitor.enabled</span></code></td>
-<td>Create the ServiceMonitor resource type to be read by prometheus operator.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">codacy-api.metrics.grafana_dashboards.enabled</span></code></td>
-<td>Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">worker-manager.config.workers.genericMax</span></code></td>
-<td>TBD</td>
-<td><code class="codehilite"><span class="err">100</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">worker-manager.config.workers.dedicatedMax</span></code></td>
-<td>TBD</td>
-<td><code class="codehilite"><span class="err">100</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">crow.replicaCount</span></code></td>
-<td>Number of replicas</td>
-<td><code class="codehilite"><span class="err">1</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">crow.image.repository</span></code></td>
-<td>Image repository</td>
-<td>from dependency</td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">crow.image.tag</span></code></td>
-<td>Image tag</td>
-<td>from dependency</td>
-</tr>
-</tbody>
-</table>
-<p>The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code class="codehilite"><span class="err">fluentdoperator.enable</span></code></td>
-<td>Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.</td>
-<td><code class="codehilite"><span class="err">false</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">fluentdoperator.expirationDays</span></code></td>
-<td>Number of days to retain logs. More time uses more disk on minio.</td>
-<td><code class="codehilite"><span class="err">14</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqUsername</span></code></td>
-<td>Username for the bundled RabbitMQ.</td>
-<td><code class="codehilite"><span class="err">rabbitmq</span></code></td>
-</tr>
-<tr>
-<td><code class="codehilite"><span class="err">rabbitmq-ha.rabbitmqPassword</span></code></td>
-<td>Password for the bundled RabbitMQ.</td>
-<td><code class="codehilite"><span class="err">rabbitmq</span></code></td>
-</tr>
-</tbody>
-</table>
-<p>You can also configure values for the PostgreSQL database via the Postgresql <a href="https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md">README.md</a></p>
-<p>For overriding variables see: <a href="https://docs.helm.sh/using_helm/#customizing-the-chart-before-installing">Customizing the chart</a></p>
+<h2 id="preparing-to-install-codacy">Preparing to install Codacy<a class="headerlink" href="#preparing-to-install-codacy" title="Permanent link">&para;</a></h2>
+<p>To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">+/- 1 minor release from your cluster</a>)</li>
+<li><a href="https://helm.sh/docs/using_helm/#installing-helm">Helm</a> 2.14&gt; &lt;3.0</li>
+</ul>
+<h2 id="setting-up-the-kubernetes-infrastructure">Setting up the Kubernetes infrastructure<a class="headerlink" href="#setting-up-the-kubernetes-infrastructure" title="Permanent link">&para;</a></h2>
+<p>To install Codacy you need a Kubernetes cluster, between version 1.14 and 1.15.</p>
+<p>You can follow one of the quickstart guides below to set up a Kubernetes cluster on your cloud infrastructure:</p>
+<ul>
+<li><a href="infrastructure/eks-quickstart/">EKS Quickstart</a></li>
+<li><a href="infrastructure/aks-quickstart/">AKS Quickstart</a></li>
+</ul>
+<h2 id="installing-codacy">Installing Codacy<a class="headerlink" href="#installing-codacy" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="install/">Install Codacy</a></li>
+</ul>
+<h2 id="post-install-configuration">Post-install configuration<a class="headerlink" href="#post-install-configuration" title="Permanent link">&para;</a></h2>
+<p>After successfully installing Codacy, go follow the post-installation configuration steps:</p>
+<ul>
+<li><a href="configuration/external-dbs/">Use External Databases</a></li>
+<li><a href="configuration/logging/">Logging</a></li>
+<li><a href="configuration/monitoring/">Monitoring</a></li>
+<li>Configure one or more of the following supported git providers:<ul>
+<li><a href="configuration/providers/github-cloud/">Github Cloud</a></li>
+<li><a href="configuration/providers/github-enterprise/">Github Enterprise</a></li>
+<li><a href="configuration/providers/gitlab-enterprise/">Gitlab Enterprise</a></li>
+<li><a href="configuration/providers/bitbucket-enterprise/">Bitbucket Enterprise</a></li>
+</ul>
+</li>
+</ul>
                 
                   
                 
@@ -1602,13 +633,13 @@ Some of these repositories are private and accessible to Codacy engineers only.<
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="install/" title="Install" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Configuration
+                Install
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
