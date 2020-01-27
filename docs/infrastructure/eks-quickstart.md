@@ -6,7 +6,12 @@ infrastructure. It includes the following infrastructure stacks:
 
 -   **backend** - (optional) the S3 bucket for storing the terraform state and the DynamoDB table for state locking.
 -   **main** - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.
--   **setup** - additional setup you must perform before installing Codacy on your vanilla EKS cluster.
+-   **setup** - additional setup you must perform before installing Codacy on your vanilla EKS cluster. Installs things like:
+    -   Aws auth (for you to be able to access your cluster using your AWS IAM account)
+    -   Docker credentials (to access codacy docker images)
+    -   Kubernetes dashboard
+    -   Nginx ingress
+    -   Cert-manager
 
 Clone the project and go to that directory:
 
@@ -20,9 +25,10 @@ $ cd chart/docs/quickstart/EKS/
 In order to setup the infrastructure you'll need recent versions of:
 
 -   [awscli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
--   [terraform](https://learn.hashicorp.com/terraform/getting-started/install.html)
+-   [terraform >= v0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
 -   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 -   [helm](https://helm.sh/docs/using_helm/#installing-helm)
+-   Credentials with access to docker hub (you should receive this with your license)
 
 Please follow the documentation in the above links to setup these tools for your OS.
 They can usually be easily installed using your package manager. For instance, on
@@ -48,7 +54,7 @@ the setup without state storage, can be done with:
 ```bash
 $ export AWS_SDK_LOAD_CONFIG=1
 $ cd main/
-$ terraform init && terraform apply
+$ terraform init && terraform apply # should take around 15 mins
 $ cd ../setup/
 $ terraform init && terraform apply
 $ aws eks update-kubeconfig --name codacy-cluster
@@ -71,14 +77,14 @@ terraform init && terraform apply
 
 inside the `backend/` folder and follow terraform's instructions.
 
-An S3 bucket with an unique name to save your state will be created. Note this
+An S3 bucket with a unique name to save your state will be created. Note this
 bucket's name and set it on the `config.tf` file of the `main/` and `setup/`
 stacks where indicated.
 
 ### 2. `main` - create a vanilla EKS cluster
 
 To create a cluster, along with all the necessary network and nodes setup
-it requires, run:
+it requires:
 
 ```bash
 terraform init && terraform apply
@@ -154,10 +160,6 @@ kubectl proxy
 
 and then connect to [the dashboard url](http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy),
 select `token` and paste the value you saved above.
-
-### 4. Installing Codacy
-
-To install Codacy please see the [installation documentation](../installation/index.md).
 
 ## Uninstalling
 

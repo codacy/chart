@@ -1,14 +1,13 @@
 # Install
 
-Install Codacy on Kubernetes with the cloud native Codacy Helm chart.
+Install Codacy in an existing Kubernetes cluster with the
+cloud-native Codacy Helm chart.
 This guide will cover the required values and common options.
 
-Before starting, make sure you are aware of the [requirements](../requirements/index.md).
-
-## TL;DR - Quickly install Codacy for demo without any persistence.
+## 1. Quickly install Codacy for demo without any persistence.
 
 Some Codacy images are currently private. For this, you need to
-create a secret in the same namespace were you will install Codacy.
+create a secret in the same namespace where you will install Codacy.
 **You should receive these credentials together with your license.**
 
 ```bash
@@ -271,17 +270,17 @@ codacy-listenerdb    1/1    12d
 codacy-postgres      1/1    12d
 ```
 
-## Next steps - Making it "Production Ready"
+## 2. Making the installation "Production Ready"
 
 1.  Use the `values-production.yaml` file as [reference](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml)
 
-    -   [Use external DBs](../configuration/external-dbs.md) (Ideally a cloud managed postgres)
+    -   [Use external DBs](configuration/external-dbs.md) (Ideally a cloud managed postgres)
     -   Enable persistence on `listener`
     -   Enable persistence on `minio`
     -   Setup resources and limits
     -   Enable the Ingress on `codacy-api`
 
-2.  [Setup a git provider](../configuration/providers/index.md)
+2.  [Setup a git provider](configuration/providers/)
 
 3.  Start configuring Codacy in the UI
 
@@ -289,4 +288,4 @@ codacy-postgres      1/1    12d
     -   Create an initial organization
     -   Invite users
 
-4.  Proceed to more advanced [configurations](../configuration/index.md).
+4.  Proceed to more advanced [post-install configurations](index.md#post-install-configuration).

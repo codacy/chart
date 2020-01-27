@@ -17,7 +17,7 @@ variable "project_slug" {
 variable "k8s_version" {
   description = "Kubernetes version to use in the cluster"
   type = string
-  default = "1.12"
+  default = "1.14"
 }
 
 variable "k8s_worker_type" {
