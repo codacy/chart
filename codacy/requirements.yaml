@@ -25,12 +25,12 @@ dependencies:
   git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: portal
-  version: 5.0.0
+  version: 5.1.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
 - name: ragnaros
-  version: 15.2.2
+  version: 16.0.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
 
@@ -40,7 +40,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-activities.git
 
 - name: remote-provider-service
-  version: 2.44.0
+  version: 2.45.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
@@ -65,17 +65,17 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: 6.0.0
+  version: 6.1.1
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: 5.3.1
+  version: 5.8.0
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: 9.0.1
+  version: 9.0.2
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 

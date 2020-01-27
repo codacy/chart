@@ -521,7 +521,7 @@ workflows:
           filters:
               branches:
                 only:
-                  - feature/hourly_tests
+                  - master
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint codacy/
