@@ -278,7 +278,7 @@ codacy-postgres      1/1    12d
     -   Enable persistence on `listener`
     -   Enable persistence on `minio`
     -   Setup resources and limits
-    -   Enable the Ingress on `codacy-api`
+    -   Configure the Ingress on `values-production.yaml`
 
 2.  [Setup a git provider](configuration/providers/)
 
