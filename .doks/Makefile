@@ -8,7 +8,6 @@ DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-		--recreate-pods \
 		-f values.yaml \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
@@ -27,7 +26,6 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
-		--recreate-pods \
 		-f values.yaml \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
