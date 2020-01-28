@@ -61,11 +61,11 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------ | ----------- | ----------- | ----- |
 | `global.codacy.url`                         | Hostname to your Codacy installation                                                                         | `nil`              |             |             |       |
 | `global.codacy.backendUrl`                  | Hostname to your Codacy installation                                                                         | `nil`              |             |             |       |
-| `global.play.cryptoSecret`                  | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.akka.sessionSecret`                 | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.filestore.contentsSecret`           | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.filestore.uuidSecret`               | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.cacheSecret`                        | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
+| `global.play.cryptoSecret`                  | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'\` | `nil` |
+| `global.akka.sessionSecret`                 | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'\` | `nil` |
+| `global.filestore.contentsSecret`           | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'\` | `nil` |
+| `global.filestore.uuidSecret`               | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'\` | `nil` |
+| `global.cacheSecret`                        | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'\` | `nil` |
 | `global.minio.create`                       | Create minio internally                                                                                      | `nil`              |             |             |       |
 | `global.rabbitmq.create`                    | Create rabbitmq internally                                                                                   | `nil`              |             |             |       |
 | `global.rabbitmq.rabbitmqUsername`          | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also. | `nil`              |             |             |       |
