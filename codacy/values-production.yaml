@@ -51,9 +51,11 @@ global:
 codacy-api:
   ingress:
     enabled: true ## Enable ingress
+    hosts:
+      - host: <example.codacy.org>
+        paths:
+        - /
   replicaCount: 2
-  service:
-    type: LoadBalancer
   resources:
     limits:
       cpu: 500m
