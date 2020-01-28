@@ -17,7 +17,7 @@ function getChangelog() {
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
     echo "$project_name($repository_url) : $old_version -> $new_version" >> "../changelogs/changelog.txt"
-    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" --quiet | grep -iEw 'ft-[0-9]+' | grep -vi "merge" | sort | uniq >> "../changelogs/changelog.txt"
+    git log --pretty=format:"  * %s" "$old_version"'..'"$new_version" --quiet | sort | uniq >> "../changelogs/changelog.txt"
     echo "" >> "../changelogs/changelog.txt"
     cd ..
     rm -rf "./$project_name"
@@ -35,7 +35,7 @@ function cloneRepository() {
 rm -rf ./changelogs
 mkdir changelogs
 
-LATEST_TAG=$(git tag | tail -n 1)
+LATEST_TAG=$(git tag -l -n [0-9]* | tail -n 1)
 git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
 DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
 
