@@ -10,6 +10,8 @@ global:
       url: "codacy-hotspots-api"
     engine:
       url: "codacy-engine"
+    engineApi:
+      url: "codacy-engine"
     listener:
       url: "codacy-listener"
     activities:

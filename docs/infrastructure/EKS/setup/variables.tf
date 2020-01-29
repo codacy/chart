@@ -25,13 +25,3 @@ variable "main_namespace" {
   type        = string
   default     = "codacy"
 }
-
-variable "docker_username" {
-  description = "Username for docker registry secret"
-  type        = string
-}
-
-variable "docker_password" {
-  description = "Password for docker registry secret"
-  type        = string
-}

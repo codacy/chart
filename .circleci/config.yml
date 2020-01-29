@@ -680,10 +680,17 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - validate_deployment_status_release:
+      - rotate_pods_release:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
+          filters:
+            tags:
+              only: /^release-.*/
+      - validate_deployment_status_release:
+          context: CodacyDO
+          requires:
+            - rotate_pods_release
           filters:
             tags:
               only: /^release-.*/

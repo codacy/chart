@@ -51,9 +51,23 @@ global:
 codacy-api:
   ingress:
     enabled: true ## Enable ingress
+    hosts:
+      - host: <example.codacy.org>
+        paths:
+        - /
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      certmanager.k8s.io/acme-challenge-type: http01
+      certmanager.k8s.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/proxy-body-size: 128m
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    tls:
+      hosts:
+        - host: <example.codacy.org> # CHANGEME: Codacy application DNS
+      secretName: codacy-ingress-tls-secret
   replicaCount: 2
-  service:
-    type: LoadBalancer
   resources:
     limits:
       cpu: 500m
