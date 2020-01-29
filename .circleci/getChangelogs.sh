@@ -35,7 +35,7 @@ function cloneRepository() {
 rm -rf ./changelogs
 mkdir changelogs
 
-LATEST_TAG=$(git tag -l -n [0-9]* | tail -n 1)
+LATEST_TAG="$(git tag -l -n [0-9]* | tail -n 1 | awk '{print $1}')"
 git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
 DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
 
@@ -54,15 +54,6 @@ do
             [ "$old_version" == "$new_version" ] && echo "  * $old_version is the same as $new_version"
     fi
 done
-
-count=$(find ./changelogs -maxdepth 1 -type f | wc -l | awk '{print $1}')
-find ./changelogs -size 0 -delete # delete empty changelogs
-if [ "$((count / 2))" == "0" ];
-then
-    echo "No components changed. There are no changelogs."
-else
-    echo "$((count / 2)) component(s) changed. "
-fi
 
 rm "$OLD_LOCK_FILE"
 exit 0
