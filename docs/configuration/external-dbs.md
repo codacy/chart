@@ -47,7 +47,7 @@ global:
     host: codacy-database.internal
     service:
       port: 5432
-  resultsdb201709:
+  resultsdb:
     create: false
     postgresqlUsername: codacy
     postgresqlDatabase: results # You need to create the DB manually
