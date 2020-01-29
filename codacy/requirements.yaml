@@ -15,7 +15,7 @@ dependencies:
   version: 4.2.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   alias: postgres
-  condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb201709.create,
+  condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb.create,
     global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
 
 - name: log-router
