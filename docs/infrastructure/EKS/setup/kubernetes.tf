@@ -21,7 +21,7 @@ resource "kubernetes_config_map" "aws_auth" {
 # CRDs for certificate-manager. See https://github.com/jetstack/cert-manager
 resource "null_resource" "cert_manager_crds" {
   triggers = {
-    manifest_sha1 = sha1(data.template_file.cert_manager_crds.rendered)
+    always_run = "${timestamp()}"
   }
 
   provisioner "local-exec" {
@@ -36,18 +36,3 @@ resource "kubernetes_namespace" "codacy" {
   }
 }
 
-resource "kubernetes_secret" "docker_credentials" {
-  metadata {
-    name = "docker-credentials"
-    namespace = var.main_namespace
-  }
-  data = {
-    ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
-  }
-
-  type = "kubernetes.io/dockerconfigjson"
-
-  depends_on = [
-    kubernetes_namespace.codacy
-  ]
-}
