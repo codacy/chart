@@ -9,12 +9,12 @@ Before you start, review the following requirements that must be met when provis
 
 To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:
 
-*  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) compatible with your cluster ([+/- 1 minor release from your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
-*  [Helm](https://helm.sh/docs/using_helm/#installing-helm) 2.14> <3.0
+*  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
+*  [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.1
 
 ## Setting up the Kubernetes infrastructure
 
-To install Codacy you need a Kubernetes cluster, between version 1.14 and 1.15.
+To install Codacy you need a Kubernetes cluster, versions 1.14.\* or 1.15.\*.
 
 You can follow one of the quickstart guides below to set up a Kubernetes cluster on your cloud infrastructure:
 
@@ -27,13 +27,8 @@ You can follow one of the quickstart guides below to set up a Kubernetes cluster
 
 ## Post-install configuration
 
-After successfully installing Codacy, go follow the post-installation configuration steps:
+After successfully installing Codacy, follow the post-install configuration steps:
 
 *  [Use External Databases](configuration/external-dbs.md)
 *  [Logging](configuration/logging.md)
 *  [Monitoring](configuration/monitoring.md)
-*  Configure one or more of the following supported git providers:
-    *  [Github Cloud](configuration/providers/github-cloud.md)
-    *  [Github Enterprise](configuration/providers/github-enterprise.md)
-    *  [Gitlab Enterprise](configuration/providers/gitlab-enterprise.md)
-    *  [Bitbucket Enterprise](configuration/providers/bitbucket-enterprise.md)

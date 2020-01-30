@@ -15,7 +15,7 @@ $ kubectl create namespace codacy
 $ kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
 ```
 
-Create a file named `values.yaml`, using a text editor of your choice.
+Create a file named `values.yaml` using a text editor of your choice. Copy the following template to the file and change the appropriate values:
 
 ```yaml
 global:
@@ -280,12 +280,13 @@ codacy-postgres      1/1    12d
     -   Setup resources and limits
     -   Enable the Ingress on `codacy-api`
 
-2.  [Setup a git provider](configuration/providers/)
-
-3.  Start configuring Codacy in the UI
+1.  Start configuring Codacy in the UI
 
     -   Create an administrator account
+    -   Configure one or more of the following supported git providers:
+        *  [Github Cloud](configuration/git-providers/github-cloud.md)
+        *  [Github Enterprise](configuration/git-providers/github-enterprise.md)
+        *  [Gitlab Enterprise](configuration/git-providers/gitlab-enterprise.md)
+        *  [Bitbucket Enterprise](configuration/git-providers/bitbucket-enterprise.md)
     -   Create an initial organization
     -   Invite users
-
-4.  Proceed to more advanced [post-install configurations](index.md#post-install-configuration).

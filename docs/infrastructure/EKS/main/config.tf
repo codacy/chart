@@ -3,7 +3,7 @@
 terraform {
   required_version = "~> 0.12"
   # Using a backend is recommended. See https://www.terraform.io/docs/backends/index.html
-  # You may used the provided S3 backend configuration by
+  # You may use the provided S3 backend configuration by
   #   1. first running `terraform apply` on the `backend/` directory,
   #   2. getting the state bucket name with `terraform output state_bucket_name`
   #   3. uncommenting the following lines, and (re)initializing terraform
