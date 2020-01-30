@@ -200,7 +200,7 @@ references:
           name: Update codacy-api ip address
           command: |
               CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-              make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE CODACY_URL=http://$CODACY_HOSTNAME
+              make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
       - when:
           condition: <<parameters.persist_codacy_url>>
           steps:
