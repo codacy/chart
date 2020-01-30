@@ -82,6 +82,19 @@ Assuming you already have an external Postgres instance available, follow the st
       activitiesdb:
         create: false
         postgresqlUsername: codacy
+        postgresqlDatabase: activities # You need to create the DB manually
+        postgresqlPassword: codacy
+        host: codacy-database.internal
+        service:
+          port: 5432
+
+    hotspots-api:
+      hotspotsdb:
+        create: false
+        postgresqlUsername: codacy
+        postgresqlDatabase: hotsposts # You need to create the DB manually
+        postgresqlPassword: codacy
+        host: codacy-database.internal
         service:
           port: 5432
 
