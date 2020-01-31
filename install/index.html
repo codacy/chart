@@ -320,11 +320,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
     
     <label class="md-nav__link" for="nav-4-4">
-      Providers
+      Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-4">
-        Providers
+        Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -335,7 +335,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
+    <a href="../configuration/git-providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
       Bitbucket Stash
     </a>
   </li>
@@ -347,7 +347,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
+    <a href="../configuration/git-providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
     </a>
   </li>
@@ -359,7 +359,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
+    <a href="../configuration/git-providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
       GitHub Enterprise
     </a>
   </li>
@@ -371,7 +371,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
+    <a href="../configuration/git-providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
       GitLab Enterprise
     </a>
   </li>
@@ -558,7 +558,7 @@ create a secret in the same namespace where you will install Codacy.
 $ kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
 </pre></div>
 
-<p>Create a file named <code class="codehilite"><span class="err">values.yaml</span></code>, using a text editor of your choice.</p>
+<p>Create a file named <code class="codehilite"><span class="err">values.yaml</span></code> using a text editor of your choice. Copy the following template to the file and change the appropriate values:</p>
 <div class="codehilite"><pre><span></span><span class="nt">global</span><span class="p">:</span>
   <span class="nt">imagePullSecrets</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span> <span class="c1"># Access private codacy docker images</span>
@@ -821,18 +821,19 @@ codacy-postgres      <span class="m">1</span>/1    12d
 </ul>
 </li>
 <li>
-<p><a href="configuration/providers/">Setup a git provider</a></p>
-</li>
-<li>
 <p>Start configuring Codacy in the UI</p>
 <ul>
 <li>Create an administrator account</li>
+<li>Configure one or more of the following supported git providers:<ul>
+<li><a href="../configuration/git-providers/github-cloud/">Github Cloud</a></li>
+<li><a href="../configuration/git-providers/github-enterprise/">Github Enterprise</a></li>
+<li><a href="../configuration/git-providers/gitlab-enterprise/">Gitlab Enterprise</a></li>
+<li><a href="../configuration/git-providers/bitbucket-enterprise/">Bitbucket Enterprise</a></li>
+</ul>
+</li>
 <li>Create an initial organization</li>
 <li>Invite users</li>
 </ul>
-</li>
-<li>
-<p>Proceed to more advanced <a href="..#post-install-configuration">post-install configurations</a>.</p>
 </li>
 </ol>
                 

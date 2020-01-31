@@ -334,11 +334,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
     
     <label class="md-nav__link" for="nav-4-4">
-      Providers
+      Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-4">
-        Providers
+        Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -349,7 +349,7 @@
 
 
   <li class="md-nav__item">
-    <a href="configuration/providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
+    <a href="configuration/git-providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
       Bitbucket Stash
     </a>
   </li>
@@ -361,7 +361,7 @@
 
 
   <li class="md-nav__item">
-    <a href="configuration/providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
+    <a href="configuration/git-providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
     </a>
   </li>
@@ -373,7 +373,7 @@
 
 
   <li class="md-nav__item">
-    <a href="configuration/providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
+    <a href="configuration/git-providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
       GitHub Enterprise
     </a>
   </li>
@@ -385,7 +385,7 @@
 
 
   <li class="md-nav__item">
-    <a href="configuration/providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
+    <a href="configuration/git-providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
       GitLab Enterprise
     </a>
   </li>
@@ -583,11 +583,11 @@
 <h2 id="preparing-to-install-codacy">Preparing to install Codacy<a class="headerlink" href="#preparing-to-install-codacy" title="Permanent link">&para;</a></h2>
 <p>To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:</p>
 <ul>
-<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">+/- 1 minor release from your cluster</a>)</li>
-<li><a href="https://helm.sh/docs/using_helm/#installing-helm">Helm</a> 2.14&gt; &lt;3.0</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> version compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">within one minor version difference of your cluster</a>)</li>
+<li><a href="https://v2.helm.sh/docs/using_helm/#installing-helm">Helm client</a> version 2.16.1</li>
 </ul>
 <h2 id="setting-up-the-kubernetes-infrastructure">Setting up the Kubernetes infrastructure<a class="headerlink" href="#setting-up-the-kubernetes-infrastructure" title="Permanent link">&para;</a></h2>
-<p>To install Codacy you need a Kubernetes cluster, between version 1.14 and 1.15.</p>
+<p>To install Codacy you need a Kubernetes cluster, versions 1.14.* or 1.15.*.</p>
 <p>You can follow one of the quickstart guides below to set up a Kubernetes cluster on your cloud infrastructure:</p>
 <ul>
 <li><a href="infrastructure/eks-quickstart/">EKS Quickstart</a></li>
@@ -598,18 +598,11 @@
 <li><a href="install/">Install Codacy</a></li>
 </ul>
 <h2 id="post-install-configuration">Post-install configuration<a class="headerlink" href="#post-install-configuration" title="Permanent link">&para;</a></h2>
-<p>After successfully installing Codacy, go follow the post-installation configuration steps:</p>
+<p>After successfully installing Codacy, follow the post-install configuration steps:</p>
 <ul>
 <li><a href="configuration/external-dbs/">Use External Databases</a></li>
 <li><a href="configuration/logging/">Logging</a></li>
 <li><a href="configuration/monitoring/">Monitoring</a></li>
-<li>Configure one or more of the following supported git providers:<ul>
-<li><a href="configuration/providers/github-cloud/">Github Cloud</a></li>
-<li><a href="configuration/providers/github-enterprise/">Github Enterprise</a></li>
-<li><a href="configuration/providers/gitlab-enterprise/">Gitlab Enterprise</a></li>
-<li><a href="configuration/providers/bitbucket-enterprise/">Bitbucket Enterprise</a></li>
-</ul>
-</li>
 </ul>
                 
                   

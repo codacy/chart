@@ -286,11 +286,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
     
     <label class="md-nav__link" for="nav-4-4">
-      Providers
+      Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-4">
-        Providers
+        Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -301,7 +301,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
+    <a href="../git-providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
       Bitbucket Stash
     </a>
   </li>
@@ -313,7 +313,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
+    <a href="../git-providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
     </a>
   </li>
@@ -325,7 +325,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
+    <a href="../git-providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
       GitHub Enterprise
     </a>
   </li>
@@ -337,7 +337,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
+    <a href="../git-providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
       GitLab Enterprise
     </a>
   </li>
@@ -490,20 +490,18 @@
                 
                 
                 <h1 id="use-external-databases">Use external databases<a class="headerlink" href="#use-external-databases" title="Permanent link">&para;</a></h1>
-<p>Even thought we deliver postgres as a requirements so
-that you can start Codacy really fast, it's really not
-recommended for a production ready installation.</p>
-<p>Assuming you have a postgres database available. Follow the following steps to have Codacy using it:</p>
+<p>Even though we deliver a Postgres instance as part of the Kubernetes cluster so that you can start Codacy really fast, this configuration is really not recommended for a production ready installation.</p>
+<p>Assuming you already have an external Postgres instance available, follow the steps below to configure Codacy to use the instance:</p>
 <ol>
-<li>Create a user to be used by Codacy in your postgres:</li>
-</ol>
+<li>
+<p>Create a user to be used by Codacy in your Postgres:</p>
 <div class="codehilite"><pre><span></span>  <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;codacy&#39;</span><span class="p">;</span>
   <span class="k">ALTER</span> <span class="k">ROLE</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>
 </pre></div>
 
-<ol>
-<li>Create the different databases needed for the different services in postgres:</li>
-</ol>
+</li>
+<li>
+<p>Create the different databases needed for the different services in Postgres:</p>
 <div class="codehilite"><pre><span></span>  <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
   <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">analysis</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
   <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">results</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
@@ -515,9 +513,9 @@ recommended for a production ready installation.</p>
   <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">listener</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 </pre></div>
 
-<ol>
-<li>Create a <code class="codehilite"><span class="err">database-values.yaml</span></code> file that disables the creation of the DBs inside the cluster and configure the correct external <code class="codehilite"><span class="err">hostname</span></code>, <code class="codehilite"><span class="err">username</span></code>, <code class="codehilite"><span class="err">password</span></code> and <code class="codehilite"><span class="err">databaseName</span></code>.</li>
-</ol>
+</li>
+<li>
+<p>Create a <code class="codehilite"><span class="err">database-values.yaml</span></code> file that disables the creation of the DBs inside the cluster and configure the correct external <code class="codehilite"><span class="err">hostname</span></code>, <code class="codehilite"><span class="err">username</span></code>, <code class="codehilite"><span class="err">password</span></code> and <code class="codehilite"><span class="err">databaseName</span></code>.</p>
 <div class="codehilite"><pre><span></span><span class="nt">global</span><span class="p">:</span>
   <span class="nt">defaultdb</span><span class="p">:</span>
     <span class="nt">create</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -598,6 +596,9 @@ recommended for a production ready installation.</p>
     <span class="nt">service</span><span class="p">:</span>
       <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5432</span>
 </pre></div>
+
+</li>
+</ol>
                 
                   
                 

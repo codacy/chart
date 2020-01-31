@@ -36,7 +36,7 @@
     
     
       
-        <title>GitLab Enterprise - Codacy Chart</title>
+        <title>GitHub Cloud - Codacy Chart</title>
       
     
     
@@ -85,7 +85,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#gitlab-enterprise" tabindex="1" class="md-skip">
+      <a href="#github-cloud" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -111,7 +111,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                GitLab Enterprise
+                GitHub Cloud
               
             </span>
           
@@ -279,11 +279,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4" checked>
     
     <label class="md-nav__link" for="nav-4-4">
-      Providers
+      Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-4">
-        Providers
+        Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -304,11 +304,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        GitHub Cloud
+      </label>
+    
+    <a href="./" title="GitHub Cloud" class="md-nav__link md-nav__link--active">
       GitHub Cloud
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#token-retrieval" class="md-nav__link">
+    Token retrieval
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -328,49 +366,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        GitLab Enterprise
-      </label>
-    
-    <a href="./" title="GitLab Enterprise" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
       GitLab Enterprise
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#gitlab-application" class="md-nav__link">
-    GitLab Application
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -513,8 +513,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#gitlab-application" class="md-nav__link">
-    GitLab Application
+  <a href="#token-retrieval" class="md-nav__link">
+    Token retrieval
   </a>
   
 </li>
@@ -536,19 +536,30 @@
               
                 
                 
-                <h1 id="gitlab-enterprise">GitLab Enterprise<a class="headerlink" href="#gitlab-enterprise" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your GitLab instance on the <code class="codehilite"><span class="err">values.yaml</span></code> file.
-<strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
-<h2 id="gitlab-application">GitLab Application<a class="headerlink" href="#gitlab-application" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitHub we use a GitLab Application.</p>
-<p>Create an application pointing to your local Codacy deployment URL.</p>
-<p>You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your domain name as well. Keep in mind this field is case sensitive.</p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/login/GitLabEnterprise</span></code></p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/add/addProvider/GitLabEnterprise</span></code></p>
-<p><code class="codehilite"><span class="c">https://codacy.example.com/add/addService/GitLabEnterprise</span></code></p>
-<p><img alt="GitLab Application" src="../images/gitlab-application.png" /></p>
-<p>Then paste the application ID and secret in Codacy Self-hosted.</p>
-<p><img alt="GitLab Final Application" src="../images/gitlab-created-application.png" /></p>
+                <h1 id="github-cloud">GitHub Cloud<a class="headerlink" href="#github-cloud" title="Permanent link">&para;</a></h1>
+<p>To integrate with GitHub we will use a GitHub OAuth Application.</p>
+<p>To create the application on GitHub, visit <strong>Settings / Developer settings / OAuth Apps / New OAuth App</strong> and create an application pointing to your local Codacy deployment URL.</p>
+<p><img alt="GitHub Application" src="../images/github-application.png" /></p>
+<p>You can fill all the fields with the suggested text above or use your own text except for the field <code class="codehilite"><span class="err">Authorization callback URL</span></code> where you must insert your local Codacy deployment URL.</p>
+<p>The URL should contain the endpoint/IP, the protocol (HTTP or HTTPS), and, if applicable, the port where it is running.</p>
+<p>Correct:</p>
+<ul>
+<li><a href="http://your.codacy.url.com">http://your.codacy.url.com</a></li>
+<li><a href="http://your.codacy.url.com:9000">http://your.codacy.url.com:9000</a></li>
+<li><a href="http://53.43.42.12gi">http://53.43.42.12gi</a></li>
+<li><a href="http://53.43.42.12:9000">http://53.43.42.12:9000</a></li>
+</ul>
+<p>Incorrect:</p>
+<ul>
+<li>your.codacy.url.com</li>
+<li>your.codacy.url.com:9000</li>
+<li>53.43.42.12</li>
+<li>53.43.42.12:9000</li>
+</ul>
+<h2 id="token-retrieval">Token retrieval<a class="headerlink" href="#token-retrieval" title="Permanent link">&para;</a></h2>
+<p>After the application is created, you should copy both the <code class="codehilite"><span class="err">Client ID</span></code> and the <code class="codehilite"><span class="err">Client Secret</span></code> and paste them in the setup page of Codacy.</p>
+<p><img alt="GitHub Application" src="../images/github-token-retrieval.png" /></p>
+<p>After this is done you will be able to use GitHub Cloud as an authentication method to add repositories and as an integration in the repository settings.</p>
                 
                   
                 
@@ -570,7 +581,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../github-enterprise/" title="GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitbucket-enterprise/" title="Bitbucket Stash" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -579,19 +590,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GitHub Enterprise
+                Bitbucket Stash
               </span>
             </div>
           </a>
         
         
-          <a href="../../../extra/database/" title="Database Migration Guide" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../github-enterprise/" title="GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Database Migration Guide
+                GitHub Enterprise
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

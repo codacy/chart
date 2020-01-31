@@ -275,11 +275,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
     
     <label class="md-nav__link" for="nav-4-4">
-      Providers
+      Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-4">
-        Providers
+        Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -290,7 +290,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../configuration/providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
+    <a href="../../configuration/git-providers/bitbucket-enterprise/" title="Bitbucket Stash" class="md-nav__link">
       Bitbucket Stash
     </a>
   </li>
@@ -302,7 +302,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../configuration/providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
+    <a href="../../configuration/git-providers/github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
     </a>
   </li>
@@ -314,7 +314,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../configuration/providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
+    <a href="../../configuration/git-providers/github-enterprise/" title="GitHub Enterprise" class="md-nav__link">
       GitHub Enterprise
     </a>
   </li>
@@ -326,7 +326,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../configuration/providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
+    <a href="../../configuration/git-providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-nav__link">
       GitLab Enterprise
     </a>
   </li>
@@ -727,8 +727,8 @@ infrastructure. It includes the following infrastructure stacks:</p>
 </li>
 </ul>
 <p>Clone the project and go to that directory:</p>
-<div class="codehilite"><pre><span></span>$ git clone git@github.com:codacy/chart.git
-$ <span class="nb">cd</span> chart/docs/quickstart/EKS/
+<div class="codehilite"><pre><span></span>$ git clone https://github.com/codacy/chart.git
+$ <span class="nb">cd</span> chart/docs/infrastructure/EKS/
 </pre></div>
 
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
@@ -774,9 +774,7 @@ these templates to make modifications to the cluster in the future.</p>
 </pre></div>
 
 <p>inside the <code class="codehilite"><span class="err">backend/</span></code> folder and follow terraform's instructions.</p>
-<p>An S3 bucket with a unique name to save your state will be created. Note this
-bucket's name and set it on the <code class="codehilite"><span class="err">config.tf</span></code> file of the <code class="codehilite"><span class="err">main/</span></code> and <code class="codehilite"><span class="err">setup/</span></code>
-stacks where indicated.</p>
+<p>An S3 bucket with a unique name to save your state will be created. Note the value of <code class="codehilite"><span class="err">state_bucket_name</span></code> in the output of the command and set it on the <code class="codehilite"><span class="err">config.tf</span></code> file of the <code class="codehilite"><span class="err">main/</span></code> and <code class="codehilite"><span class="err">setup/</span></code> stacks where indicated.</p>
 <h3 id="2-main-create-a-vanilla-eks-cluster">2. <code class="codehilite"><span class="err">main</span></code> - create a vanilla EKS cluster<a class="headerlink" href="#2-main-create-a-vanilla-eks-cluster" title="Permanent link">&para;</a></h3>
 <p>To create a cluster, along with all the necessary network and nodes setup
 it requires:</p>
@@ -832,8 +830,9 @@ by running</p>
 <div class="codehilite"><pre><span></span>kubectl proxy
 </pre></div>
 
-<p>and then connect to <a href="http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy">the dashboard url</a>,
-select <code class="codehilite"><span class="err">token</span></code> and paste the value you saved above.</p>
+<p>and then connect to the dashboard URL</p>
+<p><a href="http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy">http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy</a></p>
+<p>select <code class="codehilite"><span class="err">token</span></code> and paste the value you saved above.</p>
 <h2 id="uninstalling">Uninstalling<a class="headerlink" href="#uninstalling" title="Permanent link">&para;</a></h2>
 <p><strong>WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS</strong></p>
 <h3 id="1-remove-the-cluster-setup-required-to-install-codacy">1.  Remove the cluster setup required to install Codacy<a class="headerlink" href="#1-remove-the-cluster-setup-required-to-install-codacy" title="Permanent link">&para;</a></h3>
