@@ -200,45 +200,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Install
-      </label>
-    
     <a href="./" title="Install" class="md-nav__link md-nav__link--active">
       Install
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-quickly-install-codacy-for-demo-without-any-persistence" class="md-nav__link">
-    1. Quickly install Codacy for demo without any persistence.
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-making-the-installation-production-ready" class="md-nav__link">
-    2. Making the installation "Production Ready"
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -512,29 +476,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-quickly-install-codacy-for-demo-without-any-persistence" class="md-nav__link">
-    1. Quickly install Codacy for demo without any persistence.
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-making-the-installation-production-ready" class="md-nav__link">
-    2. Making the installation "Production Ready"
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -547,97 +488,51 @@
                 
                 
                 <h1 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h1>
-<p>Install Codacy in an existing Kubernetes cluster with the
-cloud-native Codacy Helm chart.
-This guide will cover the required values and common options.</p>
-<h2 id="1-quickly-install-codacy-for-demo-without-any-persistence">1. Quickly install Codacy for demo without any persistence.<a class="headerlink" href="#1-quickly-install-codacy-for-demo-without-any-persistence" title="Permanent link">&para;</a></h2>
-<p>Some Codacy images are currently private. For this, you need to
-create a secret in the same namespace where you will install Codacy.
-<strong>You should receive these credentials together with your license.</strong></p>
-<div class="codehilite"><pre><span></span>$ kubectl create namespace codacy
-$ kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
+<p>Follow the step by step instructions below on how to install Codacy in an existing Kubernetes cluster using the provided cloud native Helm chart.</p>
+<ol>
+<li>
+<p>Start by adding the Docker registry credentials to a secret in the same Kubernetes namespace where you will install Codacy. This is necessary because some Codacy Docker images are currently private. <strong>You should have received these credentials together with your Codacy license.</strong></p>
+<div class="codehilite"><pre><span></span>kubectl create namespace codacy
+kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
 </pre></div>
 
-<p>Create a file named <code class="codehilite"><span class="err">values.yaml</span></code> using a text editor of your choice. Copy the following template to the file and change the appropriate values:</p>
+</li>
+<li>
+<p>Use a text editor of your choice to copy the template below to a new file named <code class="codehilite"><span class="err">values.yaml</span></code>, changing the values as described in the comments.</p>
 <div class="codehilite"><pre><span></span><span class="nt">global</span><span class="p">:</span>
   <span class="nt">imagePullSecrets</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span> <span class="c1"># Access private codacy docker images</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span>
   <span class="nt">codacy</span><span class="p">:</span>
-    <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.mycompany.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
-    <span class="nt">backendUrl</span><span class="p">:</span> <span class="s">&quot;http://codacy.mycompany.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
+    <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
+    <span class="nt">backendUrl</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
   <span class="nt">play</span><span class="p">:</span>
-    <span class="nt">cryptoSecret</span><span class="p">:</span> <span class="s">&quot;PLEASE_CHANGE_ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">cryptoSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
   <span class="nt">filestore</span><span class="p">:</span>
-    <span class="nt">contentsSecret</span><span class="p">:</span> <span class="s">&quot;PLEASE_CHANGE_ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-    <span class="nt">uuidSecret</span><span class="p">:</span> <span class="s">&quot;PLEASE_CHANGE_ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-  <span class="nt">cacheSecret</span><span class="p">:</span> <span class="s">&quot;PLEASE_CHANGE_ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">contentsSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">uuidSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+  <span class="nt">cacheSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>$ helm repo add codacy-stable https://charts.codacy.com/stable/
-$ helm repo update
-$ helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
+</li>
+<li>
+<p>Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the <code class="codehilite"><span class="err">values.yaml</span></code> file created in the previous step.</p>
+<div class="codehilite"><pre><span></span>helm repo add codacy-stable https://charts.codacy.com/stable/
+helm repo update
+helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
   --namespace codacy <span class="se">\</span>
   --recreate-pods <span class="se">\</span>
   --values values.yaml
 </pre></div>
 
-<p>By now all pods should be starting.</p>
+<p>By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):</p>
 <div class="codehilite"><pre><span></span>$ helm status codacy
-
 LAST DEPLOYED: Wed Jan  <span class="m">8</span> <span class="m">15</span>:52:27 <span class="m">2020</span>
 NAMESPACE: codacy
 STATUS: DEPLOYED
 
 RESOURCES:
-<span class="o">==</span>&gt; v1/ClusterRole
-NAME                         AGE
-codacy-nfsserverprovisioner  <span class="nv">12d</span>
 
-<span class="o">==</span>&gt; v1/ClusterRoleBinding
-NAME                         AGE
-codacy-nfsserverprovisioner  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/ConfigMap
-NAME                                    DATA  AGE
-codacy-activities                       <span class="m">12</span>    12d
-codacy-api                              <span class="m">69</span>    12d
-codacy-core                             <span class="m">19</span>    12d
-codacy-crow                             <span class="m">17</span>    12d
-codacy-engine                           <span class="m">43</span>    12d
-codacy-fluentd-config                   <span class="m">1</span>     12d
-codacy-hotspots-api                     <span class="m">16</span>    12d
-codacy-hotspots-worker                  <span class="m">18</span>    12d
-codacy-listener                         <span class="m">27</span>    12d
-codacy-listener-nfs-cleanup             <span class="m">1</span>     12d
-codacy-minio                            <span class="m">1</span>     12d
-codacy-portal                           <span class="m">44</span>    12d
-codacy-postgres-extended-configuration  <span class="m">1</span>     12d
-codacy-postgres-init-scripts            <span class="m">1</span>     12d
-codacy-rabbitmq-ha                      <span class="m">2</span>     12d
-codacy-ragnaros                         <span class="m">18</span>    12d
-codacy-remote-provider-service          <span class="m">12</span>    12d
-codacy-worker-manager                   <span class="m">71</span>    <span class="nv">98m</span>
-
-<span class="o">==</span>&gt; v1/Deployment
-NAME                            READY  UP-TO-DATE  AVAILABLE  AGE
-codacy-activities               <span class="m">1</span>/2    <span class="m">2</span>           <span class="m">1</span>          12d
-codacy-api                      <span class="m">3</span>/3    <span class="m">3</span>           <span class="m">3</span>          12d
-codacy-core                     <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-crow                     <span class="m">1</span>/1    <span class="m">1</span>           <span class="m">1</span>          12d
-codacy-engine                   <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-hotspots-api             <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-hotspots-worker          <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-listener                 <span class="m">1</span>/1    <span class="m">1</span>           <span class="m">1</span>          12d
-codacy-minio                    <span class="m">1</span>/1    <span class="m">1</span>           <span class="m">1</span>          12d
-codacy-portal                   <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-ragnaros                 <span class="m">1</span>/1    <span class="m">1</span>           <span class="m">1</span>          12d
-codacy-remote-provider-service  <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          12d
-codacy-worker-manager           <span class="m">2</span>/2    <span class="m">2</span>           <span class="m">2</span>          <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/PersistentVolumeClaim
-NAME                         STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS                 AGE
-codacy-listener-cache-claim  Bound   pvc-dfc57bfe-31fd-11ea-8144-4e0c422f671d  140Gi     RWO           codacy-listener-cache-class  5h56m  Filesystem
-codacy-minio                 Bound   pvc-fa775d78-289c-11ea-8144-4e0c422f671d  20Gi      RWO           <span class="k">do</span>-block-storage             12d    <span class="nv">Filesystem</span>
+<span class="o">[</span>...<span class="o">]</span>
 
 <span class="o">==</span>&gt; v1/Pod<span class="o">(</span>related<span class="o">)</span>
 NAME                                             READY  STATUS            RESTARTS  AGE
@@ -648,192 +543,12 @@ codacy-api-6f44c8d48-h6cl4                       <span class="m">1</span>/1    R
 codacy-api-6f44c8d48-vgbl5                       <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
 codacy-core-786c6f79f-7sn7p                      <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
 codacy-core-786c6f79f-pvg9w                      <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-codacy-crow-59dcfd57f-zpdrw                      <span class="m">1</span>/1    Running           <span class="m">3</span>         6m10s
-codacy-crowdb-0                                  <span class="m">1</span>/1    Running           <span class="m">0</span>         6m6s
-codacy-engine-5ffcddf77b-nrs8n                   <span class="m">1</span>/1    Running           <span class="m">1</span>         6m10s
-codacy-engine-5ffcddf77b-s229m                   <span class="m">1</span>/1    Running           <span class="m">2</span>         6m10s
-codacy-fluentdoperator-6qxpb                     <span class="m">2</span>/2    Running           <span class="m">0</span>         5m58s
-codacy-fluentdoperator-djf8f                     <span class="m">2</span>/2    Running           <span class="m">0</span>         5m59s
-codacy-fluentdoperator-jx269                     <span class="m">2</span>/2    Running           <span class="m">0</span>         5m57s
-codacy-fluentdoperator-mlpz5                     <span class="m">2</span>/2    Running           <span class="m">0</span>         5m59s
-codacy-fluentdoperator-xbmw9                     <span class="m">2</span>/2    Running           <span class="m">0</span>         5m59s
-codacy-hotspots-api-5978df9455-6q2sv             <span class="m">1</span>/1    Running           <span class="m">3</span>         6m10s
-codacy-hotspots-api-5978df9455-nlzwv             <span class="m">1</span>/1    Running           <span class="m">3</span>         6m10s
-codacy-hotspots-worker-cbc9dfb7c-dxdqs           <span class="m">1</span>/1    Running           <span class="m">3</span>         6m10s
-codacy-hotspots-worker-cbc9dfb7c-jjw4q           <span class="m">1</span>/1    Running           <span class="m">3</span>         6m10s
-codacy-hotspotsdb-0                              <span class="m">1</span>/1    Running           <span class="m">0</span>         6m4s
-codacy-listener-7c6ff5f8cd-hbgh2                 <span class="m">1</span>/1    Running           <span class="m">2</span>         6m10s
-codacy-listenerdb-0                              <span class="m">1</span>/1    Running           <span class="m">0</span>         6m4s
-codacy-minio-847c574d94-spbbz                    <span class="m">1</span>/1    Running           <span class="m">0</span>         6m10s
-codacy-nfsserverprovisioner-0                    <span class="m">1</span>/1    Running           <span class="m">0</span>         6m3s
-codacy-portal-74bf7887db-fvzvz                   <span class="m">1</span>/1    Running           <span class="m">3</span>         6m9s
-codacy-portal-74bf7887db-h7tb6                   <span class="m">1</span>/1    Running           <span class="m">4</span>         6m9s
-codacy-postgres-0                                <span class="m">1</span>/1    Running           <span class="m">0</span>         6m1s
-codacy-rabbitmq-ha-0                             <span class="m">1</span>/1    Running           <span class="m">0</span>         5m58s
-codacy-rabbitmq-ha-1                             <span class="m">1</span>/1    Running           <span class="m">0</span>         5m31s
-codacy-rabbitmq-ha-2                             <span class="m">1</span>/1    Running           <span class="m">0</span>         5m4s
-codacy-ragnaros-8b899c77f-76bw6                  <span class="m">1</span>/1    Running           <span class="m">2</span>         6m9s
-codacy-remote-provider-service-7974696f8d-tccvj  <span class="m">1</span>/1    Running           <span class="m">0</span>         6m9s
-codacy-remote-provider-service-7974696f8d-wx6zj  <span class="m">1</span>/1    Running           <span class="m">0</span>         6m9s
-codacy-worker-manager-77878c655f-7jmjv           <span class="m">1</span>/1    Running           <span class="m">0</span>         6m8s
-codacy-worker-manager-77878c655f-8s4bz           <span class="m">1</span>/1    Running           <span class="m">0</span>         <span class="nv">6m9s</span>
-
-<span class="o">==</span>&gt; v1/Role
-NAME                                      AGE
-codacy-remote-provider-service            12d
-codacy-worker-manager                     12d
-codacy-worker-manager-worker-permissions  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/RoleBinding
-NAME                                      AGE
-codacy-remote-provider-service            12d
-codacy-worker-manager                     12d
-codacy-worker-manager-worker-permissions  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/Secret
-NAME                    TYPE    DATA  AGE
-codacy-activities       Opaque  <span class="m">3</span>     12d
-codacy-activitiesdb     Opaque  <span class="m">1</span>     12d
-codacy-api              Opaque  <span class="m">31</span>    12d
-codacy-core             Opaque  <span class="m">6</span>     12d
-codacy-crow             Opaque  <span class="m">5</span>     12d
-codacy-crowdb           Opaque  <span class="m">1</span>     12d
-codacy-engine           Opaque  <span class="m">14</span>    12d
-codacy-hotspots-api     Opaque  <span class="m">4</span>     12d
-codacy-hotspots-worker  Opaque  <span class="m">3</span>     12d
-codacy-hotspotsdb       Opaque  <span class="m">1</span>     12d
-codacy-listener         Opaque  <span class="m">6</span>     12d
-codacy-listenerdb       Opaque  <span class="m">1</span>     12d
-codacy-minio            Opaque  <span class="m">2</span>     12d
-codacy-portal           Opaque  <span class="m">17</span>    12d
-codacy-postgres         Opaque  <span class="m">1</span>     12d
-codacy-rabbitmq-ha      Opaque  <span class="m">6</span>     12d
-codacy-ragnaros         Opaque  <span class="m">11</span>    12d
-codacy-worker-manager   Opaque  <span class="m">17</span>    <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/Service
-NAME                            TYPE          CLUSTER-IP      EXTERNAL-IP     PORT<span class="o">(</span>S<span class="o">)</span>                                 AGE
-codacy-activities               ClusterIP     <span class="m">10</span>.245.117.130  &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-activitiesdb             ClusterIP     <span class="m">10</span>.245.86.136   &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-activitiesdb-headless    ClusterIP     None            &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-api                      LoadBalancer  <span class="m">10</span>.245.218.1    <span class="m">157</span>.245.20.169  <span class="m">80</span>:31652/TCP                            12d
-codacy-core                     ClusterIP     <span class="m">10</span>.245.76.203   &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-crow                     ClusterIP     <span class="m">10</span>.245.149.46   &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-crowdb                   ClusterIP     <span class="m">10</span>.245.204.138  &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-crowdb-headless          ClusterIP     None            &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-engine                   ClusterIP     <span class="m">10</span>.245.196.196  &lt;none&gt;          <span class="m">80</span>/TCP,9001/TCP                         12d
-codacy-hotspots-api             ClusterIP     <span class="m">10</span>.245.16.156   &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-hotspots-worker          ClusterIP     <span class="m">10</span>.245.123.189  &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-hotspotsdb               ClusterIP     <span class="m">10</span>.245.208.1    &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-hotspotsdb-headless      ClusterIP     None            &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-listener                 ClusterIP     <span class="m">10</span>.245.56.148   &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-listenerdb               ClusterIP     <span class="m">10</span>.245.67.58    &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-listenerdb-headless      ClusterIP     None            &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-minio                    ClusterIP     <span class="m">10</span>.245.127.197  &lt;none&gt;          <span class="m">9000</span>/TCP                                12d
-codacy-nfsserverprovisioner     ClusterIP     <span class="m">10</span>.245.159.117  &lt;none&gt;          <span class="m">2049</span>/TCP,20048/TCP,51413/TCP,51413/UDP  12d
-codacy-portal                   ClusterIP     <span class="m">10</span>.245.104.235  &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-postgres                 ClusterIP     <span class="m">10</span>.245.20.80    &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-postgres-headless        ClusterIP     None            &lt;none&gt;          <span class="m">5432</span>/TCP                                12d
-codacy-rabbitmq-ha              ClusterIP     None            &lt;none&gt;          <span class="m">15672</span>/TCP,5672/TCP,4369/TCP             12d
-codacy-rabbitmq-ha-discovery    ClusterIP     None            &lt;none&gt;          <span class="m">15672</span>/TCP,5672/TCP,4369/TCP             12d
-codacy-ragnaros                 ClusterIP     <span class="m">10</span>.245.172.99   &lt;none&gt;          <span class="m">80</span>/TCP                                  12d
-codacy-remote-provider-service  ClusterIP     <span class="m">10</span>.245.247.247  &lt;none&gt;          <span class="m">80</span>/TCP,5701/TCP                         12d
-codacy-worker-manager           ClusterIP     <span class="m">10</span>.245.211.195  &lt;none&gt;          <span class="m">80</span>/TCP                                  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/ServiceAccount
-NAME                                      SECRETS  AGE
-codacy-fluentdoperator                    <span class="m">1</span>        12d
-codacy-minio                              <span class="m">1</span>        12d
-codacy-nfsserverprovisioner               <span class="m">1</span>        12d
-codacy-rabbitmq-ha                        <span class="m">1</span>        12d
-codacy-remote-provider-service            <span class="m">1</span>        12d
-codacy-worker-manager                     <span class="m">1</span>        12d
-codacy-worker-manager-worker-permissions  <span class="m">1</span>        <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/StatefulSet
-NAME                         READY  AGE
-codacy-nfsserverprovisioner  <span class="m">1</span>/1    <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1/StorageClass
-NAME                         PROVISIONER                                AGE
-codacy-listener-cache-class  cluster.local/codacy-nfsserverprovisioner  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/ClusterRole
-NAME                    AGE
-codacy-fluentdoperator  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/ClusterRoleBinding
-NAME                    AGE
-codacy-fluentdoperator  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/CronJob
-NAME                         SCHEDULE   SUSPEND  ACTIVE  LAST SCHEDULE  AGE
-codacy-listener-nfs-cleanup  <span class="m">0</span> <span class="m">0</span> * * <span class="m">6</span>  False    <span class="m">0</span>       4d15h          <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/DaemonSet
-NAME                    DESIRED  CURRENT  READY  UP-TO-DATE  AVAILABLE  NODE SELECTOR  AGE
-codacy-fluentdoperator  <span class="m">5</span>        <span class="m">5</span>        <span class="m">5</span>      <span class="m">5</span>           <span class="m">5</span>          &lt;none&gt;         <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/PodDisruptionBudget
-NAME                            MIN AVAILABLE  MAX UNAVAILABLE  ALLOWED DISRUPTIONS  AGE
-codacy-activities               N/A            <span class="m">1</span>                <span class="m">0</span>                    12d
-codacy-api                      N/A            <span class="m">1</span>                <span class="m">1</span>                    5d22h
-codacy-core                     N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-engine                   N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-hotspots-api             N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-hotspots-worker          N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-listener                 N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-portal                   N/A            <span class="m">1</span>                <span class="m">1</span>                    12d
-codacy-remote-provider-service  N/A            <span class="m">1</span>                <span class="m">1</span>                    26h
-codacy-worker-manager           N/A            <span class="m">1</span>                <span class="m">1</span>                    <span class="nv">5d22h</span>
-
-<span class="o">==</span>&gt; v1beta1/Role
-NAME                AGE
-codacy-rabbitmq-ha  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/RoleBinding
-NAME                AGE
-codacy-rabbitmq-ha  <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta1/StatefulSet
-NAME                READY  AGE
-codacy-rabbitmq-ha  <span class="m">3</span>/3    <span class="nv">12d</span>
-
-<span class="o">==</span>&gt; v1beta2/StatefulSet
-NAME                 READY  AGE
-codacy-activitiesdb  <span class="m">1</span>/1    12d
-codacy-crowdb        <span class="m">1</span>/1    12d
-codacy-hotspotsdb    <span class="m">1</span>/1    12d
-codacy-listenerdb    <span class="m">1</span>/1    12d
-codacy-postgres      <span class="m">1</span>/1    12d
+<span class="o">[</span>...<span class="o">]</span>
 </pre></div>
 
-<h2 id="2-making-the-installation-production-ready">2. Making the installation "Production Ready"<a class="headerlink" href="#2-making-the-installation-production-ready" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p>Use the <code class="codehilite"><span class="err">values-production.yaml</span></code> file as <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">reference</a></p>
-<ul>
-<li><a href="../configuration/external-dbs/">Use external DBs</a> (Ideally a cloud managed postgres)</li>
-<li>Enable persistence on <code class="codehilite"><span class="err">listener</span></code></li>
-<li>Enable persistence on <code class="codehilite"><span class="err">minio</span></code></li>
-<li>Setup resources and limits</li>
-<li>Enable the Ingress on <code class="codehilite"><span class="err">codacy-api</span></code></li>
-</ul>
 </li>
 <li>
-<p>Start configuring Codacy in the UI</p>
-<ul>
-<li>Create an administrator account</li>
-<li>Configure one or more of the following supported git providers:<ul>
-<li><a href="../configuration/git-providers/github-cloud/">Github Cloud</a></li>
-<li><a href="../configuration/git-providers/github-enterprise/">Github Enterprise</a></li>
-<li><a href="../configuration/git-providers/gitlab-enterprise/">Gitlab Enterprise</a></li>
-<li><a href="../configuration/git-providers/bitbucket-enterprise/">Bitbucket Enterprise</a></li>
-</ul>
-</li>
-<li>Create an initial organization</li>
-<li>Invite users</li>
-</ul>
+<p>Modify and use the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">reference file</a> <code class="codehilite"><span class="err">values-production.yaml</span></code> to <a href="../configuration/external-dbs/">set up external DBs</a> (ideally running in a cloud managed Postgres instance).</p>
 </li>
 </ol>
                 
