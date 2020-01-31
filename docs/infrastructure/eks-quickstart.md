@@ -16,8 +16,8 @@ infrastructure. It includes the following infrastructure stacks:
 Clone the project and go to that directory:
 
 ```bash
-$ git clone git@github.com:codacy/chart.git
-$ cd chart/docs/quickstart/EKS/
+$ git clone https://github.com/codacy/chart.git
+$ cd chart/docs/infrastructure/EKS/
 ```
 
 ## Requirements
@@ -77,9 +77,7 @@ terraform init && terraform apply
 
 inside the `backend/` folder and follow terraform's instructions.
 
-An S3 bucket with a unique name to save your state will be created. Note this
-bucket's name and set it on the `config.tf` file of the `main/` and `setup/`
-stacks where indicated.
+An S3 bucket with a unique name to save your state will be created. Note the value of `state_bucket_name` in the output of the command and set it on the `config.tf` file of the `main/` and `setup/` stacks where indicated.
 
 ### 2. `main` - create a vanilla EKS cluster
 
@@ -158,7 +156,10 @@ and copy the outputed value. To connect to the dashboard run
 kubectl proxy
 ```
 
-and then connect to [the dashboard url](http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy),
+and then connect to the dashboard URL
+
+<http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy>
+
 select `token` and paste the value you saved above.
 
 ## Uninstalling

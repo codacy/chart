@@ -55,7 +55,7 @@ engine:
 
 Crow is a visualization tool that displays information about the projects and jobs that are pending for analysis, as well as the ones running in the Codacy platform.
 
-The Crow tool is installed along side Codacy after the helm chart is deployed to the cluster.
+The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 
 **Important note**
 
