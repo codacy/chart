@@ -31,6 +31,8 @@ Install Codacy in an existing Kubernetes cluster with the provided cloud-native 
 
 After successfully installing Codacy, follow the post-install configuration steps:
 
+1. Enable the Ingress on `codacy-api`.
+
 1. Start configuring Codacy in the UI. The onboarding process will guide you through the following steps:
 
     * Create an administrator account

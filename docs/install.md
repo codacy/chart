@@ -61,7 +61,4 @@ Follow the step by step instructions below on how to install Codacy in an existi
     [...]
     ```
 
-1. Use the `values-production.yaml` file as [reference](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml):
-
-    * [Use external DBs](configuration/external-dbs.md) (Ideally a cloud managed postgres)
-    * Enable the Ingress on `codacy-api`
+1. Modify and use the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` to [set up external DBs](configuration/external-dbs.md) (ideally running in a cloud managed Postgres instance).
