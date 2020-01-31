@@ -53,7 +53,7 @@ rotate_pods: set_cluster_context
 
 .PHONY: set_cluster_context
 set_cluster_context:
-	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
+	doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: remove_codacy
 remove_codacy: set_cluster_context
