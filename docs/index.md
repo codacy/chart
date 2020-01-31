@@ -31,14 +31,6 @@ Install Codacy in an existing Kubernetes cluster with the provided cloud-native 
 
 After successfully installing Codacy, follow the post-install configuration steps:
 
-1. Use the `values-production.yaml` file as [reference](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml)
-
-    * [Use external DBs](configuration/external-dbs.md) (Ideally a cloud managed postgres)
-    * Enable persistence on `listener`
-    * Enable persistence on `minio`
-    * Setup resources and limits
-    * Enable the Ingress on `codacy-api`
-
 1. Start configuring Codacy in the UI. The onboarding process will guide you through the following steps:
 
     * Create an administrator account

@@ -37,26 +37,32 @@ Follow the step by step instructions below on how to install Codacy in an existi
       --values values.yaml
     ```
 
-By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):
+    By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):
 
-```bash
-$ helm status codacy
-LAST DEPLOYED: Wed Jan  8 15:52:27 2020
-NAMESPACE: codacy
-STATUS: DEPLOYED
+    ```bash
+    $ helm status codacy
+    LAST DEPLOYED: Wed Jan  8 15:52:27 2020
+    NAMESPACE: codacy
+    STATUS: DEPLOYED
 
-RESOURCES:
+    RESOURCES:
 
-[...]
+    [...]
 
-==> v1/Pod(related)
-NAME                                             READY  STATUS            RESTARTS  AGE
-codacy-activities-78849c8548-ln5sl               1/1    Running           4         6m11s
-codacy-activitiesdb-0                            1/1    Running           0         6m3s
-codacy-api-6f44c8d48-6bw8z                       1/1    Running           0         6m11s
-codacy-api-6f44c8d48-h6cl4                       1/1    Running           0         6m11s
-codacy-api-6f44c8d48-vgbl5                       1/1    Running           0         6m11s
-codacy-core-786c6f79f-7sn7p                      1/1    Running           0         6m11s
-codacy-core-786c6f79f-pvg9w                      1/1    Running           0         6m11s
-[...]
-```
+    ==> v1/Pod(related)
+    NAME                                             READY  STATUS            RESTARTS  AGE
+    codacy-activities-78849c8548-ln5sl               1/1    Running           4         6m11s
+    codacy-activitiesdb-0                            1/1    Running           0         6m3s
+    codacy-api-6f44c8d48-6bw8z                       1/1    Running           0         6m11s
+    codacy-api-6f44c8d48-h6cl4                       1/1    Running           0         6m11s
+    codacy-api-6f44c8d48-vgbl5                       1/1    Running           0         6m11s
+    codacy-core-786c6f79f-7sn7p                      1/1    Running           0         6m11s
+    codacy-core-786c6f79f-pvg9w                      1/1    Running           0         6m11s
+    [...]
+    ```
+
+1. Use the `values-production.yaml` file as [reference](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml):
+
+    * [Use external DBs](configuration/external-dbs.md) (Ideally a cloud managed postgres)
+    * Setup resources and limits
+    * Enable the Ingress on `codacy-api`
