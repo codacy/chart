@@ -66,17 +66,17 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: ">=6.0.0"
+  version: ">=6.3.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: ">=5.3.1"
+  version: ">=5.5.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: ">=9.0.1"
+  version: ">=9.1.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
