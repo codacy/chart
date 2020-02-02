@@ -2,31 +2,30 @@
 
 The repository folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> includes the terraform templates needed to create an EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
 
--   **backend** - (optional) the S3 bucket for storing the terraform state and the DynamoDB table for state locking.
--   **main** - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.
--   **setup** - additional setup you must perform before installing Codacy on your vanilla EKS cluster. Installs things like:
-    -   Aws auth (for you to be able to access your cluster using your AWS IAM account)
-    -   Docker credentials (to access codacy docker images)
-    -   Kubernetes dashboard
-    -   Nginx ingress
-    -   Cert-manager
+* **backend**: (Optional) S3 bucket for storing the Terraform state and the DynamoDB table for state locking.
+* **main**: EKS cluster, including all the network and node setup needed to go from zero to a fully functional EKS cluster.
+* **setup**: Additional setup you must perform before installing Codacy on your vanilla EKS cluster, namely:
+    * AWS auth for you to be able to access your cluster using your AWS IAM account
+    * Kubernetes Dashboard
+    * NGINX Ingress Controller
+    * cert-manager
 
 Clone the project and go to that directory:
 
 ```bash
-$ git clone https://github.com/codacy/chart.git
-$ cd chart/docs/infrastructure/EKS/
+git clone https://github.com/codacy/chart.git
+cd chart/docs/infrastructure/EKS/
 ```
 
 ## Requirements
 
 In order to setup the infrastructure you'll need recent versions of:
 
--   [awscli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
--   [terraform >= v0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
--   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
--   [helm](https://helm.sh/docs/using_helm/#installing-helm)
--   Credentials with access to docker hub (you should receive this with your license)
+* [awscli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+* [terraform >= v0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* [helm](https://helm.sh/docs/using_helm/#installing-helm)
+* Credentials with access to docker hub (you should receive this with your license)
 
 Please follow the documentation in the above links to setup these tools for your OS.
 They can usually be easily installed using your package manager. For instance, on
@@ -50,12 +49,12 @@ Assuming **AWS is well configured** and you fulfill all the prerequisites,
 the setup without state storage, can be done with:
 
 ```bash
-$ export AWS_SDK_LOAD_CONFIG=1
-$ cd main/
-$ terraform init && terraform apply # should take around 15 mins
-$ cd ../setup/
-$ terraform init && terraform apply
-$ aws eks update-kubeconfig --name codacy-cluster
+export AWS_SDK_LOAD_CONFIG=1
+cd main/
+terraform init && terraform apply # should take around 15 mins
+cd ../setup/
+terraform init && terraform apply
+aws eks update-kubeconfig --name codacy-cluster
 ```
 
 ## Deployment - Long version
@@ -162,7 +161,8 @@ select `token` and paste the value you saved above.
 
 ## Uninstalling
 
-**WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS**
+**WARNING:**  
+If you proceed beyond this point you'll permanently delete and break things.
 
 ### 1.  Remove the cluster setup required to install Codacy
 
