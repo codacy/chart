@@ -18,7 +18,7 @@ To install Codacy you need a Kubernetes cluster, versions 1.14.\* or 1.15.\*.
 
 You can follow one of the guides below to quickly set up a Kubernetes cluster on your cloud infrastructure using Terraform configuration files provided by Codacy:
 
-* [Setting up an EKS cluster](infrastructure/eks-quickstart.md)
+* [Setting up an Amazon EKS cluster](infrastructure/eks-quickstart.md)
 * [Setting up an AKS cluster](infrastructure/aks-quickstart.md)
 
 ## Installing Codacy

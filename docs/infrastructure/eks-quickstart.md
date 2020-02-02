@@ -1,4 +1,4 @@
-# Setting up an EKS cluster
+# Setting up an Amazon EKS cluster
 
 The repository folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> includes the terraform templates needed to create an EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
 
