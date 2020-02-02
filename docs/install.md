@@ -1,6 +1,6 @@
 # Installing Codacy
 
-Follow the step by step instructions below on how to install Codacy in an existing Kubernetes cluster using the provided cloud native Helm chart.
+Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.
 
 1. Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
 
