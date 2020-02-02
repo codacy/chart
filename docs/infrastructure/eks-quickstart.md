@@ -1,10 +1,14 @@
 # Setting up an Amazon EKS cluster
 
-The folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> in the Chart repository includes the Terraform templates needed to create an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
+You can find the Terraform templates needed to create an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, in the following repository folder:
 
-* **backend**: (Optional) S3 bucket for storing the Terraform state and the DynamoDB table for state locking.
-* **main**: EKS cluster, including all the network and node setup needed to go from zero to a fully functional EKS cluster.
-* **setup**: Additional setup you must perform before installing Codacy on your vanilla EKS cluster, namely:
+<https://github.com/codacy/chart/tree/master/docs/infrastructure/EKS>
+
+The folder includes the following infrastructure stacks:
+
+* **backend**: Optional S3 bucket for storing the Terraform state and the DynamoDB table for state locking
+* **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
+* **setup**: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster, such as:
     * AWS auth for you to be able to access your cluster using your AWS IAM account
     * Kubernetes Dashboard
     * NGINX Ingress Controller
