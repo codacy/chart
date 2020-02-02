@@ -1,6 +1,6 @@
 # Setting up an Amazon EKS cluster
 
-The repository folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> includes the terraform templates needed to create an EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
+The folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> in the Chart repository includes the Terraform templates needed to create an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
 
 * **backend**: (Optional) S3 bucket for storing the Terraform state and the DynamoDB table for state locking.
 * **main**: EKS cluster, including all the network and node setup needed to go from zero to a fully functional EKS cluster.
@@ -10,54 +10,24 @@ The repository folder <https://github.com/codacy/chart/tree/master/docs/quicksta
     * NGINX Ingress Controller
     * cert-manager
 
-Clone the project and go to that directory:
-
-```bash
-git clone https://github.com/codacy/chart.git
-cd chart/docs/infrastructure/EKS/
-```
-
-## Requirements
-
-In order to setup the infrastructure you'll need recent versions of:
-
-* [awscli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-* [terraform >= v0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
-* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-* [helm](https://helm.sh/docs/using_helm/#installing-helm)
-* Credentials with access to docker hub (you should receive this with your license)
-
-Please follow the documentation in the above links to setup these tools for your OS.
-They can usually be easily installed using your package manager. For instance, on
-macOS, if you are using [Homebrew](https://brew.sh), you can just run:
-
-```bash
-brew install awscli terraform kubernetes-helm kubectl
-```
-
-You'll also need to setup the CLI credentials for your AWS account. See how
-to do it the [AWS](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html)
-and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation.
-Note that, as stated in the documentation, if your `.aws/credentials` are fairly
-complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly.
-
-## TL;DR
-
-### Setting up an EKS cluster for Codacy
-
-Assuming **AWS is well configured** and you fulfill all the prerequisites,
-the setup without state storage, can be done with:
-
-```bash
-export AWS_SDK_LOAD_CONFIG=1
-cd main/
-terraform init && terraform apply # should take around 15 mins
-cd ../setup/
-terraform init && terraform apply
-aws eks update-kubeconfig --name codacy-cluster
-```
-
 ## Deployment - Long version
+
+1. Clone the project and go to that directory:
+
+    ```bash
+    git clone https://github.com/codacy/chart.git
+    cd chart/docs/infrastructure/EKS/
+    ```
+
+1. Set up the AWS CLI credentials for your AWS account.
+
+    See how to do this the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation.
+
+    Note that, as stated in the documentation, if your `.aws/credentials` are fairly complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
+
+    ```bash
+    export AWS_SDK_LOAD_CONFIG=1
+    ```
 
 ### 1. `backend` - setup terraform state storage
 

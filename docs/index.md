@@ -7,10 +7,20 @@ Before you start, review the following requirements that must be met when provis
 
 ## Preparing to install Codacy
 
-To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:
+To deploy Codacy on Kubernetes make sure that you have the specified versions of the following tools installed:
 
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1 (for Amazon EKS only)
+* [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= v0.12
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
 * [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.1
+
+Please follow the documentation of the tools above to install them on your operating system. Typically, you can use your package manager to install the tools.
+
+For example, if you use MacOS with [Homebrew](https://brew.sh), the following command installs all the tools:
+
+```bash
+brew install awscli terraform kubectl kubernetes-helm
+```
 
 ## Setting up the Kubernetes infrastructure
 
