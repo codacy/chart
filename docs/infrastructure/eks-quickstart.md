@@ -1,8 +1,6 @@
-# EKS cluster setup using terraform
+# Setting up an EKS cluster
 
-[This folder](https://github.com/codacy/chart/tree/master/docs/quickstart/EKS) includes the terraform templates needed to create an EKS
-cluster from scratch, including all the necessary underlying
-infrastructure. It includes the following infrastructure stacks:
+The repository folder <https://github.com/codacy/chart/tree/master/docs/quickstart/EKS> includes the terraform templates needed to create an EKS cluster from scratch, including all the necessary underlying infrastructure. It includes the following infrastructure stacks:
 
 -   **backend** - (optional) the S3 bucket for storing the terraform state and the DynamoDB table for state locking.
 -   **main** - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.

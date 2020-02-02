@@ -1,4 +1,4 @@
-# Install
+# Installing Codacy
 
 Follow the step by step instructions below on how to install Codacy in an existing Kubernetes cluster using the provided cloud native Helm chart.
 
