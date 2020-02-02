@@ -35,20 +35,22 @@ Prepare your environment to set up the Amazon EKS cluster:
 
 ## 2. Set up the Terraform state storage backend
 
-The [backend](https://www.terraform.io/docs/backends/index.html) stores
-the current and historical state of your infrastructure. Deploying and using
-it is optional, but it might make your life easier if you are planning to use
-these templates to make modifications to the cluster in the future.
+The [backend](https://www.terraform.io/docs/backends/index.html) stores the current and historical state of your infrastructure.
 
-To deploy it run:
+Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these templates to make modifications to the cluster in the future:
 
-```bash
-terraform init && terraform apply
-```
+1. Initialize Terraform and apply the changes inside the `backend/` directory, then follow Terraform's instructions:
 
-inside the `backend/` folder and follow terraform's instructions.
+    ```bash
+    cd backend/
+    terraform init && terraform apply
+    ```
 
-An S3 bucket with a unique name to save your state will be created. Note the value of `state_bucket_name` in the output of the command and set it on the `config.tf` file of the `main/` and `setup/` stacks where indicated.
+    An Amazon S3 bucket with a unique name to save the infrastructure state is created.
+
+1. Note the value of `state_bucket_name` in the output of the command.
+
+1. Edit the `config.tf` files that exist in the `main/` and `setup/` directories and follow the instructions to set the name of the Amazon S3 bucket and to enable the use of the backend in those files.
 
 ## 3. Create a vanilla Amazon EKS cluster
 
