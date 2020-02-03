@@ -6,9 +6,7 @@ Follow the steps below to set up an Amazon EKS cluster from scratch, including a
 
 Prepare your environment to set up the Amazon EKS cluster:
 
-1. Set up the AWS CLI credentials for your AWS account.
-
-    See how to do this the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation.
+1. Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
     Note that, as stated in the documentation, if your `.aws/credentials` are fairly complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
 
@@ -65,7 +63,7 @@ inside the `main/` folder and follow terraform's instructions. This takes a whil
 
 The cluster configuration (e.g., type/number of nodes, network CIDRs,...)
 are exposed as variables in the `variables.tf` file. You may tailor the cluster
-to your needs by editing the defaults that file, by using
+to your needs by editing the defaults of that file, by using
 [CLI](https://www.terraform.io/docs/configuration/variables.html) options, viz.
 
 ```bash
