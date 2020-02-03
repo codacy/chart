@@ -61,7 +61,7 @@ Create a cluster that includes all the required network and node setup:
 
 1. Consider if you want to tailor the cluster to your needs by customizing the cluster configuration.
 
-    The cluster configuration (such as the type/number of nodes, network CIDRs, etc.) is exposed as variables in the `main/variables.tf` file.
+    The cluster configuration (such as the type/number of nodes, network CIDRs, etc.) is exposed as variables in the [`main/variables.tf`](https://github.com/codacy/chart/blob/master/docs/infrastructure/EKS/main/variables.tf) file.
 
     To customize the defaults of that file we recommend that you use a [variable definitions file](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) by setting the variables in a file named `terraform.tfvars` in the directory `main/`. The following is an example `terraform.tfvars`:
 
