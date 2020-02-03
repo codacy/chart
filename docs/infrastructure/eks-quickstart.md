@@ -1,6 +1,6 @@
 # Setting up an Amazon EKS cluster
 
-Follow the steps below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform:
+Follow the steps below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
 ## 1. Prepare your environemnt
 
@@ -52,50 +52,48 @@ Although using the backend is optional, we recommend that you deploy it, particu
 
 ## 3. Create a vanilla Amazon EKS cluster
 
-To create a cluster, along with all the necessary network and nodes setup
-it requires:
+Create a cluster that includes all the required network and node setup:
 
-```bash
-terraform init && terraform apply
-```
+1. Initialize Terraform and apply the changes inside the `main/` directory, then follow Terraform's instructions:
 
-inside the `main/` folder and follow terraform's instructions. This takes a while (~10min).
+    ```bash
+    cd ../main/
+    terraform init && terraform apply
+    ```
 
-The cluster configuration (e.g., type/number of nodes, network CIDRs,...)
-are exposed as variables in the `variables.tf` file. You may tailor the cluster
-to your needs by editing the defaults of that file, by using
-[CLI](https://www.terraform.io/docs/configuration/variables.html) options, viz.
+    This process takes around 10 minutes.
 
-```bash
-terraform apply -var="some_key=some_value"
-```
+1. Consider if you want to tailor the cluster to your needs by customizing the cluster configuration.
 
-or by writing them on a file named `terraform.tfvars` in the same folder
-as the infrastructure code, which is loaded by default when you run apply.
-For instance:
+    The cluster configuration (such as the type and number of nodes, network CIDRs, etc.) is exposed as variables in the `main/variables.tf` file.
 
-```bash
-some_key = "a_string_value"
-another_key = 3
-someting_else = true
-```
+    To customize the defaults of that file we recommend that you use a [variable definitions file](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) by setting the variables in a file `terraform.tfvars` in the directory `main/`. The following is an example `terraform.tfvars`:
 
-To connect to the cluster get its `kubeconfig` and set it the as default
-context with:
+    ```text
+    some_key = "a_string_value"
+    another_key = 3
+    someting_else = true
+    ```
 
-```bash
-aws eks update-kubeconfig --name codacy-cluster
-```
+    Subsequently running `terraform apply` loads the variables in the `terraform.tfvars` file by default:
 
-If you now run
+    ```bash
+    terraform apply
+    ```
 
-```bash
-kubectl get pods -A
-```
+1. Set up the kubeconfig file that stores the information needed by `kubectl` to connect to the new cluster by default:
 
-you'll see that nothing is scheduled. That's because you haven't yet allowed
-the worker nodes to join the cluster
-(see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more info). We'll do that on step 3.
+    ```bash
+    aws eks update-kubeconfig --name codacy-cluster
+    ```
+
+1. Get information about the pods in the cluster to test that the cluster was created and that `kubectl` can successfully connect to the cluster:
+
+    ```bash
+    kubectl get pods -A
+    ```
+
+    You'll notice that nothing is scheduled. That's because we haven't yet allowed the worker nodes to join the cluster (see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more details). We'll do that on the next section.
 
 ## 4. Configure the cluster to run Codacy
 
