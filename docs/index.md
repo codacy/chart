@@ -13,6 +13,7 @@ To deploy Codacy on Kubernetes make sure that you have the specified versions of
 * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1 (for Amazon EKS only)
 * [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
+    * By default, this guide will create a version 1.14 cluster
 * [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.1
 
 Please follow the documentation of the tools above to install them on your operating system. Typically, you can use your package manager to install the tools.
