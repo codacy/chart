@@ -129,39 +129,31 @@ Set up the cluster to run Codacy:
 **WARNING:**  
 If you proceed beyond this point you'll permanently delete and break things.
 
-1. Remove the cluster setup required to install Codacy
-
-    To cleanup your cluster back to a _vanilla_ state you can now run,
-    the following command in the `setup/` folder:
+1. Cleanup your cluster back to a vanilla state by removing the setup required to install Codacy. Run the following command in the `setup/` folder:
 
     ```bash
     terraform destroy
     ```
 
-1. Remove the cluster
-
-    After removing all the above stacks and setup, you may now delete the kubernetes
-    cluster by running in the `main/` directory:
+1. After removing the stacks and setup above, you may now delete the Kubernetes cluster. Run the following command in the `main/` directory:
 
     ```bash
     terraform destroy
     ```
 
-    This takes a while (~10min).
+    This process takes around 10 minutes.
 
-1. Remove the Terraform backend
+1. Remove the Terraform backend.
 
-    If you created the Terraform backend with the above stack you can now safely
-    delete it. The backend is purposely created with extra settings to prevent
-    its accidental destruction. To destroy it cleanly the easiest path is to disable
-    these extra settings. Go to the `backend/` folder and change the `state_and_lock.tf`
-    file as instructed therein.
+    If you created the Terraform backend with the provided stack you can now safely delete it.
 
-    Afterwards, you can now destroy it by running
+    The backend is purposely created with extra settings to prevent its accidental destruction, so to destroy it cleanly you must first disable these extra settings. Edit the file `backend/state_and_lock.tf` and follow the instructions included in the comments.
+
+    Afterwards, run the following command in the `backend/` directory:
 
     ```bash
     terraform apply && terraform destroy
     ```
 
-    Note that you first have to apply to change the bucket settings, and only
-    then will destroy work.
+    Note that you first have to run `terraform apply` to update the settings, and only
+    then will `terraform destroy` be able to destroy the backend.
