@@ -33,7 +33,7 @@ The [backend](https://www.terraform.io/docs/backends/index.html) stores the curr
 
 Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these templates to make modifications to the cluster in the future:
 
-1. Initialize Terraform and apply the changes inside the `backend/` directory, then follow Terraform's instructions:
+1. Initialize Terraform and deploy the infrastructure described in the `backend/` directory, then follow Terraform's instructions:
 
     ```bash
     cd backend/
@@ -44,13 +44,13 @@ Although using the backend is optional, we recommend that you deploy it, particu
 
 1. Note the value of `state_bucket_name` in the output of the command.
 
-1. Edit the `config.tf` files that exist in the `main/` and `setup/` directories and follow the instructions to set the name of the Amazon S3 bucket and to enable the use of the backend in those files.
+1. Edit the `config.tf` files that exist in the `main/` and `setup/` directories and follow the instructions to set the name of the Amazon S3 bucket and enable the use of the backend in those infrastructure stacks.
 
 ## 3. Create a vanilla Amazon EKS cluster
 
 Create a cluster that includes all the required network and node setup:
 
-1. Initialize Terraform and apply the changes inside the `main/` directory, then follow Terraform's instructions:
+1. Initialize Terraform and deploy the infrastructure described in the `main/` directory, then follow Terraform's instructions:
 
     ```bash
     cd ../main/
@@ -61,9 +61,9 @@ Create a cluster that includes all the required network and node setup:
 
 1. Consider if you want to tailor the cluster to your needs by customizing the cluster configuration.
 
-    The cluster configuration (such as the type and number of nodes, network CIDRs, etc.) is exposed as variables in the `main/variables.tf` file.
+    The cluster configuration (such as the type/number of nodes, network CIDRs, etc.) is exposed as variables in the `main/variables.tf` file.
 
-    To customize the defaults of that file we recommend that you use a [variable definitions file](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) by setting the variables in a file `terraform.tfvars` in the directory `main/`. The following is an example `terraform.tfvars`:
+    To customize the defaults of that file we recommend that you use a [variable definitions file](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) by setting the variables in a file named `terraform.tfvars` in the directory `main/`. The following is an example `terraform.tfvars`:
 
     ```text
     some_key = "a_string_value"
@@ -101,7 +101,7 @@ Some additional setup is necessary to run Codacy on the newly created cluster, s
 
 Set up the cluster to run Codacy:
 
-1. Initialize Terraform and apply the changes inside the `setup/` directory, then follow Terraform's instructions:
+1. Initialize Terraform and deploy the infrastructure described in the `setup/` directory, then follow Terraform's instructions:
 
     ```bash
     cd ../setup/
