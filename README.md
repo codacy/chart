@@ -204,3 +204,73 @@ The following parameters refer to components that are not internal to Codacy, bu
 You can also configure values for the PostgreSQL database via the Postgresql [README.md](https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md)
 
 For overriding variables see: [Customizing the chart](https://docs.helm.sh/using_helm/#customizing-the-chart-before-installing)
+
+## Development
+
+These are some relevant processes we follow when adding/editing something
+in this repo.
+
+### Development Installations
+
+Currently, we have these set of installations done through `circleci`.
+All of them serve different purposes.
+
+| Installation | Cluster                     | Purpose                                                                                                                 | Url                                |
+| ------------ | --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| Dev          | codacy-doks-cluster-dev     | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api) | <http://k8s.dev.codacy.org>        |
+| Hourly       | codacy-doks-cluster-dev     | Used for development. Manually updated                                                                                  | <http://k8s.hourly.dev.codacy.org> |
+| Release      | codacy-doks-cluster-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                             | <http://release.dev.codacy.org>    |
+
+### Set up your environment for DigitalOcean clusters
+
+#### 1. Requirements
+
+Using a DOKS cluster has the following requirements:
+
+-   [doctl](https://github.com/digitalocean/doctl)
+-   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
+On macOS you can install all these tools with brew:
+
+```bash
+$ brew install doctl kubectl
+```
+
+#### 2. Configuring the DigitalOcean cli
+
+To configure the cli create a [personal access token](https://www.digitalocean.com/docs/api/create-personal-access-token/), then run:
+
+```bash
+$ doctl auth init
+```
+
+#### 3. Setup your kubecontext for the target
+
+Replace the `<codacy-doks-cluster-dev>` with the name of your target cluster.
+
+```bash
+$ doctl kubernetes cluster kubeconfig save <codacy-doks-cluster-dev> --set-current-context
+```
+
+## Deploy your version of a component
+
+You can deploy your version of a component using any of the `.circleci`
+pipelines we have set up in this project. Currently, we use the `hourly_pipeline`
+for this purpose.
+
+1.  Checkout this repository
+2.  Create a new branch
+3.  Change the `requirements.yaml` to use your version
+4.  `helm dep up codacy/`  -> on the directory of the chart
+5.  Change the `.circleci/config.yml` to deploy your branch on the workflow called `hourly_pipeline` (we need to rename this)
+6.  `git push`
+7.  Follow the circleci pipeline and use kubectl to see if your installation was successful
+8.  Go to <http://k8s.hourly.dev.codacy.org/> and test it out
+
+## Add a new component
+
+To add a new component on this chart, you need to:
+
+1.  Change the `requirements.yaml`
+2.  use the `helm dep up codacy/` command to update the `requirements.lock`
+3.  `git push`
