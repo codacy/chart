@@ -116,7 +116,6 @@ references:
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - <<: *attach_workspace
-      - <<: *helm_lint
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
@@ -125,7 +124,6 @@ references:
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
       - <<: *attach_workspace
-      - <<: *helm_lint
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
@@ -134,7 +132,6 @@ references:
   rotate_pods: &rotate_pods
     steps:
       - <<: *attach_workspace
-      - <<: *helm_lint
       - <<: *doctl_authenticate
       - deploy:
           name: Rotate Pods
