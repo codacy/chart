@@ -7,25 +7,37 @@ Before you start, review the following requirements that must be met when provis
 
 ## Preparing to install Codacy
 
-To deploy Codacy on Kubernetes, make sure that you have the specified versions of the following tools installed:
+To deploy Codacy on Kubernetes make sure that you have the specified versions of the following tools installed:
 
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) version >= 2.0.0
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1 (for Amazon EKS only)
+* [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
+    * By default, this guide will create a version 1.14 cluster
 * [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.1
+
+Please follow the documentation of the tools above to install them on your operating system. Typically, you can use your package manager to install the tools.
+
+For example, if you use MacOS with [Homebrew](https://brew.sh), the following command installs all the tools:
+
+```bash
+brew install awscli terraform kubectl helm@2
+```
 
 ## Setting up the Kubernetes infrastructure
 
 To install Codacy you need a Kubernetes cluster, versions 1.14.\* or 1.15.\*.
 
-You can follow one of the quickstart guides below to set up a Kubernetes cluster on your cloud infrastructure:
+You can follow one of the guides below to quickly set up a Kubernetes cluster on your cloud infrastructure using Terraform configuration files provided by Codacy:
 
-* [EKS Quickstart](infrastructure/eks-quickstart.md)
-* [AKS Quickstart](infrastructure/aks-quickstart.md)
+* [Setting up an Amazon EKS cluster](infrastructure/eks-quickstart.md)
+* [Setting up an AKS cluster](infrastructure/aks-quickstart.md)
 
 ## Installing Codacy
 
 Install Codacy in an existing Kubernetes cluster with the provided cloud-native Helm chart.
 
-* [Install Codacy](install.md)
+* [Installing Codacy](install.md)
 
 ## Post-install configuration
 
