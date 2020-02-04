@@ -8,6 +8,7 @@ DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
+		--atomic \
 		--recreate-pods \
 		-f values.yaml \
 		--namespace ${NAMESPACE} \
@@ -27,6 +28,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
+		--atomic \
 		--recreate-pods \
 		-f values.yaml \
 		--version ${VERSION} \
@@ -41,15 +43,6 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 		--set global.codacy.backendUrl=${CODACY_URL} \
 		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
 		--set global.features.cloneSubmodules=true
-
-define rotate_pod
-kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
-endef
-
-.PHONY: rotate_pods
-rotate_pods: set_cluster_context
-	$(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 
 .PHONY: set_cluster_context
 set_cluster_context:
