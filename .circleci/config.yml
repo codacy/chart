@@ -131,15 +131,6 @@ references:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
 
-  rotate_pods: &rotate_pods
-    steps:
-      - <<: *attach_workspace
-      - <<: *helm_lint
-      - <<: *doctl_authenticate
-      - deploy:
-          name: Rotate Pods
-          command: make -C .doks/ rotate_pods NAMESPACE=$NAMESPACE
-
   validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
     steps:
       - <<: *attach_workspace
@@ -230,30 +221,6 @@ jobs:
     environment:
       <<: *nightly_environment_1_15
     <<: *deploy_to_cluster_from_chartmuseum
-
-  rotate_pods_hourly:
-    <<: *default_doks_image
-    environment:
-      <<: *qa_environment_hourly
-    <<: *rotate_pods
-
-  rotate_pods_nightly_1_14:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    <<: *rotate_pods
-
-  rotate_pods_nightly_1_15:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_15
-    <<: *rotate_pods
-
-  rotate_pods_release:
-    <<: *default_doks_image
-    environment:
-      <<: *release_environment
-    <<: *rotate_pods
 
   validate_deployment_status_hourly:
     <<: *default_doks_image
@@ -680,17 +647,10 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - rotate_pods_release:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_release
-          filters:
-            tags:
-              only: /^release-.*/
       - validate_deployment_status_release:
           context: CodacyDO
           requires:
-            - rotate_pods_release
+            - deploy_to_doks_release
           filters:
             tags:
               only: /^release-.*/
