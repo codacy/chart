@@ -108,6 +108,7 @@ references:
     attach_workspace:
           at: ~/
 
+
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - <<: *attach_workspace
@@ -404,7 +405,7 @@ workflows:
                 - release
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
 
@@ -419,7 +420,7 @@ workflows:
                 - master
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
       - helm_push_unstable:
@@ -445,7 +446,7 @@ workflows:
                   - feature/hourly-tests
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
       - update_versions:
@@ -495,7 +496,7 @@ workflows:
             - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - set_chart_version_nightly
       - update_versions:
@@ -548,7 +549,7 @@ workflows:
               ignore: /.*/
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
           filters:
