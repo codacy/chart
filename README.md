@@ -57,8 +57,6 @@ The following table lists the configurable parameters of the Codacy chart and th
 
 Global parameters apply to all sub-charts and make it easier to configure resources across different components.
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-
 | Parameter                                   | Description                                                                                                  | Default         |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------- |
 | `global.codacy.url`                         | Hostname to your Codacy installation                                                                         | `nil`           |
