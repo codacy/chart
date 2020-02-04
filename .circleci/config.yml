@@ -125,21 +125,6 @@ references:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
 
-  validate_deployment_status_on_cluster: &validate_deployment_status_on_cluster
-    steps:
-      - <<: *attach_workspace
-      - <<: *doctl_authenticate
-      - run:
-          name: "Validate deployment status"
-          command: |
-            set -e
-            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            DEPLOYMENTS=$(kubectl get deployments -n "$NAMESPACE" | awk '{print "deployment/"$1}' | tail -n +2 )
-            for DEPLOYMENT in ${DEPLOYMENTS[@]}
-            do
-                kubectl rollout status -n "$NAMESPACE" --timeout=30m --watch "$DEPLOYMENT"
-            done
-
   helm_push: &helm_push
     steps:
       - <<: *attach_workspace
@@ -216,35 +201,11 @@ jobs:
       <<: *nightly_environment_1_15
     <<: *deploy_to_cluster_from_chartmuseum
 
-  validate_deployment_status_hourly:
-    <<: *default_doks_image
-    environment:
-      <<: *qa_environment_hourly
-    <<: *validate_deployment_status_on_cluster
-
-  validate_deployment_status_nightly_1_14:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    <<: *validate_deployment_status_on_cluster
-
-  validate_deployment_status_nightly_1_15:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_15
-    <<: *validate_deployment_status_on_cluster
-
   deploy_to_doks_release:
     <<: *default_doks_image
     environment:
       <<: *release_environment
     <<: *deploy_to_cluster_from_chartmuseum
-
-  validate_deployment_status_release:
-    <<: *default_doks_image
-    environment:
-      <<: *release_environment
-    <<: *validate_deployment_status_on_cluster
 
   helm_push_incubator:
     <<: *default_doks_image
@@ -504,22 +465,18 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_hourly:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_hourly
       - test_api_dev:
           context: CodacyDO
           requires:
-            - validate_deployment_status_hourly
+            - deploy_to_doks_hourly
       - test_e2e_dev:
           context: CodacyDO
           requires:
-            - validate_deployment_status_hourly
+            - deploy_to_doks_hourly
       - test_web_dev:
           context: CodacyDO
           requires:
-            - validate_deployment_status_hourly
+            - deploy_to_doks_hourly
 
   nightly_pipeline:
     triggers:
@@ -558,26 +515,18 @@ workflows:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_nightly_1_14:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_14
       - update_codacy_url_nightly_1_14:
           context: CodacyDO
           requires:
-            - validate_deployment_status_nightly_1_14
+            - deploy_to_doks_nightly_1_14
       - deploy_to_doks_nightly_1_15:
           context: CodacyDO
           requires:
             - helm_push_unstable
-      - validate_deployment_status_nightly_1_15:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_15
       - update_codacy_url_nightly_1_15:
           context: CodacyDO
           requires:
-            - validate_deployment_status_nightly_1_15
+            - deploy_to_doks_nightly_1_15
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -641,18 +590,11 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - validate_deployment_status_release:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_release
-          filters:
-            tags:
-              only: /^release-.*/
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
-           - validate_deployment_status_release
+           - deploy_to_doks_release
           filters:
             tags:
               only: /^release-.*/
