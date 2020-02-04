@@ -108,15 +108,9 @@ references:
     attach_workspace:
           at: ~/
 
-  helm_lint: &helm_lint
-    run:
-          name: "Helm lint"
-          command: helm lint codacy/
-
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - <<: *attach_workspace
-      - <<: *helm_lint
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
@@ -125,7 +119,6 @@ references:
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
       - <<: *attach_workspace
-      - <<: *helm_lint
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
