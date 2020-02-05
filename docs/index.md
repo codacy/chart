@@ -2,6 +2,8 @@
 
 Before you start, review the following requirements that must be met when provisioning the infrastructure that will host Codacy:
 
+* A Kubernetes cluster, versions 1.14.\* or 1.15.\*.
+* [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Resource requirements](resource-requirements.md)
 * Postgres database (follow the documentation on how to [install Postgres for Codacy](https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise))
 
@@ -25,8 +27,6 @@ brew install awscli terraform kubectl helm@2
 ```
 
 ## Setting up the Kubernetes infrastructure
-
-To install Codacy you need a Kubernetes cluster, versions 1.14.\* or 1.15.\*.
 
 You can follow one of the guides below to quickly set up a Kubernetes cluster on your cloud infrastructure using Terraform configuration files provided by Codacy:
 
