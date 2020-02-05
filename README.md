@@ -17,14 +17,13 @@ For the bundle, we make use of the
 [requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
 of Helm.
 
-## Work in progress
+## Disclaimer
 
-This chart is still a **Work In Progress** and is not ready for general
-usage. Our docker images are currently private and you will not be
-able to run the chart by yourself. If you are interested in trying
-out Codacy contact our support at support@codacy.com.
+Our Docker images are currently private and you will not be
+able to run the chart by yourself without the necessary Docker credentials.
+If you are interested in trying out Codacy contact our support at support@codacy.com.
 
-### Charts
+## Charts
 
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
