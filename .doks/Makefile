@@ -9,6 +9,7 @@ deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 		--atomic \
+		--timeout=1800 \
 		--recreate-pods \
 		-f values.yaml \
 		--namespace ${NAMESPACE} \
@@ -30,6 +31,7 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	helm repo update
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
 		--atomic \
+		--timeout=1800 \
 		--recreate-pods \
 		-f values.yaml \
 		--version ${VERSION} \
