@@ -12,7 +12,7 @@ update_worker_version:
 	ytool -f "./codacy/values.yaml" -s worker-manager.config.codacy.worker.image "${ENGINE_VERSION}" -e
 
 .PHONY: update_dependencies
-update_dependencies: setup_helm_repos update_worker_version
+update_dependencies: setup_helm_repos
 	helm repo update
 
 	# we explicitly delete the lock file since there is an issue with helm 2.15
