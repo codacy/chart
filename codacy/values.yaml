@@ -73,6 +73,8 @@ global:
         name: "coverage"
       cliReports:
         name: "cli-reports"
+      commitDiff:
+        name: "commit-diff"
 
   rabbitmq:
     create: true
