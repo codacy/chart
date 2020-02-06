@@ -313,7 +313,7 @@ jobs:
       - <<: *attach_workspace
       - run:
           name: "Get latest chart versions"
-          command: make update_dependencies
+          command: make update_dependencies update_worker_version
       - <<: *persist_to_workspace
 
   upload_docs:
