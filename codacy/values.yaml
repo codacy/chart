@@ -370,6 +370,21 @@ minio:
     size: 20Gi
   minioConfig:
     region: "eu-west-1"
+  buckets:
+  - name: "analysis"
+    policy: "public"
+    purge: "false"
+  - name: "coverage"
+    policy: "public"
+    purge: "false"
+  - name: "cli-reports"
+    policy: "public"
+    purge: "false"
+  - name: "commit-diff"
+    policy: "public"
+    purge: "false"
+  defaultBucket:
+    enabled: false
 
 ragnaros:
   fullnameOverride: codacy-ragnaros
