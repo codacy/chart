@@ -249,7 +249,7 @@ codacy-ingress:
   ingress:
     hostname: {}
       # app: <codacy-app.dns.internal> # CHANGEME: Codacy application DNS 
-      # api: <codacy-api.dns.internal> # CHANGEME: Codacy api DNS
+      # api: <codacy-api.dns.internal> # CHANGEME: Codacy API DNS
     # annotations:
     #   kubernetes.io/ingress.class: nginx
     #   kubernetes.io/tls-acme: "true"
