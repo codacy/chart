@@ -1,5 +1,13 @@
 # System requirements
 
+Running Codacy on a Kubernetes cluster requires the following:
+
+* A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#cluster-resource-requirements)
+* The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) for Kubernetes
+* A [PostgreSQL server](#postgresql-server-setup) accessible from the Kubernetes cluster
+
+## Cluster resource requirements
+
 To have an enjoyable experience with Codacy, you should have the
 following calculations in mind when allocating resources for the
 installation and defining the number of concurrent analysis.
@@ -17,7 +25,7 @@ Check the
 file to find a configuration reference that should work for you to run
 a "production ready" version of Codacy.
 
-## Analysis
+### Analysis
 
 Each analysis runs a maximum number of 4 plugins in parallel (not configurable)
 
@@ -34,7 +42,7 @@ Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
 
 Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.
 
-## Example
+### Example
 
 _Maximum of 6 concurrent analysis_
 
@@ -67,3 +75,42 @@ Memory: 6 * (2 + (1 * 4)) = 36 GB
 CPU: 7 CPU + 18 CPU = 25 CPU
 Memory: 39 GB + 36 GB = 75 GB
 ```
+
+## PostgreSQL server setup
+
+Codacy requires a working PostgreSQL server to run. The recommended specifications are:
+
+* 4 CPU
+* 8 GB RAM
+* Minimum 500 GB+ hard drive, depending on the number of repositories you have. For a custom recommendation, please contact us at support@codacy.com.
+
+You must manually create the databases required by Codacy on the PostgreSQL server. We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:
+
+1. Connect to the PostgreSQL server as a database admin user. For example, using the `psql` command-line client:
+
+    ```bash
+    psql -U postgres -h <PostgreSQL server hostname>
+    ```
+
+1. Execute the SQL script below to create the dedicated user and the databases required by Codacy. Make sure that you change the user name and password to suit your security needs.
+
+    ```sql
+    CREATE USER codacy WITH PASSWORD 'codacy';
+    ALTER ROLE codacy WITH CREATEDB;
+
+    CREATE DATABASE accounts WITH OWNER=codacy;
+    CREATE DATABASE analysis WITH OWNER=codacy;
+    CREATE DATABASE results WITH OWNER=codacy;
+    CREATE DATABASE metrics WITH OWNER=codacy;
+    CREATE DATABASE filestore WITH OWNER=codacy;
+    CREATE DATABASE jobs WITH OWNER=codacy;
+    CREATE DATABASE activities WITH OWNER=codacy;
+    CREATE DATABASE hotsposts WITH OWNER=codacy;
+    CREATE DATABASE listener WITH OWNER=codacy;
+    ```
+
+1. Make sure that you can connect to the PostgreSQL database using the newly created user. For example:
+
+    ```bash
+    psql -U codacy -h <PostgreSQL server hostname>
+    ```
