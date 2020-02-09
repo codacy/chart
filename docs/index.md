@@ -23,7 +23,7 @@ Please follow the documentation of the tools above to install them on your opera
 For example, if you use MacOS with [Homebrew](https://brew.sh), the following command installs all the tools:
 
 ```bash
-brew install awscli terraform kubectl helm@2
+brew install git awscli terraform kubectl helm@2
 ```
 
 ## Setting up the Kubernetes infrastructure
