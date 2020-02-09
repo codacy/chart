@@ -2,19 +2,19 @@
 
 Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.
 
-1.  Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
+1. Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
 
     ```bash
     kubectl create namespace codacy
     ```
 
-2.  Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.
+1. Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.
 
     ```bash
     kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
     ```
 
-3.  Use a text editor of your choice to copy the template below to a new file named `values.yaml`, changing the values as described in the comments.
+1. Use a text editor of your choice to copy the template below to a new file named `values.yaml`, changing the values as described in the comments.
 
     ```yaml
     global:
@@ -31,7 +31,7 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
       cacheSecret: "CHANGE ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
     ```
 
-4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the `values.yaml` file created in the previous step.
+1. Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the `values.yaml` file created in the previous step.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
