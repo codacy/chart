@@ -66,4 +66,18 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     [...]
     ```
 
-5.  Modify and use the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` to [set up external DBs](configuration/external-dbs.md) (ideally running in a cloud managed Postgres instance).
+1. Download the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` and configure the following values for each Codacy database:
+
+    * `host` (host name of the PostgreSQL server, accessible from the cluster)
+    * `postgresqlUsername` (dedicated Codacy user)
+    * `postgresqlPassword` (password for the dedicated Codacy user)
+
+1. Run the command below to update the cluster to use the PostgreSQL server configuration:
+
+    ```bash
+    helm upgrade --install codacy codacy-stable/codacy \
+      --namespace codacy \
+      --recreate-pods \
+      --values values.yaml \
+      --values values-production.yaml
+    ```
