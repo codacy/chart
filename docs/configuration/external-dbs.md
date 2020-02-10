@@ -21,7 +21,7 @@ Assuming you already have an external Postgres instance available, follow the st
       CREATE DATABASE filestore WITH OWNER=codacy;
       CREATE DATABASE jobs WITH OWNER=codacy;
       CREATE DATABASE activities WITH OWNER=codacy;
-      CREATE DATABASE hotsposts WITH OWNER=codacy;
+      CREATE DATABASE hotspots WITH OWNER=codacy;
       CREATE DATABASE listener WITH OWNER=codacy;
     ```
 
