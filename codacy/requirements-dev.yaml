@@ -27,12 +27,12 @@ dependencies:
 
 - name: portal
   version: ">=5.0.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
 - name: ragnaros
   version: ">=15.2.2-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
 
 - name: activities
@@ -42,45 +42,45 @@ dependencies:
 
 - name: remote-provider-service
   version: ">=2.44.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
 - name: hotspots-api
   version: ">=1.4.1-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-api.git
 
 - name: hotspots-worker
   version: ">=1.3.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/hotspots-worker.git
 
 - name: listener
   version: ">=7.11.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/repository-listener.git
 
 - name: core
   version: ">=3.0.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
   version: ">=6.0.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
   version: ">=5.3.1-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
   version: ">=9.0.1-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
 
 - name: crow
   version: ">=4.4.0-0"
-  repository: https://charts.codacy.com/unstable
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/crow.git
