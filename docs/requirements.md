@@ -105,7 +105,7 @@ You must manually create the databases required by Codacy on the PostgreSQL serv
     CREATE DATABASE filestore WITH OWNER=codacy;
     CREATE DATABASE jobs WITH OWNER=codacy;
     CREATE DATABASE activities WITH OWNER=codacy;
-    CREATE DATABASE hotsposts WITH OWNER=codacy;
+    CREATE DATABASE hotspots WITH OWNER=codacy;
     CREATE DATABASE listener WITH OWNER=codacy;
     ```
 
