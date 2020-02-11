@@ -395,6 +395,20 @@ jobs:
           message: $(cat changelogs/changelog.txt)
 
 workflows:
+
+  fix_docs:
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "release"
+          filters:
+            branches:
+              only:
+                - fix-mkdocs
+      - upload_docs:
+          requires:
+            - codacy/checkout_and_version
+
   helm_lint:
     jobs:
       - codacy/checkout_and_version:
