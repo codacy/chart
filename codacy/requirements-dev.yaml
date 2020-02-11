@@ -72,7 +72,7 @@ dependencies:
 
 - name: codacy-api
   version: ">=5.3.1-0"
-  repository: https://charts.codacy.com/stable
+  repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
