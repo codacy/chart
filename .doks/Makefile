@@ -4,49 +4,40 @@ NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
 
+define call_helm_install
+	helm upgrade --install ${1} ${3} \
+	--atomic \
+	--timeout=1800 \
+	--recreate-pods \
+	-f values.yaml \
+	--namespace ${2} \
+	--set global.imagePullSecrets[0].name=docker-credentials \
+	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
+	--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+	--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+	--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
+	--set codacy-api.config.license=$${CODACY_LICENSE} \
+	--set global.codacy.url=${4} \
+	--set global.codacy.backendUrl=${4} \
+	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
+	--set global.features.cloneSubmodules=true
+endef
+
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
-	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
-		--atomic \
-		--timeout=1800 \
-		--recreate-pods \
-		-f values.yaml \
-		--namespace ${NAMESPACE} \
-		--set global.imagePullSecrets[0].name=docker-credentials \
-		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
-		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set codacy-api.config.license=$${CODACY_LICENSE} \
-		--set global.codacy.url=${CODACY_URL} \
-		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
-		--set global.features.cloneSubmodules=true
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+
+.PHONY: deploy_to_doks_to_current_cluster
+deploy_local_chart:
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
-		--atomic \
-		--timeout=1800 \
-		--recreate-pods \
-		-f values.yaml \
-		--version ${VERSION} \
-		--namespace ${NAMESPACE} \
-		--set global.imagePullSecrets[0].name=docker-credentials \
-		--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
-		--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-		--set codacy-api.config.license=$${CODACY_LICENSE} \
-		--set global.codacy.url=${CODACY_URL} \
-		--set global.codacy.backendUrl=${CODACY_URL} \
-		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
-		--set global.features.cloneSubmodules=true
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL})
 
 .PHONY: set_cluster_context
 set_cluster_context:
