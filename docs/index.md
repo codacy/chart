@@ -3,9 +3,6 @@
 Before you start, review the following requirements that must be met when provisioning the infrastructure that will host Codacy:
 
 * [System requirements](requirements.md)
-* A Kubernetes cluster, versions 1.14.\* or 1.15.\*.
-* [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress)
-* Postgres database (follow the documentation on how to [install Postgres for Codacy](https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise))
 
 ## Preparing to install Codacy
 
