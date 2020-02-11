@@ -244,18 +244,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/external-dbs/" title="Use external databases" class="md-nav__link">
-      Use external databases
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../configuration/logging/" title="Logging" class="md-nav__link">
       Logging
     </a>
@@ -281,13 +269,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
-    <label class="md-nav__link" for="nav-4-4">
+    <label class="md-nav__link" for="nav-4-3">
       Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -553,7 +541,22 @@ codacy-core-786c6f79f-pvg9w                      <span class="m">1</span>/1    R
 
 </li>
 <li>
-<p>Modify and use the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">reference file</a> <code class="codehilite"><span class="err">values-production.yaml</span></code> to <a href="../configuration/external-dbs/">set up external DBs</a> (ideally running in a cloud managed Postgres instance).</p>
+<p>Download the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">reference file</a> <code class="codehilite"><span class="err">values-production.yaml</span></code> and configure the following values for each Codacy database:</p>
+<ul>
+<li><code class="codehilite"><span class="err">host</span></code> (host name of the PostgreSQL server, accessible from the cluster)</li>
+<li><code class="codehilite"><span class="err">postgresqlUsername</span></code> (dedicated Codacy user)</li>
+<li><code class="codehilite"><span class="err">postgresqlPassword</span></code> (password for the dedicated Codacy user)</li>
+</ul>
+</li>
+<li>
+<p>Run the command below to update the cluster to use the PostgreSQL server configuration:</p>
+<div class="codehilite"><pre><span></span><code>helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
+  --namespace codacy <span class="se">\</span>
+  --recreate-pods <span class="se">\</span>
+  --values values.yaml <span class="se">\</span>
+  --values values-production.yaml
+</code></pre></div>
+
 </li>
 </ol>
                 

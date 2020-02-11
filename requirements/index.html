@@ -231,15 +231,35 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#cluster-resource-requirements" class="md-nav__link">
+    Cluster resource requirements
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#analysis" class="md-nav__link">
     Analysis
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-server-setup" class="md-nav__link">
+    PostgreSQL server setup
   </a>
   
 </li>
@@ -280,18 +300,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../configuration/external-dbs/" title="Use external databases" class="md-nav__link">
-      Use external databases
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../configuration/logging/" title="Logging" class="md-nav__link">
       Logging
     </a>
@@ -317,13 +325,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
-    <label class="md-nav__link" for="nav-4-4">
+    <label class="md-nav__link" for="nav-4-3">
       Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -516,15 +524,35 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#cluster-resource-requirements" class="md-nav__link">
+    Cluster resource requirements
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#analysis" class="md-nav__link">
     Analysis
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-server-setup" class="md-nav__link">
+    PostgreSQL server setup
   </a>
   
 </li>
@@ -547,6 +575,13 @@
                 
                 
                 <h1 id="system-requirements">System requirements<a class="headerlink" href="#system-requirements" title="Permanent link">&para;</a></h1>
+<p>Running Codacy on a Kubernetes cluster requires the following:</p>
+<ul>
+<li>A Kubernetes 1.14.* or 1.15.* cluster provisioned with the <a href="#cluster-resource-requirements">required resources</a></li>
+<li>The <a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">NGINX Ingress Controller</a> for Kubernetes</li>
+<li>A <a href="#postgresql-server-setup">PostgreSQL server</a> accessible from the Kubernetes cluster</li>
+</ul>
+<h2 id="cluster-resource-requirements">Cluster resource requirements<a class="headerlink" href="#cluster-resource-requirements" title="Permanent link">&para;</a></h2>
 <p>To have an enjoyable experience with Codacy, you should have the
 following calculations in mind when allocating resources for the
 installation and defining the number of concurrent analysis.</p>
@@ -560,7 +595,7 @@ Memory: 39 GB
 <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml">values-production.yaml</a>
 file to find a configuration reference that should work for you to run
 a "production ready" version of Codacy.</p>
-<h2 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h2>
+<h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
 <p>Each analysis runs a maximum number of 4 plugins in parallel (not configurable)</p>
 <p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="err">worker-manager.config</span></code>
 configuration object, but for simplicity, we decided to omit the full path.</p>
@@ -572,7 +607,7 @@ Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
 </code></pre></div>
 
 <p>Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.</p>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <p><em>Maximum of 6 concurrent analysis</em></p>
 <div class="codehilite"><pre><span></span><code><span class="nt">worker-manager</span><span class="p">:</span>
   <span class="nt">config</span><span class="p">:</span>
@@ -598,6 +633,46 @@ Memory: 6 * (2 + (1 * 4)) = 36 GB
 <div class="codehilite"><pre><span></span><code>CPU: 7 CPU + 18 CPU = 25 CPU
 Memory: 39 GB + 36 GB = 75 GB
 </code></pre></div>
+
+<h2 id="postgresql-server-setup">PostgreSQL server setup<a class="headerlink" href="#postgresql-server-setup" title="Permanent link">&para;</a></h2>
+<p>Codacy requires a working PostgreSQL server to run. The recommended specifications are:</p>
+<ul>
+<li>4 CPU</li>
+<li>8 GB RAM</li>
+<li>Minimum 500 GB+ hard drive, depending on the number of repositories you have. For a custom recommendation, please contact us at support@codacy.com.</li>
+</ul>
+<p>You must manually create the databases required by Codacy on the PostgreSQL server. We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:</p>
+<ol>
+<li>
+<p>Connect to the PostgreSQL server as a database admin user. For example, using the <code class="codehilite"><span class="err">psql</span></code> command-line client:</p>
+<div class="codehilite"><pre><span></span><code>psql -U postgres -h &lt;PostgreSQL server hostname&gt;
+</code></pre></div>
+
+</li>
+<li>
+<p>Execute the SQL script below to create the dedicated user and the databases required by Codacy. Make sure that you change the user name and password to suit your security needs.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;codacy&#39;</span><span class="p">;</span>
+<span class="k">ALTER</span> <span class="k">ROLE</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">analysis</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">results</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">metrics</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">filestore</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">jobs</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">activities</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">hotspots</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">listener</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Make sure that you can connect to the PostgreSQL database using the newly created user. For example:</p>
+<div class="codehilite"><pre><span></span><code>psql -U codacy -h &lt;PostgreSQL server hostname&gt;
+</code></pre></div>
+
+</li>
+</ol>
                 
                   
                 
@@ -634,13 +709,13 @@ Memory: 39 GB + 36 GB = 75 GB
           </a>
         
         
-          <a href="../configuration/external-dbs/" title="Use external databases" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../configuration/logging/" title="Logging" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Use external databases
+                Logging
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

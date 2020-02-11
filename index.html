@@ -294,18 +294,6 @@
 
 
   <li class="md-nav__item">
-    <a href="configuration/external-dbs/" title="Use external databases" class="md-nav__link">
-      Use external databases
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="configuration/logging/" title="Logging" class="md-nav__link">
       Logging
     </a>
@@ -331,13 +319,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
-    <label class="md-nav__link" for="nav-4-4">
+    <label class="md-nav__link" for="nav-4-3">
       Git providers
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         Git providers
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -578,9 +566,6 @@
 <p>Before you start, review the following requirements that must be met when provisioning the infrastructure that will host Codacy:</p>
 <ul>
 <li><a href="requirements/">System requirements</a></li>
-<li>A Kubernetes cluster, versions 1.14.* or 1.15.*.</li>
-<li><a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">NGINX Ingress Controller</a></li>
-<li>Postgres database (follow the documentation on how to <a href="https://support.codacy.com/hc/en-us/articles/360002902573-Installing-postgres-for-Codacy-Enterprise">install Postgres for Codacy</a>)</li>
 </ul>
 <h2 id="preparing-to-install-codacy">Preparing to install Codacy<a class="headerlink" href="#preparing-to-install-codacy" title="Permanent link">&para;</a></h2>
 <p>To deploy Codacy on Kubernetes make sure that you have the specified versions of the following tools installed:</p>
@@ -589,14 +574,14 @@
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html">AWS CLI</a> version 1 (for Amazon EKS only)</li>
 <li><a href="https://learn.hashicorp.com/terraform/getting-started/install.html">Terraform</a> version &gt;= 0.12</li>
 <li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> version compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">within one minor version difference of your cluster</a>)<ul>
-<li>By default, this guide will create a version 1.14 cluster</li>
+<li>By default, the <a href="#setting-up-the-kubernetes-infrastructure">infrastructure setup guides</a> create Kubernetes version 1.14 clusters</li>
 </ul>
 </li>
 <li><a href="https://v2.helm.sh/docs/using_helm/#installing-helm">Helm client</a> version 2.16.1</li>
 </ul>
 <p>Please follow the documentation of the tools above to install them on your operating system. Typically, you can use your package manager to install the tools.</p>
 <p>For example, if you use MacOS with <a href="https://brew.sh">Homebrew</a>, the following command installs all the tools:</p>
-<div class="codehilite"><pre><span></span><code>brew install awscli terraform kubectl helm@2
+<div class="codehilite"><pre><span></span><code>brew install git awscli terraform kubectl helm@2
 </code></pre></div>
 
 <h2 id="setting-up-the-kubernetes-infrastructure">Setting up the Kubernetes infrastructure<a class="headerlink" href="#setting-up-the-kubernetes-infrastructure" title="Permanent link">&para;</a></h2>
