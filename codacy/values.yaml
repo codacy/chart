@@ -286,7 +286,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: ENGINE_VERSION
+        image: stable
 
     # The resources to assign to a worker pod
     workerResources:
