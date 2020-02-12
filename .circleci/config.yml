@@ -108,7 +108,6 @@ references:
     attach_workspace:
           at: ~/
 
-
   deploy_to_cluster: &deploy_to_cluster
     steps:
       - <<: *attach_workspace
