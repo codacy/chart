@@ -161,6 +161,13 @@ portal:
 activities:
   replicaCount: 1
   fullnameOverride: codacy-activities
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    failureThreshold: 5
   activitiesdb:
     create: true
     host: codacy-activitiesdb
