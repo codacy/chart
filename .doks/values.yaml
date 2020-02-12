@@ -13,6 +13,13 @@ portal:
 
 activities:
   replicaCount: 2
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    failureThreshold: 5
   activitiesdb:
     persistence:
       enabled: true
