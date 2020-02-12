@@ -10,7 +10,6 @@ deploy_to_doks: set_cluster_context
 	helm upgrade --install ${RELEASE_NAME} ../codacy/ \
 		--atomic \
 		--timeout=1800 \
-		--recreate-pods \
 		-f values.yaml \
 		--namespace ${NAMESPACE} \
 		--set global.imagePullSecrets[0].name=docker-credentials \
@@ -25,6 +24,8 @@ deploy_to_doks: set_cluster_context
 		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
 		--set global.features.cloneSubmodules=true
 
+	$(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
+
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
@@ -32,7 +33,6 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 	helm upgrade --install ${RELEASE_NAME} ${HELM_REPOSITORY}/codacy \
 		--atomic \
 		--timeout=1800 \
-		--recreate-pods \
 		-f values.yaml \
 		--version ${VERSION} \
 		--namespace ${NAMESPACE} \
@@ -47,6 +47,14 @@ deploy_to_doks_from_chartmuseum: set_cluster_context
 		--set global.codacy.backendUrl=${CODACY_URL} \
 		--set listener.nfsserverprovisioner.storageClass.name="${RELEASE_NAME}-listener-cache-class" \
 		--set global.features.cloneSubmodules=true
+
+	$(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
+
+define rotate_pod
+kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
+kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
+endef
+
 
 .PHONY: set_cluster_context
 set_cluster_context:
