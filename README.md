@@ -215,11 +215,11 @@ in this repo.
 Currently, we have these set of installations done through `circleci`.
 All of them serve different purposes.
 
-| Installation | Cluster                     | Purpose                                                                                                                 | Url                                |
-| ------------ | --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| Dev          | codacy-doks-cluster-dev     | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api) | <http://k8s.dev.codacy.org>        |
-| Hourly       | codacy-doks-cluster-dev     | Used for development. Manually updated                                                                                  | <http://k8s.hourly.dev.codacy.org> |
-| Release      | codacy-doks-cluster-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                             | <http://release.dev.codacy.org>    |
+| Installation | Cluster                     | Cluster        | Purpose                                                                                                                 | Url                                |
+| ------------ | --------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| Dev          | codacy-doks-cluster-dev     | codacy         | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api) | <http://k8s.dev.codacy.org>        |
+| Hourly       | codacy-doks-cluster-dev     | codacy-hourly  | Used for development. Manually updated                                                                                  | <http://k8s.hourly.dev.codacy.org> |
+| Release      | codacy-doks-cluster-release | codacy-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                             | <http://release.dev.codacy.org>    |
 
 ### Set up your environment for DigitalOcean clusters
 
