@@ -30,7 +30,7 @@ deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
-.PHONY: deploy_to_doks_to_current_cluster
+.PHONY: deploy_to_doks_atomic
 deploy_local_chart:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
