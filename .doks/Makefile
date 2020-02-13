@@ -31,7 +31,7 @@ deploy_to_doks: set_cluster_context
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
 .PHONY: deploy_to_doks_atomic
-deploy_local_chart:
+deploy_to_doks_atomic:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
 .PHONY: deploy_to_doks_from_chartmuseum
