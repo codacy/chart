@@ -157,12 +157,10 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - run:
-          name: Set cluster
-          command: doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
       - deploy:
           name: Wait for codacy-api ingress
           command: |
+            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
             external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
             echo "CODACY_API=$endpoint" > .apiurl
       - deploy:
@@ -478,17 +476,21 @@ workflows:
             - deploy_to_doks_hourly
 
   nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
+    # triggers:
+      #  - schedule:
+      #      cron: "0 0 * * 1-5"
+      #      filters:
+      #        branches:
+      #          only:
+      #            - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "releases"
+          filters:
+              branches:
+                only:
+                  - fix-nightly-doctl
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
