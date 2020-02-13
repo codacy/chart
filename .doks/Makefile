@@ -2,7 +2,7 @@ CODACY_URL?="http://k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
-DEPLOYMENTS=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
+DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
 
 define call_helm_install
 	helm upgrade --install ${1} ${3} \
