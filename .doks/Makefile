@@ -8,7 +8,6 @@ define call_helm_install
 	helm upgrade --install ${1} ${3} \
 	--atomic \
 	--timeout=1800 \
-	--recreate-pods \
 	-f values.yaml \
 	--namespace ${2} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
@@ -22,7 +21,7 @@ define call_helm_install
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true
-  
+
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
 
