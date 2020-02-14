@@ -29,12 +29,13 @@ references:
     K8S_VERSION: 1.14
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
+    CODACY_URL: http://dev.k8s.dev.codacy.org
 
   nightly_base_environment: &nightly_base_environment
     RELEASE_NAME: codacy-nightly
     NAMESPACE: codacy-nightly
     NODE_TYPE: s-20vcpu-96gb
-    NUM_NODES: 4
+    NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
 
   nightly_environment_1_14: &nightly_environment_1_14
@@ -49,18 +50,29 @@ references:
     DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-15
     K8S_VERSION: 1.15
 
+  staging_environment: &staging_environment
+    DO_TF_WORKSPACE: dev
+    RELEASE_NAME: codacy-staging
+    NAMESPACE: codacy-staging
+    NODE_TYPE: s-20vcpu-96gb
+    K8S_VERSION: 1.14
+    NUM_NODES: 5
+    HELM_REPOSITORY: codacy-staging
+    CODACY_URL: http://staging.k8s.dev.codacy.org
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
-    DO_TF_WORKSPACE: release
+    DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
     NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
-    NUM_NODES: 4
-    CODACY_URL: http://release.dev.codacy.org
+    NUM_NODES: 5
     HELM_REPOSITORY: codacy-incubator
+    CODACY_URL: http://release.k8s.dev.codacy.org
 
-  qa_environment_hourly: &qa_environment_hourly
+  qa_environment_staging: &qa_environment_staging
+    <<: *staging_environment
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: codacy-chart
@@ -68,14 +80,6 @@ references:
     LAUNCH_TAG: CIRCLECI;WEB;DIGITALOCEAN;ENTERPRISE
     RP_ENDPOINT: https://reportportal.staging.codacy.org
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
-    DO_TF_WORKSPACE: hourly
-    RELEASE_NAME: codacy-hourly
-    NAMESPACE: codacy-hourly
-    NODE_TYPE: s-20vcpu-96gb
-    K8S_VERSION: 1.14
-    NUM_NODES: 5
-    HELM_REPOSITORY: codacy-unstable
-    CODACY_URL: http://k8s.hourly.dev.codacy.org
 
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
@@ -114,7 +118,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks RELEASE=$RELEASE NAMESPACE=$NAMESPACE
+          command: make -C .doks/ deploy_to_doks RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -122,7 +126,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
+          command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
 
   helm_push: &helm_push
     steps:
@@ -180,10 +184,10 @@ jobs:
       <<: *dev_environment
     <<: *deploy_to_cluster
 
-  deploy_to_doks_hourly:
+  deploy_to_doks_staging:
     <<: *default_doks_image
     environment:
-      <<: *qa_environment_hourly
+      <<: *qa_environment_staging
     <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_nightly_1_14:
@@ -236,10 +240,10 @@ jobs:
         default: false
     <<: *update_codacy_url
 
-  update_codacy_url_hourly:
+  update_codacy_url_staging:
     <<: *default_doks_image
     environment:
-      <<: *qa_environment_hourly
+      <<: *qa_environment_staging
     parameters:
       persist_codacy_url:
         type: boolean
@@ -250,7 +254,7 @@ jobs:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
-      <<: *qa_environment_hourly
+      <<: *qa_environment_staging
       TEST_PATH: Suite/Enterprise/K8S_HOURLY/API_DEV.xml
       LAUNCH_NAME: ENTERPRISE_API_HOURLY_TESTS
     <<: *qa_job
@@ -259,7 +263,7 @@ jobs:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
-      <<: *qa_environment_hourly
+      <<: *qa_environment_staging
       TEST_PATH: Suite/Enterprise/K8S_HOURLY/E2E_DEV.xml
       LAUNCH_NAME: ENTERPRISE_E2E_HOURLY_TESTS
     <<: *qa_job
@@ -268,7 +272,7 @@ jobs:
     <<: *qa_automation_image
     environment:
       <<: *dev_environment
-      <<: *qa_environment_hourly
+      <<: *qa_environment_staging
       TEST_PATH: Suite/Enterprise/K8S_HOURLY/WEB_DEV.xml
       LAUNCH_NAME: ENTERPRISE_WEB_HOURLY_TESTS
     <<: *qa_job
@@ -432,15 +436,18 @@ workflows:
           requires:
             - deploy_to_doks
 
-  hourly_pipeline:
+  staging_pipeline:
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - staging-branch
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "release"
-          filters:
-              branches:
-                only:
-                  - feature/hourly-tests
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
@@ -458,22 +465,22 @@ workflows:
           context: CodacyDO
           requires:
             - update_versions
-      - deploy_to_doks_hourly:
+      - deploy_to_doks_staging:
           context: CodacyDO
           requires:
             - helm_push_unstable
       - test_api_dev:
           context: CodacyDO
           requires:
-            - deploy_to_doks_hourly
+            - deploy_to_doks_staging
       - test_e2e_dev:
           context: CodacyDO
           requires:
-            - deploy_to_doks_hourly
+            - deploy_to_doks_staging
       - test_web_dev:
           context: CodacyDO
           requires:
-            - deploy_to_doks_hourly
+            - deploy_to_doks_staging
 
   nightly_pipeline:
     triggers:
