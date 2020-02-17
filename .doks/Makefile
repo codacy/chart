@@ -3,6 +3,7 @@ RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
+WORKER_VERSION?="stable"
 
 define call_helm_install
 	helm upgrade --install ${1} ${3} \
@@ -20,6 +21,7 @@ define call_helm_install
 	--set global.codacy.url=${4} \
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
+	--set worker-manager.config.codacy.worker.image=${5} \
 	--set global.features.cloneSubmodules=true
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
@@ -28,17 +30,17 @@ endef
 .PHONY: deploy_to_doks
 deploy_to_doks: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
 
 .PHONY: deploy_to_doks_atomic
 deploy_to_doks_atomic:
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
 
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context
 	$(MAKE) -C ../ setup_helm_repos
 	helm repo update
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION})
 
 define rotate_pod
   kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
