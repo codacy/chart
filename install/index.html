@@ -499,11 +499,13 @@
     <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
     <span class="nt">backendUrl</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
   <span class="nt">play</span><span class="p">:</span>
-    <span class="nt">cryptoSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">cryptoSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+  <span class="nt">akka</span><span class="p">:</span>
+    <span class="nt">sessionSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
   <span class="nt">filestore</span><span class="p">:</span>
-    <span class="nt">contentsSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-    <span class="nt">uuidSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-  <span class="nt">cacheSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 32 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">contentsSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+    <span class="nt">uuidSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
+  <span class="nt">cacheSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
 </code></pre></div>
 
 </li>
