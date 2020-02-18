@@ -9,7 +9,12 @@ postgres:
     size: 1000Gi
 
 portal:
+  selfhosted: true
   replicaCount: 2
+
+portal:
+  dev: true
+  replicaCount: 1
 
 activities:
   replicaCount: 2
