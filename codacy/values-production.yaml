@@ -1,4 +1,18 @@
 global:
+  imagePullSecrets:
+    - name: docker-credentials
+  codacy:
+    url: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
+    backendUrl: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
+  play:
+    cryptoSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  akka:
+    sessionSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  filestore:
+    contentsSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+    uuidSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  cacheSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+
   defaultdb:
     create: false
     postgresqlUsername: codacy
