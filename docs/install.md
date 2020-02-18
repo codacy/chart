@@ -2,19 +2,19 @@
 
 Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.
 
-1. Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
+1.  Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
 
     ```bash
     kubectl create namespace codacy
     ```
 
-1. Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.
+2.  Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.
 
     ```bash
     kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
     ```
 
-1. Use a text editor of your choice to copy the template below to a new file named `values.yaml`, changing the values as described in the comments.
+3.  Use a text editor of your choice to copy the template below to a new file named `values.yaml`, changing the values as described in the comments.
 
     ```yaml
     global:
@@ -24,14 +24,16 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
         url: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
         backendUrl: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
       play:
-        cryptoSecret: "CHANGE ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+        cryptoSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+      akka:
+        sessionSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
       filestore:
-        contentsSecret: "CHANGE ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-        uuidSecret: "CHANGE ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
-      cacheSecret: "CHANGE ME" # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
+        contentsSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+        uuidSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+      cacheSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
     ```
 
-1. Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the `values.yaml` file created in the previous step.
+4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the `values.yaml` file created in the previous step.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
@@ -66,13 +68,13 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     [...]
     ```
 
-1. Download the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` and configure the following values for each Codacy database:
+5.  Download the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` and configure the following values for each Codacy database:
 
-    * `host` (host name of the PostgreSQL server, accessible from the cluster)
-    * `postgresqlUsername` (dedicated Codacy user)
-    * `postgresqlPassword` (password for the dedicated Codacy user)
+    -   `host` (host name of the PostgreSQL server, accessible from the cluster)
+    -   `postgresqlUsername` (dedicated Codacy user)
+    -   `postgresqlPassword` (password for the dedicated Codacy user)
 
-1. Run the command below to update the cluster to use the PostgreSQL server configuration:
+6.  Run the command below to update the cluster to use the PostgreSQL server configuration:
 
     ```bash
     helm upgrade --install codacy codacy-stable/codacy \
