@@ -27,15 +27,8 @@ dependencies:
 
 - name: portal
   version: ">=5.0.0"
-  repository: https://charts.codacy.com/unstable
-  git: git@bitbucket.org:qamine/portal.git
-  condition: dev.selfhosted
-
-- name: portal
-  version: ">=5.0.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
-
 
 - name: ragnaros
   version: ">=15.2.2"
