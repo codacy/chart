@@ -224,8 +224,8 @@ worker-manager:
       memory: 500Mi
   config:
     workers:
-      genericMax: 20
-      dedicatedMax: 20
+      genericMax: 10
+      dedicatedMax: 10
 
 crow:
   replicaCount: 1
@@ -236,6 +236,16 @@ crow:
     requests:
       cpu: 0.5
       memory: 1Gi
+
+rabbitmq-ha:
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1200Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
 
 fluentdoperator:
   enabled: true
