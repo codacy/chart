@@ -1,6 +1,11 @@
 # Bitbucket Stash
 
 Set your configuration values for your Bitbucket instance on the `values.yaml` file.
+
+NOTE: Since bitbucket uses OAuth1, you'll need to create a key pair to sign and validate the requests between codacy and the bitbucket enterprise instance.
+You can do it by running the command `ssh-keygen -t rsa -f mykey`
+Then, copy the private key from the `mykey` file and set it in the `consumerPrivateKey` and copy the public key from the `mykey.pub` file and set it in the `consumerPrivateKey`. 
+
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 Go to `admin/integration` on Codacy and set the **Project Keys** on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.
