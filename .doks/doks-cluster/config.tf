@@ -23,8 +23,8 @@ provider "helm" {
   # tiller is only installed if you actually do something with this provider, such as installing a chart
   install_tiller  = "true"
   service_account = "tiller"
-  tiller_image    = "gcr.io/kubernetes-helm/tiller:v2.15.0"
-  
+  tiller_image    = "gcr.io/kubernetes-helm/tiller:v2.16.3"
+
   kubernetes {
     host = digitalocean_kubernetes_cluster.codacy_k8s.endpoint
     # load_config_file = false
