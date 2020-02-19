@@ -1,50 +1,64 @@
 global:
+  imagePullSecrets:
+    - name: docker-credentials
+  codacy:
+    url: <--- http://codacy.example.com ---> # This value is important for VCS configuration and badges to work
+    backendUrl: <--- http://codacy.example.com ---> # This value is important for VCS configuration and badges to work
+  play:
+    cryptoSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  akka:
+    sessionSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  filestore:
+    contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+    uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+
   defaultdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: accounts # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
   analysisdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: analysis # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
   resultsdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: results # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
   metricsdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: metrics # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
   filestoredb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: filestore # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
   jobsdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: jobs # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
 
@@ -52,7 +66,7 @@ codacy-api:
   ingress:
     enabled: true ## Enable ingress
     hosts:
-      - host: <example.codacy.org>
+      - host: <--- example.codacy.org --->
         paths:
         - /
     annotations:
@@ -65,7 +79,7 @@ codacy-api:
       nginx.ingress.kubernetes.io/use-regex: "true"
     tls:
       hosts:
-        - host: <example.codacy.org> # CHANGEME: Codacy application DNS
+        - host: <--- example.codacy.org ---> # CHANGEME: Codacy application DNS
       secretName: codacy-ingress-tls-secret
   replicaCount: 2
   resources:
@@ -104,10 +118,10 @@ activities:
       memory: 500Mi
   activitiesdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: activities # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
 
@@ -132,10 +146,10 @@ hotspots-api:
       memory: 500Mi
   hotspotsdb:
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: hotsposts # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
 
@@ -162,10 +176,10 @@ listener:
   listenerdb:
     create: false
     create: false
-    postgresqlUsername: codacy
+    postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: listener # You need to create the DB manually
-    postgresqlPassword: codacy
-    host: codacy-database.internal
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
     service:
       port: 5432
 
@@ -210,8 +224,8 @@ worker-manager:
       memory: 500Mi
   config:
     workers:
-      genericMax: 20
-      dedicatedMax: 20
+      genericMax: 10
+      dedicatedMax: 10
 
 crow:
   replicaCount: 1
@@ -222,6 +236,16 @@ crow:
     requests:
       cpu: 0.5
       memory: 1Gi
+
+rabbitmq-ha:
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1200Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
 
 fluentdoperator:
   enabled: true
