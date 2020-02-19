@@ -158,7 +158,7 @@ references:
             - <<: *persist_to_workspace
 
 jobs:
-  deploy_to_doks:
+  deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
@@ -347,7 +347,7 @@ workflows:
           requires:
             - codacy/checkout_and_version
 
-  deploy_chart_to_cluster:
+  deploy_chart_to_dev_cluster:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
@@ -361,17 +361,17 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks
-      - deploy_to_doks:
+      - deploy_to_doks_dev:
           context: CodacyDO
           requires:
             - helm_lint
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_dev
       - upload_docs:
           requires:
-            - deploy_to_doks
+            - deploy_to_doks_dev
 
   nightly_pipeline:
     triggers:
