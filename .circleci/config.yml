@@ -19,7 +19,9 @@ references:
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
     working_directory: ~/workdir
 
-  # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
+  ##################################################################################
+  #  Environment variables that differentiate for each environment/installation
+  ##################################################################################
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
@@ -61,6 +63,9 @@ references:
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
 
+  ###################################################
+  #  Env variables identify each deployment channel
+  ##################################################
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
     HELM_REPOSITORY: codacy-unstable
@@ -77,6 +82,9 @@ references:
     CHANNEL: stable
     HELM_REPOSITORY: codacy-stable
 
+  #########################################
+  #  Anchors for steps
+  #########################################
   doctl_authenticate: &doctl_authenticate
     run:
       name: "Setup DO Credentials"
@@ -156,6 +164,10 @@ references:
           condition: <<parameters.persist_codacy_url>>
           steps:
             - <<: *persist_to_workspace
+
+############
+#  JOBS
+############
 
 jobs:
   deploy_to_doks_dev:
@@ -331,6 +343,10 @@ jobs:
           color: '#2EB67D'
           title: $(cat .version)
           message: $(cat changelogs/changelog.txt)
+
+############
+#  WORKFLOWS
+############
 
 workflows:
   helm_lint:
