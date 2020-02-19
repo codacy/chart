@@ -39,7 +39,7 @@ Otherwise, you can find instructions here:
 3. Run `helm dep up`.
 4. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message must be "`release: start release [DD-MM-YYYY]`".
 5. Tag the commit with `release-[DD-MM-YYYY].[buildversion]` and push.
-6. This tag will automatically trigger a release candidate build. You chart will be deployed to `k8s.release.dev.codacy.org` (`codacy-doks-cluster-release` cluster in digital ocean).
+6. This tag will automatically trigger a release candidate build. You chart will be deployed to [the release environment described in this table](./README.md) (`codacy-doks-cluster-release` cluster in digital ocean).
 7. Follow the `release` workflow of the `chart` project on circleci.
 
 ## During the release
