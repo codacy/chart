@@ -588,13 +588,13 @@ installation and defining the number of concurrent analysis.</p>
 <p>Without accounting for analysis (<a href="#analysis">next section</a>),
 you should need at least the following resources:</p>
 <div class="codehilite"><pre><span></span><code>CPU: 7 CPU
-Memory: 39 GB
+Memory: 40 GB
 </code></pre></div>
 
 <p>Check the
 <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml">values-production.yaml</a>
-file to find a configuration reference that should work for you to run
-a "production ready" version of Codacy.</p>
+file to find a configuration reference that should work for you to run a
+"production-ready" version of Codacy.</p>
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
 <p>Each analysis runs a maximum number of 4 plugins in parallel (not configurable)</p>
 <p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="err">worker-manager.config</span></code>
@@ -631,7 +631,7 @@ Memory: 6 * (2 + (1 * 4)) = 36 GB
 
 <p><strong>Total:</strong></p>
 <div class="codehilite"><pre><span></span><code>CPU: 7 CPU + 18 CPU = 25 CPU
-Memory: 39 GB + 36 GB = 75 GB
+Memory: 40 GB + 36 GB = 76 GB
 </code></pre></div>
 
 <h2 id="postgresql-server-setup">PostgreSQL server setup<a class="headerlink" href="#postgresql-server-setup" title="Permanent link">&para;</a></h2>
