@@ -92,7 +92,7 @@ references:
     attach_workspace:
           at: ~/
 
-  deploy_to_cluster: &deploy_to_cluster
+  deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
@@ -162,7 +162,7 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
-    <<: *deploy_to_cluster
+    <<: *deploy_to_doks_from_local_dir
 
   deploy_to_doks_nightly_1_14:
     <<: *default_doks_image
