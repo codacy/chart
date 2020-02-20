@@ -19,7 +19,9 @@ references:
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
     working_directory: ~/workdir
 
-  # doks node types can be found here https://developers.digitalocean.com/documentation/v2/
+  ##################################################################################
+  #  Environment variables that differentiate for each environment/installation
+  ##################################################################################
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
@@ -61,6 +63,9 @@ references:
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
 
+  ###################################################
+  #  Env variables identify each deployment channel
+  ##################################################
   unstable_helm_channel: &unstable_helm_channel
     CHANNEL: unstable
     HELM_REPOSITORY: codacy-unstable
@@ -77,6 +82,9 @@ references:
     CHANNEL: stable
     HELM_REPOSITORY: codacy-stable
 
+  #########################################
+  #  Anchors for steps
+  #########################################
   doctl_authenticate: &doctl_authenticate
     run:
       name: "Setup DO Credentials"
@@ -92,7 +100,7 @@ references:
     attach_workspace:
           at: ~/
 
-  deploy_to_cluster: &deploy_to_cluster
+  deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
@@ -157,12 +165,16 @@ references:
           steps:
             - <<: *persist_to_workspace
 
+############
+#  JOBS
+############
+
 jobs:
-  deploy_to_doks:
+  deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
-    <<: *deploy_to_cluster
+    <<: *deploy_to_doks_from_local_dir
 
   deploy_to_doks_nightly_1_14:
     <<: *default_doks_image
@@ -332,6 +344,10 @@ jobs:
           title: $(cat .version)
           message: $(cat changelogs/changelog.txt)
 
+############
+#  WORKFLOWS
+############
+
 workflows:
   helm_lint:
     jobs:
@@ -347,7 +363,7 @@ workflows:
           requires:
             - codacy/checkout_and_version
 
-  deploy_chart_to_cluster:
+  deploy_chart_to_dev_cluster:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
@@ -361,17 +377,17 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks
-      - deploy_to_doks:
+      - deploy_to_doks_dev:
           context: CodacyDO
           requires:
             - helm_lint
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_dev
       - upload_docs:
           requires:
-            - deploy_to_doks
+            - deploy_to_doks_dev
 
   nightly_pipeline:
     triggers:
