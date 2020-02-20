@@ -26,7 +26,7 @@ dependencies:
   git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: portal
-  version: ">=5.0.0"
+  version: ">=6.0.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
 
@@ -71,7 +71,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: ">=5.5.0"
+  version: ">=7.0.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
