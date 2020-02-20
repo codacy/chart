@@ -1,9 +1,15 @@
+ENGINE_VERSION?=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
+
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
 	helm repo add codacy-external https://charts.codacy.com/external
+
+update_worker_version:
+	@echo ${ENGINE_VERSION}
+	ytool -f "./codacy/values.yaml" -s worker-manager.config.codacy.worker.image "${ENGINE_VERSION}" -e
 
 .PHONY: update_dependencies
 update_dependencies: setup_helm_repos
