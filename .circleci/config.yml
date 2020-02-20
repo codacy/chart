@@ -53,7 +53,6 @@ references:
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy
     NAMESPACE: codacy
-    NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.14
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
@@ -67,11 +66,10 @@ references:
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
 
   release_environment: &release_environment
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-release
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
-    NODE_TYPE: s-20vcpu-96gb
     K8S_VERSION: 1.15
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-incubator
@@ -137,7 +135,7 @@ references:
       - <<: *update_versions
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks_from_local_dir RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
+          command: make -e -C .doks/ deploy_to_doks
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -145,7 +143,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
+          command: make -e -C .doks/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
 
   helm_push: &helm_push
     steps:
@@ -158,7 +156,8 @@ references:
       - run:
           name: Push to charts museum
           command: |
-            helm dep up ./codacy
+            make setup_helm_repos
+            helm dep build ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
             helm push ./codacy ${HELM_REPOSITORY}
@@ -190,7 +189,7 @@ references:
           name: Update codacy-api ip address
           command: |
               CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-              make -C .doks/ deploy_to_doks_from_chartmuseum RELEASE=$RELEASE NAMESPACE=$NAMESPACE VERSION=$(cat .version) HELM_REPOSITORY=$HELM_REPOSITORY
+              make -e -C .doks/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
       - when:
           condition: <<parameters.persist_codacy_url>>
           steps:
@@ -201,6 +200,19 @@ references:
 ############
 
 jobs:
+
+  checkout:
+    docker:
+      - image: codacy/ci-base:1.0.1
+    working_directory: ~/workdir/
+    steps:
+      - checkout
+      - run:
+          name: setup version from git tag
+          command: |
+            git describe --tags --abbrev=0 > .version
+            echo $(cat .version)
+      - <<: *persist_to_workspace
 
   create_dev_cluster:
     <<: *default_doks_image
@@ -316,6 +328,7 @@ jobs:
       - <<: *persist_to_workspace
       - store_artifacts:
           path: ~/workdir/changelogs
+      - <<: *persist_to_workspace
 
   slack_notify_release:
     <<: *default_doks_image
@@ -342,6 +355,7 @@ workflows:
                 - master
                 - release
                 - /sandbox\/.*/
+                - /release.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
@@ -370,12 +384,14 @@ workflows:
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
-          release_branch: "release"
+          release_branch: "master"
           filters:
             branches:
               only:
                 - master
-                - helm-init-upgrade
+      - upload_docs:
+          requires:
+            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
@@ -391,9 +407,6 @@ workflows:
             - create_dev_cluster
       - helm_push_unstable:
           context: CodacyDO
-          requires:
-            - deploy_to_doks_dev
-      - upload_docs:
           requires:
             - deploy_to_doks_dev
 
@@ -476,70 +489,42 @@ workflows:
 
   release_pipeline:
     jobs:
-      - codacy/checkout_and_version:
-          dev_branch: "master"
-          release_branch: "releases"
+      - checkout:
           filters:
-            tags:
-              only: /^release-.*/
             branches:
-              ignore: /.*/
+              only:
+                - /release.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
-            - codacy/checkout_and_version
-          filters:
-            tags:
-              only: /^release-.*/
-      - create_release_cluster:
-          context: CodacyDO
-          requires:
-              - helm_lint
-      - set_chart_version_release:
-          context: CodacyDO
-          requires:
-            - create_release_cluster
-          filters:
-            tags:
-              only: /^release-.*/
+            - checkout
       - helm_push_incubator:
           context: CodacyDO
           requires:
-            - set_chart_version_release
-          filters:
-            tags:
-              only: /^release-.*/
+            - helm_lint
       - get_changelogs:
           context: CodacyDO
           requires:
             - helm_push_incubator
-          filters:
-            tags:
-              only: /^release-.*/
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
             - helm_push_incubator
-          filters:
-            tags:
-              only: /^release-.*/
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
            - deploy_to_doks_release
-          filters:
-            tags:
-              only: /^release-.*/
+      - set_chart_version_release:
+          context: CodacyDO
+          requires:
+            - manual_qa_hold
       - codacy/tag_version:
           name: tag_version
           context: CodacyDO
           requires:
             - manual_qa_hold
-          filters:
-            tags:
-              only: /^release-.*/
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
@@ -548,14 +533,8 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
-          filters:
-            tags:
-              only: /^release-.*/
       - slack_notify_release:
           context: CodacyDO
           requires:
             - promote_chart_to_stable
             - get_changelogs
-          filters:
-            tags:
-              only: /^release-.*/

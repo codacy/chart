@@ -7,7 +7,7 @@ WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep ve
 
 define rotate_pod
   kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
+  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m &
 endef
 
 define call_helm_install
