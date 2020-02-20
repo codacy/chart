@@ -5,6 +5,7 @@ setup_helm_repos:
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
 	helm repo add codacy-external https://charts.codacy.com/external
+	helm repo update
 
 .PHONY: update_worker_version
 update_worker_version:
@@ -13,7 +14,6 @@ update_worker_version:
 
 .PHONY: update_dependencies
 update_dependencies: setup_helm_repos
-	helm repo update
 
 	# we explicitly delete the lock file since there is an issue with helm 2.15
 	# where if the .lock digest hasn't changed, the versions will not be updated.
