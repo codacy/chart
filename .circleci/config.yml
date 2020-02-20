@@ -107,6 +107,8 @@ references:
       - run:
           name: "Create Cluster"
           command: make -C ./.doks/doks-cluster cluster populate_cluster
+      - run:
+          command: helm init --upgrade
 
   deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
@@ -232,6 +234,30 @@ jobs:
     environment:
       <<: *incubator_helm_channel
     <<: *helm_push
+
+  helm_upgrade_dev:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *helm_upgrade
+
+  helm_upgrade_nightly_1_14:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_14
+    <<: *helm_upgrade
+
+  helm_upgrade_nightly_1_15:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *helm_upgrade
+
+  helm_upgrade_release:
+    <<: *default_doks_image
+    environment:
+      <<: *release_environment
+    <<: *helm_upgrade
 
   helm_push_unstable:
     <<: *default_doks_image

@@ -17,24 +17,6 @@ provider "digitalocean" {
   token = var.digital_ocean_token
 }
 
-# setup helm
-provider "helm" {
-  version = "~> 0.9"
-  # tiller is only installed if you actually do something with this provider, such as installing a chart
-  install_tiller  = "true"
-  service_account = "tiller"
-  tiller_image    = "gcr.io/kubernetes-helm/tiller:v2.16.3"
-
-  kubernetes {
-    host = digitalocean_kubernetes_cluster.codacy_k8s.endpoint
-    # load_config_file = false
-    client_certificate     = base64decode(digitalocean_kubernetes_cluster.codacy_k8s.kube_config[0].client_certificate)
-    client_key             = base64decode(digitalocean_kubernetes_cluster.codacy_k8s.kube_config[0].client_key)
-    cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.codacy_k8s.kube_config[0].cluster_ca_certificate)
-  }
-
-}
-
 # setup the k8s provider using the do cluster data
 provider "kubernetes" {
   version = "~> 1.7"
