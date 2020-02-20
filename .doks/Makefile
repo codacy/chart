@@ -25,6 +25,10 @@ define call_helm_install
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
 
+.PHONY: deploy_to_doks_atomic
+deploy_to_doks_atomic:
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+
 .PHONY: deploy_to_doks
 deploy_to_doks_from_local_dir: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
