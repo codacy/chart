@@ -100,6 +100,17 @@ references:
     attach_workspace:
           at: ~/
 
+  start_cluster: &start_cluster
+    steps:
+      - <<: *attach_workspace
+      - <<: *doctl_authenticate
+      - run:
+          name: "Start Cluster"
+          command: make -C ./.doks/doks-cluster cluster
+      - run:
+          name: "Populate Cluster"
+          command: make -C ./.doks/doks-cluster populate_cluster
+
   deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
       - <<: *attach_workspace
