@@ -3,6 +3,12 @@ RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
+WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
+
+define rotate_pod
+  kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
+  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
+endef
 
 define call_helm_install
 	helm upgrade --install ${1} ${3} \
@@ -22,30 +28,33 @@ define call_helm_install
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
 	--set global.bitbucketenterprise.consumerPublicKey=$${BITBUCKET_ENTERPRISE_PUBLIC_KEY} \
-	--set global.bitbucketenterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY}
+	--set global.bitbucketenterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
+	--set worker-manager.config.codacy.worker.image=${5}
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
 
-.PHONY: deploy_to_doks_atomic
-deploy_to_doks_atomic:
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+.PHONY: setup_helm_repos
+setup_helm_repos:
+	$(MAKE) -C ../ setup_helm_repos
+
+.PHONY: helm_install_from_local_dir
+helm_install_from_local_dir:
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
+
+.PHONY: helm_install_from_chart_museum
+helm_install_from_local_dir:
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION})
+
+.PHONY: update_dependencies
+update_dependencies:
+	$(MAKE) -C ../ update_dependencies
 
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context
-	$(MAKE) -C ../ update_dependencies
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context
-	$(MAKE) -C ../ setup_helm_repos
-	helm repo update
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL})
-
-define rotate_pod
-  kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m;
-endef
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
 
 .PHONY: set_cluster_context
 set_cluster_context:
