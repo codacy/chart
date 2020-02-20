@@ -1,4 +1,4 @@
-CODACY_URL?="http://k8s.dev.codacy.org"
+CODACY_URL?="http://dev.k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
