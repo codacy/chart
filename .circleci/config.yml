@@ -100,6 +100,14 @@ references:
     attach_workspace:
           at: ~/
 
+  create_cluster: &create_cluster
+    steps:
+      - <<: *attach_workspace
+      - <<: *doctl_authenticate
+      - run:
+          name: "Create Cluster"
+          command: make -C ./.doks/doks-cluster cluster populate_cluster
+
   deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
       - <<: *attach_workspace
@@ -170,6 +178,31 @@ references:
 ############
 
 jobs:
+
+  create_dev_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *create_cluster
+
+  create_nightly_1_14_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_14
+    <<: *create_cluster
+
+  create_nightly_1_15_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *nightly_environment_1_15
+    <<: *create_cluster
+
+  create_release_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *create_cluster
+
   deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
@@ -377,10 +410,14 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
+      - create_dev_cluster:
+          context: CodacyDO
+          requires:
+              - helm_lint
       - deploy_to_doks_dev:
           context: CodacyDO
           requires:
-            - helm_lint
+            - create_dev_cluster
       - helm_push_unstable:
           context: CodacyDO
           requires:
@@ -410,10 +447,19 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - set_chart_version_nightly
+      - create_nightly_1_14_cluster:
+          context: CodacyDO
+          requires:
+              - helm_lint
+      - create_nightly_1_15_cluster:
+          context: CodacyDO
+          requires:
+              - helm_lint
       - update_versions:
           context: CodacyDO
           requires:
-            - helm_lint
+            - create_nightly_1_14_cluster
+            - create_nightly_1_15_cluster
       - helm_push_unstable:
           context: CodacyDO
           requires:
@@ -466,10 +512,14 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
+      - create_release_cluster:
+          context: CodacyDO
+          requires:
+              - helm_lint
       - set_chart_version_release:
           context: CodacyDO
           requires:
-            - helm_lint
+            - create_release_cluster
           filters:
             tags:
               only: /^release-.*/
