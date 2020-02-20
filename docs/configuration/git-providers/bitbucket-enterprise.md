@@ -3,6 +3,7 @@
 Set your configuration values for your Bitbucket instance on the `values.yaml` file.
 
 **NOTE:** Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:
+
 1. Create the key pair by running the command below, making sure that you don't define a passphrase:
 
    `ssh-keygen -t rsa -f mykey -q -N ""`
