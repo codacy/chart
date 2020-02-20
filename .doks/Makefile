@@ -29,7 +29,7 @@ endef
 deploy_to_doks_atomic:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
 
-.PHONY: deploy_to_doks
+.PHONY: deploy_to_doks_from_local_dir
 deploy_to_doks_from_local_dir: set_cluster_context
 	$(MAKE) -C ../ update_dependencies
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL})
