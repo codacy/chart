@@ -38,10 +38,6 @@ endef
 setup_helm_repos:
 	$(MAKE) -C ../ setup_helm_repos
 
-.PHONY: helm_repo_update
-helm_repo_update:
-	helm repo update
-
 .PHONY: helm_install_from_local_dir
 helm_install_from_local_dir:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
@@ -58,7 +54,7 @@ update_dependencies:
 deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_repo_update helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
 
 .PHONY: set_cluster_context
 set_cluster_context:
