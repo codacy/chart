@@ -110,6 +110,17 @@ references:
     attach_workspace:
           at: ~/workdir
 
+  update_versions: &update_versions
+    run:
+      name: "Get latest chart versions"
+      command: make update_dependencies update_worker_version
+
+  swap_requirement_files: &swap_requirement_files
+    run:
+      name: Swap requirements files
+      command: |
+          mv codacy/requirements-dev.yaml codacy/requirements.yaml
+
   create_cluster: &create_cluster
     steps:
       - <<: *attach_workspace
@@ -118,10 +129,12 @@ references:
           name: "Create Cluster"
           command: make -C ./.doks/doks-cluster start_cluster
 
-  deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
+  deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
+      - <<: *swap_requirement_files
+      - <<: *update_versions
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks_from_local_dir RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
@@ -205,13 +218,13 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
-    <<: *deploy_to_doks_from_local_dir
+    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
 
   deploy_to_doks_sandbox:
     <<: *default_doks_image
     environment:
       <<: *sandbox_environment
-    <<: *deploy_to_doks_from_local_dir
+    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
 
   deploy_to_doks_release:
     <<: *default_doks_image
@@ -259,16 +272,6 @@ jobs:
       - run:
           name: Print version
           command: cat .version
-      - <<: *persist_to_workspace
-
-  update_versions:
-    <<: *default_doks_image
-    working_directory: ~/workdir/
-    steps:
-      - <<: *attach_workspace
-      - run:
-          name: "Get latest chart versions"
-          command: make update_dependencies update_worker_version
       - <<: *persist_to_workspace
 
   upload_docs:
@@ -500,17 +503,10 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-      - update_versions:
-          context: CodacyDO
-          requires:
-            - set_chart_version_release
-          filters:
-            tags:
-              only: /^release-.*/
       - helm_push_incubator:
           context: CodacyDO
           requires:
-            - update_versions
+            - set_chart_version_release
           filters:
             tags:
               only: /^release-.*/
