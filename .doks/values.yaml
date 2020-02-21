@@ -1,5 +1,5 @@
 codacy-api:
-  replicaCount: 3
+  replicaCount: 2
   service:
     type: LoadBalancer
 
@@ -9,10 +9,10 @@ postgres:
     size: 1000Gi
 
 portal:
-  replicaCount: 2
+  replicaCount: 1
 
 activities:
-  replicaCount: 2
+  replicaCount: 1
   readinessProbe:
     initialDelaySeconds: 10
     periodSeconds: 3
@@ -26,20 +26,20 @@ activities:
       size: 250Gi
 
 remote-provider-service:
-  replicaCount: 2
+  replicaCount: 1
 
 hotspots-api:
-  replicaCount: 2
+  replicaCount: 1
   hotspotsdb:
     persistence:
       enabled: true
       size: 250Gi
 
 hotspots-worker:
-  replicaCount: 2
+  replicaCount: 1
 
 listener:
-  replicaCount: 4
+  replicaCount: 1
   listenerdb:
     persistence:
       enabled: true
@@ -56,13 +56,13 @@ listener:
       size: 200Gi
 
 core:
-  replicaCount: 2
+  replicaCount: 1
 
 engine:
-  replicaCount: 2
+  replicaCount: 1
 
 worker-manager:
-  replicaCount: 2
+  replicaCount: 1
   config:
     workers:
       genericMax: 20
