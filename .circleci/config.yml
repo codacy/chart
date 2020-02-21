@@ -106,9 +106,7 @@ references:
       - <<: *doctl_authenticate
       - run:
           name: "Create Cluster"
-          command: make -C ./.doks/doks-cluster cluster populate_cluster
-      - run:
-          command: helm init --upgrade
+          command: make -C ./.doks/doks-cluster start_cluster
 
   deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
     steps:
