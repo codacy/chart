@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:0.3.0
+      - image: codacy/ci-do:0.4.2
     working_directory: ~/workdir/
 
   qa_automation_image: &qa_automation_image
