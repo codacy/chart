@@ -59,6 +59,13 @@ references:
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
 
+  sandbox_environment: &sandbox_environment
+    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    RELEASE_NAME: codacy-hourly
+    NAMESPACE: codacy-hourly
+    K8S_VERSION: 1.14
+    CODACY_URL: http://sandbox.k8s.dev.codacy.org
+
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: dev
@@ -200,6 +207,12 @@ jobs:
       <<: *dev_environment
     <<: *deploy_to_doks_from_local_dir
 
+  deploy_to_doks_sandbox:
+    <<: *default_doks_image
+    environment:
+      <<: *sandbox_environment
+    <<: *deploy_to_doks_from_local_dir
+
   deploy_to_doks_release:
     <<: *default_doks_image
     environment:
@@ -325,11 +338,30 @@ workflows:
               ignore:
                 - master
                 - release
+                - /sandbox\/.*/
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
+
+  deploy_chart_to_sandbox_cluster:
+    jobs:
+      - codacy/checkout_and_version:
+          release_branch: "master"
+          filters:
+            branches:
+              only:
+                - /sandbox\/.*/
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
+          requires:
+            - codacy/checkout_and_version
+      - deploy_to_doks_sandbox:
+          context: CodacyDO
+          requires:
+            - helm_lint
 
   deploy_chart_to_dev_cluster:
     jobs:
