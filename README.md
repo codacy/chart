@@ -217,11 +217,11 @@ in this repo.
 Currently, we have these set of installations done through `circleci`.
 All of them serve different purposes.
 
-| Installation | Cluster                     | Namespace         | Purpose                                                                                                                 | Url                                    |
-| ------------ | --------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| Dev          | codacy-doks-cluster-dev     | codacy            | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api) | <http://dev.k8s.dev.codacy.org>        |
-| Hourly       | codacy-doks-cluster-dev     | codacy-hourly     | Used for development. Manually updated                                                                                  | <http://hourly.k8s.dev.codacy.org>     |
-| Release      | codacy-doks-cluster-dev     | codacy-release    | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                             | <http://release.k8s.dev.codacy.org>    |
+| Installation | Cluster                 | Namespace      | Purpose                                                                                                                    | Url                                 |
+| ------------ | ----------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Dev          | codacy-doks-cluster-dev | codacy         | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api)    | <http://dev.k8s.dev.codacy.org>     |
+| Sandbox      | codacy-doks-cluster-dev | codacy-hourly  | Used for development. Manually updated. Check out [this](#deploy-your-version-of-a-component) process on how to update it. | <http://hourly.k8s.dev.codacy.org>  |
+| Release      | codacy-doks-cluster-dev | codacy-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                                | <http://release.k8s.dev.codacy.org> |
 
 ### Set up your environment for DigitalOcean clusters
 
@@ -261,13 +261,11 @@ pipelines we have set up in this project. Currently, we use the `hourly_pipeline
 for this purpose.
 
 1.  Checkout this repository
-2.  Create a new branch
-3.  Change the `requirements.yaml` to use your version
-4.  `helm dep up codacy/`  -> on the directory of the chart
-5.  Change the `.circleci/config.yml` to deploy your branch on the workflow called `hourly_pipeline` (we need to rename this)
-6.  `git push`
-7.  Follow the circleci pipeline and use kubectl to see if your installation was successful
-8.  Go to <http://k8s.hourly.dev.codacy.org/> and test it out
+2.  Create a new branch with a name like `sandbox/....`
+3.  Change the `requirements-dev.yaml` to use your custom versions.
+4.  `git push` of your branch
+5.  Follow the circleci pipeline and use kubectl to see if your installation was successful
+6.  Go to <http://sandobx.k8s.dev.codacy.org/> and test it out
 
 ## Add a new component
 

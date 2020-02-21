@@ -84,6 +84,12 @@ references:
     attach_workspace:
           at: ~/
 
+  swap_requirement_files: &swap_requirement_files
+    run:
+      name: Swap requirements files
+      command: |
+          mv chart/codacy/requirements-dev.yaml chart/codacy/requirements.yaml
+
   create_cluster: &create_cluster
     steps:
       - <<: *attach_workspace
@@ -92,10 +98,12 @@ references:
           name: "Create Cluster"
           command: make -C ./.doks/doks-cluster cluster populate_cluster
 
-  deploy_to_doks_from_local_dir: &deploy_to_doks_from_local_dir
+  deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
+      - <<: *swap_requirement_files
+      - <<: *update_versions
       - deploy:
           name: Install Codacy
           command: make -C .doks/ deploy_to_doks RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
@@ -179,13 +187,13 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *dev_environment
-    <<: *deploy_to_doks_from_local_dir
+    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
 
   deploy_to_doks_sandbox:
     <<: *default_doks_image
     environment:
       <<: *sandbox_environment
-    <<: *deploy_to_doks_from_local_dir
+    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
 
   deploy_to_doks_release:
     <<: *default_doks_image
