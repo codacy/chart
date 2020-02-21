@@ -38,17 +38,15 @@ setup_vars:
 set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
+.PHONY: start_cluster
+start_cluster: cluster populate_cluster helm_init_upgrade
+
 .PHONY: cluster
 cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 	$(shell doctl kubernetes cluster kubeconfig save $(DOKS_CLUSTER_NAME) --set-current-context)
-
-.PHONY: populate_cluster
-populate_cluster: setup_vars create_terraformrc
-	echo '1' | $(TF) init -input=false -reconfigure
-	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
 
 .PHONY: destroy_cluster
@@ -57,3 +55,6 @@ destroy_cluster: setup_vars create_terraformrc set_cluster_context
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
+.PHONY: helm_init_upgrade
+helm_init_upgrade:
+	$(shell helm init --upgrade)
