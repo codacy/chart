@@ -33,25 +33,6 @@ references:
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
 
-  nightly_base_environment: &nightly_base_environment
-    RELEASE_NAME: codacy-nightly
-    NAMESPACE: codacy-nightly
-    NODE_TYPE: s-20vcpu-96gb
-    NUM_NODES: 5
-    HELM_REPOSITORY: codacy-unstable
-
-  nightly_environment_1_14: &nightly_environment_1_14
-    <<: *nightly_base_environment
-    DO_TF_WORKSPACE: nightly-1-14
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-14
-    K8S_VERSION: 1.14
-
-  nightly_environment_1_15: &nightly_environment_1_15
-    <<: *nightly_base_environment
-    DO_TF_WORKSPACE: nightly-1-15
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-nightly-1-15
-    K8S_VERSION: 1.15
-
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-release
     DO_TF_WORKSPACE: dev
@@ -73,10 +54,6 @@ references:
   incubator_helm_channel: &incubator_helm_channel
     CHANNEL: incubator
     HELM_REPOSITORY: codacy-incubator
-
-  nightly_helm_channel: &nightly_helm_channel
-    CHANNEL: nightly
-    HELM_REPOSITORY: codacy-nightly
 
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
@@ -185,18 +162,6 @@ jobs:
       <<: *dev_environment
     <<: *create_cluster
 
-  create_nightly_1_14_cluster:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    <<: *create_cluster
-
-  create_nightly_1_15_cluster:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_15
-    <<: *create_cluster
-
   create_release_cluster:
     <<: *default_doks_image
     environment:
@@ -208,18 +173,6 @@ jobs:
     environment:
       <<: *dev_environment
     <<: *deploy_to_doks_from_local_dir
-
-  deploy_to_doks_nightly_1_14:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    <<: *deploy_to_cluster_from_chartmuseum
-
-  deploy_to_doks_nightly_1_15:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_15
-    <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_release:
     <<: *default_doks_image
@@ -238,41 +191,6 @@ jobs:
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
-
-  update_codacy_url_nightly_1_14:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    parameters:
-      persist_codacy_url:
-        type: boolean
-        default: false
-    <<: *update_codacy_url
-
-  update_codacy_url_nightly_1_15:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_15
-    parameters:
-      persist_codacy_url:
-        type: boolean
-        default: false
-    <<: *update_codacy_url
-
-  set_chart_version_nightly:
-    <<: *default_doks_image
-    steps:
-      - <<: *attach_workspace
-      - run:
-          name: Set chart version suffix
-          command: |
-            mv .version .version_tmp
-            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
-            rm .version_tmp
-      - run:
-          name: Print version
-          command: cat .version
-      - <<: *persist_to_workspace
 
   set_chart_version_release:
     <<: *default_doks_image
@@ -342,31 +260,6 @@ jobs:
       - store_artifacts:
           path: ~/workdir/changelogs
 
-  commit_requirements:
-    <<: *default_doks_image
-    environment:
-      <<: *nightly_environment_1_14
-    steps:
-      - <<: *attach_workspace
-      - add_ssh_keys:
-          fingerprints:
-            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
-      - run:
-          name: "Setup git"
-          command: |
-            git config --global user.email "circleci@codacy.com"
-            git config --global user.name "codacycircleci"
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
-      - deploy:
-          name: Commit and push requirements.lock file
-          command: |
-            BRANCH=$(git rev-parse --abbrev-ref HEAD)
-            git add codacy/requirements.lock
-            git commit -m "[ci skip] nightly requirements.lock commit."
-            git push --set-upstream origin $BRANCH
-      - <<: *persist_to_workspace
-
   slack_notify_release:
     <<: *default_doks_image
     steps:
@@ -425,74 +318,6 @@ workflows:
       - upload_docs:
           requires:
             - deploy_to_doks_dev
-
-  nightly_pipeline:
-    triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
-    jobs:
-      - codacy/checkout_and_version:
-          dev_branch: "master"
-          release_branch: "releases"
-      - set_chart_version_nightly:
-          context: CodacyDO
-          requires:
-            - codacy/checkout_and_version
-      - codacy/helm_aws:
-          name: helm_lint
-          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
-          requires:
-            - set_chart_version_nightly
-      - create_nightly_1_14_cluster:
-          context: CodacyDO
-          requires:
-              - helm_lint
-      - create_nightly_1_15_cluster:
-          context: CodacyDO
-          requires:
-              - helm_lint
-      - update_versions:
-          context: CodacyDO
-          requires:
-            - create_nightly_1_14_cluster
-            - create_nightly_1_15_cluster
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - update_versions
-      - get_changelogs:
-          context: CodacyDO
-          requires:
-            - update_versions
-      - deploy_to_doks_nightly_1_14:
-          context: CodacyDO
-          requires:
-            - helm_push_unstable
-      - update_codacy_url_nightly_1_14:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_14
-      - deploy_to_doks_nightly_1_15:
-          context: CodacyDO
-          requires:
-            - helm_push_unstable
-      - update_codacy_url_nightly_1_15:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_nightly_1_15
-      - codacy/helm_promote:
-          name: promote_chart_to_stable
-          context: CodacyHelm
-          chart_name: codacy
-          source_charts_repo_url: "https://charts.codacy.com/unstable"
-          target_charts_repo_url: "https://charts.codacy.com/nightly"
-          requires:
-            - update_codacy_url_nightly_1_14
-            - update_codacy_url_nightly_1_15
 
   release_pipeline:
     jobs:
