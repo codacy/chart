@@ -25,27 +25,3 @@ resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
   min_nodes = 2
   max_nodes = 7
 }
-
-resource "kubernetes_namespace" "codacy" {
-  metadata {
-    name = var.main_namespace
-
-    labels = {
-      name = var.main_namespace
-    }
-  }
-}
-
-resource "kubernetes_secret" "docker_credentials" {
-  depends_on = [kubernetes_namespace.codacy]
-  # count = var.cluster_only ? 0 : 1
-  metadata {
-    name = "docker-credentials"
-    namespace = var.main_namespace
-  }
-  data = {
-    ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
-  }
-
-  type = "kubernetes.io/dockerconfigjson"
-}

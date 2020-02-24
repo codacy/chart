@@ -120,7 +120,7 @@ references:
       - <<: *doctl_authenticate
       - run:
           name: "Create Cluster"
-          command: make -C ./.doks/doks-cluster start_cluster
+          command: make -e -C ./.doks/doks-cluster start_cluster
 
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
     steps:
