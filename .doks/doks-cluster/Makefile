@@ -16,7 +16,7 @@ NUM_NODES ?= 5
 
 .PHONY: create_terraformrc
 create_terraformrc:
-	@echo "credentials \"app.terraform.io\" { \n  token = \"$$TF_AUTH_TOKEN\" \n}" > $(TF_RC)
+	@echo -e "credentials \"app.terraform.io\" { \n  token = \"$$TF_AUTH_TOKEN\" \n}" > $(TF_RC)
 
 .PHONY: setup_vars
 setup_vars:
