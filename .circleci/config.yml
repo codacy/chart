@@ -524,7 +524,7 @@ workflows:
           name: tag_version
           context: CodacyDO
           requires:
-            - manual_qa_hold
+            - set_chart_version_release
       - codacy/helm_promote:
           name: promote_chart_to_stable
           context: CodacyHelm
