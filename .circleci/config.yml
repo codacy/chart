@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@1.2.1
+  codacy: codacy/base@2.4.1
   slack: circleci/slack@3.4.2
 
 references:
@@ -9,6 +9,32 @@ references:
     docker:
       - image: codacy/ci-do:0.4.2
     working_directory: ~/workdir/
+
+  helm_values: &helm_values
+    microk8s_values_content: |
+      global:
+        imagePullSecrets:
+          - name: docker-credentials
+        play:
+          cryptoSecret: "TEST_STRING"
+        akka:
+          sessionSecret: "TEST_STRING"
+        filestore:
+          contentsSecret: "TEST_STRING"
+          uuidSecret: "TEST_STRING"
+        cacheSecret: "TEST_STRING"
+      listener:
+        persistence:
+          claim:
+            size: 8Gi
+        nfsserverprovisioner:
+          persistence:
+            size: 10Gi
+      minio:
+        persistence:
+          size: 10Gi
+      rabbitmq-ha:
+        replicaCount: 1
 
   qa_automation_image: &qa_automation_image
     docker:
@@ -69,13 +95,13 @@ references:
 
   persist_to_workspace: &persist_to_workspace
     persist_to_workspace:
-        root: ~/
+        root: ~/workdir
         paths:
-          - workdir
+          - '*'
 
   attach_workspace: &attach_workspace
     attach_workspace:
-          at: ~/
+          at: ~/workdir
 
   create_cluster: &create_cluster
     steps:
@@ -192,6 +218,21 @@ jobs:
       <<: *unstable_helm_channel
     <<: *helm_push
 
+  set_chart_version_nightly:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - run:
+          name: Set chart version suffix
+          command: |
+            mv .version .version_tmp
+            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
+            rm .version_tmp
+      - run:
+          name: Print version
+          command: cat .version
+      - <<: *persist_to_workspace
+
   set_chart_version_release:
     <<: *default_doks_image
     steps:
@@ -275,6 +316,7 @@ jobs:
 ############
 
 workflows:
+
   helm_lint:
     jobs:
       - codacy/checkout_and_version:
@@ -319,6 +361,83 @@ workflows:
       - upload_docs:
           requires:
             - deploy_to_doks_dev
+
+  nightly_pipeline:
+    triggers:
+       - schedule:
+           cron: "0 0 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - master
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "releases"
+      - set_chart_version_nightly:
+          context: CodacyDO
+          requires:
+            - codacy/checkout_and_version
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
+          requires:
+            - set_chart_version_nightly
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - codacy/microk8s_install:
+          name: install_k8s-1.16_helm-2.16
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.15/stable"
+          helm_version: "v2.16.3"
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+      - codacy/microk8s_install:
+          name: install_k8s-1.15_helm-2.16
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.15/stable"
+          helm_version: "v2.16.3"
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+      - codacy/microk8s_install:
+          name: install_k8s-1.14_helm-2.16
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.14/stable"
+          helm_version: "v2.16.3"
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+      - codacy/microk8s_install:
+          name: install_k8s-1.13_helm-2.16
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.13/stable"
+          helm_version: "v2.16.3"
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+      - codacy/helm_promote:
+          name: promote_chart_to_stable
+          context: CodacyHelm
+          chart_name: codacy
+          source_charts_repo_url: "https://charts.codacy.com/unstable"
+          target_charts_repo_url: "https://charts.codacy.com/nightly"
+          requires:
+            - install_k8s-1.13_helm-2.16
+            - install_k8s-1.14_helm-2.16
+            - install_k8s-1.15_helm-2.16
+            - install_k8s-1.16_helm-2.16
 
   release_pipeline:
     jobs:
