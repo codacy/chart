@@ -53,8 +53,6 @@ references:
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy
     NAMESPACE: codacy
-    K8S_VERSION: 1.14
-    NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
 
@@ -62,19 +60,13 @@ references:
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     RELEASE_NAME: codacy-hourly
     NAMESPACE: codacy-hourly
-    K8S_VERSION: 1.14
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
-    NODE_TYPE: s-20vcpu-96gb
-    DO_K8S_SLUG: 1.14.8-do.1
-    NUM_NODES: 5
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
-    K8S_VERSION: 1.15
-    NUM_NODES: 5
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
 
@@ -216,6 +208,11 @@ jobs:
             git describe --tags --abbrev=0 > .version
             echo $(cat .version)
       - <<: *persist_to_workspace
+  create_sandbox_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *sandbox_environment
+    <<: *create_cluster
 
   create_dev_cluster:
     <<: *default_doks_image
@@ -378,10 +375,14 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
-      - deploy_to_doks_sandbox:
+      - create_sandbox_cluster:
           context: CodacyDO
           requires:
             - helm_lint
+      - deploy_to_doks_sandbox:
+          context: CodacyDO
+          requires:
+            - create_sandbox_cluster
 
   deploy_chart_to_dev_cluster:
     jobs:
