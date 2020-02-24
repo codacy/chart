@@ -91,7 +91,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -C .doks/ deploy_to_doks RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
+          command: make -C .doks/ deploy_to_doks_from_local_dir RELEASE_NAME=$RELEASE_NAME NAMESPACE=$NAMESPACE
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -298,6 +298,7 @@ workflows:
             branches:
               only:
                 - master
+                - helm-init-upgrade
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
