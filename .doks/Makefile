@@ -43,7 +43,7 @@ helm_install_from_local_dir:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
 
 .PHONY: helm_install_from_chart_museum
-helm_install_from_local_dir:
+helm_install_from_chart_museum:
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION})
 
 .PHONY: update_dependencies
