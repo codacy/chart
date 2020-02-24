@@ -92,5 +92,3 @@ global:
     protocol: "http"
     port: 7990
     consumerKey: "codacy-stash-link"
-    consumerPublicKey: "CHANGE_ME"
-    consumerPrivateKey: "CHANGE_ME"
