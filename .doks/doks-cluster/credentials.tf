@@ -1,8 +1,8 @@
-resource "kubernetes_secret" "docker_credentials_codacy" {
+resource "kubernetes_secret" "docker_credentials" {
   depends_on = [kubernetes_namespace.codacy]
   metadata {
     name = "docker-credentials"
-    namespace = kubernetes_namespace.codacy.name
+    namespace = kubernetes_namespace.codacy.metadata[0].name
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
@@ -15,7 +15,7 @@ resource "kubernetes_secret" "docker_credentials_codacy_hourly" {
   depends_on = [kubernetes_namespace.codacy-hourly]
   metadata {
     name = "docker-credentials"
-    namespace = kubernetes_namespace.codacy-hourly.name
+    namespace = kubernetes_namespace.codacy-hourly.metadata[0].name
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
@@ -23,11 +23,11 @@ resource "kubernetes_secret" "docker_credentials_codacy_hourly" {
 
   type = "kubernetes.io/dockerconfigjson"
 }
-resource "kubernetes_secret" "docker_credentials_codacy_production" {
+resource "kubernetes_secret" "docker_credentials_codacy_release" {
   depends_on = [kubernetes_namespace.codacy-release]
   metadata {
     name = "docker-credentials"
-    namespace = kubernetes_namespace.codacy-release.name
+    namespace = kubernetes_namespace.codacy-release.metadata[0].name
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
