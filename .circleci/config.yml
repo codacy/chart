@@ -64,6 +64,9 @@ references:
     NAMESPACE: codacy-hourly
     K8S_VERSION: 1.14
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
+    NODE_TYPE: s-20vcpu-96gb
+    DO_K8S_SLUG: 1.14.8-do.1
+    NUM_NODES: 5
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev

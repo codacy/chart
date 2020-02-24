@@ -5,8 +5,11 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
 
   node_pool {
     name       = "codacy-doks-pool-${terraform.workspace}"
-    size       = var.node_type
-    node_count = var.num_nodes
+    size       = "s-2vcpu-2gb"
+    auto_scale = true
+    min_nodes = 0
+    max_nodes = 0
+    node_count = 1
   }
 
   provisioner "local-exec" {
@@ -14,16 +17,28 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
   }
 }
 
+resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
+  cluster_id = digitalocean_kubernetes_cluster.codacy_k8s.id
+  name       = "codacy-doks-pool-${terraform.workspace}-auto-scale-pool"
+  size       = var.node_type
+  auto_scale = true
+  min_nodes = 2
+  max_nodes = 7
+}
+
 resource "kubernetes_namespace" "codacy" {
-  count = var.cluster_only ? 0 : 1
   metadata {
     name = var.main_namespace
+
+    labels = {
+      name = var.main_namespace
+    }
   }
 }
 
 resource "kubernetes_secret" "docker_credentials" {
   depends_on = [kubernetes_namespace.codacy]
-  count = var.cluster_only ? 0 : 1
+  # count = var.cluster_only ? 0 : 1
   metadata {
     name = "docker-credentials"
     namespace = var.main_namespace
@@ -33,15 +48,4 @@ resource "kubernetes_secret" "docker_credentials" {
   }
 
   type = "kubernetes.io/dockerconfigjson"
-}
-
-resource "kubernetes_secret" "do_token" {
-  count = var.cluster_only ? 0 : 1
-  metadata {
-    name = "digitalocean"
-    namespace = "kube-system"
-  }
-  data = {
-    "access-token" = var.digital_ocean_token
-  }
 }
