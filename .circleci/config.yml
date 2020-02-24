@@ -135,7 +135,7 @@ references:
       - <<: *update_versions
       - deploy:
           name: Install Codacy
-          command: make -e -C .doks/ deploy_to_doks
+          command: make -e -C .doks/ deploy_to_doks_from_local_dir
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
