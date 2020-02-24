@@ -36,7 +36,7 @@
     
     
       
-        <title>Bitbucket Stash - Codacy Chart</title>
+        <title>Bitbucket Server - Codacy Chart</title>
       
     
     
@@ -85,7 +85,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#bitbucket-stash" tabindex="0" class="md-skip">
+      <a href="#bitbucket-server" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -111,7 +111,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Bitbucket Stash
+                Bitbucket Server
               
             </span>
           
@@ -291,11 +291,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Bitbucket Stash
+        Bitbucket Server
       </label>
     
-    <a href="./" title="Bitbucket Stash" class="md-nav__link md-nav__link--active">
-      Bitbucket Stash
+    <a href="./" title="Bitbucket Server" class="md-nav__link md-nav__link--active">
+      Bitbucket Server
     </a>
     
       
@@ -309,8 +309,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#stash-application-link" class="md-nav__link">
-    Stash Application Link
+  <a href="#bitbucket-server-application-link" class="md-nav__link">
+    Bitbucket Server Application Link
   </a>
   
     <nav class="md-nav">
@@ -528,8 +528,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#stash-application-link" class="md-nav__link">
-    Stash Application Link
+  <a href="#bitbucket-server-application-link" class="md-nav__link">
+    Bitbucket Server Application Link
   </a>
   
     <nav class="md-nav">
@@ -578,13 +578,30 @@
               
                 
                 
-                <h1 id="bitbucket-stash">Bitbucket Stash<a class="headerlink" href="#bitbucket-stash" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your Bitbucket instance on the <code class="codehilite"><span class="err">values.yaml</span></code> file.
-<strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
+                <h1 id="bitbucket-server">Bitbucket Server<a class="headerlink" href="#bitbucket-server" title="Permanent link">&para;</a></h1>
+<p>Set your configuration values for your Bitbucket instance on the <code class="codehilite"><span class="err">values.yaml</span></code> file.</p>
+<p><strong>NOTE:</strong> Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:</p>
+<ol>
+<li>
+<p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following commands below, making sure that you don't define a passphrase:</p>
+</li>
+<li>
+<p><code class="codehilite"><span class="err">openssl genrsa -out mykey</span></code></p>
+</li>
+<li><code class="codehilite"><span class="err">openssl pkcs8 -nocrypt -in mykey -out mykeypkcs8 -topk8</span></code></li>
+<li>
+<p><code class="codehilite"><span class="err">openssl rsa -in mykey -pubout -out mykey.pub</span></code></p>
+</li>
+<li>
+<p>Copy the private key from the <code class="codehilite"><span class="err">mykeypkcs8</span></code> file and set it in the <code class="codehilite"><span class="err">consumerPrivateKey</span></code>, ignoring the first and last lines.</p>
+</li>
+<li>Copy the public key from the <code class="codehilite"><span class="err">mykey.pub</span></code> file and set it in the <code class="codehilite"><span class="err">consumerPublicKey</span></code>, ignoring the first and last lines. </li>
+</ol>
+<p><strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
 <p>Go to <code class="codehilite"><span class="err">admin/integration</span></code> on Codacy and set the <strong>Project Keys</strong> on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.</p>
 <p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
-<h2 id="stash-application-link">Stash Application Link<a class="headerlink" href="#stash-application-link" title="Permanent link">&para;</a></h2>
-<p>To set up Stash you need to create an application link on your Stash installation.
+<h2 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h2>
+<p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.
 You can click on here and go to the application links list.</p>
 <h3 id="application-link-creation">Application Link Creation<a class="headerlink" href="#application-link-creation" title="Permanent link">&para;</a></h3>
 <p>Create the link, use your Codacy installation URL for this</p>
