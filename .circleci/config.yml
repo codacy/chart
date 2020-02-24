@@ -121,12 +121,6 @@ references:
       command: |
           mv codacy/requirements-dev.yaml codacy/requirements.yaml
 
-  swap_requirement_files: &swap_requirement_files
-    run:
-      name: Swap requirements files
-      command: |
-          mv chart/codacy/requirements-dev.yaml chart/codacy/requirements.yaml
-
   create_cluster: &create_cluster
     steps:
       - <<: *attach_workspace
