@@ -39,7 +39,7 @@ set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
 .PHONY: start_cluster
-start_cluster: helm_init_upgrade
+start_cluster: set_cluster_context helm_init_upgrade
 
 .PHONY: cluster
 cluster: setup_vars create_terraformrc
