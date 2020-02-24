@@ -57,4 +57,4 @@ destroy_cluster: setup_vars create_terraformrc set_cluster_context
 
 .PHONY: helm_init_upgrade
 helm_init_upgrade:
-	$(shell helm init --upgrade)
+	helm init --upgrade
