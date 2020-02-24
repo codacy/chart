@@ -10,16 +10,15 @@ Please make sure you have these tools installed before starting this process:
 
 ## Prepare a new release
 
--   [ ] **1. Clone this project** on master branch
+-   [ ] 1.  Clone this project on master branch
 
-
--   [ ] **2. Decide the new version**
+-   [ ] 2.  Decide the new version
 
     Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
     We try to follow the [semver](https://semver.org/) specification.
 
--   [ ] **3. Create a new branch**
+-   [ ] 3.  Create a new branch
 
     With the following pattern: `release-x.x.x`. Example:
 
@@ -27,7 +26,7 @@ Please make sure you have these tools installed before starting this process:
     $ git checkout -b 'release-6.0.0'
     ```
 
--   [ ] **4. Update Dependencies**
+-   [ ] 4.  Update Dependencies
 
     Let's assume that `requirements.yaml` file should have the correct dynamic versions configured.
 
@@ -39,7 +38,7 @@ Please make sure you have these tools installed before starting this process:
 
     This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
 
--   [ ] **5. Commit**
+-   [ ] 5.  Commit
 
     Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch. Example:
 
@@ -47,9 +46,9 @@ Please make sure you have these tools installed before starting this process:
     $ git commit -m 'release: prepare 6.0.0'
     ```
 
--   [ ] **6. Tag with RC**
+-   [ ] 6.  Tag with RC
 
-    Make sure you tag the commit with a release candidate [RC] version.
+    Make sure you tag the commit with a release candidate \[RC]  version.
 
     ```bash
     $ git tag '6.0.0-RC-0'
@@ -57,22 +56,21 @@ Please make sure you have these tools installed before starting this process:
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
 
--   [ ] **7. Push**
+-   [ ] 7.  Push
 
     ```bash
-    $ git push --tags
-    $ git push --set-upstream origin 'release-6.0.0'
+    $ git push --tag && git push --set-upstream origin 'release-6.0.0'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
 
     You chart will be deployed to [the release environment described in this table](./README.md)
 
--   [ ] **8. Test**
+-   [ ] 8.  Test
 
     Test the entire release.
 
--   [ ] **9. Manual Approval**
+-   [ ] 9.  Manual Approval
 
     Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
 
@@ -80,16 +78,16 @@ Please make sure you have these tools installed before starting this process:
 
 ## Patch
 
--   [ ] **1. Checkout the correct branch on this project**
+-   [ ] 1.  Checkout the correct branch on this project
 
     ```bash
     $ git checkout 'release-6.0.0'
     ```
 
--   [ ] **2. Freeze a specific component**
+-   [ ] 2.  Freeze a specific component
 
     Update the `requirements.yaml` file to use the patched version of a given component.
 
--   [ ] **3. Follow up with a normal release**
+-   [ ] 3.  Follow up with a normal release
 
     Continue directly from the step 4 of the [Prepare a new release](#prepare-a-new-release) secion.
