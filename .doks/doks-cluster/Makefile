@@ -11,7 +11,7 @@ VARS_FILE ?= deploy.tfvars
 K8S_VERSION ?= 1.14
 
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
-NODE_TYPE ?= s-6vcpu-16gb
+NODE_TYPE ?= s-20vcpu-96gb
 NUM_NODES ?= 5
 
 .PHONY: create_terraformrc
@@ -48,8 +48,7 @@ start_cluster: set_cluster_context cluster helm_init_upgrade
 cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
-	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false
-# $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context
