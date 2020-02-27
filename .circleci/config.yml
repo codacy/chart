@@ -58,6 +58,7 @@ references:
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-hourly
     NAMESPACE: codacy-hourly
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
