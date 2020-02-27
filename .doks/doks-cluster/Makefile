@@ -12,7 +12,6 @@ K8S_VERSION ?= 1.14
 
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-20vcpu-96gb
-NUM_NODES ?= 5
 
 .PHONY: create_terraformrc
 create_terraformrc:
@@ -33,7 +32,6 @@ setup_vars:
 
 	@echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
 	@echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
-	@echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	@echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 	@echo "main_namespace = \"$(NAMESPACE)\"">> $(VARS_FILE)
 
