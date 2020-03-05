@@ -40,12 +40,12 @@ dependencies:
   version: 6.7.2
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 8.6.3
+  version: 8.6.4
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.1.0
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.5.0
-digest: sha256:4fa0875c3e3a812d771b9ab5d60387bf2554bc891807ed75560e8f9366690c57
-generated: "2020-03-05T11:36:58.144244Z"
+digest: sha256:305ccdd410811c638bddd9a772b94aa44030952972a15bbf8fbda1c19ff281fd
+generated: "2020-03-05T15:55:33.261659Z"
