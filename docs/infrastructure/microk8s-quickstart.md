@@ -28,7 +28,7 @@ Prepare your environment to set up the microk8s cluster:
 1. A machine running Ubuntu 18.04 LTS.
 2. Establish a remote SSH session onto this machine.
 
-Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, please jump on to the [Configuring microk8s](###Configuring-microk8s) section.
+Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s).
 
 ## 3. Installing microk8s
 
