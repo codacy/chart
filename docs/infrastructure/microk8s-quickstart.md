@@ -14,7 +14,12 @@ Any tool that operates on top of a cluster needs to know which cluster it is goi
 
 ### Helm and tiller
 
-Two executables will get installed onto the cluster as part of this process: `helm` and `tiller`. The former is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster. The latter is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed. `helm` is the client facing side, while `tiller` is the server/cluster facing side.
+Two executables will get installed onto the cluster as part of this process: `helm` and `tiller`.
+
+* `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
+* `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
+
+`helm` is the client facing side, while `tiller` is the server/cluster facing side.
 
 ## 2. Prepare your environment
 
