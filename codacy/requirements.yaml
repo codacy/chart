@@ -66,7 +66,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-core.git
 
 - name: engine
-  version: ">=6.3.0"
+  version: "6.7.2"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
 
