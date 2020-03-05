@@ -110,51 +110,30 @@ We provide a base (values file)[##microk8s-values.yaml] that you can use for you
 
 #### 2. External Databases
 
-If you have decided to go with the [default values for the installation](####1.Default-Values), your microk8s cluster will contain a postgresql database within itself. This is not recommended as the data stored in the database will not be as durable if you store it in an external database.
-To use an external database, you should follow the following steps:
+If you have decided to go with the [default values for the installation](####1.-Default-Values), your microk8s cluster will contain a PostgreSQL database within itself. This is not recommended as the data stored in the database will not be as durable if you store it in an external database.
 
-1. Have a postgres 9 or postgres 10 database cluster
-2. The database cluster must have the following databases
-   1. defaultdb
-   2. accounts
-   3. analysis
-   4. results
-   5. metrics
-   6. filestore
-   7. jobs
-3. In the values file that you provide during the `helm` installation, define the following for the databases described above:
-   1. `global.<database>db.create=false` - disable the creation of this database inside the cluster.
-   2. `global.<database>db.postgresqlUsername` - the username that will have access to this database.
-   3. `global.<database>db.postgresqlPassword` - the passworf for the given user.
-   4. `global.<database>db.host` - hostname of the external database.
-4. The database cluster must have the following databases
-   1. activities
-   2. hotspots
-   3. listener
-5. In the values file that you provide during the `helm` installation, define the following for the databases described above:
-   1. `<database>db.create=false` - disable the creation of this database inside the cluster.
-   2. `<database>db.postgresqlUsername` - the username that will have access to this database.
-   3. `<database>db.postgresqlPassword` - the passworf for the given user.
-   4. `<database>db.host` - hostname of the external database.
-6. Note that the provided user must be the `owner` of the database(s):
-    >ALTER ROLE \<user> WITH CREATEDB;
+To setup an external database, you should follow the [steps described here](../requirements.md).
+In addition to those, you must not forget to include the appropriate configuration blocks in the values file you provide to `helm` during installation.
 
-    Then you can connect as that user and create the databases:
-    ```sql
-    CREATE DATABASE accounts WITH OWNER=<user>;
-    CREATE DATABASE analysis WITH OWNER=<user>;
-    CREATE DATABASE results WITH OWNER=<user>;
-    CREATE DATABASE metrics WITH OWNER=<user>;
-    CREATE DATABASE filestore WITH OWNER=<user>;
-    CREATE DATABASE jobs WITH OWNER=<user>;
-    CREATE DATABASE activities WITH OWNER=<user>;
-    CREATE DATABASE hotspots WITH OWNER=<user>;
-    CREATE DATABASE listener WITH OWNER=<user>;
-    ```
+An example of a configuration block is:
+
+```yaml
+global:
+  analysisdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: analysis # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: 5432
+```
 
 ## 6. Accessing the Codacy UI
 
-In the previous section, you should have defined values for `codacy-api.ingress.hosts.host`, `global.codacy.url`, and `global.codacy.backendUrl`. This value will be the address where you can access the Codacy UI from your web browser.
+Please follow [the Post-install configuration steps described here](../install.md) so that you can access your Codacy installation through the UI.
+
+The crucial configuration step is that you must have the codacy-api ingress and backend urls(`codacy-api.ingress.hosts.host`, `global.codacy.url`, and `global.codacy.backendUrl`) properly configured.
 
 ## 7. Troubleshooting
 
