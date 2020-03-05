@@ -6,7 +6,11 @@ Follow the steps below to set up a microk8s cluster from scratch, including all 
 
 ### Kubeconfig
 
-Any tool that operates on top of a cluster needs to know which cluster it is going to work on. This execution context is typically called the `kubeconfig` which is stored in the `~/.kube/config` file. This filed basically defines a list of clusters and it holds several pieces of information per cluster entry: the address of the cluster (e.g. https://104.248.34.242:164309), its user friendly name (e.g. microk8s-cluster). It finally holds a reference to the current context. This is the active cluster against which any kubernetes control (`kubectl`) command you run will get executed.
+Any tool that operates on top of a cluster needs to know which cluster it is going to work on. This execution context is typically called the `kubeconfig` which is stored in the `~/.kube/config` file. This file basically defines a list of clusters and it holds several pieces of information per cluster entry:
+
+* The address of the cluster (e.g. https://104.248.34.242:164309).
+* The user friendly name of the cluster (e.g. microk8s-cluster).
+* A reference to the current context. This is the active cluster against which any kubernetes control (`kubectl`) command you run will get executed.
 
 ### Helm and tiller
 
