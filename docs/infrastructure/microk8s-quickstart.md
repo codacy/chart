@@ -33,7 +33,9 @@ Assuming that you are starting from a blank slate, the first step is to install 
 ## 3. Installing microk8s
 
 1. Make sure the machine is up to date and also has the `nfs-common` package installed
-   >apt update && apt install nfs-common -y
+
+   ```bash
+   sudo apt update && apt install nfs-common -y
 
 2. Install microk8s
    >sudo snap install microk8s --classic --channel=1.15/stable
