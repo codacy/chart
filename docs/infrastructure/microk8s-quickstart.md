@@ -135,19 +135,6 @@ Please follow [the Post-install configuration steps described here](../install.m
 
 The crucial configuration step is that you must have the codacy-api ingress and backend urls(`codacy-api.ingress.hosts.host`, `global.codacy.url`, and `global.codacy.backendUrl`) properly configured.
 
-## 7. Troubleshooting
-
-### 1. AWS EC2 specific issues
-
-1. We had to configure the instance's list of hosts with localhost. This was because our machine was in fact an AWS EC2 instance, and therefore we must allow the correct resolution of the local microk8s cluster on the kubeconfig. We did so by running
-
-    >sudo sed -i -e "1s/127.0.0.1 localhost.*/127.0.0.1 localhost $(hostname)/" /etc/hosts
-
-2. Traffic forwarding must be configured on the machine so that the local microk8s cluster pods can reach the internet, again because of using an AWS EC2 instance. This can be done by running
-    >sudo iptables -P FORWARD ACCEPT
-
-    (more info on this subject can be [found here](https://microk8s.io/docs/troubleshooting#common-issues)).
-
 ## microk8s-values.yaml
 
 ```yaml
