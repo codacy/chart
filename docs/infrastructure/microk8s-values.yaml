@@ -2,16 +2,16 @@ global:
   imagePullSecrets:
     - name: docker-credentials
   codacy:
-    url: "${CODACY_PROTOCOL}://${CODACY_URL}"
-    backendUrl: "${CODACY_PROTOCOL}://${CODACY_URL}"
+    url: "<--- codacy protocol --->://<--- codacy url --->"
+    backendUrl: "<--- codacy protocol --->://<--- codacy url --->"
   akka:
-    sessionSecret: "${AKKA_SESSION_SECRET}"
+    sessionSecret: "<--- akka session secret --->"
   play:
-    cryptoSecret: "${PLAY_SESSION_SECRET}"
+    cryptoSecret: "<--- play session secret --->"
   filestore:
-    contentsSecret: "${FILESTORE_CONTENTS_SECRET}"
-    uuidSecret: "${FILESTORE_UUID_SECRET}"
-  cacheSecret: "${CACHE_SECRET}"
+    contentsSecret: "<--- filestore contents secret --->"
+    uuidSecret: "<--- filestore uuid secret --->"
+  cacheSecret: "<--- cache secret --->"
 
 codacy-api:
   replicaCount: 1
@@ -27,7 +27,7 @@ codacy-api:
     annotations:
       kubernetes.io/ingress.class: "nginx"
     hosts:
-    - host: '${CODACY_URL}'
+    - host: '<--- codacy url --->'
       paths:
         - /
 
