@@ -58,6 +58,7 @@ Assuming that you are starting from a blank slate, the first step is to install 
     ```
 
     Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
+
 3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready. Failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
    ```bash
