@@ -220,7 +220,7 @@ All of them serve different purposes.
 | Installation | Cluster                 | Namespace      | Purpose                                                                                                                    | Url                                 |
 | ------------ | ----------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | Dev          | codacy-doks-cluster-dev | codacy         | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api)    | <http://dev.k8s.dev.codacy.org>     |
-| Sandbox      | codacy-doks-cluster-dev | codacy-hourly  | Used for development. Manually updated. Check out [this](#deploy-your-version-of-a-component) process on how to update it. | <http://hourly.k8s.dev.codacy.org>  |
+| Sandbox      | codacy-doks-cluster-dev | codacy-hourly  | Used for development. Manually updated. Check out [this](#deploy-your-version-of-a-component) process on how to update it. | <http://sandbox.k8s.dev.codacy.org> |
 | Release      | codacy-doks-cluster-dev | codacy-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                                | <http://release.k8s.dev.codacy.org> |
 
 ### Set up your environment for DigitalOcean clusters
