@@ -77,31 +77,24 @@ After runing these commands, we have ensured that dns, http, and nginx ingress a
 
 First we must install `helm` onto the cluster. With `helm`, we can easily install charts and manage the lifecycle of the installed artifacts. One example is the ability to rollback a failed install.
 
-1. __Codacy supports up to `helm` version 2.16.3.__ First, export the following environment variable
-    >export HELM_VERSION=2.16.3
-
+1. __Codacy supports up to `helm` version 2.16.3.__
    __We currently do not support `helm` v3.__
-2. Run this script that will retrieve the desired `helm` version and install it onto the machine's `/usr/local/bin`:
-   1. Define a HELM_PKG variable
-      >HELM_PKG=helm-v${HELM_VERSION}-linux-amd64.tar.gz
-   2. Get the package
-      >wget https://get.helm.sh/$HELM_PKG
-   3. Extract the tarball
-      >tar xvzf $HELM_PKG
-   4. Move the binaries to `/usr/local/bin`
-      >mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
-   5. Delete the extracted tarball directory
-      >rm -rvf $HELM_PKG linux-amd64/
+2. Follow the instructions on installing the `helm` client on the [Preparing to install Codacy documentation](../../docs/index.md).
 
 3. We must now deploy `tiller` onto the cluster.
    1. First we must set a `serviceaccount` and a `clusterrolebinding` for `tiller` on the microk8s cluster:
-      >microk8s.kubectl create serviceaccount --namespace kube-system tiller
 
-      >microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-   1. Then we can install `tiller`, which will be installed with the same `HELM_VERSION` that you have specified earlier:
-      >helm init --service-account tiller
-   1. We wait for tiller to be ready
-      >microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller --timeout=300s
+      ```bash
+      microk8s.kubectl create serviceaccount --namespace kube-system tiller
+      microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+      ```
+
+   2. Then we can install `tiller`, which will be installed with the same `HELM_VERSION` that you have specified earlier and we wait for tiller to be ready:
+
+      ```bash
+      helm init --service-account tiller
+      microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
+      ```
 
 ### 2. Codacy chart
 
