@@ -40,7 +40,7 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     helm repo update
     helm upgrade --install codacy codacy-stable/codacy \
       --namespace codacy \
-      --recreate-pods \
+      --atomic \
       --values values.yaml
     ```
 
@@ -87,7 +87,7 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     ```bash
     helm upgrade --install codacy codacy-stable/codacy \
       --namespace codacy \
-      --recreate-pods \
+      --atomic \
       --values values.yaml \
       --values values-production.yaml
     ```
