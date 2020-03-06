@@ -26,7 +26,7 @@ Two executables will get installed onto the cluster as part of this process: `he
 Prepare your environment to set up the microk8s cluster:
 
 1. A machine running Ubuntu 18.04 LTS.
-2. Establish a remote SSH session onto this machine.
+2. Establish a session (local or remote) onto this machine.
 
 Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s).
 
@@ -37,21 +37,25 @@ Assuming that you are starting from a blank slate, the first step is to install 
    ```bash
    sudo apt update && apt install nfs-common -y
 
-2. Install microk8s
-   >sudo snap install microk8s --classic --channel=1.15/stable
-   1. We recommend following the official documentation on how to [install microk8s](https://microk8s.io/docs/).
+2. Install microk8s. Codacy is supported up to kubernetes 1.15. Therefore we recommend following the [official documentation on how to install microk8s](https://microk8s.io/docs/) with the `1.15/stable` channel.
 
 ## 4. Configuring microk8s
 
 1. First, we must enable the following plugins on microk8s:
-    >sudo microk8s.enable dns && sudo microk8s.status --wait-ready
 
-    >sudo microk8s.enable storage && sudo microk8s.status --wait-ready
+    ```bash
+    microk8s.enable dns && microk8s.status --wait-ready
 
-    >sudo microk8s.enable ingress &&  sudo microk8s.status --wait-ready
+    microk8s.enable storage && microk8s.status --wait-ready
+
+    microk8s.enable ingress &&  microk8s.status --wait-ready
+    ```
 
 2. Now that these plugins have been enabled, we should restart microk8s to ensure a proper bootstrap of the cluster
-    >microk8s.stop && microk8s.start && microk8s.status --wait-ready
+
+    ```bash
+    microk8s.stop && microk8s.start && microk8s.status --wait-ready
+    ```
 
     Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
 3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready. Failing to do so can result in pods entering a `CrashLoopBackoff` state:
