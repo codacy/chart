@@ -110,7 +110,7 @@ Additionally, any `kubectl` command from [our chart installation](https://github
 
 #### 1. Default Values
 
-We provide a base (values file)[##microk8s-values.yaml] that you can use for your microk8s Codacy installation. This file provisions a smaller number of component replicas with limited resources (i.e. CPU and memory). Should you want to use this as a template, please pass your `microk8s-values.yaml` file on (4.) of [our chart installation](https://github.com/codacy/chart/blob/master/docs/install.md). Lastly, it is important to correctly set your `codacy-api.ingress.hosts.host` if you are using this file as a template.
+We provide a base (values file)[##values-microk8s.yaml] that you can use for your microk8s Codacy installation. This file provisions a smaller number of component replicas with limited resources (i.e. CPU and memory). Should you want to use this as a template, please pass your `values-microk8s.yaml` file on (4.) of [our chart installation](https://github.com/codacy/chart/blob/master/docs/install.md). Lastly, it is important to correctly set your `codacy-api.ingress.hosts.host` if you are using this file as a template.
 
 #### 2. External Databases
 
@@ -139,6 +139,6 @@ Please follow [the Post-install configuration steps described here](../install.m
 
 The crucial configuration step is that you must have the codacy-api ingress and backend urls(`codacy-api.ingress.hosts.host`, `global.codacy.url`, and `global.codacy.backendUrl`) properly configured.
 
-## microk8s-values.yaml
+## values-microk8s.yaml
 
-Please see [this file] (./microk8s-values.yaml) that you can consider as a starting point to configure your Codacy microk8s installation.
+Please see [this file](../../codacy/values-microk8s.yaml) that you can consider as a starting point to configure your Codacy microk8s installation.
