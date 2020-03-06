@@ -1,0 +1,184 @@
+global:
+  imagePullSecrets:
+    - name: docker-credentials
+  codacy:
+    url: "${CODACY_PROTOCOL}://${CODACY_URL}"
+    backendUrl: "${CODACY_PROTOCOL}://${CODACY_URL}"
+  akka:
+    sessionSecret: "${AKKA_SESSION_SECRET}"
+  play:
+    cryptoSecret: "${PLAY_SESSION_SECRET}"
+  filestore:
+    contentsSecret: "${FILESTORE_CONTENTS_SECRET}"
+    uuidSecret: "${FILESTORE_UUID_SECRET}"
+  cacheSecret: "${CACHE_SECRET}"
+
+codacy-api:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2000Mi
+    requests:
+      cpu: 100m
+      memory: 1000Mi
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+    hosts:
+    - host: '${CODACY_URL}'
+      paths:
+        - /
+
+portal:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+activities:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  activitiesdb:
+    persistence:
+      enabled: true
+      size: 50Gi
+
+remote-provider-service:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 750Mi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+
+hotspots-api:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  hotspotsdb:
+    persistence:
+      enabled: true
+      size: 50Gi
+
+hotspots-worker:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+listener:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 2
+      memory: 8Gi
+    requests:
+      cpu: 1
+      memory: 6Gi
+  listenerdb:
+    persistence:
+      enabled: true
+      size: 50Gi
+
+  persistence:
+    claim:
+      size: 50Gi
+
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 100Gi
+
+core:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1500Mi
+    requests:
+      cpu: 100m
+      memory: 750Mi
+
+engine:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 15000Mi
+    requests:
+      cpu: 1000m
+      memory: 10000Mi
+
+worker-manager:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1000Mi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  config:
+    workers:
+      genericMax: 2
+      dedicatedMax: 2
+    workerResources:
+      limits:
+        cpu: 1
+        memory: "2Gi"
+    pluginResources:
+      requests:
+        cpu: 0.5
+        memory: 1000000000 # 1000Mb
+
+crow:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+
+postgres:
+  persistence:
+    enabled: true
+    size: 100Gi
+
+rabbitmq-ha:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 1200Mi
+    requests:
+      cpu: 0.2
+      memory: 200Mi
+
+fluentdoperator:
+  enabled: true
