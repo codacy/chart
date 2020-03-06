@@ -77,9 +77,10 @@ After runing these commands, we have ensured that dns, http, and nginx ingress a
 
 First we must install `helm` onto the cluster. With `helm`, we can easily install charts and manage the lifecycle of the installed artifacts. One example is the ability to rollback a failed install.
 
-1. Codacy supports up to `helm` version 2.16.3. First, export the following environment variable
+1. __Codacy supports up to `helm` version 2.16.3.__ First, export the following environment variable
     >export HELM_VERSION=2.16.3
-   1. Please note that we currently do *not* support helm v3.
+
+   __We currently do not support `helm` v3.__
 2. Run this script that will retrieve the desired `helm` version and install it onto the machine's `/usr/local/bin`:
    1. Define a HELM_PKG variable
       >HELM_PKG=helm-v${HELM_VERSION}-linux-amd64.tar.gz
