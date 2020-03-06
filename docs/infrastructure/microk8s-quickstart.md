@@ -60,14 +60,13 @@ Assuming that you are starting from a blank slate, the first step is to install 
     Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
 3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready. Failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
-    >microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns --timeout=300s
+   ```bash
+    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
 
-    >microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner --timeout=300s
+    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
 
-    >microk8s.kubectl wait -n ingress --for=condition=Ready pod -l name=nginx-ingress-microk8s --timeout=300s
-
-4. Export your microk8s cluster configuration to the local kubeconfig file
-    >microk8s.config > ~/.kube/config
+    microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
+    ```
 
 After runing these commands, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
 
