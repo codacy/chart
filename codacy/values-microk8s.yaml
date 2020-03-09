@@ -1,4 +1,29 @@
 global:
+  githubEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # port: 443
+    # protocol: "https"
+    # disableSSL: "false"
+    # isPrivateMode: "true"
+
+  gitlabEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "https"
+    # port: 443
+
+  bitbucketEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "http"
+    # port: 7990
+    # consumerKey: ""
+    # consumerPublicKey: ""
+    # consumerPrivateKey: ""
   imagePullSecrets:
     - name: docker-credentials
   codacy:
@@ -12,16 +37,63 @@ global:
     contentsSecret: "<--- filestore contents secret --->"
     uuidSecret: "<--- filestore uuid secret --->"
   cacheSecret: "<--- cache secret --->"
-
+  defaultdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  analysisdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  resultsdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  metricsdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  filestoredb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  jobsdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
 codacy-api:
   replicaCount: 1
   resources:
     limits:
-      cpu: 500m
+      cpu: 1000m
       memory: 2000Mi
     requests:
-      cpu: 100m
-      memory: 1000Mi
+      cpu: 500m
+      memory: 500Mi
   ingress:
     enabled: true
     annotations:
@@ -30,155 +102,165 @@ codacy-api:
     - host: '<--- codacy url --->'
       paths:
         - /
-
 portal:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
       memory: 500Mi
-
+    requests:
+      cpu: 200m
+      memory: 200Mi
 activities:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 750Mi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 200Mi
   activitiesdb:
-    persistence:
-      enabled: true
-      size: 50Gi
-
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
 remote-provider-service:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
-      memory: 750Mi
+      memory: 500Mi
     requests:
-      cpu: 100m
-      memory: 300Mi
-
+      cpu: 200m
+      memory: 200Mi
 hotspots-api:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 500Mi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 200Mi
   hotspotsdb:
-    persistence:
-      enabled: true
-      size: 50Gi
-
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
 hotspots-worker:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
       memory: 500Mi
-
-listener:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 2
-      memory: 8Gi
-    requests:
-      cpu: 1
-      memory: 6Gi
-  listenerdb:
-    persistence:
-      enabled: true
-      size: 50Gi
-
-  persistence:
-    claim:
-      size: 50Gi
-
-  nfsserverprovisioner:
-    enabled: true
-    persistence:
-      enabled: true
-      size: 100Gi
-
-core:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1500Mi
     requests:
       cpu: 100m
-      memory: 750Mi
-
-engine:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 2000m
-      memory: 15000Mi
-    requests:
-      cpu: 1000m
-      memory: 10000Mi
-
-worker-manager:
+      memory: 200Mi
+listener:
   replicaCount: 1
   resources:
     limits:
       cpu: 500m
       memory: 1000Mi
     requests:
-      cpu: 100m
+      cpu: 200m
+      memory: 1000Mi
+  listenerdb:
+    create: false
+    postgresqlUsername: <--- db username --->
+    postgresqlDatabase: <--- db name --->
+    postgresqlPassword: <--- db password --->
+    host: <--- db url --->
+    service:
+      port: <--- db port --->
+  persistence:
+    claim:
+      size: 50Gi
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 100Gi
+core:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 300m
       memory: 500Mi
-  config:
-    workers:
-      genericMax: 2
-      dedicatedMax: 2
-    workerResources:
-      limits:
-        cpu: 1
-        memory: "2Gi"
-    pluginResources:
-      requests:
-        cpu: 0.5
-        memory: 1000000000 # 1000Mb
-
-crow:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+engine:
   replicaCount: 1
   resources:
     limits:
       cpu: 1
       memory: 2Gi
     requests:
+      cpu: 200m
+      memory: 500Mi
+worker-manager:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+  config:
+    workers:
+      genericMax: 2
+      dedicatedMax: 2
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+    workerResources:
+      limits:
+        cpu: 1
+        memory: "2Gi"
+      requests:
+        cpu: 0.5
+        memory: "1Gi"
+    pluginResources:
+      limits:
+        cpu: 1
+        memory: 2000000000 # 2000Mb
+      requests:
+        cpu: 1
+        memory: 2000000000 # 2000Mb
+crow:
+  replicaCount: 1
+  resources:
+    limits:
       cpu: 0.5
-      memory: 1Gi
-
+      memory: 750Mi
+    requests:
+      cpu: 0.1
+      memory: 100Mi
 postgres:
   persistence:
     enabled: true
     size: 100Gi
-
 rabbitmq-ha:
   replicaCount: 1
   resources:
     limits:
       cpu: 0.5
-      memory: 1200Mi
+      memory: 1500Mi
     requests:
       cpu: 0.2
       memory: 200Mi
-
 fluentdoperator:
+  replicaCount: 1
   enabled: true
