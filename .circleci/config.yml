@@ -501,19 +501,19 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - get_changelogs:
-          context: CodacyDO
-          requires:
-            - helm_push_incubator
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
             - helm_push_incubator
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
-           - deploy_to_doks_release
+           - get_changelogs
       - set_chart_version_release:
           context: CodacyDO
           requires:
@@ -536,4 +536,3 @@ workflows:
           context: CodacyDO
           requires:
             - promote_chart_to_stable
-            - get_changelogs
