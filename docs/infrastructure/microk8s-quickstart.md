@@ -1,6 +1,8 @@
 # Setting up a microk8s cluster
 
-Follow the steps below to set up a microk8s cluster from scratch, including all the necessary dependencies and configuration.
+[Microk8s](https://microk8s.io/) is a single-package fully conformant lightweight Kubernetes that works on 42 Linux versions. The project is publicly available and can be [found here](https://github.com/ubuntu/microk8s).
+
+Follow the steps below to set up a microk8s instance from scratch, including all the necessary dependencies and configuration.
 
 ## 1. Concepts
 
@@ -9,7 +11,7 @@ Follow the steps below to set up a microk8s cluster from scratch, including all 
 Any tool that operates on top of a cluster needs to know which cluster it is going to work on. This execution context is typically called the `kubeconfig` which is stored in the `~/.kube/config` file. This file basically defines a list of clusters and it holds several pieces of information per cluster entry:
 
 * The address of the cluster (e.g. https://104.248.34.242:164309).
-* The user friendly name of the cluster (e.g. microk8s-cluster).
+* The user friendly name of the cluster (e.g. microk8s-instance).
 * A reference to the current context. This is the active cluster against which any kubernetes control (`kubectl`) command you run will get executed.
 
 ### Helm and tiller
@@ -33,7 +35,7 @@ To start installing Codacy, you will need to:
 
 1. Establish a session (local or remote) onto the machine described in 1. above.
 
-Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s).
+Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, consider that Codacy is supported up to kubernetes 1.15. Please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s) if you are on a compatible kubernetes version.
 
 ## 3. Installing microk8s
 
@@ -79,7 +81,7 @@ Assuming that you are starting from a blank slate, the first step is to install 
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
-After runing these commands, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
+After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
 
 ## 5. Installing Codacy
 
@@ -114,28 +116,14 @@ Additionally, any `kubectl` command from [our chart installation](https://github
 
 #### 1. Default Values
 
-We provide a base (values file)[##values-microk8s.yaml] that you can use for your microk8s Codacy installation. This file provisions a smaller number of component replicas with limited resources (i.e. CPU and memory). Should you want to use this as a template, please pass your `values-microk8s.yaml` file on (4.) of [our chart installation](https://github.com/codacy/chart/blob/master/docs/install.md). Lastly, it is important to correctly set your `codacy-api.ingress.hosts.host` if you are using this file as a template.
+We provide a base [values file](##values-microk8s.yaml) that you can use for your microk8s Codacy installation. This file provisions a smaller number of component replicas with limited resources (i.e. CPU and memory). Should you want to use this as a template, please pass your `values-microk8s.yaml` file on (4.) of [our chart installation](https://github.com/codacy/chart/blob/master/docs/install.md). Lastly, it is important to correctly set your `codacy-api.ingress.hosts.host` if you are using this file as a template.
 
 #### 2. External Databases
 
-If you have decided to go with the [default values for the installation](####1.-Default-Values), your microk8s cluster will contain a PostgreSQL database within itself. This is not recommended as the data stored in the database will not be as durable if you store it in an external database.
+If you do not have an external database set up for you by an Ops team,  you should follow the [steps described here](../requirements.md).
+In addition to these requirements, you must not forget to include the appropriate configuration blocks in the values file you provide to `helm` during installation.
 
-To setup an external database, you should follow the [steps described here](../requirements.md).
-In addition to those, you must not forget to include the appropriate configuration blocks in the values file you provide to `helm` during installation.
-
-An example of a configuration block is:
-
-```yaml
-global:
-  analysisdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: analysis # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: 5432
-```
+Do not forget to replace the placeholders for database names, credentials, urls, and ports on the [values file](##values-microk8s.yaml)
 
 ## 6. Accessing the Codacy UI
 
