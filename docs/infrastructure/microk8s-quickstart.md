@@ -1,4 +1,4 @@
-# Setting up a microk8s cluster
+# Setting up a microk8s instance
 
 [Microk8s](https://microk8s.io/) is a single-package fully conformant lightweight Kubernetes that works on 42 Linux versions. The project is publicly available and can be [found here](https://github.com/ubuntu/microk8s).
 
