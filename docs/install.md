@@ -88,6 +88,7 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     helm upgrade --install codacy codacy-stable/codacy \
       --namespace codacy \
       --atomic \
+      --timeout=300 \
       --values values.yaml \
       --values values-production.yaml
     ```

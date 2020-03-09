@@ -23,10 +23,15 @@ Two executables will get installed onto the cluster as part of this process: `he
 
 ## 2. Prepare your environment
 
-Prepare your environment to set up the microk8s cluster:
+Prepare your environment to set up the microk8s cluster.
+For your infrastructure, you will need the following:
 
 1. A machine running Ubuntu 18.04 LTS.
-2. Establish a session (local or remote) onto this machine.
+2. A postgres database and open firewall rule. ([Documentation can be found here.](../requirements.md))
+
+To start installing Codacy, you will need to:
+
+1. Establish a session (local or remote) onto the machine described in 1. above.
 
 Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s).
 
@@ -39,22 +44,27 @@ Assuming that you are starting from a blank slate, the first step is to install 
 
 2. Install microk8s. Codacy is supported up to kubernetes 1.15. Therefore we recommend following the [official documentation on how to install microk8s](https://microk8s.io/docs/) with the `1.15/stable` channel.
 
+3. Allow privileged containers for microk8s
+
+   ```bash
+   sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
+   ```
+
 ## 4. Configuring microk8s
 
 1. First, we must enable the following plugins on microk8s:
 
     ```bash
-    microk8s.enable dns && microk8s.status --wait-ready
-
-    microk8s.enable storage && microk8s.status --wait-ready
-
-    microk8s.enable ingress &&  microk8s.status --wait-ready
+   microk8s.enable dns &&
+   microk8s.enable storage &&
+   microk8s.enable ingress &&
+   microk8s.status --wait-ready
     ```
 
 2. Now that these plugins have been enabled, we should restart microk8s to ensure a proper bootstrap of the cluster
 
     ```bash
-    microk8s.stop && microk8s.start && microk8s.status --wait-ready
+   microk8s.stop && microk8s.start && microk8s.status --wait-ready
     ```
 
     Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
