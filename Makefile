@@ -12,6 +12,10 @@ update_worker_version:
 	@echo ${ENGINE_VERSION}
 	ytool -f "./codacy/values.yaml" -s worker-manager.config.codacy.worker.image "${ENGINE_VERSION}" -e
 
+.PHONY: update_ingress_values
+update_ingress_values:
+	sed -E "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g" ./codacy/values.yaml
+
 .PHONY: helm_dep_up
 helm_dep_up:
 	# we explicitly delete the lock file since there is an issue with helm 2.15
