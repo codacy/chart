@@ -151,7 +151,7 @@ hotspots-api:
   hotspotsdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: hotsposts # You need to create the DB manually
+    postgresqlDatabase: hotspots # You need to create the DB manually
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
