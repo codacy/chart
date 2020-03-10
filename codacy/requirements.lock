@@ -11,6 +11,9 @@ dependencies:
 - name: log-router
   repository: https://charts.codacy.com/external
   version: 0.3.0
+- name: codacy-ingress
+  repository: https://charts.codacy.com/stable
+  version: 0.1.1
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 6.2.0

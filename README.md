@@ -36,7 +36,6 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
 -   [Postgres](https://github.com/helm/charts/tree/master/stable/postgresql)
 -   [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
--   Codacy/[Token Management](https://bitbucket.org/qamine/token-management/src/master/.helm/)
 -   Codacy/[Website](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
