@@ -50,11 +50,15 @@ helm_install_from_chart_museum:
 update_dependencies:
 	$(MAKE) -C ../ update_dependencies
 
+.PHONY: update_ingress_values
+update_ingress_values:
+	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies update_ingress_values helm_install_from_local_dir
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos update_ingress_values helm_install_from_chart_museum
 
 .PHONY: set_cluster_context
 set_cluster_context:
