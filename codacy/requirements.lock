@@ -25,7 +25,7 @@ dependencies:
   version: 1.4.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 7.0.1
+  version: 7.0.2
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.4.1
@@ -40,15 +40,15 @@ dependencies:
   version: 3.0.3
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 6.7.2
+  version: 6.7.3
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 8.8.0
+  version: 8.9.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.1.0
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.5.0
-digest: sha256:6ac2994b12bdc5a5cfa9c91dddd6be2920f03a4b6056d0cd067fd6f4b916c0ee
-generated: "2020-03-09T10:53:08.614374Z"
+digest: sha256:b2be4404f95e84c80cdf77ee443d946097bb260474f1699cdd945cd5ee8a32a3
+generated: "2020-03-10T11:51:39.264052Z"
