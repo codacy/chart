@@ -34,20 +34,28 @@ setup_vars:
 	echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
+.PHONY: start_cluster
+start_cluster: provision_cluster set_cluster_context helm_init_upgrade install_nginx
+
+.PHONY: provision_cluster
+provision_cluster: setup_vars create_terraformrc
+# echo '1' | $(TF) init -input=false -reconfigure
+# $(TF) workspace select $(WORKSPACE)
+# $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+# $(shell doctl kubernetes cluster kubeconfig save $(DOKS_CLUSTER_NAME) --set-current-context)
+# $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
+
 .PHONY: set_cluster_context
 set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
-.PHONY: start_cluster
-start_cluster: set_cluster_context helm_init_upgrade
+.PHONY: helm_init_upgrade
+helm_init_upgrade:
+	helm init --upgrade
 
-.PHONY: cluster
-cluster: setup_vars create_terraformrc
-	echo '1' | $(TF) init -input=false -reconfigure
-	$(TF) workspace select $(WORKSPACE)
-	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
-	$(shell doctl kubernetes cluster kubeconfig save $(DOKS_CLUSTER_NAME) --set-current-context)
-	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
+.PHONY: install_nginx
+install_nginx:
+	helm upgrade --install nginx-ingress --namespace kube-system stable/nginx-ingress
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context
@@ -55,6 +63,4 @@ destroy_cluster: setup_vars create_terraformrc set_cluster_context
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
-.PHONY: helm_init_upgrade
-helm_init_upgrade:
-	helm init --upgrade
+
