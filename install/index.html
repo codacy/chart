@@ -551,6 +551,16 @@ codacy-core-786c6f79f-pvg9w                      <span class="m">1</span>/1    R
 </ul>
 </li>
 <li>
+<p>Configure the ingress values on the values-production.yaml file that you have just updated:</p>
+<ul>
+<li>app: &lt;--- codacy-app.dns.internal ---&gt; (Codacy application DNS)</li>
+<li>api: &lt;--- codacy-api.dns.internal ---&gt; (Codacy API DNS)</li>
+<li>external-dns.alpha.kubernetes.io/hostname: '&lt;--- codacy-app.dns.internal ---&gt;, &lt;--- codacy-api.dns.internal ---&gt;' (Codacy application and API DNS)</li>
+<li>host: &lt;--- codacy-app.dns.internal ---&gt; (Codacy application DNS)</li>
+<li>host: &lt;--- codacy-api.dns.internal ---&gt; (Codacy API DNS)</li>
+</ul>
+</li>
+<li>
 <p>Run the command below to update the cluster to use the PostgreSQL server configuration:</p>
 <div class="codehilite"><pre><span></span><code>helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
   --namespace codacy <span class="se">\</span>
