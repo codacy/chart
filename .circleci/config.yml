@@ -403,10 +403,6 @@ workflows:
           context: CodacyDO
           requires:
             - create_dev_cluster
-      - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_dev
 
   nightly_pipeline:
     triggers:
