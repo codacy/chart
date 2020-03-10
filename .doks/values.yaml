@@ -1,7 +1,8 @@
 codacy-api:
   replicaCount: 2
   service:
-    type: LoadBalancer
+    type: ClusterIP
+    port: 80
 
 postgres:
   persistence:
