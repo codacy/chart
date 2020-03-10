@@ -78,7 +78,7 @@ Assuming that you are starting from a blank slate, the first step is to install 
 
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
 
-    microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
+    microk8s.kubectl wait -n ingress --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
 After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
