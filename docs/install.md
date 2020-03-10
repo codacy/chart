@@ -74,7 +74,15 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     -   `postgresqlUsername` (dedicated Codacy user)
     -   `postgresqlPassword` (password for the dedicated Codacy user)
 
-6.  Run the command below to update the cluster to use the PostgreSQL server configuration:
+6. Configure the ingress values on the values-production.yaml file that you have just updated:
+
+    -   app: <--- codacy-app.dns.internal ---> (Codacy application DNS)
+    -   api: <--- codacy-api.dns.internal ---> (Codacy API DNS)
+    -   external-dns.alpha.kubernetes.io/hostname: '<--- codacy-app.dns.internal --->, <--- codacy-api.dns.internal --->' (Codacy application and API DNS)
+    -   host: <--- codacy-app.dns.internal ---> (Codacy application DNS)
+    -   host: <--- codacy-api.dns.internal ---> (Codacy API DNS)
+
+7.  Run the command below to update the cluster to use the PostgreSQL server configuration:
 
     ```bash
     helm upgrade --install codacy codacy-stable/codacy \
