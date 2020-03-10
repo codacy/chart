@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@2.4.1
+  codacy: codacy/base@2.7.0
   slack: circleci/slack@3.4.2
 
 references:
@@ -263,9 +263,8 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            mv .version .version_tmp
-            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .version_tmp >> .version
-            rm .version_tmp
+            mv .version .rc_version
+            sed -E "s/SNAPSHOT\.[0-9,a-z]+/NIGHTLY.$(date "+%d-%m-%Y")/g" .rc_version >> .version
       - run:
           name: Print version
           command: cat .version
@@ -278,9 +277,8 @@ jobs:
       - run:
           name: Set chart version suffix
           command: |
-            mv .version .version_tmp
-            sed -E "s/-.*//g" .version_tmp >> .version
-            rm .version_tmp
+            mv .version .rc_version
+            sed -E "s/-.*//g" .rc_version >> .version
       - run:
           name: Print version
           command: cat .version
@@ -503,19 +501,19 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - get_changelogs:
-          context: CodacyDO
-          requires:
-            - helm_push_incubator
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
             - helm_push_incubator
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
-           - deploy_to_doks_release
+           - get_changelogs
       - set_chart_version_release:
           context: CodacyDO
           requires:
@@ -529,6 +527,7 @@ workflows:
           name: promote_chart_to_stable
           context: CodacyHelm
           chart_name: codacy
+          source_version: "$(cat .rc_version)"
           source_charts_repo_url: "https://charts.codacy.com/incubator"
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
@@ -537,4 +536,3 @@ workflows:
           context: CodacyDO
           requires:
             - promote_chart_to_stable
-            - get_changelogs
