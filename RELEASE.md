@@ -1,64 +1,93 @@
-# Preparing the release
+# Release Process
 
-1. Checkout the `releases` branch.
-2. Freeze the versions of each component on the requirements.yaml file to this branch.
-The following sample script will output all the latest versions of the codacy owned components from the `STABLE` charts museum:
-```bash
-#!/bin/bash
-DEPENDENCIES=$(yq r codacy/requirements.yaml dependencies -j | jq ".[].name" | sed "s/\"//g" | grep -v "minio\|rabbitmq-ha\|postgresql\|log-router")
-for key in $DEPENDENCIES
-do
-    version=$(curl -s https://charts.codacy.com/stable/api/charts/$key | jq '. | sort_by(.created) | .[-1].version' | sed "s/\"//g")
-    printf "%30s %10s\n" $key $version
-done
-```
+## Requirements
 
-Which should produce some pretty output like:
-```
-                        portal     4.32.3
-                      ragnaros     15.2.2
-                    activities      1.3.0
-       remote-provider-service     2.44.0
-                  hotspots-api      1.4.1
-               hotspots-worker      1.4.1
-                      listener     7.11.0
-                          core      3.0.0
-                        engine     5.58.0
-                    codacy-api    4.128.1
-                worker-manager     8.13.0
-                          crow      4.4.0
-```
-Please note you must have `jq` and `yq` installed.
-On MacOS:
-> brew install jq yq
+Please make sure you have these tools installed before starting this process:
 
-Otherwise, you can find instructions here:
-* https://stedolan.github.io/jq/download/
-* https://github.com/mikefarah/yq
+-   git
+-   [ytool](https://github.com/codacy/ytool)
+-   [helm 2.x](https://v2.helm.sh/docs/using_helm/#installing-helm)
 
-3. Run `helm dep up`.
-4. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message must be "`release: start release [DD-MM-YYYY]`".
-5. Tag the commit with `release-[DD-MM-YYYY].[buildversion]` and push.
-6. This tag will automatically trigger a release candidate build. You chart will be deployed to `k8s.release.dev.codacy.org` (`codacy-doks-cluster-release` cluster in digital ocean).
-7. Follow the `release` workflow of the `chart` project on circleci.
+## Prepare a new release
 
-## During the release
+-   [ ] 1.  Clone this project on master branch
 
-If there are things that need to be fixed:
-1. After the components have been fixed, update the versions on the requirements.yaml file.
-2. Run `helm dep up`.
-3. Commit both `requirements.yaml` and `requirements.lock` to the branch. The commit message shoul contain something such as "`bump: updated [component] version`".
-4. Repeat steps 5. to 7. from the section above.
+-   [ ] 2.  Decide the new version
 
-## After the release
+    Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
-After the release is complete:
-1. There will be a `x.y.z` tag if the release has been successful.
-2. We adopt a long-lived `releases` branch approach so there is nothing you need to do in particular.
-   1. Optionally, you can delete the `release-[DD-MM-YYYY].[buildversion]` you have created.
+    We try to follow the [semver](https://semver.org/) specification.
 
-## Something went wrong
+-   [ ] 3.  Create a new branch
 
-If you would like to abandon the current release:
-1. Delete the `release-[DD-MM-YYYY].[buildversion]` tag that you have pushed.
-2. Run `helm rollback codacy-release 0` on the `codacy-doks-cluster-release`. This will roll back the release to its previous successful deployment.
+    With the following pattern: `release-x.x.x`. Example:
+
+    ```bash
+    $ git checkout -b 'release-6.0.0'
+    ```
+
+-   [ ] 4.  Update Dependencies
+
+    Let's assume that `requirements.yaml` file should have the correct dynamic versions configured.
+
+    Run the following command:
+
+    ```bash
+    $ make update_dependencies
+    ```
+
+    This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
+
+-   [ ] 5.  Commit
+
+    Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch. Example:
+
+    ```bash
+    $ git commit -m 'release: prepare 6.0.0'
+    ```
+
+-   [ ] 6.  Tag with RC
+
+    Make sure you tag the commit with a release candidate \[RC]  version.
+
+    ```bash
+    $ git tag '6.0.0-RC-0'
+    ```
+
+    This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
+
+-   [ ] 7.  Push
+
+    ```bash
+    $ git push --tag && git push --set-upstream origin 'release-6.0.0'
+    ```
+
+    This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
+
+    Your chart will be deployed to [the release environment described in this table](./README.md)
+
+-   [ ] 8.  Test
+
+    Test the entire release.
+
+-   [ ] 9.  Manual Approval
+
+    Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
+
+    The final version will be `6.0.0`.
+
+## Patch
+
+-   [ ] 1.  Checkout the correct branch on this project
+
+    ```bash
+    $ git checkout 'release-6.0.1'
+    ```
+
+-   [ ] 2.  Freeze a specific component
+
+    Update the `requirements.yaml` file to use the patched version of a given component.
+
+-   [ ] 3.  Follow up with a normal release
+
+    Continue directly from the step 4 of the [Prepare a new release](#prepare-a-new-release) secion.

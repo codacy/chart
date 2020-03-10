@@ -45,9 +45,15 @@ global:
     # hostname: "example.host.com"
     # protocol: "http"
     # port: 7990
+    # consumerKey: ""
+    # consumerPublicKey: ""
+    # consumerPrivateKey: ""
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
+
+  akka: {}
+    # sessionSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
 
   filestore:
     contentsSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
@@ -70,6 +76,8 @@ global:
         name: "coverage"
       cliReports:
         name: "cli-reports"
+      commitDiff:
+        name: "commit-diff"
 
   rabbitmq:
     create: true
@@ -156,6 +164,13 @@ portal:
 activities:
   replicaCount: 1
   fullnameOverride: codacy-activities
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    failureThreshold: 5
   activitiesdb:
     create: true
     host: codacy-activitiesdb
@@ -303,7 +318,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: ENGINE_VERSION
+        image: stable
 
     # The resources to assign to a worker pod
     workerResources:
@@ -344,6 +359,7 @@ fluentdoperator:
   expirationDays: 14
   rbac:
     create: true
+  useReleaseNamespaceOnly: true
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
@@ -386,6 +402,21 @@ minio:
     size: 20Gi
   minioConfig:
     region: "eu-west-1"
+  buckets:
+  - name: "analysis"
+    policy: "public"
+    purge: "false"
+  - name: "coverage"
+    policy: "public"
+    purge: "false"
+  - name: "cli-reports"
+    policy: "public"
+    purge: "false"
+  - name: "commit-diff"
+    policy: "public"
+    purge: "false"
+  defaultBucket:
+    enabled: false
 
 ragnaros:
   fullnameOverride: codacy-ragnaros

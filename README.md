@@ -17,14 +17,13 @@ For the bundle, we make use of the
 [requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
 of Helm.
 
-## Work in progress
+## Disclaimer
 
-This chart is still a **Work In Progress** and is not ready for general
-usage. Our docker images are currently private and you will not be
-able to run the chart by yourself. If you are interested in trying
-out Codacy contact our support at support@codacy.com.
+Our Docker images are currently private and you will not be
+able to run the chart by yourself without the necessary Docker credentials.
+If you are interested in trying out Codacy contact our support at support@codacy.com.
 
-### Charts
+## Charts
 
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
@@ -56,64 +55,67 @@ The following table lists the configurable parameters of the Codacy chart and th
 
 Global parameters apply to all sub-charts and make it easier to configure resources across different components.
 
-| Parameter                                   | Description                                                                                                  | Default            |             |             |       |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------ | ----------- | ----------- | ----- |
-| `global.codacy.url`                         | Hostname to your Codacy installation                                                                         | `nil`              |             |             |       |
-| `global.codacy.backendUrl`                  | Hostname to your Codacy installation                                                                         | `nil`              |             |             |       |
-| `global.play.cryptoSecret`                  | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.filestore.contentsSecret`           | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.filestore.uuidSecret`               | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.cacheSecret`                        | Secrets used internally for encryption. Generate one with \`cat /dev/urandom                                 | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1\` | `nil` |
-| `global.minio.create`                       | Create minio internally                                                                                      | `nil`              |             |             |       |
-| `global.rabbitmq.create`                    | Create rabbitmq internally                                                                                   | `nil`              |             |             |       |
-| `global.rabbitmq.rabbitmqUsername`          | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also. | `nil`              |             |             |       |
-| `global.rabbitmq.rabbitmqPassword`          | Password for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqPassword` also. | `nil`              |             |             |       |
-| `global.defaultdb.postgresqlUsername`       | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.defaultdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                       | `default`          |             |             |       |
-| `global.defaultdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.defaultdb.host`                     | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.defaultdb.service.port`             | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.analysisdb.postgresqlUsername`      | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.analysisdb.postgresqlDatabase`      | Database name of the Postgresql server                                                                       | `analysis`         |             |             |       |
-| `global.analysisdb.postgresqlPassword`      | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.analysisdb.host`                    | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.analysisdb.service.port`            | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.resultsdb201709.postgresqlUsername` | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.resultsdb201709.postgresqlDatabase` | Database name of the Postgresql server                                                                       | `results201709`    |             |             |       |
-| `global.resultsdb201709.postgresqlPassword` | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.resultsdb201709.host`               | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.resultsdb201709.service.port`       | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.metricsdb.postgresqlUsername`       | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.metricsdb.postgresqlDatabase`       | Database name of the Postgresql server                                                                       | `metrics`          |             |             |       |
-| `global.metricsdb.postgresqlPassword`       | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.metricsdb.host`                     | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.metricsdb.service.port`             | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.filestoredb.postgresqlUsername`     | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.filestoredb.postgresqlDatabase`     | Database name of the Postgresql server                                                                       | `filestore`        |             |             |       |
-| `global.filestoredb.postgresqlPassword`     | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.filestoredb.host`                   | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.filestoredb.service.port`           | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.jobsdb.postgresqlUsername`          | Username of the Postgresql server                                                                            | `codacy`           |             |             |       |
-| `global.jobsdb.postgresqlDatabase`          | Database name of the Postgresql server                                                                       | `jobs`             |             |             |       |
-| `global.jobsdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.jobsdb.host`                        | Hostname of the Postgresql server                                                                            | `nil`              |             |             |       |
-| `global.jobsdb.service.port`                | Port of the Postgresql server                                                                                | `5432`             |             |             |       |
-| `global.githubEnterprise.enabled`           | Enable githubEnterprise                                                                                      | `nil`              |             |             |       |
-| `global.githubEnterprise.hostname`          | Hostname of githubEnterprise instance                                                                        | `nil`              |             |             |       |
-| `global.githubEnterprise.protocol`          | Protocol of githubEnterprise instance                                                                        | `nil`              |             |             |       |
-| `global.githubEnterprise.port`              | Port of githubEnterprise instance                                                                            | `nil`              |             |             |       |
-| `global.githubEnterprise.isPrivateMode`     | Status of private mode on githubEnterprise instance                                                          | `nil`              |             |             |       |
-| `global.githubEnterprise.disableSSL`        | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`              |             |             |       |
-| `global.gitlabEnterprise.enabled`           | Enable gitlabEnterprise                                                                                      | `nil`              |             |             |       |
-| `global.gitlabEnterprise.hostname`          | Hostname of gitlabEnterprise instance                                                                        | `nil`              |             |             |       |
-| `global.gitlabEnterprise.protocol`          | Protocol of gitlabEnterprise instance                                                                        | `nil`              |             |             |       |
-| `global.gitlabEnterprise.port`              | Port of gitlabEnterprise instance                                                                            | `nil`              |             |             |       |
-| `global.bitbucketEnterprise.enabled`        | Enable bitbucketEnterprise                                                                                   | `nil`              |             |             |       |
-| `global.bitbucketEnterprise.hostname`       | Hostname of bitbucketEnterprise instance                                                                     | `nil`              |             |             |       |
-| `global.bitbucketEnterprise.protocol`       | Protocol of bitbucketEnterprise instance                                                                     | `nil`              |             |             |       |
-| `global.bitbucketEnterprise.port`           | Port of bitbucketEnterprise instance                                                                         | `nil`              |             |             |       |
-| `global.features.cloneSubmodules`           | Enable sharing of configuration files for the analysis tools placed on git submodules                        |                    |             |             |       |
-| `false`                                     |                                                                                                              |                    |             |             |       |
+| Parameter                                       | Description                                                                                                  | Default         |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------- |
+| `global.codacy.url`                             | Hostname to your Codacy installation                                                                         | `nil`           |
+| `global.codacy.backendUrl`                      | Hostname to your Codacy installation                                                                         | `nil`           |
+| `global.play.cryptoSecret`                      | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
+| `global.akka.sessionSecret`                     | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
+| `global.filestore.contentsSecret`               | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
+| `global.filestore.uuidSecret`                   | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
+| `global.cacheSecret`                            | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
+| `global.minio.create`                           | Create minio internally                                                                                      | `nil`           |
+| `global.rabbitmq.create`                        | Create rabbitmq internally                                                                                   | `nil`           |
+| `global.rabbitmq.rabbitmqUsername`              | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also. | `nil`           |
+| `global.rabbitmq.rabbitmqPassword`              | Password for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqPassword` also. | `nil`           |
+| `global.defaultdb.postgresqlUsername`           | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.defaultdb.postgresqlDatabase`           | Database name of the Postgresql server                                                                       | `default`       |
+| `global.defaultdb.postgresqlPassword`           | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.defaultdb.host`                         | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.defaultdb.service.port`                 | Port of the Postgresql server                                                                                | `5432`          |
+| `global.analysisdb.postgresqlUsername`          | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.analysisdb.postgresqlDatabase`          | Database name of the Postgresql server                                                                       | `analysis`      |
+| `global.analysisdb.postgresqlPassword`          | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.analysisdb.host`                        | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.analysisdb.service.port`                | Port of the Postgresql server                                                                                | `5432`          |
+| `global.resultsdb.postgresqlUsername`           | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.resultsdb.postgresqlDatabase`           | Database name of the Postgresql server                                                                       | `results201709` |
+| `global.resultsdb.postgresqlPassword`           | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.resultsdb.host`                         | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.resultsdb.service.port`                 | Port of the Postgresql server                                                                                | `5432`          |
+| `global.metricsdb.postgresqlUsername`           | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.metricsdb.postgresqlDatabase`           | Database name of the Postgresql server                                                                       | `metrics`       |
+| `global.metricsdb.postgresqlPassword`           | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.metricsdb.host`                         | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.metricsdb.service.port`                 | Port of the Postgresql server                                                                                | `5432`          |
+| `global.filestoredb.postgresqlUsername`         | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.filestoredb.postgresqlDatabase`         | Database name of the Postgresql server                                                                       | `filestore`     |
+| `global.filestoredb.postgresqlPassword`         | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.filestoredb.host`                       | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.filestoredb.service.port`               | Port of the Postgresql server                                                                                | `5432`          |
+| `global.jobsdb.postgresqlUsername`              | Username of the Postgresql server                                                                            | `codacy`        |
+| `global.jobsdb.postgresqlDatabase`              | Database name of the Postgresql server                                                                       | `jobs`          |
+| `global.jobsdb.postgresqlPassword`              | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.jobsdb.host`                            | Hostname of the Postgresql server                                                                            | `nil`           |
+| `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
+| `global.githubEnterprise.enabled`               | Enable githubEnterprise                                                                                      | `nil`           |
+| `global.githubEnterprise.hostname`              | Hostname of githubEnterprise instance                                                                        | `nil`           |
+| `global.githubEnterprise.protocol`              | Protocol of githubEnterprise instance                                                                        | `nil`           |
+| `global.githubEnterprise.port`                  | Port of githubEnterprise instance                                                                            | `nil`           |
+| `global.githubEnterprise.isPrivateMode`         | Status of private mode on githubEnterprise instance                                                          | `nil`           |
+| `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`           |
+| `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
+| `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |
+| `global.gitlabEnterprise.protocol`              | Protocol of gitlabEnterprise instance                                                                        | `nil`           |
+| `global.gitlabEnterprise.port`                  | Port of gitlabEnterprise instance                                                                            | `nil`           |
+| `global.bitbucketEnterprise.enabled`            | Enable bitbucketEnterprise                                                                                   | `nil`           |
+| `global.bitbucketEnterprise.hostname`           | Hostname of bitbucketEnterprise instance                                                                     | `nil`           |
+| `global.bitbucketEnterprise.protocol`           | Protocol of bitbucketEnterprise instance                                                                     | `nil`           |
+| `global.bitbucketEnterprise.port`               | Port of bitbucketEnterprise instance                                                                         | `nil`           |
+| `global.bitbucketEnterprise.consumerKey`        | Codacy app name to be identified on bitbucketEnterprise instance                                             | `nil`           |
+| `global.bitbucketEnterprise.consumerPublicKey`  | Public key to be set on bitbucketEnterprise instance                                                         | `nil`           |
+| `global.bitbucketEnterprise.consumerPrivateKey` | Private key to sign requests made to the bitbucketEnteprise instance                                         | `nil`           |
+| `global.features.cloneSubmodules`               | Enable sharing of configuration files for the analysis tools placed on git submodules                        | `false`         |
 
 The following parameters are specific to each Codacy component.
 
@@ -203,3 +205,71 @@ The following parameters refer to components that are not internal to Codacy, bu
 You can also configure values for the PostgreSQL database via the Postgresql [README.md](https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md)
 
 For overriding variables see: [Customizing the chart](https://docs.helm.sh/using_helm/#customizing-the-chart-before-installing)
+
+## Development
+
+These are some relevant processes we follow when adding/editing something
+in this repo.
+
+### Development Installations
+
+Currently, we have these set of installations done through `circleci`.
+All of them serve different purposes.
+
+| Installation | Cluster                 | Namespace      | Purpose                                                                                                                    | Url                                 |
+| ------------ | ----------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Dev          | codacy-doks-cluster-dev | codacy         | Updated automatically on each component pipeline. Rolling release of [unstable](https://charts.codacy.com/unstable/api)    | <http://dev.k8s.dev.codacy.org>     |
+| Sandbox      | codacy-doks-cluster-dev | codacy-hourly  | Used for development. Manually updated. Check out [this](#deploy-your-version-of-a-component) process on how to update it. | <http://sandbox.k8s.dev.codacy.org> |
+| Release      | codacy-doks-cluster-dev | codacy-release | Used for releases. Updated when the process on the [RELEASE.md](./RELEASE.md) is triggered.                                | <http://release.k8s.dev.codacy.org> |
+
+### Set up your environment for DigitalOcean clusters
+
+#### 1. Requirements
+
+Using a DOKS cluster has the following requirements:
+
+-   [doctl](https://github.com/digitalocean/doctl)
+-   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
+On macOS you can install all these tools with brew:
+
+```bash
+$ brew install doctl kubectl
+```
+
+#### 2. Configuring the DigitalOcean cli
+
+To configure the cli create a [personal access token](https://www.digitalocean.com/docs/api/create-personal-access-token/), then run:
+
+```bash
+$ doctl auth init
+```
+
+#### 3. Setup your kubecontext for the target
+
+Replace the `<codacy-doks-cluster-dev>` with the name of your target cluster.
+
+```bash
+$ doctl kubernetes cluster kubeconfig save <codacy-doks-cluster-dev> --set-current-context
+```
+
+## Deploy your version of a component
+
+You can deploy your version of a component using any of the `.circleci`
+pipelines we have set up in this project. Currently, we use the `hourly_pipeline`
+for this purpose.
+
+1.  Checkout this repository
+2.  Create a new branch with a name like `sandbox/....`
+3.  Change the `requirements-dev.yaml` to use your custom versions.
+4.  `git push` of your branch
+5.  Follow the circleci pipeline and use kubectl to see if your installation was successful
+6.  Go to <http://sandobx.k8s.dev.codacy.org/> and test it out
+
+## Add a new component
+
+To add a new component on this chart, you need to:
+
+1.  Change the `requirements.yaml`
+2.  use the `helm dep up codacy/` command to update the `requirements.lock`
+3.  `git push`

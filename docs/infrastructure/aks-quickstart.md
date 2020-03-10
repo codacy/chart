@@ -1,4 +1,4 @@
-# AKS cluster quickstart
+# Setting up an AKS cluster
 
 ## Setup the Azure CLI
 

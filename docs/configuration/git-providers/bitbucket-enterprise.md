@@ -1,15 +1,27 @@
-# Bitbucket Stash
+# Bitbucket Server
 
 Set your configuration values for your Bitbucket instance on the `values.yaml` file.
+
+**NOTE:** Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:
+
+1. Create a key pair using the RSA algorithm in the PKCS#8 format by running the following commands below, making sure that you don't define a passphrase:
+
+   1. `openssl genrsa -out mykey`
+   1. `openssl pkcs8 -nocrypt -in mykey -out mykeypkcs8 -topk8`
+   1. `openssl rsa -in mykey -pubout -out mykey.pub`
+
+1.  Copy the private key from the `mykeypkcs8` file and set it in the `consumerPrivateKey`, ignoring the first and last lines.
+1.  Copy the public key from the `mykey.pub` file and set it in the `consumerPublicKey`, ignoring the first and last lines. 
+
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
 Go to `admin/integration` on Codacy and set the **Project Keys** on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.
 
 ![Stash Application Link](./images/stash-application-link.png)
 
-## Stash Application Link
+## Bitbucket Server Application Link
 
-To set up Stash you need to create an application link on your Stash installation.
+To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.
 You can click on here and go to the application links list.
 
 ### Application Link Creation

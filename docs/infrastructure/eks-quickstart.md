@@ -1,203 +1,159 @@
-# EKS cluster setup using terraform
+# Setting up an Amazon EKS cluster
 
-[This folder](https://github.com/codacy/chart/tree/master/docs/quickstart/EKS) includes the terraform templates needed to create an EKS
-cluster from scratch, including all the necessary underlying
-infrastructure. It includes the following infrastructure stacks:
+Follow the steps below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
--   **backend** - (optional) the S3 bucket for storing the terraform state and the DynamoDB table for state locking.
--   **main** - the EKS cluster, including all the network and nodes setup needed to go from zero to a fully functional EKS cluster.
--   **setup** - additional setup you must perform before installing Codacy on your vanilla EKS cluster. Installs things like:
-    -   Aws auth (for you to be able to access your cluster using your AWS IAM account)
-    -   Docker credentials (to access codacy docker images)
-    -   Kubernetes dashboard
-    -   Nginx ingress
-    -   Cert-manager
+## 1. Prepare your environment
 
-Clone the project and go to that directory:
+Prepare your environment to set up the Amazon EKS cluster:
 
-```bash
-$ git clone git@github.com:codacy/chart.git
-$ cd chart/docs/quickstart/EKS/
-```
+1. Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
-## Requirements
+    Note that, as stated in the documentation, if your `.aws/credentials` are fairly complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
 
-In order to setup the infrastructure you'll need recent versions of:
+    ```bash
+    export AWS_SDK_LOAD_CONFIG=1
+    ```
 
--   [awscli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
--   [terraform >= v0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
--   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
--   [helm](https://helm.sh/docs/using_helm/#installing-helm)
--   Credentials with access to docker hub (you should receive this with your license)
+1. Clone the Chart repository and change to the directory that includes the Terraform configuration files provided by Codacy:
 
-Please follow the documentation in the above links to setup these tools for your OS.
-They can usually be easily installed using your package manager. For instance, on
-macOS, if you are using [Homebrew](https://brew.sh), you can just run:
+    ```bash
+    git clone https://github.com/codacy/chart.git
+    cd chart/docs/infrastructure/EKS/
+    ```
 
-```bash
-brew install awscli terraform kubernetes-helm kubectl
-```
+    The folder includes the following infrastructure stacks:
 
-You'll also need to setup the CLI credentials for your AWS account. See how
-to do it the [AWS](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html)
-and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation.
-Note that, as stated in the documentation, if your `.aws/credentials` are fairly
-complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly.
+    * **backend**: Optional S3 bucket for storing the Terraform state and the DynamoDB table for state locking
+    * **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
+    * **setup**: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster
 
-## TL;DR
+## 2. Set up the Terraform state storage backend
 
-### Setting up an EKS cluster for Codacy
+The [backend](https://www.terraform.io/docs/backends/index.html) stores the current and historical state of your infrastructure.
 
-Assuming **AWS is well configured** and you fulfill all the prerequisites,
-the setup without state storage, can be done with:
+Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these templates to make modifications to the cluster in the future:
 
-```bash
-$ export AWS_SDK_LOAD_CONFIG=1
-$ cd main/
-$ terraform init && terraform apply # should take around 15 mins
-$ cd ../setup/
-$ terraform init && terraform apply
-$ aws eks update-kubeconfig --name codacy-cluster
-```
+1. Initialize Terraform and deploy the infrastructure described in the `backend/` directory, then follow Terraform's instructions:
 
-## Deployment - Long version
+    ```bash
+    cd backend/
+    terraform init && terraform apply
+    ```
 
-### 1. `backend` - setup terraform state storage
+    An Amazon S3 bucket with a unique name to save the infrastructure state is created.
 
-The [backend](https://www.terraform.io/docs/backends/index.html) stores
-the current and historical state of your infrastructure. Deploying and using
-it is optional, but it might make your life easier if you are planning to use
-these templates to make modifications to the cluster in the future.
+1. Note the value of `state_bucket_name` in the output of the command.
 
-To deploy it run:
+1. Edit the `config.tf` files that exist in the `main/` and `setup/` directories and follow the instructions to set the name of the Amazon S3 bucket and enable the use of the backend in those infrastructure stacks.
 
-```bash
-terraform init && terraform apply
-```
+## 3. Create a vanilla Amazon EKS cluster
 
-inside the `backend/` folder and follow terraform's instructions.
+Create a cluster that includes all the required network and node setup:
 
-An S3 bucket with a unique name to save your state will be created. Note this
-bucket's name and set it on the `config.tf` file of the `main/` and `setup/`
-stacks where indicated.
+1. Initialize Terraform and deploy the infrastructure described in the `main/` directory, then follow Terraform's instructions:
 
-### 2. `main` - create a vanilla EKS cluster
+    ```bash
+    cd ../main/
+    terraform init && terraform apply
+    ```
 
-To create a cluster, along with all the necessary network and nodes setup
-it requires:
+    This process takes around 10 minutes.
 
-```bash
-terraform init && terraform apply
-```
+1. Consider if you want to tailor the cluster to your needs by customizing the cluster configuration.
 
-inside the `main/` folder and follow terraform's instructions. This takes a while (~10min).
+    The cluster configuration (such as the type/number of nodes, network CIDRs, etc.) is exposed as variables in the [`main/variables.tf`](https://github.com/codacy/chart/blob/master/docs/infrastructure/EKS/main/variables.tf) file.
 
-The cluster configuration (e.g., type/number of nodes, network CIDRs,...)
-are exposed as variables in the `variables.tf` file. You may tailor the cluster
-to your needs by editing the defaults that file, by using
-[CLI](https://www.terraform.io/docs/configuration/variables.html) options, viz.
+    To customize the defaults of that file we recommend that you use a [variable definitions file](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) by setting the variables in a file named `terraform.tfvars` in the directory `main/`. The following is an example `terraform.tfvars`:
 
-```bash
-terraform apply -var="some_key=some_value"
-```
+    ```text
+    some_key = "a_string_value"
+    another_key = 3
+    someting_else = true
+    ```
 
-or by writing them on a file named `terraform.tfvars` in the same folder
-as the infrastructure code, which is loaded by default when you run apply.
-For instance:
+    Subsequently running `terraform apply` loads the variables in the `terraform.tfvars` file by default:
 
-```bash
-some_key = "a_string_value"
-another_key = 3
-someting_else = true
-```
+    ```bash
+    terraform apply
+    ```
 
-To connect to the cluster get its `kubeconfig` and set it the as default
-context with:
+1. Set up the kubeconfig file that stores the information needed by `kubectl` to connect to the new cluster by default:
 
-```bash
-aws eks update-kubeconfig --name codacy-cluster
-```
+    ```bash
+    aws eks update-kubeconfig --name codacy-cluster
+    ```
 
-If you now run
+1. Get information about the pods in the cluster to test that the cluster was created and that `kubectl` can successfully connect to the cluster:
 
-```bash
-kubectl get pods -A
-```
+    ```bash
+    kubectl get pods -A
+    ```
 
-you'll see that nothing is scheduled. That's because you haven't yet allowed
-the worker nodes to join the cluster
-(see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more info). We'll do that on step 3.
+    You'll notice that nothing is scheduled. That's because we haven't yet allowed the worker nodes to join the cluster (see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more details). We'll do that on the next section.
 
-### 3. `setup` - configure your EKS cluster to deploy codacy
+## 4. Set up the cluster to run Codacy
 
-Some additional setup  is necessary to run Codacy on the cluster you just created.
-For one, you need to allow workers to join the cluster. Docker pull secrets need to be added to the `codacy` namespace, which will also be added here,
-and the following helm charts will be installed:
-[kubernetes-dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/),
-[nginx-ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress), and
-[cert-manager](https://github.com/jetstack/cert-manager).
+Some additional setup is necessary to run Codacy on the newly created cluster, such as allowing workers to join the cluster and installing the following Helm charts:
 
-To do it run
+* [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+* [nginx-ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress)
+* [cert-manager](https://github.com/jetstack/cert-manager)
 
-```bash
-terraform init && terraform apply
-```
+Set up the cluster to run Codacy:
 
-You'll be prompted to input Codacy's docker hub repo password.
+1. Initialize Terraform and deploy the infrastructure described in the `setup/` directory, then follow Terraform's instructions:
 
-If you'd like to connect to the kubernetes dashboard, get the admin token
-by running
+    ```bash
+    cd ../setup/
+    terraform init && terraform apply
+    ```
 
-```bash
-terraform output admin_token
-```
+1. To connect to the Kubernetes Dashboard, run:
 
-and copy the outputed value. To connect to the dashboard run
+    ```bash
+    kubectl proxy
+    ```
 
-```bash
-kubectl proxy
-```
+    Open the following URL on a browser and select `token`:
 
-and then connect to [the dashboard url](http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy),
-select `token` and paste the value you saved above.
+    <http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy>
 
-## Uninstalling
+    Run the following command to obtain the admin token required to connect to the Kubernetes Dashboard:
 
-**WARNING: IF YOU PROCEED BEYOND THIS POINT YOU'LL PERMANENTLY DELETE AND BREAK THINGS**
+    ```bash
+    terraform output admin_token
+    ```
 
-### 1.  Remove the cluster setup required to install Codacy
+## Uninstalling the Amazon EKS cluster
 
-To cleanup your cluster back to a _vanilla_ state you can now run,
-the following command in the `setup/` folder:
+**WARNING:**  
+If you proceed beyond this point you'll permanently delete and break things.
 
-```bash
-terraform destroy
-```
+1. Cleanup your cluster back to a vanilla state by removing the setup required to install Codacy. Run the following command in the `setup/` folder:
 
-### 2.  Remove the cluster
+    ```bash
+    terraform destroy
+    ```
 
-After removing all the above stacks and setup, you may now delete the kubernetes
-cluster by running in the `main/` directory:
+1. After removing the stacks and setup above, you may now delete the Kubernetes cluster. Run the following command in the `main/` directory:
 
-```bash
-terraform destroy
-```
+    ```bash
+    terraform destroy
+    ```
 
- This takes a while (~10min).
+    This process takes around 10 minutes.
 
-### 3.  Removing the terraform backend
+1. Remove the Terraform backend.
 
-If you created the terraform backend with the above stack you can now safely
-delete it. The backend is purposely created with extra settings to prevent
-its accidental destruction. To destroy it cleanly the easiest path is to disable
-these extra settings. Go to the `backend/` folder and change the `state_and_lock.tf`
-file as instructed therein.
+    If you created the Terraform backend with the provided stack you can now safely delete it.
 
-Afterwards, you can now destroy it by running
+    The backend is purposely created with extra settings to prevent its accidental destruction, so to destroy it cleanly you must first disable these extra settings. Edit the file `backend/state_and_lock.tf` and follow the instructions included in the comments.
 
-```bash
-terraform apply && terraform destroy
-```
+    Afterwards, run the following command in the `backend/` directory:
 
-Note that you first have to apply to change the bucket settings, and only
-then will destroy work.
+    ```bash
+    terraform apply && terraform destroy
+    ```
+
+    Note that you first have to run `terraform apply` to update the settings, and only
+    then will `terraform destroy` be able to destroy the backend.
