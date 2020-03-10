@@ -60,6 +60,7 @@ references:
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-hourly
     NAMESPACE: codacy-hourly
     K8S_VERSION: 1.14
@@ -220,6 +221,12 @@ jobs:
       <<: *dev_environment
     <<: *create_cluster
 
+  create_sandbox_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *sandbox_environment
+    <<: *create_cluster
+
   create_release_cluster:
     <<: *default_doks_image
     environment:
@@ -373,10 +380,14 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
+      - create_sandbox_cluster:
+          context: CodacyDO
+          requires:
+              - helm_lint
       - deploy_to_doks_sandbox:
           context: CodacyDO
           requires:
-            - helm_lint
+            - create_sandbox_cluster
 
   deploy_chart_to_dev_cluster:
     jobs:
