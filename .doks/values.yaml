@@ -110,11 +110,6 @@ codacy-ingress:
       nginx.ingress.kubernetes.io/proxy-body-size: 128m
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/use-regex: "true"
-    tls:
-      hosts:
-        - host: <codacy-app.dns.internal>
-        - host: <codacy-api.dns.internal>
-      secretName: codacy-ingress-tls-secret
     extraPaths:
       - backend:
           serviceName: codacy-crow
