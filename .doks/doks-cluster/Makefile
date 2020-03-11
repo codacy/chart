@@ -5,7 +5,7 @@ TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
-
+NGINX_INGRESS_VERSION ?= 1.17.1
 # variables
 K8S_VERSION ?= 1.15
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
@@ -55,7 +55,8 @@ helm_init_upgrade:
 
 .PHONY: install_nginx
 install_nginx:
-	helm upgrade --install nginx-ingress --namespace kube-system stable/nginx-ingress
+	helm upgrade --install nginx-ingress --version ${NGINX_INGRESS_VERSION} --namespace kube-system stable/nginx-ingress \
+	--set controller.publishService.enabled=true
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context
