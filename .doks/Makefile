@@ -53,6 +53,7 @@ update_dependencies:
 .PHONY: update_ingress_values
 update_ingress_values:
 	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" ../codacy/values.yaml
 
 .PHONY: deploy_to_doks_from_local_dir
 deploy_to_doks_from_local_dir: set_cluster_context update_dependencies update_ingress_values helm_install_from_local_dir
