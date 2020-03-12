@@ -66,22 +66,22 @@ codacy-ingress:
   create: true
   ingress:
     hostname:
-      app: <--- codacy-app.dns.internal ---> # Codacy application DNS 
+      app: <--- codacy-app.dns.internal ---> # Codacy application DNS
       api: <--- codacy-api.dns.internal ---> # Codacy API DNS
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
       certmanager.k8s.io/acme-challenge-type: http01
       certmanager.k8s.io/cluster-issuer: letsencrypt
-      external-dns.alpha.kubernetes.io/hostname: '<--- codacy-app.dns.internal --->, <--- codacy-api.dns.internal --->' # Codacy application and API DNS 
+      external-dns.alpha.kubernetes.io/hostname: '<--- codacy-app.dns.internal --->, <--- codacy-api.dns.internal --->' # Codacy application and API DNS
       external-dns.alpha.kubernetes.io/scope: public
       nginx.ingress.kubernetes.io/proxy-body-size: 128m
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/use-regex: "true"
     tls:
       hosts:
-        - host: <--- codacy-app.dns.internal ---> # Codacy application DNS 
-        - host: <--- codacy-api.dns.internal ---> # Codacy API DNS 
+        - host: <--- codacy-app.dns.internal ---> # Codacy application DNS
+        - host: <--- codacy-api.dns.internal ---> # Codacy API DNS
       secretName: codacy-ingress-tls-secret
 
 codacy-api:
@@ -240,6 +240,10 @@ crow:
     requests:
       cpu: 0.5
       memory: 1Gi
+  config:
+    play:
+      http:
+        context: /monitoring
 
 rabbitmq-ha:
   replicaCount: 3

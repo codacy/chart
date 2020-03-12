@@ -263,7 +263,7 @@ codacy-ingress:
   create: false
   ingress:
     hostname: {}
-      # app: <codacy-app.dns.internal> # CHANGEME: Codacy application DNS 
+      # app: <codacy-app.dns.internal> # CHANGEME: Codacy application DNS
       # api: <codacy-api.dns.internal> # CHANGEME: Codacy API DNS
     # annotations:
     #   kubernetes.io/ingress.class: nginx
@@ -350,6 +350,10 @@ crow:
     service:
       port: 5432
     fullnameOverride: codacy-crowdb
+  config:
+    play:
+      http:
+        context: /monitoring
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
