@@ -68,8 +68,14 @@ Please make sure you have these tools installed before starting this process:
 
 -   [ ] 8.  Test
 
-    Test the entire release.
-
+    1. Validate that your feature is working according to the requirements
+    2. Do exploratory testing around the functionalitys your feature impacted
+        - More information about exploratory testing [Here](https://handbook.dev.codacy.org/product/engineering/QA/levels.html).
+    3. Add the new tests to the test suite
+    4. Run the Regression tests 
+        - More information about how to run [Here](https://bitbucket.org/qamine/qa-automation-tests/src/master/).
+    5. Validate the Results from the Regression tests 
+    
 -   [ ] 9.  Manual Approval
 
     Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
