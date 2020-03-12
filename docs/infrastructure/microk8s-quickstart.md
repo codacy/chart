@@ -120,7 +120,7 @@ We provide a base [values file](##values-microk8s.yaml) that you can use for you
 
 #### 2. External Databases
 
-If you do not have an external database set up for you by an Ops team,  you should follow the [steps described here](../requirements.md).
+If you do not have an external database set up for you by an Ops team, you should follow the [steps described here](../requirements.md).
 In addition to these requirements, you must not forget to include the appropriate configuration blocks in the values file you provide to `helm` during installation.
 
 Do not forget to replace the placeholders for database names, credentials, urls, and ports on the [values file](##values-microk8s.yaml)
