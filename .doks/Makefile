@@ -29,7 +29,8 @@ define call_helm_install
 	--set global.features.cloneSubmodules=true \
 	--set global.bitbucketEnterprise.consumerPublicKey=$${BITBUCKET_ENTERPRISE_PUBLIC_KEY} \
 	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
-	--set worker-manager.config.codacy.worker.image=${5}
+	--set worker-manager.config.codacy.worker.image=${5} \
+	--set crow.config.crowUrl=${4}
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef

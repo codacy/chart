@@ -58,6 +58,18 @@ Crow is a visualization tool that displays information about the projects and jo
 
 The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 
+By default, the Crow tool can be accessed through the `/monitoring` path of the url pointing to your Codacy installation, e.g. `http://codacy.company.org/monitoring`.
+It is possible for you to configure this path through the `values.yaml` file:
+
+```yaml
+  codacy-ingress:
+    extraPaths:
+    - backend:
+        serviceName: codacy-crow
+        servicePort: http
+      path: <--- crow path --->
+```
+
 **Important note**
 
 This tool is in the process of being replaced by Grafana (which will handle authentication) and therefore the credentials to login can be freely shared since there is no sensitive information displayed in the platform. The current credentials are the following:
