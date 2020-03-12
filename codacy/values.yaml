@@ -260,26 +260,25 @@ engine:
       enabled: false
 
 codacy-ingress:
-  create: false
+  create: true
   ingress:
-    hostname: {}
-      # app: <codacy-app.dns.internal> # CHANGEME: Codacy application DNS
-      # api: <codacy-api.dns.internal> # CHANGEME: Codacy API DNS
-    # annotations:
-    #   kubernetes.io/ingress.class: nginx
-    #   kubernetes.io/tls-acme: "true"
-    #   certmanager.k8s.io/acme-challenge-type: http01
-    #   certmanager.k8s.io/cluster-issuer: letsencrypt
-    #   external-dns.alpha.kubernetes.io/hostname: '<codacy-app.dns.internal>, <codacy-api.dns.internal>'
-    #   external-dns.alpha.kubernetes.io/scope: public
-    #   nginx.ingress.kubernetes.io/proxy-body-size: 128m
-    #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    #   nginx.ingress.kubernetes.io/use-regex: "true"
-    # tls:
-    #   hosts:
-    #     - host: <codacy-app.dns.internal>
-    #     - host: <codacy-ap1.dns.internal>
-    #   secretName: codacy-ingress-tls-secret
+    hostname:
+      app: <codacy-app.dns.internal>
+      api: <codacy-api.dns.internal>
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      certmanager.k8s.io/acme-challenge-type: http01
+      certmanager.k8s.io/cluster-issuer: letsencrypt
+      external-dns.alpha.kubernetes.io/hostname: <codacy-app.dns.internal>, <codacy-api.dns.internal>
+      external-dns.alpha.kubernetes.io/scope: public
+      nginx.ingress.kubernetes.io/proxy-body-size: 128m
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    extraPaths:
+      - backend:
+          serviceName: codacy-crow
+          servicePort: http
+        path: /monitoring
 
 codacy-api:
   replicaCount: 1

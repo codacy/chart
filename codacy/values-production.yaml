@@ -240,10 +240,6 @@ crow:
     requests:
       cpu: 0.5
       memory: 1Gi
-  config:
-    play:
-      http:
-        context: /monitoring
 
 rabbitmq-ha:
   replicaCount: 3
