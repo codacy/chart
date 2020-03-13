@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@2.7.0
+  codacy: codacy/base@2.9.0
   slack: circleci/slack@3.4.2
 
 references:
@@ -497,10 +497,17 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
+      - codacy/tag_version:
+          name: tag_version_incubator
+          context: CodacyDO
+          version: incubator
+          force: true
+          requires:
+            - helm_push_incubator
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
-            - helm_push_incubator
+            - tag_version_incubator
       - get_changelogs:
           context: CodacyDO
           requires:
@@ -528,6 +535,13 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
+      - codacy/tag_version:
+          name: tag_version_latest
+          context: CodacyDO
+          version: latest
+          force: true
+          requires:
+            - promote_chart_to_stable
       - slack_notify_release:
           context: CodacyDO
           requires:
