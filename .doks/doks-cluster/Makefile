@@ -39,6 +39,8 @@ start_cluster: provision_cluster set_cluster_context helm_init_upgrade install_n
 
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc
+# Our current tfstate is out of sync with the deployed infrastructure.
+# We must tweak it through terraform before we can have continuous deployment for the infrastructure.
 # echo '1' | $(TF) init -input=false -reconfigure
 # $(TF) workspace select $(WORKSPACE)
 # $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve

@@ -195,15 +195,6 @@ The following parameters are specific to each Codacy component.
 | `crow.config.crow.url`                              | Url pointing to crow                                                                                | `nil`                                        |
 | `crow.config.codacy.url`                            | Url pointing to codacy                                                                              | `nil`                                        |
 
-
-
-
-
-
-
-
-
-
 The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 
 | Parameter                        | Description                                                                                            | Default    |
