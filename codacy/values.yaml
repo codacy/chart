@@ -356,7 +356,7 @@ fluentdoperator:
   enabled: false
   defaultConfigmap: codacy-fluentd-config
   bucketName: fluentd-bucket
-  expirationDays: 14
+  expirationDays: 7
   rbac:
     create: true
   useReleaseNamespaceOnly: true
