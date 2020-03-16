@@ -24,6 +24,7 @@ define call_helm_install
 	--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set codacy-api.config.license=$${CODACY_LICENSE} \
 	--set global.codacy.url=${4} \
+	--set global.codacy.crow.url=${4}/monitoring \
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
@@ -31,6 +32,7 @@ define call_helm_install
 	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.crow.url=${4}/monitoring \
+	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	--set crow.config.codacy.url=${4}
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))

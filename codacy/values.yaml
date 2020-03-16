@@ -359,6 +359,8 @@ crow:
     play:
       http:
         context: "/monitoring"
+    passwordAuth:
+      password: "PLEASE_CHANGE_ME"
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
