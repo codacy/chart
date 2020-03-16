@@ -355,7 +355,7 @@ crow:
 fluentdoperator:
   enabled: false
   defaultConfigmap: codacy-fluentd-config
-  bucketName: fluentd-bucket
+  bucketName: logs
   expirationDays: 7
   rbac:
     create: true
