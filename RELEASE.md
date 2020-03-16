@@ -68,12 +68,10 @@ Please make sure you have these tools installed before starting this process:
 
 -   [ ] 8.  Test
 
-    -   Validate that your feature is working according to the requirements
+    -   Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
+    -   Do [exploratory tests](https://handbook.dev.codacy.org/product/engineering/QA/levels.html#exploratory-testing) around the functionalitys your feature impacted to make sure everything is running as it should
 
-    -   Do exploratory testing around the functionalitys your feature impacted
-        -   More information about exploratory testing [Here](https://handbook.dev.codacy.org/product/engineering/QA/levels.html).
-
-    -   Add the new tests to the test suite
+    -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/)
 
     -   Run the Regression tests 
         -   More information about how to run [Here](https://bitbucket.org/qamine/qa-automation-tests/src/master/).
