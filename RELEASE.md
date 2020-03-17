@@ -74,7 +74,7 @@ Please make sure you have these tools installed before starting this process:
 
     -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
 
-    -    Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/8aa6640db54f8cf3ac4f07b70647d66a0ec49739/docs/getting-started.md#run-the-tests). 
+    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/8aa6640db54f8cf3ac4f07b70647d66a0ec49739/docs/getting-started.md#run-the-tests). 
 
     -   Validate the Results from the Regression tests. 
 
