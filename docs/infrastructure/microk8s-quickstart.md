@@ -10,16 +10,16 @@ Follow the steps below to set up a microk8s instance from scratch, including all
 
 Any tool that operates on top of a cluster needs to know which cluster it is going to work on. This execution context is typically called the `kubeconfig` which is stored in the `~/.kube/config` file. This file basically defines a list of clusters and it holds several pieces of information per cluster entry:
 
-* The address of the cluster (e.g. https://104.248.34.242:164309).
-* The user friendly name of the cluster (e.g. microk8s-instance).
-* A reference to the current context. This is the active cluster against which any kubernetes control (`kubectl`) command you run will get executed.
+-   The address of the cluster (e.g. <https://104.248.34.242:164309>).
+-   The user friendly name of the cluster (e.g. microk8s-instance).
+-   A reference to the current context. This is the active cluster against which any kubernetes control (`kubectl`) command you run will get executed.
 
 ### Helm and tiller
 
 Two executables will get installed onto the cluster as part of this process: `helm` and `tiller`.
 
-* `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
-* `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
+-   `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
+-   `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
 
 `helm` is the client facing side, while `tiller` is the server/cluster facing side.
 
@@ -28,57 +28,65 @@ Two executables will get installed onto the cluster as part of this process: `he
 Prepare your environment to set up the microk8s cluster.
 For your infrastructure, you will need the following:
 
-1. A machine running Ubuntu 18.04 LTS.
-2. A postgres database and open firewall rule. ([Documentation can be found here.](../requirements.md))
+1.  A machine running Ubuntu 18.04 LTS.
+2.  A postgres database and open firewall rule. ([Documentation can be found here.](../requirements.md))
 
 To start installing Codacy, you will need to:
 
-1. Establish a session (local or remote) onto the machine described in 1. above.
+1.  Establish a session (local or remote) onto the machine described in 1. above.
 
 Assuming that you are starting from a blank slate, the first step is to install microk8s. Otherwise, consider that Codacy is supported up to kubernetes 1.15. Please jump on to the section [Configuring microk8s](###4.-Configuring-microk8s) if you are on a compatible kubernetes version.
 
 ## 3. Installing microk8s
 
-1. Make sure the machine is up to date and also has the `nfs-common` package installed
+1.  Make sure the machine is up to date and also has the `nfs-common` package installed
 
-   ```bash
-   sudo apt update && apt install nfs-common -y
+    ```bash
+    sudo apt update && sudo apt install nfs-common -y
 
-2. Install microk8s. Codacy is supported up to kubernetes 1.15. Therefore we recommend following the [official documentation on how to install microk8s](https://microk8s.io/docs/) with the `1.15/stable` channel.
+    ```
 
-3. Allow privileged containers for microk8s
+2.  Install microk8s. Codacy is supported up to kubernetes 1.15. Therefore we recommend following the [official documentation on how to install microk8s](https://microk8s.io/docs/) with the `1.15/stable` channel.
 
-   ```bash
-   sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
-   ```
+    ```bash
+     sudo snap install microk8s --classic --channel=1.15/stable && \
+     sudo usermod -a -G microk8s $USER && \
+     microk8s.status --wait-ready
+    ```
+
+3.  Allow privileged containers for microk8s
+
+    ```bash
+    sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
+    ```
 
 ## 4. Configuring microk8s
 
-1. First, we must enable the following plugins on microk8s:
+1.  First, we must enable the following plugins on microk8s:
 
     ```bash
-   microk8s.enable dns &&
-   microk8s.enable storage &&
-   microk8s.enable ingress &&
-   microk8s.status --wait-ready
+    microk8s.enable dns && \
+    microk8s.enable storage && \
+    microk8s.enable ingress && \
+    microk8s.status --wait-ready
     ```
 
-2. Now that these plugins have been enabled, we should restart microk8s to ensure a proper bootstrap of the cluster
+2.  Now that these plugins have been enabled, we should restart microk8s to ensure a proper bootstrap of the cluster
 
     ```bash
-   microk8s.stop && microk8s.start && microk8s.status --wait-ready
+    microk8s.stop && microk8s.start && microk8s.status --wait-ready
     ```
 
-    Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
+     Further information on this subject can be [found here](https://github.com/ubuntu/microk8s/issues/493#issuecomment-498167435).
 
-3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready. Failing to do so can result in pods entering a `CrashLoopBackoff` state:
+3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready. Failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
-   ```bash
-    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
+    ```bash
+     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
 
-    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
+     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
 
-    microk8s.kubectl wait -n ingress --for=condition=Ready pod -l name=nginx-ingress-microk8s
+     microk8s.kubectl wait -n ingress --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
 After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
@@ -89,24 +97,26 @@ After these commands return successfully, we have ensured that dns, http, and ng
 
 First we must install `helm` onto the cluster. With `helm`, we can easily install charts and manage the lifecycle of the installed artifacts. One example is the ability to rollback a failed install.
 
-1. __Codacy supports up to `helm` version 2.16.3.__
-   __We currently do not support `helm` v3.__
-2. Follow the instructions on installing the `helm` client on the [Preparing to install Codacy documentation](../../docs/index.md).
+1.  **Codacy supports up to `helm` version 2.16.3.**
+    **We currently do not support `helm` v3.**
 
-3. We must now deploy `tiller` onto the cluster.
-   1. First we must set a `serviceaccount` and a `clusterrolebinding` for `tiller` on the microk8s cluster:
+2.  Follow the instructions on installing the `helm` client on the [Preparing to install Codacy documentation](../../docs/index.md).
 
-      ```bash
-      microk8s.kubectl create serviceaccount --namespace kube-system tiller
-      microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-      ```
+3.  We must now deploy `tiller` onto the cluster.
 
-   2. Then we can install `tiller`, which will be installed with the same `HELM_VERSION` that you have specified earlier and we wait for tiller to be ready:
+    1.  First we must set a `serviceaccount` and a `clusterrolebinding` for `tiller` on the microk8s cluster:
 
-      ```bash
-      helm init --service-account tiller
-      microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
-      ```
+        ```bash
+        microk8s.kubectl create serviceaccount --namespace kube-system tiller
+        microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+        ```
+
+    2.  Then we can install `tiller`, which will be installed with the same `HELM_VERSION` that you have specified earlier and we wait for tiller to be ready:
+
+        ```bash
+        helm init --service-account tiller
+        microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
+        ```
 
 ### 2. Codacy chart
 
