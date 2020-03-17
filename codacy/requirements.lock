@@ -10,10 +10,10 @@ dependencies:
   version: 4.2.2
 - name: log-router
   repository: https://charts.codacy.com/external
-  version: 0.3.0
+  version: 0.4.1
 - name: codacy-ingress
   repository: https://charts.codacy.com/stable
-  version: 0.2.0
+  version: 0.1.1
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 6.6.1
@@ -25,7 +25,7 @@ dependencies:
   version: 1.4.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 8.0.2
+  version: 8.0.1
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.4.1
@@ -49,6 +49,6 @@ dependencies:
   version: 9.1.0
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 4.9.1
-digest: sha256:813751de7ef84e71059695ef401923927e368bceeade26dc591128d9db40b5c9
-generated: "2020-03-18T11:43:54.873856Z"
+  version: 4.9.0
+digest: sha256:43b5865aa397cdf75a22ec28e1a10d3ad5c77496863e4327c8c19fb3962d3ef4
+generated: "2020-03-17T17:42:05.70650814Z"
