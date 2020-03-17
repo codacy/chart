@@ -61,6 +61,12 @@ The Crow tool is installed alongside Codacy after the helm chart is deployed to 
 The `crow` tool can be accessed through the `/monitoring` path of the url pointing to your Codacy installation, e.g. `http://codacy.company.org/monitoring`.
 You must set the `crow.config.codacy.url` and `crow.config.crow.url` values in your `values.yaml` file so that anchor links to your projects can be properly established inside `crow`.
 
+You must also provide a `CROW_PASSWORD` environment variable for your Crow password:
+
+```bash
+  export CROW_PASSWORD=<--- crow password --->
+```
+
 Please see the [README.md](../../README.md) for more information about these values.
 
 **Important note**
