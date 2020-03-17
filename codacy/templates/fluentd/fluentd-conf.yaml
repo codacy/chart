@@ -42,7 +42,6 @@ data:
       path ${tag}/%Y/%m/%d/
       s3_object_key_format %{path}%{index}.%{file_extension}
 
-      # We can't use this due to a bug in minio
       <bucket_lifecycle_rule>
         id retention-policy
         expiration_days {{ .Values.fluentdoperator.expirationDays }}
