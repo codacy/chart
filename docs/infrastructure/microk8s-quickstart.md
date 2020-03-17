@@ -49,7 +49,8 @@ Assuming that you are starting from a blank slate, the first step is to install 
 
     ```bash
      sudo snap install microk8s --classic --channel=1.15/stable && \
-     sudo usermod -a -G microk8s $USER && \
+     sudo usermod -a -G microk8s $USER
+     su - $USER
      microk8s.status --wait-ready
     ```
 
