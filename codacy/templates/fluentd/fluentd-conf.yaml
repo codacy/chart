@@ -43,10 +43,10 @@ data:
       s3_object_key_format %{path}%{index}.%{file_extension}
 
       # We can't use this due to a bug in minio
-      # <bucket_lifecycle_rule>
-      #   id test-policy
-      #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
-      # </bucket_lifecycle_rule>
+      <bucket_lifecycle_rule>
+        id test-policy
+        expiration_days {{ .Values.fluentdoperator.expirationDays }}
+      </bucket_lifecycle_rule>
 
       <format>
         @type json
