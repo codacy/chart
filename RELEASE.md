@@ -68,7 +68,15 @@ Please make sure you have these tools installed before starting this process:
 
 -   [ ] 8.  Test
 
-    Test the entire release.
+    -   Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
+
+    -   Do [exploratory tests](https://handbook.dev.codacy.org/product/engineering/QA/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should.
+
+    -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
+
+    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/8aa6640db54f8cf3ac4f07b70647d66a0ec49739/docs/getting-started.md#run-the-tests). 
+
+    -   Validate the Results from the Regression tests. 
 
 -   [ ] 9.  Manual Approval
 
