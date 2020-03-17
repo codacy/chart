@@ -44,7 +44,7 @@ data:
 
       # We can't use this due to a bug in minio
       <bucket_lifecycle_rule>
-        id test-policy
+        id retention-policy
         expiration_days {{ .Values.fluentdoperator.expirationDays }}
       </bucket_lifecycle_rule>
 
