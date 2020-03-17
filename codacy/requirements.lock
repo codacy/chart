@@ -42,13 +42,13 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 6.7.6
 - name: codacy-api
-  repository: https://charts.codacy.com/unstable
-  version: 8.12.1-SNAPSHOT.f23517932
+  repository: https://charts.codacy.com/stable
+  version: 8.12.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.1.0
 - name: crow
-  repository: https://charts.codacy.com/unstable
-  version: 4.9.0-featurecleartextpassword.6df3740
-digest: sha256:29e55f537b8ef89dcc4f447ebe99ceaa689510ca8c04ec7f19fc79aba6c0b252
-generated: "2020-03-17T11:01:22.817215Z"
+  repository: https://charts.codacy.com/stable
+  version: 4.9.0
+digest: sha256:d1e064a92dce34410f2c80858d0cb71740a883d225892451062ec78b8aebc8f4
+generated: "2020-03-17T15:44:08.941734Z"
