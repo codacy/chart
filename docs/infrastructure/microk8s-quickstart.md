@@ -43,7 +43,6 @@ Assuming that you are starting from a blank slate, the first step is to install 
 
     ```bash
     sudo apt update && sudo apt install nfs-common -y
-
     ```
 
 2.  Install microk8s. Codacy is supported up to kubernetes 1.15. Therefore we recommend following the [official documentation on how to install microk8s](https://microk8s.io/docs/) with the `1.15/stable` channel.
@@ -86,7 +85,8 @@ Assuming that you are starting from a blank slate, the first step is to install 
 
      microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
 
-     microk8s.kubectl wait -n ingress --for=condition=Ready pod -l name=nginx-ingress-microk8s
+     # If the following command fails, you probably installed the wrong microk8s version
+     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
 After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
