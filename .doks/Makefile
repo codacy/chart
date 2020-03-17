@@ -33,7 +33,6 @@ define call_helm_install
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD}
 
-
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
 
