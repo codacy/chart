@@ -17,47 +17,62 @@ data:
     <filter **>
       @type record_modifier
       <record>
-        # This removes unneeded fields from the logs
         for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record.delete("container_info"); record.delete("docker")}
       </record>
+      # This removes unneeded fields from the logs
       remove_keys for_remove
+    </filter>
+
+    # Move mested records to toplevel to be used as buffer key
+    <filter **>
+      @type record_modifier
+      <record>
+        pod_name ${record["kubernetes"]["pod_name"]}
+      </record>
+      <record>
+        container_name ${record["kubernetes"]["container_name"]}
+      </record>
     </filter>
 
     # Output to S3
     <match **>
-      # docs: https://github.com/fluent/fluent-plugin-s3 and https://docs.fluentd.org/output/s3
+      # Docs: https://github.com/fluent/fluent-plugin-s3
       @type s3
       @log_level info
 
+      # Credentials
       aws_key_id {{ .Values.global.minio.accessKey }}
       aws_sec_key {{ .Values.global.minio.secretKey }}
 
+      # Bucket configuration
       s3_endpoint http://{{ .Values.global.minio.location }}:9000
-      force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
       s3_bucket {{ .Values.fluentdoperator.bucketName }}
+      force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
       auto_create_bucket true
 
-      #s3_object_key_format %{path}%Y/%m/%d/cluster-log-%{index}.%{file_extension}
-
-      path ${tag}/%Y/%m/%d/
-      s3_object_key_format %{path}%{index}.%{file_extension}
+      # Output location configuration
+      path ${container_name}/${pod_name}/%Y-%m-%d
+      s3_object_key_format %{path}_%{index}.%{file_extension}
 
       <bucket_lifecycle_rule>
         id retention-policy
         expiration_days {{ .Values.fluentdoperator.expirationDays }}
       </bucket_lifecycle_rule>
 
+      store_as json
       <format>
         @type json
       </format>
 
-      <buffer tag,time>
+      # Check https://docs.fluentd.org/plugin-development/api-plugin-output
+      <buffer tag,time,container_name,pod_name>
         @type file
         path /var/log/fluentd-buffers/s3.buffer
-        timekey 600 # Time frames of 10 minutes
-        timekey_wait 0 # We want to send the logs from the timeframe to s3 as soon as possible
+        timekey 6h
+        timekey_wait 0s
         timekey_use_utc true
-        chunk_limit_size 256m
+        flush_interval 0s
+        flush_mode interval
       </buffer>
     </match>
 {{ end }}
