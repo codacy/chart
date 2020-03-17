@@ -251,9 +251,6 @@ rabbitmq-ha:
       cpu: 200m
       memory: 200Mi
 
-fluentdoperator:
-  enabled: true
-
 minio:
   persistence:
     enabled: true

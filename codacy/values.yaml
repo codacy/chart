@@ -353,7 +353,7 @@ crow:
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
-  enabled: false
+  enabled: true
   defaultConfigmap: codacy-fluentd-config
   bucketName: logs
   expirationDays: 7
