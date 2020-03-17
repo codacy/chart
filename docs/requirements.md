@@ -107,6 +107,7 @@ You must manually create the databases required by Codacy on the PostgreSQL serv
     CREATE DATABASE activities WITH OWNER=codacy;
     CREATE DATABASE hotspots WITH OWNER=codacy;
     CREATE DATABASE listener WITH OWNER=codacy;
+    CREATE DATABASE crow WITH OWNER=codacy;
     ```
 
 3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example:

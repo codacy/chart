@@ -1,4 +1,29 @@
 global:
+  githubEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # port: 443
+    # protocol: "https"
+    # disableSSL: "false"
+    # isPrivateMode: "true"
+
+  gitlabEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "https"
+    # port: 443
+
+  bitbucketEnterprise: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # hostname: "example.host.com"
+    # protocol: "http"
+    # port: 7990
+    # consumerKey: ""
+    # consumerPublicKey: ""
+    # consumerPrivateKey: ""
   imagePullSecrets:
     - name: docker-credentials
   codacy:
@@ -65,26 +90,22 @@ global:
 codacy-ingress:
   create: true
   ingress:
+    enabled: true
     hostname:
       app: <--- codacy.example.com ---> # Codacy application DNS
       api: <--- codacy.example.com ---> # Codacy API DNS
     annotations:
       kubernetes.io/ingress.class: nginx
-      external-dns.alpha.kubernetes.io/hostname: '<--- codacy.example.com --->, <--- codacy.example.com --->' # Codacy application and API DNS
-      external-dns.alpha.kubernetes.io/scope: public
-      nginx.ingress.kubernetes.io/proxy-body-size: 128m
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/use-regex: "true"
 
 codacy-api:
   replicaCount: 2
   resources:
     limits:
-      cpu: 500m
+      cpu: 1000m
       memory: 2000Mi
     requests:
-      cpu: 100m
-      memory: 1000Mi
+      cpu: 500m
+      memory: 500Mi
 
 portal:
   replicaCount: 2
@@ -93,8 +114,8 @@ portal:
       cpu: 500m
       memory: 1Gi
     requests:
-      cpu: 100m
-      memory: 500Mi
+      cpu: 200m
+      memory: 200Mi
 
 activities:
   replicaCount: 2
@@ -111,7 +132,7 @@ activities:
       memory: 1Gi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 200Mi
   activitiesdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -128,9 +149,8 @@ remote-provider-service:
       cpu: 500m
       memory: 750Mi
     requests:
-      cpu: 100m
-      memory: 300Mi
-
+      cpu: 200m
+      memory: 200Mi
 hotspots-api:
   replicaCount: 2
   resources:
@@ -139,7 +159,7 @@ hotspots-api:
       memory: 1Gi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 200Mi
   hotspotsdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -148,7 +168,6 @@ hotspots-api:
     host: <--- codacy-db-host --->
     service:
       port: 5432
-
 hotspots-worker:
   replicaCount: 2
   resources:
@@ -157,7 +176,7 @@ hotspots-worker:
       memory: 1Gi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 200Mi
 
 listener:
   replicaCount: 2
@@ -166,11 +185,10 @@ listener:
       cpu: 2
       memory: 8Gi
     requests:
-      cpu: 1
-      memory: 6Gi
+      cpu: 200m
+      memory: 1000Mi
 
   listenerdb:
-    create: false
     create: false
     postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: listener # You need to create the DB manually
@@ -178,17 +196,14 @@ listener:
     host: <--- codacy-db-host --->
     service:
       port: 5432
-
   persistence:
     claim:
       size: 140Gi
-
   nfsserverprovisioner:
     enabled: true
     persistence:
       enabled: true
       size: 200Gi
-
 core:
   replicaCount: 2
   resources:
@@ -197,8 +212,7 @@ core:
       memory: 1500Mi
     requests:
       cpu: 100m
-      memory: 750Mi
-
+      memory: 200Mi
 engine:
   replicaCount: 2
   resources:
@@ -206,9 +220,8 @@ engine:
       cpu: 2000m
       memory: 15000Mi
     requests:
-      cpu: 1000m
-      memory: 10000Mi
-
+      cpu: 200m
+      memory: 500Mi
 worker-manager:
   replicaCount: 2
   resources:
@@ -216,13 +229,32 @@ worker-manager:
       cpu: 500m
       memory: 1000Mi
     requests:
-      cpu: 100m
-      memory: 500Mi
+      cpu: 200m
+      memory: 200Mi
   config:
     workers:
-      genericMax: 10
-      dedicatedMax: 10
-
+      genericMax: 2
+      dedicatedMax: 2
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+    workerResources:
+      limits:
+        cpu: 1
+        memory: "3Gi"
+      requests:
+        cpu: 0.5
+        memory: "1Gi"
+    pluginResources:
+      limits:
+        cpu: 1
+        memory: 2000000000 # 2000Mb
+      requests:
+        cpu: 1
+        memory: 2000000000 # 2000Mb
 crow:
   replicaCount: 1
   resources:
@@ -230,9 +262,8 @@ crow:
       cpu: 1
       memory: 2Gi
     requests:
-      cpu: 0.5
-      memory: 1Gi
-
+      cpu: 0.1
+      memory: 100Mi
 rabbitmq-ha:
   replicaCount: 3
   resources:
@@ -240,9 +271,8 @@ rabbitmq-ha:
       cpu: 500m
       memory: 1200Mi
     requests:
-      cpu: 200m
+      cpu: 0.2
       memory: 200Mi
-
 minio:
   persistence:
     enabled: true
