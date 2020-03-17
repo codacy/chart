@@ -31,9 +31,8 @@ define call_helm_install
 	--set global.bitbucketEnterprise.consumerPublicKey=$${BITBUCKET_ENTERPRISE_PUBLIC_KEY} \
 	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
 	--set worker-manager.config.codacy.worker.image=${5} \
-	--set crow.config.crow.url=${4}/monitoring \
-	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
-	--set crow.config.codacy.url=${4}
+	--set crow.config.passwordAuth.password=$${CROW_PASSWORD}
+
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
