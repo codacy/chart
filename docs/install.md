@@ -22,8 +22,8 @@ If you are in microk8s, any `kubectl` command must be executed as `microk8s.kube
 
 4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.
 
-**NOTE:**
-If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
+    **NOTE:**
+    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
