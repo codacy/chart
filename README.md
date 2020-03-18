@@ -185,6 +185,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.image.tag`                              | Image tag                                                                                           | from dependency                              |
 | `codacy-api.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
 | `codacy-api.config.license`                         | Codacy license for your installation                                                                | `nil`                                        |
+| `codacy-api.config.github.clientName`               | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .     | `codacy-login`                               |
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
