@@ -59,6 +59,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------- |
 | `global.codacy.url`                             | Hostname to your Codacy installation                                                                         | `nil`           |
 | `global.codacy.backendUrl`                      | Hostname to your Codacy installation                                                                         | `nil`           |
+| `global.codacy.crow.crow.url`                   | Hostname to Crow within your Codacy installation                                                             | `nil`           |
 | `global.play.cryptoSecret`                      | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
 | `global.akka.sessionSecret`                     | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
 | `global.filestore.contentsSecret`               | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`           |
@@ -192,7 +193,6 @@ The following parameters are specific to each Codacy component.
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |
-| `crow.config.crow.url`                              | Url pointing to crow                                                                                | `nil`                                        |
 
 The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 
