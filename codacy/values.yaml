@@ -295,6 +295,8 @@ codacy-api:
     play:
       configFile: "enterprise.conf"
       logFile: logback.xml
+    #github:
+    #  clientName: "codacy-login"
   metrics:
     serviceMonitor:
       enabled: false

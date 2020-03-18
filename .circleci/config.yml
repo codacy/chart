@@ -57,6 +57,7 @@ references:
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
+    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhosted-dev
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -65,6 +66,7 @@ references:
     NAMESPACE: codacy-hourly
     K8S_VERSION: 1.14
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
+    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhosted-sandbox
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -75,6 +77,7 @@ references:
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
+    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhost-release
 
   ###################################################
   #  Env variables identify each deployment channel
