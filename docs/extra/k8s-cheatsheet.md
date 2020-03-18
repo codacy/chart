@@ -52,25 +52,25 @@ ps aux | grep -i kubectl
 
 ```bash
 kubectl get services
-kubectl logs svc/codacy-hotspots-api
+kubectl logs svc/<service-name>
 ```
 
 ## Edit configmap
 
 ```bash
 kubectl get configmaps
-kubectl edit configmap codacy-fluentd-config
+kubectl edit configmap <configmap-name>
 ```
 
 ## Restart deployment of daemonset
 
 ```bash
 kubectl get daemonsets
-kubectl rollout restart daemonset/codacy-fluentdoperator
+kubectl rollout restart daemonset/<daemonset-name>
 
 kubectl get deployment
-kubectl rollout restart deployment/codacy-api
-kubectl rollout status deployment/codacy-api -w
+kubectl rollout restart deployment/<deployment-name>
+kubectl rollout status deployment/<deployment-name> -w
 ```
 
 ## Read logs
@@ -78,25 +78,21 @@ kubectl rollout status deployment/codacy-api -w
 ### daemonset with multiple containers
 
 ```bash
-kubectl logs daemonset/codacy-fluentdoperator fluentd -f
-
-# or
-
-kubectl logs daemonset/codacy-fluentdoperator reloader -f
+kubectl logs daemonset/<daemonset-name> <container-name> -f
 ```
 
 ### service
 
 ```bash
-kubectl logs service/codacy-api -f
+kubectl logs service/<service-name> -f
 ```
 
 ## Open shell inside container
 
 ```bash
-kubectl exec -it daemonset/codacy-fluentdoperator -c fluentd sh
+kubectl exec -it daemonset/<daemonset-name> -c <container-name> sh
 
 # or
 
-kubectl exec -it deployment/codacy-api sh
+kubectl exec -it deployment/<deployment-name> sh
 ```
