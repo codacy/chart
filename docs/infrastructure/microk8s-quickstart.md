@@ -26,13 +26,13 @@ All the following steps assume that you are starting from a blank slate.
 
 ## 3. Installing microk8s
 
-1.  Make sure the machine is up to date and also has the `nfs-common` package installed
+1.  Make sure the machine has the `nfs-common` package installed.
 
     ```bash
     sudo apt update && sudo apt install nfs-common -y
     ```
 
-2.  Install the `1.15/stable` channel of microk8s.
+2.  Install microk8s from the `1.15/stable` channel.
 
     ```bash
     sudo snap install microk8s --classic --channel=1.15/stable && \
@@ -40,19 +40,19 @@ All the following steps assume that you are starting from a blank slate.
     su - $USER
     ```
 
-    Check if everything was installed correctly.
+    Check that microk8s is running.
 
     ```bash
     microk8s.status --wait-ready
     ```
 
-3.  Install the helm binary
+3.  Install the Helm binary.
 
     ```bash
     HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
     wget https://get.helm.sh/$HELM_PKG
     tar xvzf $HELM_PKG
-    mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
+    sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
     rm -rvf $HELM_PKG linux-amd64/
     ```
 
