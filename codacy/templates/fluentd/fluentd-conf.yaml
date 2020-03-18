@@ -23,7 +23,7 @@ data:
       remove_keys for_remove
     </filter>
 
-    # Move mested records to toplevel to be used as buffer key
+    # Move nested records to toplevel to be used as buffer key
     <filter **>
       @type record_modifier
       <record>
@@ -65,13 +65,20 @@ data:
       </format>
 
       # Check https://docs.fluentd.org/plugin-development/api-plugin-output
-      <buffer tag,time,container_name,pod_name>
+      # This plugin only implemens [async buffered mode](https://docs.fluentd.org/plugin-development/api-plugin-output#async-buffered-mode)
+      # With the current state this config means every time it writes to s3 it will [create a new file](https://github.com/fluent/fluent-plugin-s3/blob/50e4dc930ac8a5e5434382ad1365c58b9357221c/lib/fluent/plugin/out_s3.rb#L351),
+      #   not respecting the `timekey`. The only way to not have infinite files is to have a "reasonable" `timekey`.
+      #   Independently of how reasonable the `timekey` is, it might create problems when users report issues, since the actions they make in the UI might take at least `timekey` to be relfected in the log files.
+      # TLDR:
+      #   - `timekey_wait` seems to only add a wait before writting to the existing `timekey`
+      #   - `timekey` and `flush_interval` in the explained conditions above seem to have the exact same behaviour, the lower one will decide the partitioning
+      <buffer time,container_name,pod_name>
         @type file
         path /var/log/fluentd-buffers/s3.buffer
-        timekey 6h
+        timekey 60s
         timekey_wait 0s
         timekey_use_utc true
-        flush_interval 0s
+        flush_interval 60s
         flush_mode interval
       </buffer>
     </match>
