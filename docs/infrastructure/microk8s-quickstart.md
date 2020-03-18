@@ -63,15 +63,17 @@ All the following steps assume that you are starting from a blank slate.
     ```bash
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
     microk8s.enable dns && \
+    microk8s.status --wait-ready && \
     microk8s.enable storage && \
+    microk8s.status --wait-ready && \
     microk8s.enable ingress && \
-    microk8s.status --wait-ready &&
+    microk8s.status --wait-ready && \
     microk8s.stop && \
     microk8s.start && \
     microk8s.status --wait-ready
     ```
 
-2.  Install Tiller
+2.  Install Tiller:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
@@ -79,8 +81,7 @@ All the following steps assume that you are starting from a blank slate.
     helm init --service-account tiller
     ```
 
-3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready.
-    Failing to do so can result in pods entering a `CrashLoopBackoff` state:
+3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
