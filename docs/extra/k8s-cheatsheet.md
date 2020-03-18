@@ -26,7 +26,7 @@ helm dep build ./chart/codacy
 helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
 ```
 
-## How to clean the namespace
+## Clean the namespace
 
 ```
 helm del --purge codacy
@@ -45,7 +45,7 @@ kubectl -n codacy get pv  &
 kubectl -n codacy get job &
 ```
 
-### Check uninstall process
+### Check uninstall was successful
 ps aux | grep -i kubectl
 
 ## Get logs of a service
