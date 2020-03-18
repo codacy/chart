@@ -52,15 +52,51 @@ engine:
       enabled: true
 ```
 
-## Setting up monitoring using Crow [deprecated]
+## Setting up monitoring using Crow
 
 Crow is a visualization tool that displays information about the projects and jobs that are pending for analysis, as well as the ones running in the Codacy platform.
 
 The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 
-**Important note**
+The `crow` tool can be accessed through the `/monitoring` path of the url pointing to your Codacy installation, e.g. `http://codacy.company.org/monitoring`.
+You must set the `global.codacy.crow.url` value in your `values.yaml` file so that anchor links to your projects can be properly established inside `crow`.
+For example:
 
-This tool is in the process of being replaced by Grafana (which will handle authentication) and therefore the credentials to login can be freely shared since there is no sensitive information displayed in the platform. The current credentials are the following:
+```yaml
+global:
+  codacy:
+    crow:
+      url: "http://codacy.example.com/monitoring"
+```
 
-    username: codacy
-    password: C0dacy123
+Please see the [README.md](../../README.md) for more information about these values.
+
+### Configuring your credentials
+
+You **should** provide a password for the `crow` installation either through the `values.yaml` file or through a `--set` parameter during the `helm` installation process. This parameter can be configured as follows:
+
+* Through a `--set` parameter:
+
+  ```yaml
+  helm upgrade (...) --set crow.config.passwordAuth.password=<--- crow password --->
+  ```
+
+* Through the `values.yaml` file:
+
+  ```yaml
+  crow:
+    config:
+      passwordAuth:
+        password: <--- crow password --->
+  ```
+
+**Failing to do so your `crow` will fall back to using the default credentials as described [below](##Default-credentials).**
+
+## Default credentials
+
+If you have not configured your `crow` credentials as described [above](###Configuring-your-credentials), you can login with the following default credentials:
+
+```yaml
+username: codacy
+password: C0dacy123
+```

@@ -5,7 +5,7 @@ TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
-
+NGINX_INGRESS_VERSION ?= 1.17.1
 # variables
 K8S_VERSION ?= 1.15
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
@@ -34,20 +34,31 @@ setup_vars:
 	echo "num_nodes = $(NUM_NODES)" >> $(VARS_FILE)
 	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
+.PHONY: start_cluster
+start_cluster: provision_cluster set_cluster_context helm_init_upgrade install_nginx
+
+.PHONY: provision_cluster
+provision_cluster: setup_vars create_terraformrc
+# Our current tfstate is out of sync with the deployed infrastructure.
+# We must tweak it through terraform before we can have continuous deployment for the infrastructure.
+# echo '1' | $(TF) init -input=false -reconfigure
+# $(TF) workspace select $(WORKSPACE)
+# $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+# $(shell doctl kubernetes cluster kubeconfig save $(DOKS_CLUSTER_NAME) --set-current-context)
+# $(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
+
 .PHONY: set_cluster_context
 set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
 
-.PHONY: start_cluster
-start_cluster: set_cluster_context helm_init_upgrade
+.PHONY: helm_init_upgrade
+helm_init_upgrade:
+	helm init --upgrade
 
-.PHONY: cluster
-cluster: setup_vars create_terraformrc
-	echo '1' | $(TF) init -input=false -reconfigure
-	$(TF) workspace select $(WORKSPACE)
-	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
-	$(shell doctl kubernetes cluster kubeconfig save $(DOKS_CLUSTER_NAME) --set-current-context)
-	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false -var='cluster_only=false' --auto-approve
+.PHONY: install_nginx
+install_nginx:
+	helm upgrade --install nginx-ingress --version ${NGINX_INGRESS_VERSION} --namespace kube-system stable/nginx-ingress \
+	--set controller.publishService.enabled=true
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context
@@ -55,6 +66,4 @@ destroy_cluster: setup_vars create_terraformrc set_cluster_context
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
-.PHONY: helm_init_upgrade
-helm_init_upgrade:
-	helm init --upgrade
+

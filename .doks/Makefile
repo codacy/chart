@@ -24,12 +24,14 @@ define call_helm_install
 	--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set codacy-api.config.license=$${CODACY_LICENSE} \
 	--set global.codacy.url=${4} \
+	--set global.codacy.crow.url=${4}/monitoring \
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
 	--set global.bitbucketEnterprise.consumerPublicKey=$${BITBUCKET_ENTERPRISE_PUBLIC_KEY} \
 	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
-	--set worker-manager.config.codacy.worker.image=${5}
+	--set worker-manager.config.codacy.worker.image=${5} \
+	--set crow.config.passwordAuth.password=$${CROW_PASSWORD}
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
@@ -50,11 +52,16 @@ helm_install_from_chart_museum:
 update_dependencies:
 	$(MAKE) -C ../ update_dependencies
 
+.PHONY: update_ingress_values
+update_ingress_values:
+	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" ../codacy/values.yaml
+
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies update_ingress_values helm_install_from_local_dir
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos update_ingress_values helm_install_from_chart_museum
 
 .PHONY: set_cluster_context
 set_cluster_context:
