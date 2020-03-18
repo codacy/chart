@@ -69,7 +69,7 @@ global:
       url: "http://codacy.example.com/monitoring"
 ```
 
-Please see the [README.md](../../README.md) for more information about these values.
+Please see the [README.md](https://github.com/codacy/chart/blob/master/README.md) for more information about these values.
 
 ### Configuring your credentials
 
