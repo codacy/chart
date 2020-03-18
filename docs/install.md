@@ -32,7 +32,7 @@ If you are in microk8s, any `kubectl` command must be executed as `microk8s.kube
       --namespace codacy \
       --atomic \
       --timeout=300 \
-      --values values-production.yaml
+      --values values-production.yaml # --values values-microk8s.yaml
     ```
 
     By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):

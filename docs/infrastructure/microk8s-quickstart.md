@@ -46,7 +46,7 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.status --wait-ready
     ```
 
-3.  Install the Helm binary.
+3.  Install the version `v2.16.3` helm binary
 
     ```bash
     HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
@@ -97,15 +97,4 @@ After these commands return successfully, we have ensured that dns, http, and ng
 
 Any `kubectl` command from [our chart installation](../install.md) must be executed as a `microk8s.kubectl` command.
 
-When you get to installation step you also need to append the [`values-microk8s.yaml`](../../codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
-
-```bash
-  helm repo add codacy-stable https://charts.codacy.com/stable/
-  helm repo update
-  helm upgrade --install codacy codacy-stable/codacy \
-    --namespace codacy \
-    --atomic \
-    --timeout=300 \
-    --values values-production.yaml \
-    --values-microk8s.yaml
-```
+When you get to the installation step you also need to append the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
