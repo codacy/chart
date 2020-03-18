@@ -2,7 +2,7 @@
 
 ## Session Manager SSH
 
-When using AWS Session Manager since the CLI is very limited you will benefit from using this alias:
+When using AWS Session Manager since the CLI is very limited you will benefit from using these aliases:
 ```bash
 alias kubectl='sudo microk8s.kubectl -n codacy'
 alias helm='sudo helm'
