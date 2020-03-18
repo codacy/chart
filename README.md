@@ -197,8 +197,8 @@ The following parameters refer to components that are not internal to Codacy, bu
 
 | Parameter                        | Description                                                                                            | Default    |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
-| `fluentdoperator.enable`         | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed. | `false`    |
-| `fluentdoperator.expirationDays` | Number of days to retain logs. More time uses more disk on minio.                                      | `14`       |
+| `fluentdoperator.enable`         | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed. | `true`     |
+| `fluentdoperator.expirationDays` | Number of days to retain logs. More time uses more disk on minio.                                      | `7`        |
 | `rabbitmq-ha.rabbitmqUsername`   | Username for the bundled RabbitMQ.                                                                     | `rabbitmq` |
 | `rabbitmq-ha.rabbitmqPassword`   | Password for the bundled RabbitMQ.                                                                     | `rabbitmq` |
 
