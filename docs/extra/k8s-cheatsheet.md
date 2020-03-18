@@ -1,13 +1,5 @@
 # Kubernetes Cheatsheet
 
-## Session Manager SSH
-
-When using AWS Session Manager since the CLI is very limited you will benefit from using these aliases:
-```bash
-alias kubectl='sudo microk8s.kubectl -n codacy'
-alias helm='sudo helm'
-```
-
 ## How to install a custom Codacy version
 
 ### Install
@@ -46,7 +38,9 @@ kubectl -n codacy get job &
 ```
 
 ### Check uninstall was successful
+```bash
 ps aux | grep -i kubectl
+```
 
 ## Get logs of a service
 
@@ -95,4 +89,16 @@ kubectl exec -it daemonset/<daemonset-name> -c <container-name> sh
 # or
 
 kubectl exec -it deployment/<deployment-name> sh
+```
+
+## microk8s
+
+### Session Manager SSH
+
+When using AWS Session Manager, to connect to the instance where you installed microk8s,
+since the CLI is very limited you will benefit from using these aliases:
+
+```bash
+alias kubectl='sudo microk8s.kubectl -n <namespace-name>'
+alias helm='sudo helm'
 ```
