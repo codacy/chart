@@ -283,8 +283,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-monitoring-using-crow-deprecated" class="md-nav__link">
-    Setting up monitoring using Crow [deprecated]
+  <a href="#setting-up-monitoring-using-crow" class="md-nav__link">
+    Setting up monitoring using Crow
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-your-credentials" class="md-nav__link">
+    Configuring your credentials
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-credentials" class="md-nav__link">
+    Default credentials
   </a>
   
 </li>
@@ -513,8 +533,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-monitoring-using-crow-deprecated" class="md-nav__link">
-    Setting up monitoring using Crow [deprecated]
+  <a href="#setting-up-monitoring-using-crow" class="md-nav__link">
+    Setting up monitoring using Crow
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-your-credentials" class="md-nav__link">
+    Configuring your credentials
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-credentials" class="md-nav__link">
+    Default credentials
   </a>
   
 </li>
@@ -582,13 +622,41 @@ for Codacy components:</p>
       <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 
-<h2 id="setting-up-monitoring-using-crow-deprecated">Setting up monitoring using Crow [deprecated]<a class="headerlink" href="#setting-up-monitoring-using-crow-deprecated" title="Permanent link">&para;</a></h2>
+<h2 id="setting-up-monitoring-using-crow">Setting up monitoring using Crow<a class="headerlink" href="#setting-up-monitoring-using-crow" title="Permanent link">&para;</a></h2>
 <p>Crow is a visualization tool that displays information about the projects and jobs that are pending for analysis, as well as the ones running in the Codacy platform.</p>
 <p>The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.</p>
-<p><strong>Important note</strong></p>
-<p>This tool is in the process of being replaced by Grafana (which will handle authentication) and therefore the credentials to login can be freely shared since there is no sensitive information displayed in the platform. The current credentials are the following:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">username</span><span class="o">:</span> <span class="n">codacy</span>
-<span class="n">password</span><span class="o">:</span> <span class="n">C0dacy123</span>
+<p>The <code class="codehilite"><span class="err">crow</span></code> tool can be accessed through the <code class="codehilite"><span class="err">/monitoring</span></code> path of the url pointing to your Codacy installation, e.g. <code class="codehilite"><span class="c">http://codacy.company.org/monitoring</span></code>.
+You must set the <code class="codehilite"><span class="err">global.codacy.crow.url</span></code> value in your <code class="codehilite"><span class="err">values.yaml</span></code> file so that anchor links to your projects can be properly established inside <code class="codehilite"><span class="err">crow</span></code>.
+For example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+  <span class="nt">codacy</span><span class="p">:</span>
+    <span class="nt">crow</span><span class="p">:</span>
+      <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com/monitoring&quot;</span>
+</code></pre></div>
+
+<p>Please see the <a href="https://github.com/codacy/chart/blob/master/README.md">README.md</a> for more information about these values.</p>
+<h3 id="configuring-your-credentials">Configuring your credentials<a class="headerlink" href="#configuring-your-credentials" title="Permanent link">&para;</a></h3>
+<p>You <strong>should</strong> provide a password for the <code class="codehilite"><span class="err">crow</span></code> installation either through the <code class="codehilite"><span class="err">values.yaml</span></code> file or through a <code class="codehilite"><span class="err">--set</span></code> parameter during the <code class="codehilite"><span class="err">helm</span></code> installation process. This parameter can be configured as follows:</p>
+<ul>
+<li>Through a <code class="codehilite"><span class="err">--set</span></code> parameter:</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">helm upgrade (...) --set crow.config.passwordAuth.password=&lt;--- crow password ---&gt;</span>
+</code></pre></div>
+
+<ul>
+<li>Through the <code class="codehilite"><span class="err">values.yaml</span></code> file:</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="nt">crow</span><span class="p">:</span>
+  <span class="nt">config</span><span class="p">:</span>
+    <span class="nt">passwordAuth</span><span class="p">:</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;--- crow password ---&gt;</span>
+</code></pre></div>
+
+<p><strong>Failing to do so your <code class="codehilite"><span class="err">crow</span></code> will fall back to using the default credentials as described <a href="##Default-credentials">below</a>.</strong></p>
+<h2 id="default-credentials">Default credentials<a class="headerlink" href="#default-credentials" title="Permanent link">&para;</a></h2>
+<p>If you have not configured your <code class="codehilite"><span class="err">crow</span></code> credentials as described <a href="###Configuring-your-credentials">above</a>, you can login with the following default credentials:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">codacy</span>
+<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">C0dacy123</span>
 </code></pre></div>
                 
                   
