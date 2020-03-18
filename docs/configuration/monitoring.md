@@ -52,26 +52,51 @@ engine:
       enabled: true
 ```
 
-## Setting up monitoring using Crow [deprecated]
+## Setting up monitoring using Crow
 
 Crow is a visualization tool that displays information about the projects and jobs that are pending for analysis, as well as the ones running in the Codacy platform.
 
 The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 
 The `crow` tool can be accessed through the `/monitoring` path of the url pointing to your Codacy installation, e.g. `http://codacy.company.org/monitoring`.
-You must set the `crow.config.codacy.url` and `crow.config.crow.url` values in your `values.yaml` file so that anchor links to your projects can be properly established inside `crow`.
+You must set the `global.codacy.crow.url` value in your `values.yaml` file so that anchor links to your projects can be properly established inside `crow`.
+For example:
+
+```yaml
+global:
+  codacy:
+    crow:
+      url: "http://codacy.example.com/monitoring"
+```
 
 Please see the [README.md](../../README.md) for more information about these values.
 
-**Important note**
+### Configuring your credentials
 
-You **must** provide a `CROW_PASSWORD` environment variable for your Crow password:
+You **should** provide a password for the `crow` installation either through the `values.yaml` file or through a `--set` parameter during the `helm` installation process. This parameter can be configured as follows:
 
-```bash
-  export CROW_PASSWORD=<--- crow password --->
+* Through a `--set` parameter:
+
+  ```yaml
+  helm upgrade (...) --set crow.config.passwordAuth.password=<--- crow password --->
+  ```
+
+* Through the `values.yaml` file:
+
+  ```yaml
+  crow:
+    config:
+      passwordAuth:
+        password: <--- crow password --->
+  ```
+
+**Failing to do so your `crow` will fall back to using the default credentials as described [below](##Default-credentials).**
+
+## Default credentials
+
+If you have not configured your `crow` credentials as described [above](###Configuring-your-credentials), you can login with the following default credentials:
+
+```yaml
+username: codacy
+password: C0dacy123
 ```
-
-After the installation process is complete, your credentials will be as follows:
-
-    username: codacy
-    password: <--- crow password --->
