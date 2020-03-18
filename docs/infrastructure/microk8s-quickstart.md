@@ -37,7 +37,7 @@ All the following steps assume that you are starting from a blank slate.
     ```bash
     sudo snap install microk8s --classic --channel=1.15/stable && \
     sudo usermod -a -G microk8s $USER  && \
-    su - $USER
+    sudo su - $USER
     ```
 
     Check that microk8s is running.
