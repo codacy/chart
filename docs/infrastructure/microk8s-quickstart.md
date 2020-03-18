@@ -17,12 +17,10 @@ Two executables will get installed onto the cluster as part of this process: `he
 
 ## 2. Prepare your environment
 
-Prepare your environment to set up the microk8s cluster.
-For your infrastructure, you will need the following:
+Prepare your environment to set up the microk8s cluster. For your infrastructure, you will need the following:
 
-1.  A machine running Ubuntu 18.04 LTS.
+1.  A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
 2.  A postgres database with all the necessary databases created and open firewall rule. ([Documentation can be found here.](../requirements.md#postgresql-server-setup))
-3.  Establish a session (local or remote) onto the machine described in 1. above.
 
 All the following steps assume that you are starting from a blank slate.
 
