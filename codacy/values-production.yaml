@@ -204,6 +204,13 @@ listener:
     persistence:
       enabled: true
       size: 200Gi
+    resources:
+      limits:
+        cpu: 250m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
 core:
   replicaCount: 2
   resources:
