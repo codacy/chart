@@ -17,13 +17,13 @@ If you are in microk8s, any `kubectl` command must be executed as `microk8s.kube
     kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
     ```
 
-3.  Use a text editor of your choice edit the [`values-production.yaml`](../../chart/codacy/values-production.yaml) file, changing the values with placeholders as described in the comments.
+3.  Use a text editor of your choice edit the [`values-production.yaml`](../codacy/values-production.yaml) file, changing the values with placeholders as described in the comments.
 
 
 4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.
 
     **NOTE:**
-    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
+    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](../codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/

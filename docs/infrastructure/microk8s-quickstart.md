@@ -98,7 +98,7 @@ After these commands return successfully, we have ensured that dns, http, and ng
 
 Any `kubectl` command from [our chart installation](../install.md) must be executed as a `microk8s.kubectl` command.
 
-When you get to installation step you also need to append the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
+When you get to installation step you also need to append the [`values-microk8s.yaml`](../../codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
 
 ```bash
   helm repo add codacy-stable https://charts.codacy.com/stable/
