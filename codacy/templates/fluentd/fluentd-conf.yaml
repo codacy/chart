@@ -19,7 +19,7 @@ data:
       <record>
         for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record.delete("container_info"); record.delete("docker")}
       </record>
-      # This removes unneeded fields from the logs
+      # This removes the fields defined in `for_remove` from the logs
       remove_keys for_remove
     </filter>
 
