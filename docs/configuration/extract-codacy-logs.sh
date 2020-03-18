@@ -20,6 +20,13 @@ set_variable()
   fi
 }
 
+cleanup()
+{
+	if [ -z $LOGS_DIR ]; then
+		rm -r $LOGS_DIR &>/dev/null
+	fi
+}
+
 
 #### Log extraction script ####
 
@@ -43,7 +50,7 @@ echo "Starting log files extraction"
 
 # Check if kubectl is available
 echo "Checking if kubectl is installed..."
-kubectl --version &>/dev/null
+kubectl version &>/dev/null
 if [ $? -ne 0 ]; then
 	echo "kubectl not installed"
 	echo "Please install kubectl version specified in Codacy's documentation (see here - https://codacy.github.io/chart/#preparing-to-install-codacy) or the version used when installing your cluster"
@@ -54,7 +61,7 @@ fi
 
 # Check current cluster context
 echo "Checking access to kubernetes cluster..."
-$KUBE_CTX=$(kubectl config current-context)
+KUBE_CTX=$(kubectl config current-context)
 if [ $? -ne 0 ]; then
 	echo "No kubernetes cluster context configured"
 	echo "Log files extraction failed, exiting..."
@@ -62,8 +69,8 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Is '$KUBE_CTX' the correct kubernetes cluster for log extraction? (yes/no)"
-read -p ANSWER
-if [ $ANSWER != "yes" ]; then
+read ANSWER
+if [ "$ANSWER" != "yes" ]; then
 	echo "Please configure correctly your current kubernetes cluster"
 	echo "Log files extraction failed, exiting..."
 	exit 2
@@ -78,12 +85,13 @@ if [ $? -ne 0 ]; then
 fi
 
 # Get pod name for the logs pod
-echo "Check if the logs kubernetes pod exists..."
+echo "Checking if the logs kubernetes pod exists..."
 LOGS_POD_NAME=$(kubectl get pods -n $NAMESPACE -l app=minio -o jsonpath='{.items[*].metadata.name}')
 if [ $? -ne 0 ]; then
 	echo "Failed to get the name of the logs kubernetes pod, for namespace $NAMESPACE"
 	echo "Are you sure you are in the right kubernetes cluster context?"
 	echo "Log files extraction failed, exiting..."
+	cleanup
 	exit $?
 fi
 
@@ -92,8 +100,9 @@ echo "Extracting log files..."
 kubectl cp $NAMESPACE/$LOGS_POD_NAME:/export/logs $LOGS_DIR
 if [ $? -ne 0 ]; then
 	echo "Failed to extract log files from kubernetes pod $LOGS_POD_NAME to local directory $LOGS_DIR"
-	echo "Are you sure you are in the right cluster context?"
+	echo "Are you sure you are in the right kubernetes cluster context?"
 	echo "Log files extraction failed, exiting..."
+	cleanup
 	exit $?
 fi
 
@@ -108,5 +117,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Log file extraction completed"
-# Cleanup
-rm -r $LOGS_DIR &>/dev/null
+cleanup
