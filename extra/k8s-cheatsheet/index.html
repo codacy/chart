@@ -36,7 +36,7 @@
     
     
       
-        <title>Database Migration Guide - Codacy Chart</title>
+        <title>Kubernetes Cheatsheet - Codacy Chart</title>
       
     
     
@@ -85,7 +85,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#database-migration-guide" tabindex="0" class="md-skip">
+      <a href="#kubernetes-cheatsheet" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -111,7 +111,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Database Migration Guide
+                Kubernetes Cheatsheet
               
             </span>
           
@@ -355,6 +355,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../database/" title="Database Migration Guide" class="md-nav__link">
+      Database Migration Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -366,11 +378,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Database Migration Guide
+        Kubernetes Cheatsheet
       </label>
     
-    <a href="./" title="Database Migration Guide" class="md-nav__link md-nav__link--active">
-      Database Migration Guide
+    <a href="./" title="Kubernetes Cheatsheet" class="md-nav__link md-nav__link--active">
+      Kubernetes Cheatsheet
     </a>
     
       
@@ -384,30 +396,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dumping-your-current-data-out-of-a-running-postgres" class="md-nav__link">
-    Dumping your current data out of a running Postgres
+  <a href="#how-to-install-a-custom-codacy-version" class="md-nav__link">
+    How to install a custom Codacy version
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pg_dump" class="md-nav__link">
-    pg_dump
+  <a href="#install" class="md-nav__link">
+    Install
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#pg_restore" class="md-nav__link">
-    pg_restore
+  <a href="#update" class="md-nav__link">
+    Update
   </a>
   
 </li>
@@ -418,9 +423,117 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sample-script" class="md-nav__link">
-    Sample script
+  <a href="#clean-the-namespace" class="md-nav__link">
+    Clean the namespace
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-uninstall-was-successful" class="md-nav__link">
+    Check uninstall was successful
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-logs-of-a-service" class="md-nav__link">
+    Get logs of a service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edit-configmap" class="md-nav__link">
+    Edit configmap
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-deployment-of-daemonset" class="md-nav__link">
+    Restart deployment of daemonset
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daemonsets" class="md-nav__link">
+    daemonsets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-logs" class="md-nav__link">
+    Read logs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daemonset-with-multiple-containers" class="md-nav__link">
+    daemonset with multiple containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-shell-inside-container" class="md-nav__link">
+    Open shell inside container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#microk8s" class="md-nav__link">
+    microk8s
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-manager-ssh" class="md-nav__link">
+    Session Manager SSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -432,18 +545,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../k8s-cheatsheet/" title="Kubernetes Cheatsheet" class="md-nav__link">
-      Kubernetes Cheatsheet
-    </a>
   </li>
 
         
@@ -545,30 +646,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dumping-your-current-data-out-of-a-running-postgres" class="md-nav__link">
-    Dumping your current data out of a running Postgres
+  <a href="#how-to-install-a-custom-codacy-version" class="md-nav__link">
+    How to install a custom Codacy version
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pg_dump" class="md-nav__link">
-    pg_dump
+  <a href="#install" class="md-nav__link">
+    Install
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#pg_restore" class="md-nav__link">
-    pg_restore
+  <a href="#update" class="md-nav__link">
+    Update
   </a>
   
 </li>
@@ -579,9 +673,117 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sample-script" class="md-nav__link">
-    Sample script
+  <a href="#clean-the-namespace" class="md-nav__link">
+    Clean the namespace
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-uninstall-was-successful" class="md-nav__link">
+    Check uninstall was successful
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-logs-of-a-service" class="md-nav__link">
+    Get logs of a service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edit-configmap" class="md-nav__link">
+    Edit configmap
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-deployment-of-daemonset" class="md-nav__link">
+    Restart deployment of daemonset
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daemonsets" class="md-nav__link">
+    daemonsets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-logs" class="md-nav__link">
+    Read logs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daemonset-with-multiple-containers" class="md-nav__link">
+    daemonset with multiple containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-shell-inside-container" class="md-nav__link">
+    Open shell inside container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#microk8s" class="md-nav__link">
+    microk8s
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-manager-ssh" class="md-nav__link">
+    Session Manager SSH
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -602,63 +804,101 @@
               
                 
                 
-                <h1 id="database-migration-guide">Database Migration Guide<a class="headerlink" href="#database-migration-guide" title="Permanent link">&para;</a></h1>
-<p>Migrating databases between pods is a straightforward process with 3 steps:</p>
-<ol>
-<li>Dump the databases to a dump file.</li>
-<li>Apply the dump file.</li>
-<li>Delete the dump file.</li>
-</ol>
-<p>You will have to dump all the following databases:</p>
-<ol>
-<li>accounts</li>
-<li>analysis</li>
-<li>filestore</li>
-<li>jobs</li>
-<li>metrics</li>
-<li>results</li>
-</ol>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p>The following operations must be executed by a user which has elevated access (<code class="codehilite"><span class="err">SUPERUSER</span></code>) in the Postgres databases.</p>
-<h2 id="dumping-your-current-data-out-of-a-running-postgres">Dumping your current data out of a running Postgres<a class="headerlink" href="#dumping-your-current-data-out-of-a-running-postgres" title="Permanent link">&para;</a></h2>
-<p>You will need to know the following:</p>
-<ul>
-<li><code class="codehilite"><span class="err">$HOSTNAME</span></code> - the hostname where the database is located.</li>
-<li><code class="codehilite"><span class="err">$DB_USER</span></code> - the username with privileged access to the database that will perform the dump.</li>
-<li><code class="codehilite"><span class="err">$DB</span></code> - the database that you would like to export.</li>
-<li><code class="codehilite"><span class="err">$DB_PASSWORD</span></code> - the database password.</li>
-</ul>
-<h3 id="pg_dump">pg_dump<a class="headerlink" href="#pg_dump" title="Permanent link">&para;</a></h3>
-<p>The following command lets you extract a given database into a dump file:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar
+                <h1 id="kubernetes-cheatsheet">Kubernetes Cheatsheet<a class="headerlink" href="#kubernetes-cheatsheet" title="Permanent link">&para;</a></h1>
+<h2 id="how-to-install-a-custom-codacy-version">How to install a custom Codacy version<a class="headerlink" href="#how-to-install-a-custom-codacy-version" title="Permanent link">&para;</a></h2>
+<h3 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>sudo git clone git://github.com/codacy/chart -b &lt;YOUR-BRANCH&gt;
+helm dep build ./chart/codacy
+helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout<span class="o">=</span><span class="m">300</span> --values ./&lt;YOUR-VALUES-FILE&gt;
 </code></pre></div>
 
-<p>This will dump the file with the <code class="codehilite"><span class="na">.sql.tar</span></code> extension into the <code class="codehilite"><span class="err">/tmp</span></code> folder.</p>
-<p><a href="https://www.postgresql.org/docs/10/app-pgdump.html">For more information and additional options, please check the official documentation.</a></p>
-<h3 id="pg_restore">pg_restore<a class="headerlink" href="#pg_restore" title="Permanent link">&para;</a></h3>
-<p>To restore a database, you can run a <code class="codehilite"><span class="err">pg_restore</span></code> command to consume the dump file and replicate the data onto Postgres:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar --clean --if-exists --create
+<h3 id="update">Update<a class="headerlink" href="#update" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="o">(</span><span class="nb">cd</span> chart<span class="p">;</span> sudo git fetch --all --prune --tags<span class="p">;</span> sudo git reset --hard origin/&lt;YOUR-BRANCH&gt;<span class="p">;</span><span class="o">)</span>
+helm dep build ./chart/codacy
+helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout<span class="o">=</span><span class="m">300</span> --values ./&lt;YOUR-VALUES-FILE&gt;
 </code></pre></div>
 
-<p><em>NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called <code class="codehilite"><span class="err">jobs</span></code> created there)</em></p>
-<p><a href="https://www.postgresql.org/docs/9.6/app-pgrestore.html">For more information and additional options, please check the official documentation.</a></p>
-<h2 id="sample-script">Sample script<a class="headerlink" href="#sample-script" title="Permanent link">&para;</a></h2>
-<p>Assuming you have the same <code class="codehilite"><span class="err">$DB_USER</span></code> and <code class="codehilite"><span class="err">$DB_PASSWORD</span></code>, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">SRC_HOSTNAME</span><span class="o">=</span><span class="nv">$1</span>
-<span class="nv">DEST_HOSTNAME</span><span class="o">=</span><span class="nv">$2</span>
-<span class="nv">DB_USER</span><span class="o">=</span><span class="nv">$3</span>
-<span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="nv">$4</span>
-
-<span class="nb">declare</span> -a <span class="nv">dbs</span><span class="o">=(</span>accounts analysis filestore <span class="nb">jobs</span> metrics results<span class="o">)</span>
-<span class="k">for</span> db in <span class="si">${</span><span class="nv">dbs</span><span class="p">[@]</span><span class="si">}</span>
-<span class="k">do</span>
-  <span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$SRC_HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$db</span> -F t -f /tmp/<span class="nv">$db</span>.sql.tar
-  <span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$DEST_HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$db</span> -F t /tmp/<span class="nv">$db</span>.sql.tar --clean --if-exists --create
-<span class="k">done</span>
+<h2 id="clean-the-namespace">Clean the namespace<a class="headerlink" href="#clean-the-namespace" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="err">helm del --purge codacy</span>
+<span class="err">kubectl -n codacy delete --all pod &amp;</span>
+<span class="err">kubectl -n codacy delete --all pvc &amp;</span>
+<span class="err">kubectl -n codacy delete --all pv  &amp;</span>
+<span class="err">kubectl -n codacy delete --all job &amp;</span>
+<span class="err">sleep 5</span>
+<span class="err">kubectl -n codacy patch pvc -p &#39;{&quot;metadata&quot;:{&quot;finalizers&quot;:null}}&#39; $(kubectl -n codacy get pvc -o jsonpath=&#39;{.items[*].metadata.name}&#39;)</span>
+<span class="err">kubectl -n codacy patch pv -p &#39;{&quot;metadata&quot;:{&quot;finalizers&quot;:null}}&#39; $(kubectl -n codacy get pv -o jsonpath=&#39;{.items[*].metadata.name}&#39;)</span>
+<span class="err">sleep 5</span>
+<span class="err">kubectl -n codacy delete pod $(kubectl -n codacy get pod -o jsonpath=&#39;{.items[*].metadata.name}&#39;) --force --grace-period=0</span>
+<span class="err">kubectl -n codacy get pod &amp;</span>
+<span class="err">kubectl -n codacy get pvc &amp;</span>
+<span class="err">kubectl -n codacy get pv  &amp;</span>
+<span class="err">kubectl -n codacy get job &amp;</span>
 </code></pre></div>
 
-<p>You could simply invoke it with:</p>
-<div class="codehilite"><pre><span></span><code>migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com postgres–instance1.eu-west-1.rds.amazonaws.com super_user secret_password
+<h3 id="check-uninstall-was-successful">Check uninstall was successful<a class="headerlink" href="#check-uninstall-was-successful" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>ps aux <span class="p">|</span> grep -i kubectl
+</code></pre></div>
+
+<h2 id="get-logs-of-a-service">Get logs of a service<a class="headerlink" href="#get-logs-of-a-service" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>kubectl get services
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl logs svc/&lt;service-name&gt;
+</code></pre></div>
+
+<h2 id="edit-configmap">Edit configmap<a class="headerlink" href="#edit-configmap" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>kubectl get configmaps
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl edit configmap &lt;configmap-name&gt;
+</code></pre></div>
+
+<h2 id="restart-deployment-of-daemonset">Restart deployment of daemonset<a class="headerlink" href="#restart-deployment-of-daemonset" title="Permanent link">&para;</a></h2>
+<h3 id="daemonsets">daemonsets<a class="headerlink" href="#daemonsets" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>kubectl get daemonsets
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl rollout restart daemonset/&lt;daemonset-name&gt;
+</code></pre></div>
+
+<h3 id="deployment">deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>kubectl get deployment
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl rollout restart deployment/&lt;deployment-name&gt;
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl rollout status deployment/&lt;deployment-name&gt; -w
+</code></pre></div>
+
+<h2 id="read-logs">Read logs<a class="headerlink" href="#read-logs" title="Permanent link">&para;</a></h2>
+<h3 id="daemonset-with-multiple-containers">daemonset with multiple containers<a class="headerlink" href="#daemonset-with-multiple-containers" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>kubectl logs daemonset/&lt;daemonset-name&gt; &lt;container-name&gt; -f
+</code></pre></div>
+
+<h3 id="service">service<a class="headerlink" href="#service" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>kubectl logs service/&lt;service-name&gt; -f
+</code></pre></div>
+
+<h2 id="open-shell-inside-container">Open shell inside container<a class="headerlink" href="#open-shell-inside-container" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>kubectl <span class="nb">exec</span> -it daemonset/&lt;daemonset-name&gt; -c &lt;container-name&gt; sh
+</code></pre></div>
+
+<p><strong>or</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl <span class="nb">exec</span> -it deployment/&lt;deployment-name&gt; sh
+</code></pre></div>
+
+<h2 id="microk8s">microk8s<a class="headerlink" href="#microk8s" title="Permanent link">&para;</a></h2>
+<h3 id="session-manager-ssh">Session Manager SSH<a class="headerlink" href="#session-manager-ssh" title="Permanent link">&para;</a></h3>
+<p>When using AWS Session Manager, to connect to the instance where you installed microk8s,
+since the CLI is very limited you will benefit from using these aliases:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">alias</span> <span class="nv">kubectl</span><span class="o">=</span><span class="s1">&#39;sudo microk8s.kubectl -n &lt;namespace-name&gt;&#39;</span>
+<span class="nb">alias</span> <span class="nv">helm</span><span class="o">=</span><span class="s1">&#39;sudo helm&#39;</span>
 </code></pre></div>
                 
                   
@@ -681,7 +921,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../configuration/git-providers/gitlab-enterprise/" title="GitLab Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../database/" title="Database Migration Guide" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -690,19 +930,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GitLab Enterprise
+                Database Migration Guide
               </span>
             </div>
           </a>
         
         
-          <a href="../k8s-cheatsheet/" title="Kubernetes Cheatsheet" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../uninstall/" title="Uninstall" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Kubernetes Cheatsheet
+                Uninstall
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
