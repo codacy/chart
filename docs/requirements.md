@@ -2,78 +2,44 @@
 
 Running Codacy on a Kubernetes cluster requires the following:
 
--   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#cluster-resource-requirements)
--   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) for Kubernetes
+-   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#hardware-requirements)
+-   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly set up in your cluster
 -   A [PostgreSQL server](#postgresql-server-setup) accessible from the Kubernetes cluster
 
-## Cluster resource requirements
+## Hardware requirements
 
-To have an enjoyable experience with Codacy, you should have the
-following calculations in mind when allocating resources for the
-installation and defining the number of concurrent analysis.
+The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.
 
-Without accounting for analysis ([next section](#analysis)),
-you should need at least the following resources:
+You can look at Codacy separately as the "Platform" and the "Analysis" cluster. The Platform contains the UI and other
+components important to treat and show results. The Analysis is the swarm of workers that run several linters for
+your project.
 
-```text
-CPU: 7 CPU
-Memory: 40 GB
-```
+**The resources needed for Codacy depend a lot on the rate of commits done by your team.**
 
-Check the
-[values-production.yaml](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml)
-file to find a configuration reference that should work for you to run a
-"production-ready" version of Codacy.
+!["High Level Architecture"](<./images/High Level Architecture - Analysis II.svg> "High Level Architecture")
 
-### Analysis
+Since all of this runs in kubernetes, you can increase the number of replicas in for every deployment, which should give you more resilience and throughput, but it will also increase resource usage. A very simplistic overview of the resource allocations for the "Platform" and "Analysis" goes something like this:
 
-Each analysis runs a maximum number of 4 plugins in parallel (not configurable)
+| Component                           | vCPU | Memory |
+| ----------------------------------- | ---- | ------ |
+| Platform w/ 1 replica on everything | 4    | 8      |
+| Per Analysis Worker                 | 5    | 10     |
 
-Note: All the following configurations are nested inside the `worker-manager.config`
-configuration object, but for simplicity, we decided to omit the full path.
+The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
 
-```text
-CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
+| Installation type                        | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
+| ---------------------------------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
+| Kubernetes Small Installation            | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   | 16            | 32 GB          |
+| Kubernetes Medium Installation (default) | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   | 32            | 64 GB          |
+| Kubernetes Big Installation              | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 | 60+           | 110+ GB        |
 
-Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
+**NOTE:**
+For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be used by microk8s itself.
 
-Number of concurrent analysis: workers.dedicatedMax
-```
-
-Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.
-
-### Example
-
-_Maximum of 6 concurrent analysis_
-
-```yaml
-worker-manager:
-  config:
-    workers:
-      dedicatedMax: 3
-    workerResources:
-      limits:
-        cpu: 1
-        memory: "2Gi"
-    pluginResources:
-      requests:
-        cpu: 0.5
-        memory: 1000000000 # 1GB
-```
-
-In this example the minimum number of resources required would be:
-
-```text
-CPU: 6 * (1 + (0.5 * 4)) = 18 CPU
-Memory: 6 * (2 + (1 * 4)) = 36 GB
-```
-
-**Total:**
-
-```text
-CPU: 7 CPU + 18 CPU = 25 CPU
-Memory: 40 GB + 36 GB = 76 GB
-```
+| Installation type              | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
+| ------------------------------ | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
+| MicroK8s Minimum               | 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   | 16            | 32 GB          |
+| MicroK8s Recommended (default) | 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   | 20+           | 32+ GB         |
 
 ## PostgreSQL server setup
 
