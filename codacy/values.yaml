@@ -272,19 +272,11 @@ codacy-ingress:
       nginx.ingress.kubernetes.io/proxy-body-size: 128m
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/use-regex: "true"
-      # certmanager.k8s.io/acme-challenge-type: http01
-      # certmanager.k8s.io/cluster-issuer: letsencrypt
-      # kubernetes.io/tls-acme: "true"
     extraPaths:
       - backend:
           serviceName: codacy-crow
           servicePort: http
         path: /monitoring
-    # tls:
-    #   hosts:
-    #     - host: <codacy-app.dns.internal>
-    #     - host: <codacy-ap1.dns.internal>
-    #   secretName: codacy-ingress-tls-secret
 
 codacy-api:
   replicaCount: 1
