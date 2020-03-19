@@ -38,7 +38,7 @@ The fluentd daemonset will send the logs to minio which is also installed by thi
 To extract the logs and send them to Codacy's support team in case of problems, you can run the following command locally (replacing the `<namespace>` with the namespace in which Codacy was installed):
 
 ```bash
-curl https://codacy.github.io/chart/configuration/extract-codacy-logs.sh > extract-codacy-logs.sh && chmod +x extract-codacy-logs.sh && extract-codacy-logs.sh -n <namespace>
+bash <(curl -fsSL https://codacy.github.io/chart/configuration/extract-codacy-logs.sh) -n <namespace>
 ```
 
 The logs extraction script is also available [here](extract-codacy-logs.sh), for manual downloading.
