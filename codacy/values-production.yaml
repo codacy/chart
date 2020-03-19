@@ -90,7 +90,6 @@ global:
 codacy-ingress:
   create: true
   ingress:
-    enabled: true
     hostname:
       app: <--- codacy.example.com ---> # Codacy application DNS
       api: <--- codacy.example.com ---> # Codacy API DNS
