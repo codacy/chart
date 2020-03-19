@@ -46,6 +46,11 @@ ps aux | grep -i kubectl
 
 ```bash
 kubectl get services
+```
+
+**and**
+
+```bash
 kubectl logs svc/<service-name>
 ```
 
@@ -53,17 +58,44 @@ kubectl logs svc/<service-name>
 
 ```bash
 kubectl get configmaps
+```
+
+**and**
+
+```bash
 kubectl edit configmap <configmap-name>
 ```
 
 ## Restart deployment of daemonset
 
+### daemonsets
+
 ```bash
 kubectl get daemonsets
-kubectl rollout restart daemonset/<daemonset-name>
+```
 
+**and**
+
+```bash
+kubectl rollout restart daemonset/<daemonset-name>
+```
+
+
+### deployment
+
+```bash
 kubectl get deployment
+```
+
+**and**
+
+```bash
 kubectl rollout restart deployment/<deployment-name>
+```
+
+**and**
+
+```bash
 kubectl rollout status deployment/<deployment-name> -w
 ```
 
@@ -85,9 +117,11 @@ kubectl logs service/<service-name> -f
 
 ```bash
 kubectl exec -it daemonset/<daemonset-name> -c <container-name> sh
+```
 
-# or
+**or**
 
+```bash
 kubectl exec -it deployment/<deployment-name> sh
 ```
 
