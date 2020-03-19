@@ -1,9 +1,15 @@
 # Installing Codacy
 
-Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.
+Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud-native Helm chart.
 
-**NOTE:**
-If you are in microk8s, any `kubectl` command must be executed as `microk8s.kubectl` instead.
+Before you continue, make sure you have the following tools installed in your machine.
+
+-   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
+
+      **NOTE:**
+      If you are in microk8s, any `kubectl` command must be executed as `microk8s.kubectl` instead.
+
+-   [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.3
 
 1.  Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
 
