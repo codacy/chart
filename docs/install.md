@@ -1,6 +1,15 @@
 # Installing Codacy
 
-Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.
+Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud-native Helm chart.
+
+Before you continue, make sure you have the following tools installed in your machine.
+
+-   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version compatible with your cluster ([within one minor version difference of your cluster](https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin))
+
+      **NOTE:**
+      If you are in microk8s, any `kubectl` command must be executed as `microk8s.kubectl` instead.
+
+-   [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.3
 
 1.  Create a Kubernetes namespace called `codacy` that will group all cluster resources related to Codacy.
 
@@ -14,34 +23,22 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
     ```
 
-3.  Use a text editor of your choice to copy the template below to a new file named `values.yaml`, changing the values as described in the comments.
+3.  Use a text editor of your choice edit the [`values-production.yaml`](../codacy/values-production.yaml) file, changing the values with placeholders as described in the comments.
 
-    ```yaml
-    global:
-      imagePullSecrets:
-        - name: docker-credentials
-      codacy:
-        url: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
-        backendUrl: "http://codacy.example.com" # This value is important for VCS configuration and badges to work
-      play:
-        cryptoSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-      akka:
-        sessionSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-      filestore:
-        contentsSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-        uuidSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-      cacheSecret: "CHANGE ME" # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-    ```
 
-4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the `values.yaml` file created in the previous step.
+4.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.
+
+    **NOTE:**
+    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](../codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
     helm repo update
     helm upgrade --install codacy codacy-stable/codacy \
       --namespace codacy \
-      --recreate-pods \
-      --values values.yaml
+      --atomic \
+      --timeout=300 \
+      --values values-production.yaml # --values values-microk8s.yaml
     ```
 
     By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):
@@ -66,28 +63,4 @@ Follow the steps below to install Codacy on an existing Kubernetes cluster using
     codacy-core-786c6f79f-7sn7p                      1/1    Running           0         6m11s
     codacy-core-786c6f79f-pvg9w                      1/1    Running           0         6m11s
     [...]
-    ```
-
-5.  Download the [reference file](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) `values-production.yaml` and configure the following values for each Codacy database:
-
-    -   `host` (host name of the PostgreSQL server, accessible from the cluster)
-    -   `postgresqlUsername` (dedicated Codacy user)
-    -   `postgresqlPassword` (password for the dedicated Codacy user)
-
-6. Configure the ingress values on the values-production.yaml file that you have just updated:
-
-    -   app: <--- codacy-app.dns.internal ---> (Codacy application DNS)
-    -   api: <--- codacy-api.dns.internal ---> (Codacy API DNS)
-    -   external-dns.alpha.kubernetes.io/hostname: '<--- codacy-app.dns.internal --->, <--- codacy-api.dns.internal --->' (Codacy application and API DNS)
-    -   host: <--- codacy-app.dns.internal ---> (Codacy application DNS)
-    -   host: <--- codacy-api.dns.internal ---> (Codacy API DNS)
-
-7.  Run the command below to update the cluster to use the PostgreSQL server configuration:
-
-    ```bash
-    helm upgrade --install codacy codacy-stable/codacy \
-      --namespace codacy \
-      --recreate-pods \
-      --values values.yaml \
-      --values values-production.yaml
     ```
