@@ -28,68 +28,68 @@ All the following steps assume that you are starting from a blank slate.
 
 1. Make sure the machine has the `nfs-common` package installed.
 
-   ```bash
-   sudo apt update && sudo apt install nfs-common -y
-   ```
+    ```bash
+    sudo apt update && sudo apt install nfs-common -y
+    ```
 
 2. Install microk8s from the `1.15/stable` channel.
 
-   ```bash
-   sudo snap install microk8s --classic --channel=1.15/stable && \
-   sudo usermod -a -G microk8s $USER  && \
-   sudo su - $USER
-   ```
+    ```bash
+    sudo snap install microk8s --classic --channel=1.15/stable && \
+    sudo usermod -a -G microk8s $USER  && \
+    sudo su - $USER
+    ```
 
-   Check that microk8s is running.
+    Check that microk8s is running.
 
-   ```bash
-   microk8s.status --wait-ready
-   ```
+    ```bash
+    microk8s.status --wait-ready
+    ```
 
 3. Install the version `v2.16.3` of the helm binary
 
-   ```bash
-   HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
-   wget https://get.helm.sh/$HELM_PKG
-   tar xvzf $HELM_PKG
-   sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
-   rm -rvf $HELM_PKG linux-amd64/
-   ```
+    ```bash
+    HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
+    wget https://get.helm.sh/$HELM_PKG
+    tar xvzf $HELM_PKG
+    sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
+    rm -rvf $HELM_PKG linux-amd64/
+    ```
 
 ## 4. Configuring microk8s
 
 1. First, we must enable the following plugins on microk8s:
 
-   ```bash
-   sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
-   microk8s.enable dns && \
-   microk8s.status --wait-ready && \
-   microk8s.enable storage && \
-   microk8s.status --wait-ready && \
-   microk8s.enable ingress && \
-   microk8s.status --wait-ready && \
-   microk8s.stop && \
-   microk8s.start && \
-   microk8s.status --wait-ready
-   ```
+    ```bash
+    sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
+    microk8s.enable dns && \
+    microk8s.status --wait-ready && \
+    microk8s.enable storage && \
+    microk8s.status --wait-ready && \
+    microk8s.enable ingress && \
+    microk8s.status --wait-ready && \
+    microk8s.stop && \
+    microk8s.start && \
+    microk8s.status --wait-ready
+    ```
 
 2. Install Tiller:
 
-   ```bash
-   microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
-   microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller && \
-   helm init --service-account tiller
-   ```
+    ```bash
+    microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
+    microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller && \
+    helm init --service-account tiller
+    ```
 
 3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
-   ```bash
-   microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
-   microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
-   # If the following command fails, you probably installed the wrong microk8s version
-   microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
-   microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
-   ```
+    ```bash
+    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
+    microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
+    # If the following command fails, you probably installed the wrong microk8s version
+    microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
+    microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
+    ```
 
 After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
 
