@@ -19,8 +19,8 @@ Two executables will get installed onto the cluster as part of this process: `he
 
 Prepare your environment to set up the microk8s cluster. For your infrastructure, you will need the following:
 
-- A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
-- A [PostgreSQL instance with all the necessary databases created](../requirements.md#postgresql-server-setup). The machine above must be able to connect to this PostgreSQL instance.
+-   A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
+-   A [PostgreSQL instance with all the necessary databases created](../requirements.md#postgresql-server-setup). The machine above must be able to connect to this PostgreSQL instance.
 
 All the following steps assume that you are starting from a blank slate.
 
@@ -95,6 +95,10 @@ After these commands return successfully, we have ensured that dns, http, and ng
 
 ## 5. Installing Codacy
 
-Any `kubectl` command from [our chart installation](../install.md) must be executed as a `microk8s.kubectl` command.
+Any `kubectl` command from [our chart installation](../install.md) must be executed as a `microk8s.kubectl` command. You can also create an alias to simplify the process:
+
+```bash
+alias kubectl='microk8s.kubectl'
+```
 
 When you get to the installation step you also need to append the [`values-microk8s.yaml`](../../chart/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
