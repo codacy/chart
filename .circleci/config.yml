@@ -179,26 +179,6 @@ references:
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
-  update_codacy_url: &update_codacy_url
-    steps:
-      - <<: *attach_workspace
-      - <<: *doctl_authenticate
-      - deploy:
-          name: Wait for codacy-api ingress
-          command: |
-            doctl kubernetes cluster kubeconfig save "$DOKS_CLUSTER_NAME" --set-current-context
-            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for codacy-api ingress..."; external_ip=$(kubectl get service -n "$NAMESPACE" codacy-api --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
-            echo "CODACY_API=$endpoint" > .apiurl
-      - deploy:
-          name: Update codacy-api ip address
-          command: |
-              CODACY_HOSTNAME=$(kubectl get services codacy-api --namespace $NAMESPACE -o=jsonpath='{.status.loadBalancer.ingress[0].ip}');
-              make -e -C .doks/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
-      - when:
-          condition: <<parameters.persist_codacy_url>>
-          steps:
-            - <<: *persist_to_workspace
-
 ############
 #  JOBS
 ############
