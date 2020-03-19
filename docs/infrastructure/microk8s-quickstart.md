@@ -46,7 +46,7 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.status --wait-ready
     ```
 
-3.  Install the version `v2.16.3` helm binary
+3.  Install the version `v2.16.3` of the helm binary
 
     ```bash
     HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
