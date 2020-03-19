@@ -101,20 +101,24 @@ references:
   qa_environment_release: &qa_environment_release
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
-    PROJECT_NAME: codacy-chart
-    LAUNCH_NAME: ENTERPRISE_WEB_DEV_DOKS
+    PROJECT_NAME: k8s-releases
     LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
-    LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     RP_ENDPOINT: https://reportportal.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
     TEST_PATH: Suite/Enterprise/RELEASE/WEB.xml
+    LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
+    LAUNCH_NAME: WEB_K8S_RELEASE
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
     TEST_PATH: Suite/Enterprise/RELEASE/E2E.xml
+    LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
+    LAUNCH_NAME: E2E_K8S_RELEASE
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
     TEST_PATH: Suite/Enterprise/RELEASE/API.xml
+    LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
+    LAUNCH_NAME: API_K8S_RELEASE
 
   #########################################
   #  Anchors for steps
@@ -196,10 +200,6 @@ references:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-            source .apiurl
-            export URL=http://$CODACY_API
-            export URLLANDING=$URL/
-            export URLLOGGED=$URL/projects
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
   update_codacy_url: &update_codacy_url
@@ -422,6 +422,7 @@ workflows:
             branches:
               only:
                 - /sandbox\/.*/
+                - feature/enable-test-on-release
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
@@ -435,6 +436,18 @@ workflows:
           context: CodacyDO
           requires:
             - create_sandbox_cluster
+      - test_web:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_sandbox
+      - test_e2e:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_sandbox
+      - test_api:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_sandbox
 
   deploy_chart_to_dev_cluster:
     jobs:
