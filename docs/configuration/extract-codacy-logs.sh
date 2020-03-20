@@ -24,6 +24,7 @@ date_days_ago() {
 
 cleanup()
 {
+    echo "Log files compression failed, exiting..."
     if [ -d "$LOGS_DIR" ]; then
         rm -r $LOGS_DIR &>/dev/null
     fi
@@ -62,7 +63,6 @@ echo "Checking if zip is installed..."
 if ! zip --version &>/dev/null; then
     echo "zip not installed"
     echo "Please install zip"
-    echo "Log files extraction failed, exiting..."
     exit 4
 fi
 
@@ -72,9 +72,8 @@ echo "Checking if kubectl is installed..."
 KUBECTL=$(which kubectl || which microk8s.kubectl)
 if [ $? -ne 0 ]; then
     echo "kubectl not installed"
-    echo "Please install kubectl version specified in Codacy's documentation (see here - https://codacy.github.io/chart/#preparing-to-install-codacy) or the version used when installing your cluster"
+    echo "Please install kubectl version specified in Codacy's documentation (see here - https://codacy.github.io/chart/install/) or the version used when installing your cluster"
     echo "To install kubectl see https://kubernetes.io/docs/tasks/tools/install-kubectl/ (or https://microk8s.io/docs/ if you are running a microk8s kubernetes cluster)"
-    echo "Log files extraction failed, exiting..."
     exit 4
 fi
 
@@ -83,21 +82,18 @@ echo "Checking access to kubernetes cluster..."
 KUBE_CTX=$($KUBECTL config current-context)
 if [ $? -ne 0 ]; then
     echo "No kubernetes cluster context configured"
-    echo "Log files extraction failed, exiting..."
     exit 5
 fi
 
 read -p "Is '$KUBE_CTX' the correct kubernetes cluster for log extraction? ([yes]/no)" ANSWER
 if [[ ! "$ANSWER" =~ ^y(es)?$ ]]; then
     echo "Please configure correctly your current kubernetes cluster"
-    echo "Log files extraction failed, exiting..."
     exit 6
 fi
 
 # Create temporary directory for copying logs
 if ! mkdir -p $LOGS_DIR; then
     echo "Failed to create temporary directory $LOGS_DIR , for log files extraction"
-    echo "Log files extraction failed, exiting..."
     exit 7
 fi
 
@@ -107,7 +103,6 @@ LOGS_POD_NAME=$($KUBECTL get pods -n $NAMESPACE -l app=minio -o jsonpath='{.item
 if [ $? -ne 0 ]; then
     echo "Failed to get the name of the logs kubernetes pod, for namespace $NAMESPACE"
     echo "Are you sure you are in the right kubernetes cluster context?"
-    echo "Log files extraction failed, exiting..."
     exit 8
 fi
 
@@ -116,7 +111,6 @@ echo "Extracting log files..."
 if ! $KUBECTL cp $NAMESPACE/$LOGS_POD_NAME:/export/logs $LOGS_DIR; then
     echo "Failed to extract log files from kubernetes pod $LOGS_POD_NAME to local directory $LOGS_DIR"
     echo "Are you sure you are in the right kubernetes cluster context?"
-    echo "Log files extraction failed, exiting..."
     exit 9
 fi
 
@@ -135,7 +129,6 @@ if [ -n "$DAYS" ]; then
         if [ $? -ne 0 ]; then
             echo "Failed to compress logs (located in $LOGS_DIR) to a ZIP file"
             echo "If this step continues to fail, you can compress the files manually"
-            echo "Log files compression failed, exiting..."
             exit 10
         fi
 
@@ -147,7 +140,6 @@ else
     if ! zip -r9 codacy_logs_$CURRENT_DATE_TIME.zip $LOGS_DIR; then
         echo "Failed to compress logs (located in $LOGS_DIR) to a ZIP file"
         echo "If this step continues to fail, you can compress the files manually"
-        echo "Log files compression failed, exiting..."
         exit 10
     fi
 fi
