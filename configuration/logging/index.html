@@ -614,9 +614,11 @@ helm install --name fluent-bit stable/fluent-bit --namespace logging <span class
 </code></pre></div>
 
 <p>The fluentd daemonset will send the logs to minio which is also installed by this chart.</p>
-<p>In order to send them to our support in case of problems, run the following command locally (replacing the <code class="codehilite"><span class="err">&lt;namespace&gt;</span></code> with the namespace in which Codacy was installed):</p>
-<div class="codehilite"><pre><span></span><code>kubectl cp &lt;namespace&gt;/<span class="k">$(</span>kubectl get pods -n &lt;namespace&gt; -l <span class="nv">app</span><span class="o">=</span>minio -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[*].metadata.name}&#39;</span><span class="k">)</span>:/export/logs ./logs
+<p>To extract the logs and send them to Codacy's support team in case of problems, you can run the following command locally (replacing the <code class="codehilite"><span class="err">&lt;namespace&gt;</span></code> with the namespace in which Codacy was installed):</p>
+<div class="codehilite"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/extract-codacy-logs.sh<span class="o">)</span> -n &lt;namespace&gt;
 </code></pre></div>
+
+<p>The logs extraction script is also available <a href="../extract-codacy-logs.sh">here</a>, for manual downloading.</p>
                 
                   
                 
