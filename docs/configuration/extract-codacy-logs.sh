@@ -10,6 +10,18 @@ usage()
     exit 3
 }
 
+date_days_ago() {
+    OS=$(uname)
+    if [[ "$OS" == "Darwin" ]]; then
+        date -v -$1\d "+%Y-%m-%d"
+    elif [[ "$OS" == "Linux" ]]; then
+        date -d '-$1 day' "+%Y-%m-%d"
+    else
+       echo "Unsupported operating system '$OS'"
+       exit 11
+    fi
+}
+
 cleanup()
 {
     if [ -d "$LOGS_DIR" ]; then
@@ -112,9 +124,9 @@ fi
 echo "Compressing extracted log files..."
 if [ -n "$DAYS" ]; then
 
-    # Generate a range of dates to make pattern matching easier
+    # Incrementally generate dates with the format specified below, for each day of logs, to make pattern matching easier
     while [ $DAYS -ge 0 ]; do
-        LOGS_DATE=$(date -v -$DAYS\d "+%Y-%m-%d")
+        LOGS_DATE=$(date_days_ago $DAYS)
 
         # Find all log files that match the pattern and add them to the ZIP archive (-9 is maximum, slowest, compression)
         find $LOGS_DIR -iname $LOGS_DATE\* -type f | xargs -L 10 zip -ur9 codacy_logs_$CURRENT_DATE_TIME.zip
