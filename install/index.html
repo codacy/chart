@@ -454,6 +454,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../infrastructure/microk8s-quickstart/" title="Setting up a microk8s instance" class="md-nav__link">
+      Setting up a microk8s instance
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -488,101 +500,79 @@
                 
                 
                 <h1 id="installing-codacy">Installing Codacy<a class="headerlink" href="#installing-codacy" title="Permanent link">&para;</a></h1>
-<p>Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud native Helm chart.</p>
-<ol>
+<p>Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud-native Helm chart.</p>
+<p>Before you continue, make sure you have the following tools installed in your machine.</p>
+<ul>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> version compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">within one minor version difference of your cluster</a>)</p>
+<p><strong>NOTE:</strong>
+If you are in microk8s, any <code class="codehilite"><span class="err">kubectl</span></code> command must be executed as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> instead.</p>
+</li>
+<li>
+<p><a href="https://v2.helm.sh/docs/using_helm/#installing-helm">Helm client</a> version 2.16.3</p>
+</li>
 <li>
 <p>Create a Kubernetes namespace called <code class="codehilite"><span class="err">codacy</span></code> that will group all cluster resources related to Codacy.</p>
+</li>
+</ul>
 <div class="codehilite"><pre><span></span><code>kubectl create namespace codacy
 </code></pre></div>
 
-</li>
-<li>
-<p>Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.</p>
+<ol>
+<li>Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.</li>
+</ol>
 <div class="codehilite"><pre><span></span><code>kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
 </code></pre></div>
 
+<ol>
+<li>
+<p>Use a text editor of your choice edit the <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> file, changing the values with placeholders as described in the comments.</p>
 </li>
 <li>
-<p>Use a text editor of your choice to copy the template below to a new file named <code class="codehilite"><span class="err">values.yaml</span></code>, changing the values as described in the comments.</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
-  <span class="nt">imagePullSecrets</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker-credentials</span>
-  <span class="nt">codacy</span><span class="p">:</span>
-    <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
-    <span class="nt">backendUrl</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com&quot;</span> <span class="c1"># This value is important for VCS configuration and badges to work</span>
-  <span class="nt">play</span><span class="p">:</span>
-    <span class="nt">cryptoSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-  <span class="nt">akka</span><span class="p">:</span>
-    <span class="nt">sessionSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-  <span class="nt">filestore</span><span class="p">:</span>
-    <span class="nt">contentsSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-    <span class="nt">uuidSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-  <span class="nt">cacheSecret</span><span class="p">:</span> <span class="s">&quot;CHANGE</span><span class="nv"> </span><span class="s">ME&quot;</span> <span class="c1"># Generate one with `openssl rand -base64 128 | tr -dc &#39;a-zA-Z0-9&#39;`</span>
-</code></pre></div>
-
+<p>Create a record in your DNS provider with the hostname you used in the previous step to send traffic to your ingress controller.</p>
 </li>
-<li>
-<p>Add Codacy's chart repository to your helm client and install the Codacy chart using the values in the <code class="codehilite"><span class="err">values.yaml</span></code> file created in the previous step.</p>
+</ol>
+<p><strong>NOTE:</strong>
+   If you are in microk8s, you need to configure it with the public IP address of your machine.</p>
+<ol>
+<li>Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.</li>
+</ol>
+<p><strong>NOTE:</strong>
+   If you are in microk8s, don't forget to use the <a href="https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml"><code class="codehilite"><span class="err">values-microk8s.yaml</span></code></a> configuration file as stated <a href="../infrastructure/microk8s-quickstart/#5-installing-codacy">here</a>.</p>
 <div class="codehilite"><pre><span></span><code>helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
 helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
   --namespace codacy <span class="se">\</span>
-  --recreate-pods <span class="se">\</span>
-  --values values.yaml
+  --values values-production.yaml <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
-<p>By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below (your output will contain more detail):</p>
-<div class="codehilite"><pre><span></span><code>$ helm status codacy
-LAST DEPLOYED: Wed Jan  <span class="m">8</span> <span class="m">15</span>:52:27 <span class="m">2020</span>
-NAMESPACE: codacy
-STATUS: DEPLOYED
+<p>By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below and <strong>wait for all the pods to be Running</strong>:</p>
+<div class="codehilite"><pre><span></span><code>$ kubectl get pods -n codacy
 
-RESOURCES:
-
-<span class="o">[</span>...<span class="o">]</span>
-
-<span class="o">==</span>&gt; v1/Pod<span class="o">(</span>related<span class="o">)</span>
-NAME                                             READY  STATUS            RESTARTS  AGE
-codacy-activities-78849c8548-ln5sl               <span class="m">1</span>/1    Running           <span class="m">4</span>         6m11s
-codacy-activitiesdb-0                            <span class="m">1</span>/1    Running           <span class="m">0</span>         6m3s
-codacy-api-6f44c8d48-6bw8z                       <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-codacy-api-6f44c8d48-h6cl4                       <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-codacy-api-6f44c8d48-vgbl5                       <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-codacy-core-786c6f79f-7sn7p                      <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-codacy-core-786c6f79f-pvg9w                      <span class="m">1</span>/1    Running           <span class="m">0</span>         6m11s
-<span class="o">[</span>...<span class="o">]</span>
+ NAME                                            READY   STATUS    RESTARTS   AGE
+ codacy-activities-6d9db9499-stk2k               <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+ codacy-activitiesdb-0                           <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-api-f7897b965-fgn67                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-api-f7897b965-kkqsx                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-core-7bcf697968-85tl6                    <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-crow-7c957d45f6-b8zp2                    <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+ codacy-crowdb-0                                 <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-engine-549bcb69d9-cgrqf                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
+ codacy-engine-549bcb69d9-sh5f4                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
+ codacy-fluentdoperator-x5vr2                    <span class="m">2</span>/2     Running   <span class="m">0</span>          8m57s
+ codacy-hotspots-api-b7b9db896-68gxx             <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+ codacy-hotspots-worker-76bb45b4d6-8gz45         <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
+ codacy-hotspotsdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-listener-868b784dcf-npdfh                <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-listenerdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-minio-7cfdc7b4f4-254gz                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-nfsserverprovisioner-0                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-portal-774d9fc596-rwqj5                  <span class="m">1</span>/1     Running   <span class="m">2</span>          8m56s
+ codacy-rabbitmq-ha-0                            <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+ codacy-ragnaros-69459775b5-hmj4d                <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
+ codacy-remote-provider-service-8fb8556b-rr4ws   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m56s
+ codacy-worker-manager-656dbf8d6d-n4j7c          <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
 </code></pre></div>
-
-</li>
-<li>
-<p>Download the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">reference file</a> <code class="codehilite"><span class="err">values-production.yaml</span></code> and configure the following values for each Codacy database:</p>
-<ul>
-<li><code class="codehilite"><span class="err">host</span></code> (host name of the PostgreSQL server, accessible from the cluster)</li>
-<li><code class="codehilite"><span class="err">postgresqlUsername</span></code> (dedicated Codacy user)</li>
-<li><code class="codehilite"><span class="err">postgresqlPassword</span></code> (password for the dedicated Codacy user)</li>
-</ul>
-</li>
-<li>
-<p>Configure the ingress values on the values-production.yaml file that you have just updated:</p>
-<ul>
-<li>app: &lt;--- codacy-app.dns.internal ---&gt; (Codacy application DNS)</li>
-<li>api: &lt;--- codacy-api.dns.internal ---&gt; (Codacy API DNS)</li>
-<li>external-dns.alpha.kubernetes.io/hostname: '&lt;--- codacy-app.dns.internal ---&gt;, &lt;--- codacy-api.dns.internal ---&gt;' (Codacy application and API DNS)</li>
-<li>host: &lt;--- codacy-app.dns.internal ---&gt; (Codacy application DNS)</li>
-<li>host: &lt;--- codacy-api.dns.internal ---&gt; (Codacy API DNS)</li>
-</ul>
-</li>
-<li>
-<p>Run the command below to update the cluster to use the PostgreSQL server configuration:</p>
-<div class="codehilite"><pre><span></span><code>helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
-  --namespace codacy <span class="se">\</span>
-  --recreate-pods <span class="se">\</span>
-  --values values.yaml <span class="se">\</span>
-  --values values-production.yaml
-</code></pre></div>
-
-</li>
-</ol>
                 
                   
                 
