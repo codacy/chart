@@ -19,13 +19,13 @@ dependencies:
   version: 6.6.1
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 19.1.0
+  version: 20.0.0
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.4.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 8.0.2
+  version: 8.1.0
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.4.1
@@ -37,18 +37,18 @@ dependencies:
   version: 7.12.1
 - name: core
   repository: https://charts.codacy.com/stable
-  version: 3.0.3
+  version: 3.1.0
 - name: engine
   repository: https://charts.codacy.com/stable
   version: 6.7.6
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 8.13.1
+  version: 8.14.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.1.0
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 4.9.1
-digest: sha256:5a79fb5b0f216c8b41db66f4d8bd59791d141f991af0143381b50d2ac7207741
-generated: "2020-03-18T14:14:17.132638874Z"
+digest: sha256:88dc0905237295146e144ee84650bba9583d6ecd24ff23ea4a99d5d960f66907
+generated: "2020-03-20T09:54:33.128772Z"
