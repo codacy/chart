@@ -1,3 +1,10 @@
+codacy-ingress:
+  create: true
+  ingress:
+    hostname:
+      app: <codacy-app.dns.internal>
+      api: <codacy-api.dns.internal>
+
 codacy-api:
   replicaCount: 2
   service:
