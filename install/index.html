@@ -506,73 +506,76 @@
 <li>
 <p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> version compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">within one minor version difference of your cluster</a>)</p>
 <p><strong>NOTE:</strong>
-If you are in microk8s, any <code class="codehilite"><span class="err">kubectl</span></code> command must be executed as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> instead.</p>
+ If you are in microk8s, any <code class="codehilite"><span class="err">kubectl</span></code> command must be executed as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> instead.</p>
 </li>
 <li>
 <p><a href="https://v2.helm.sh/docs/using_helm/#installing-helm">Helm client</a> version 2.16.3</p>
 </li>
+</ul>
+<p>Install Codacy as follows:</p>
+<ol>
 <li>
 <p>Create a Kubernetes namespace called <code class="codehilite"><span class="err">codacy</span></code> that will group all cluster resources related to Codacy.</p>
-</li>
-</ul>
 <div class="codehilite"><pre><span></span><code>kubectl create namespace codacy
 </code></pre></div>
 
-<ol>
-<li>Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.</li>
-</ol>
+</li>
+<li>
+<p>Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.</p>
 <div class="codehilite"><pre><span></span><code>kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
 </code></pre></div>
 
-<ol>
+</li>
 <li>
 <p>Use a text editor of your choice edit the <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> file, changing the values with placeholders as described in the comments.</p>
 </li>
 <li>
 <p>Create a record in your DNS provider with the hostname you used in the previous step to send traffic to your ingress controller.</p>
+<p><strong>NOTE:</strong>
+If you are in microk8s, you need to configure it with the public IP address of your machine.</p>
 </li>
-</ol>
+<li>
+<p>Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.</p>
 <p><strong>NOTE:</strong>
-   If you are in microk8s, you need to configure it with the public IP address of your machine.</p>
-<ol>
-<li>Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.</li>
-</ol>
-<p><strong>NOTE:</strong>
-   If you are in microk8s, don't forget to use the <a href="https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml"><code class="codehilite"><span class="err">values-microk8s.yaml</span></code></a> configuration file as stated <a href="../infrastructure/microk8s-quickstart/#5-installing-codacy">here</a>.</p>
+If you are in microk8s, don't forget to use the <a href="https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml"><code class="codehilite"><span class="err">values-microk8s.yaml</span></code></a> configuration file as stated <a href="../infrastructure/microk8s-quickstart/#5-installing-codacy">here</a>.</p>
 <div class="codehilite"><pre><span></span><code>helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
 helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
-  --namespace codacy <span class="se">\</span>
-  --values values-production.yaml <span class="c1"># --values values-microk8s.yaml</span>
+             --namespace codacy <span class="se">\</span>
+           --values values-production.yaml <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
+</li>
+<li>
 <p>By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below and <strong>wait for all the pods to be Running</strong>:</p>
 <div class="codehilite"><pre><span></span><code>$ kubectl get pods -n codacy
-
- NAME                                            READY   STATUS    RESTARTS   AGE
- codacy-activities-6d9db9499-stk2k               <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
- codacy-activitiesdb-0                           <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-api-f7897b965-fgn67                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-api-f7897b965-kkqsx                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-core-7bcf697968-85tl6                    <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-crow-7c957d45f6-b8zp2                    <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
- codacy-crowdb-0                                 <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-engine-549bcb69d9-cgrqf                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
- codacy-engine-549bcb69d9-sh5f4                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
- codacy-fluentdoperator-x5vr2                    <span class="m">2</span>/2     Running   <span class="m">0</span>          8m57s
- codacy-hotspots-api-b7b9db896-68gxx             <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
- codacy-hotspots-worker-76bb45b4d6-8gz45         <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
- codacy-hotspotsdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-listener-868b784dcf-npdfh                <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-listenerdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-minio-7cfdc7b4f4-254gz                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-nfsserverprovisioner-0                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-portal-774d9fc596-rwqj5                  <span class="m">1</span>/1     Running   <span class="m">2</span>          8m56s
- codacy-rabbitmq-ha-0                            <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
- codacy-ragnaros-69459775b5-hmj4d                <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
- codacy-remote-provider-service-8fb8556b-rr4ws   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m56s
- codacy-worker-manager-656dbf8d6d-n4j7c          <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+NAME                                            READY   STATUS    RESTARTS   AGE
+codacy-activities-6d9db9499-stk2k               <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+codacy-activitiesdb-0                           <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-api-f7897b965-fgn67                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-api-f7897b965-kkqsx                      <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-core-7bcf697968-85tl6                    <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-crow-7c957d45f6-b8zp2                    <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+codacy-crowdb-0                                 <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-engine-549bcb69d9-cgrqf                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
+codacy-engine-549bcb69d9-sh5f4                  <span class="m">1</span>/1     Running   <span class="m">1</span>          8m57s
+codacy-fluentdoperator-x5vr2                    <span class="m">2</span>/2     Running   <span class="m">0</span>          8m57s
+codacy-hotspots-api-b7b9db896-68gxx             <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
+codacy-hotspots-worker-76bb45b4d6-8gz45         <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
+codacy-hotspotsdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-listener-868b784dcf-npdfh                <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-listenerdb-0                             <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-minio-7cfdc7b4f4-254gz                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-nfsserverprovisioner-0                   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-portal-774d9fc596-rwqj5                  <span class="m">1</span>/1     Running   <span class="m">2</span>          8m56s
+codacy-rabbitmq-ha-0                            <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
+codacy-ragnaros-69459775b5-hmj4d                <span class="m">1</span>/1     Running   <span class="m">3</span>          8m57s
+codacy-remote-provider-service-8fb8556b-rr4ws   <span class="m">1</span>/1     Running   <span class="m">0</span>          8m56s
+codacy-worker-manager-656dbf8d6d-n4j7c          <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
 </code></pre></div>
+
+</li>
+</ol>
                 
                   
                 
