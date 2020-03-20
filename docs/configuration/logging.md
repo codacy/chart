@@ -35,8 +35,10 @@ To collect logs from your Codacy installation using fluentd change `fluentdopera
 
 The fluentd daemonset will send the logs to minio which is also installed by this chart.
 
-In order to send them to our support in case of problems, run the following command locally (replacing the `<namespace>` with the namespace in which Codacy was installed):
+To extract the logs and send them to Codacy's support team in case of problems, you can run the following command locally (replacing the `<namespace>` with the namespace in which Codacy was installed):
 
 ```bash
-kubectl cp <namespace>/$(kubectl get pods -n <namespace> -l app=minio -o jsonpath='{.items[*].metadata.name}'):/export/logs ./logs
+bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/extract-codacy-logs.sh) -n <namespace>
 ```
+
+The logs extraction script is also available [here](extract-codacy-logs.sh), for manual downloading.
