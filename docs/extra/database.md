@@ -1,4 +1,4 @@
-# Database Migration Guide
+# Database migration guide
 
 Migrating databases between pods is a straightforward process with 3 steps:
 

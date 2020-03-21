@@ -1,4 +1,4 @@
-# Uninstall
+# Uninstalling Codacy
 
 To ensure a clean removal you should uninstall Codacy before destroying the cluster.
 To do so run:
