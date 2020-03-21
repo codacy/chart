@@ -1,6 +1,10 @@
 {
-  "settings": {
-    "listItemIndent": "1",
-    "bullet": "*"
-  }
+  "plugins": [
+    "preset-lint-consistent",
+    "preset-lint-recommended",
+    "lint-heading-increment",
+    [
+      "lint-unordered-list-marker-style", "-"
+    ]
+  ]
 }
