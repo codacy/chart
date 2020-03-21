@@ -1,19 +1,29 @@
+# Project information
 site_name: "Codacy Chart"
-use_directory_urls: true
+
+# Configuration
 theme:
   logo: 'images/codacy-logo.svg'
   name: 'material'
   palette:
     primary: 'indigo'
     accent: 'indigo'
+
 extra_css:
   - 'stylesheets/extra.css'
 extra_javascript:
   - 'javascripts/extra.js'
-copyright: "Codacy"
+
 strict: true
+use_directory_urls: true
+
+# Copyright
+copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
+
+# Plugins and extensions
 plugins:
 - search
+
 markdown_extensions:
 - admonition
 - codehilite
