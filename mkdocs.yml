@@ -33,3 +33,25 @@ markdown_extensions:
 - pymdownx.superfences
 - toc:
     permalink: true
+
+# Table of contents
+nav:
+  - index.md
+  - requirements.md
+  - "1. Setting up the Kubernetes infrastructure":
+    - infrastructure/eks-quickstart.md
+    - infrastructure/aks-quickstart.md
+    - infrastructure/microk8s-quickstart.md
+  - "2. Installing Codacy": install.md
+  - "3. Post-install configuration":
+    - configuration/git-providers/github-cloud.md
+    - configuration/git-providers/github-enterprise.md
+    - configuration/git-providers/gitlab-enterprise.md
+    - configuration/git-providers/bitbucket-enterprise.md
+    - configuration/logging.md
+    - configuration/monitoring.md
+  - "Extra":
+    - extra/upgrade.md
+    - extra/uninstall.md
+    - extra/database.md
+    - extra/k8s-cheatsheet.md
