@@ -2,9 +2,9 @@
 
 There are different solutions for you to aggregate logs in your cluster for day to day operation.
 
-Overall, all solutions follow the same model: you have an **agent** on each node to collect and forward the logs, an **aggregator** to persist the logs, and a **UI** that allows you to analyse the logs.
+Overall, all solutions follow the same model: you have an **agent** on each node to collect and forward the logs, an **aggregator** to persist the logs, and a **UI** that allows you to analyze the logs.
 
-One of the simplest stacks out there is to use:
+One of the simplest stacks that you could use is:
 
 -   [Fluent Bit](https://github.com/helm/charts/tree/master/stable/fluent-bit) as the agent
 -   [Elasticsearch + Kibana](https://github.com/elastic/helm-charts/tree/master/elasticsearch) as the aggregator and UI
