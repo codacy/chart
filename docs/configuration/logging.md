@@ -1,17 +1,15 @@
 # Logging
 
-## Aggregation of logs for day to day opperation
+There are different solutions for you to aggregate logs in your cluster for day to day operation.
 
-There are a lot of different solutions for you to have logs in your
-cluster. Overall all of them follow the same model, you have an **agent**
-on each node, an **aggregator** to persist the logs and a **UI** to analyse the logs. 
+Overall, all solutions follow the same model: you have an **agent** on each node to collect and forward the logs, an **aggregator** to persist the logs, and a **UI** that allows you to analyse the logs.
 
-One of the simplest stacks ou there is to use:
+One of the simplest stacks out there is to use:
 
-1. [FluentBit](https://github.com/helm/charts/tree/master/stable/fluent-bit) as the agent
-2. [ElasticSearch + Kibana](https://github.com/elastic/helm-charts/tree/master/elasticsearch) for Aggregation and UI
+-   [Fluent Bit](https://github.com/helm/charts/tree/master/stable/fluent-bit) as the agent
+-   [Elasticsearch + Kibana](https://github.com/elastic/helm-charts/tree/master/elasticsearch) as the aggregator and UI
 
-## Quick Installation
+To use the suggested stack, run the following commands to install the Fluent Bit and Elasticsearch charts on your cluster:
 
 ```bash
 helm repo add elastic https://helm.elastic.co
