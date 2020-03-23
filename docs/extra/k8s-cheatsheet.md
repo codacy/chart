@@ -1,4 +1,4 @@
-# Kubernetes Cheatsheet
+# Kubernetes cheatsheet
 
 ## How to install a custom Codacy version
 
@@ -20,7 +20,7 @@ helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --time
 
 ## Clean the namespace
 
-```
+```bash
 helm del --purge codacy
 kubectl -n codacy delete --all pod &
 kubectl -n codacy delete --all pvc &
@@ -38,6 +38,7 @@ kubectl -n codacy get job &
 ```
 
 ### Check uninstall was successful
+
 ```bash
 ps aux | grep -i kubectl
 ```
@@ -79,7 +80,6 @@ kubectl get daemonsets
 ```bash
 kubectl rollout restart daemonset/<daemonset-name>
 ```
-
 
 ### deployment
 
@@ -125,7 +125,7 @@ kubectl exec -it daemonset/<daemonset-name> -c <container-name> sh
 kubectl exec -it deployment/<deployment-name> sh
 ```
 
-## microk8s
+## MicroK8s
 
 ### Session Manager SSH
 
