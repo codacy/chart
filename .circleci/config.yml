@@ -337,7 +337,7 @@ jobs:
           command: curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1 && mv bin/hub /usr/local/bin/hub
       - run:
           name: Update github release
-          command: hub release edit -a changelogs/changelog.txt -m "$(date "+%d-%m-%Y")" -m "Self-hosted helm chart for Codacy." $(cat .version)
+          command: hub release edit -a changelogs/changelog.md -m "$(date "+%d-%m-%Y")" -m "Self-hosted helm chart for Codacy." $(cat .version)
 
 ############
 #  WORKFLOWS

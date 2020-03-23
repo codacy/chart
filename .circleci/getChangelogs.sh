@@ -7,9 +7,9 @@ NEW_LOCK_FILE="codacy/requirements.lock"
 function prepareChangelogMarkdown(){
     changelog_conf_path=$(realpath .)/.changelogs
     export GITCHANGELOG_CONFIG_FILENAME=$changelog_conf_path/gitchangelog.rc
-    markdown_file_path=$(echo $changelog_conf_path/markdown.tpl | sed 's/\//\\\//g')
-    sed "s/##PATHMACRO##/$markdown_file_path/g" $changelog_conf_path/gitchangelogtemplate.rc >> $GITCHANGELOG_CONFIG_FILENAME
-    echo "# Codacy Chart Changelog" >> "../changelogs/changelog.txt"
+    markdown_file_path=$(echo "$changelog_conf_path/markdown.tpl" | sed 's/\//\\\//g')
+    sed "s/##PATHMACRO##/$markdown_file_path/g" "$changelog_conf_path/gitchangelogtemplate.rc" >> $GITCHANGELOG_CONFIG_FILENAME
+    echo "# Codacy Chart Changelog" >> "../changelogs/changelog.md"
 }
 
 function getChangelog() {
@@ -21,8 +21,8 @@ function getChangelog() {
     cd "$project_name"
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
-    echo "## $project_name($repository_url)" >> "../changelogs/changelog.txt"
-    gitchangelog $old_version $new_version >> "../changelogs/changelog.txt"
+    echo "## $project_name($repository_url)" >> "../changelogs/changelog.md"
+    gitchangelog "$old_version" "$new_version" >> "../changelogs/changelog.md"
     cd ..
     rm -rf "./$project_name"
 }
@@ -61,6 +61,6 @@ do
 done
 
 rm "$OLD_LOCK_FILE"
-rm $GITCHANGELOG_CONFIG_FILENAME
+rm "$GITCHANGELOG_CONFIG_FILENAME"
 
 exit 0
