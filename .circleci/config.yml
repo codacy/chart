@@ -326,7 +326,10 @@ jobs:
           channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
-          message: https://github.com/codacy/chart/releases/tag/$(cat .version)
+          message: |
+            Version $(cat .version) of the Codacy chart has been released!
+            Release on GitHub: https://github.com/codacy/chart/releases/tag/$(cat .version)
+            Release notes: https://github.com/codacy/chart/releases/download/$(cat .version)/changelog.md
 
   publish_changelog_to_github:
     <<: *default_doks_image
