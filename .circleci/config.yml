@@ -326,7 +326,7 @@ jobs:
           channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
-          message: https://github.com/codacy/chart/releases/tag/$(cat .version)
+          message: https://github.com/codacy/chart/releases/tag/$(cat .version)/changelog.txt
 
   publish_changelog_to_github:
     <<: *default_doks_image
