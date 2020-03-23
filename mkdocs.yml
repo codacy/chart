@@ -38,12 +38,12 @@ markdown_extensions:
 nav:
   - index.md
   - requirements.md
-  - "1. Setting up the Kubernetes infrastructure":
+  - "Setting up the Kubernetes infrastructure":
     - infrastructure/eks-quickstart.md
     - infrastructure/aks-quickstart.md
     - infrastructure/microk8s-quickstart.md
-  - "2. Installing Codacy": install.md
-  - "3. Post-install configuration":
+  - install.md
+  - "Post-install configuration":
     - configuration/git-providers/github-cloud.md
     - configuration/git-providers/github-enterprise.md
     - configuration/git-providers/gitlab-enterprise.md
