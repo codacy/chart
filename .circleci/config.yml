@@ -535,22 +535,23 @@ workflows:
           name: promote_chart_to_stable
           context: CodacyHelm
           chart_name: codacy
+          source_version: "$(cat .rc_version)"
           source_charts_repo_url: "https://charts.codacy.com/incubator"
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
-          filters:
-            tags:
-              only: /^release-.*/
+      - codacy/tag_version:
+          name: tag_version_latest
+          context: CodacyDO
+          version: latest
+          force: true
+          requires:
+            - promote_chart_to_stable
       - publish_changelog_to_github:
           context: CodacyDO
           requires:
-            - promote_chart_to_stable
-            - get_changelogs
+            - tag_version
       - slack_notify_release:
           context: CodacyDO
           requires:
             - publish_changelog_to_github
-          filters:
-            tags:
-              only: /^release-.*/
