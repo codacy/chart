@@ -7,8 +7,8 @@ NEW_LOCK_FILE="codacy/requirements.lock"
 function prepareChangelogMarkdown(){
     changelog_conf_path=$(realpath .)/.changelogs
     export GITCHANGELOG_CONFIG_FILENAME=$changelog_conf_path/gitchangelog.rc
-    markdown_file_path=$(echo "$changelog_conf_path/markdown.tpl" | sed 's/\//\\\//g')
-    sed "s/##PATHMACRO##/$markdown_file_path/g" "$changelog_conf_path/gitchangelogtemplate.rc" >> $GITCHANGELOG_CONFIG_FILENAME
+    markdown_template_path=$(echo "$changelog_conf_path/markdown.tpl" | sed 's/\//\\\//g')
+    sed "s/##PATHMACRO##/$markdown_template_path/g" "$changelog_conf_path/gitchangelogtemplate.rc" >> $GITCHANGELOG_CONFIG_FILENAME
     echo "# Codacy Chart Changelog" >> "../changelogs/changelog.md"
 }
 
