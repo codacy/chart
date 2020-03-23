@@ -326,7 +326,18 @@ jobs:
           channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
-          message: $(cat changelogs/changelog.txt)
+          message: https://github.com/codacy/chart/releases/tag/$(cat .version)
+
+  publish_changelog_to_github:
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - run:
+          name: "Install requirements"
+          command: curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1 && mv bin/hub /usr/local/bin/hub
+      - run:
+          name: Update github release
+          command: hub release edit -a changelogs/changelog.txt -m "$(date "+%d-%m-%Y")" -m "Self-hosted helm chart for Codacy." $(cat .version)
 
 ############
 #  WORKFLOWS
@@ -524,19 +535,22 @@ workflows:
           name: promote_chart_to_stable
           context: CodacyHelm
           chart_name: codacy
-          source_version: "$(cat .rc_version)"
           source_charts_repo_url: "https://charts.codacy.com/incubator"
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
-      - codacy/tag_version:
-          name: tag_version_latest
+          filters:
+            tags:
+              only: /^release-.*/
+      - publish_changelog_to_github:
           context: CodacyDO
-          version: latest
-          force: true
           requires:
             - promote_chart_to_stable
+            - get_changelogs
       - slack_notify_release:
           context: CodacyDO
           requires:
-            - promote_chart_to_stable
+            - publish_changelog_to_github
+          filters:
+            tags:
+              only: /^release-.*/

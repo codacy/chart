@@ -17,8 +17,6 @@ function getChangelog() {
     old_version=$2
     new_version=$3
     repository_url=$4
-    changelog_filename="$project_name-changelog.txt"
-    jira_changelog_filename="$project_name-jira.txt"
     echo " * getting changelog ..."
     cd "$project_name"
     git fetch --all --quiet
