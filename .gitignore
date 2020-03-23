@@ -3,6 +3,8 @@
 # negation (prefixed with !). Only one pattern per line.
 .DS_Store
 changelogs
+.changelogs/gitchangelog.rc
+codacy/requirements_old.lock
 # Common VCS dirs
 .bzr/
 .bzrignore
