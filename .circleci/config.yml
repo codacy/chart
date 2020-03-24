@@ -357,6 +357,9 @@ jobs:
       - run:
           name: "Get changelogs"
           command: bash ./.circleci/getChangelogs.sh
+      - run:
+          name: Stash changelog file url
+          command: curl -s https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN} | jq '.[] | .url' | sed 's/"//g' >> changelog_url.txt
       - <<: *persist_to_workspace
       - store_artifacts:
           path: ~/workdir/changelogs
@@ -366,12 +369,15 @@ jobs:
     <<: *default_doks_image
     steps:
       - <<: *attach_workspace
+      - run:
+          command: export CHANGELOG_URL=$(cat changelog_url.txt)
       - slack/notify:
           channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
+            Release notes: ${CHANGELOG_URL}
 
 ############
 #  WORKFLOWS
