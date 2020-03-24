@@ -37,7 +37,7 @@ CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
 
 Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
 
-Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
+Number of concurrent analysis: workers.dedicatedMax
 ```
 
 Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.
@@ -50,7 +50,6 @@ _Maximum of 6 concurrent analysis_
 worker-manager:
   config:
     workers:
-      genericMax: 3
       dedicatedMax: 3
     workerResources:
       limits:

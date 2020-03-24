@@ -189,8 +189,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
-| `worker-manager.config.workers.genericMax`          | TBD                                                                                                 | `100`                                        |
-| `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `100`                                        |
+| `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `2`                                          |
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |
