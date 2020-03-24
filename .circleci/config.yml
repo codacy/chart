@@ -38,7 +38,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:1.7.2
+      - image: codacy/qa-automation-test-runner:1.23.3
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -93,6 +93,32 @@ references:
   stable_helm_channel: &stable_helm_channel
     CHANNEL: stable
     HELM_REPOSITORY: codacy-stable
+
+  ########################################################
+  #  Env variables defining qa test paths and environment
+  ########################################################
+
+  qa_environment_release: &qa_environment_release
+    SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+    HUB_URL: http://localhost:4444/wd/hub
+    PROJECT_NAME: k8s-releases
+    LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
+    RP_ENDPOINT: https://reportportal.dev.codacy.org
+
+  qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
+    TEST_PATH: Suite/Enterprise/RELEASE/WEB.xml
+    LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
+    LAUNCH_NAME: WEB_K8S_RELEASE
+
+  qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
+    TEST_PATH: Suite/Enterprise/RELEASE/E2E.xml
+    LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
+    LAUNCH_NAME: E2E_K8S_RELEASE
+
+  qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
+    TEST_PATH: Suite/Enterprise/RELEASE/API.xml
+    LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
+    LAUNCH_NAME: API_K8S_RELEASE
 
   #########################################
   #  Anchors for steps
@@ -173,9 +199,6 @@ references:
       - deploy:
           name: Run tests
           command: |
-            export URL=$CODACY_URL
-            export URLLANDING=$URL/
-            export URLLOGGED=$URL/projects
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
@@ -245,6 +268,27 @@ jobs:
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
+
+  test_web:
+    <<: *qa_automation_image
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_web_testpath
+    <<: *qa_job
+
+  test_e2e:
+    <<: *qa_automation_image
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_e2e_testpath
+    <<: *qa_job
+
+  test_api:
+    <<: *qa_automation_image
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_api_testpath
+    <<: *qa_job
 
   set_chart_version_nightly:
     <<: *default_doks_image
@@ -520,11 +564,26 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
+      - test_web:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
+      - test_e2e:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
+      - test_api:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
            - get_changelogs
+           - test_web
+           - test_e2e
+           - test_api
       - set_chart_version_release:
           context: CodacyDO
           requires:
