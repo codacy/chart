@@ -373,7 +373,7 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Release notes: $(cat .changelog_url)
+            Changelog: $(cat .changelog_url)
 
 ############
 #  WORKFLOWS
