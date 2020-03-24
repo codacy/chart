@@ -603,7 +603,7 @@ configuration object, but for simplicity, we decided to omit the full path.</p>
 
 Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
 
-Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
+Number of concurrent analysis: workers.dedicatedMax
 </code></pre></div>
 
 <p>Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.</p>
@@ -612,7 +612,6 @@ Number of concurrent analysis: workers.genericMax + workers.dedicatedMax
 <div class="codehilite"><pre><span></span><code><span class="nt">worker-manager</span><span class="p">:</span>
   <span class="nt">config</span><span class="p">:</span>
     <span class="nt">workers</span><span class="p">:</span>
-      <span class="nt">genericMax</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
       <span class="nt">dedicatedMax</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
     <span class="nt">workerResources</span><span class="p">:</span>
       <span class="nt">limits</span><span class="p">:</span>
