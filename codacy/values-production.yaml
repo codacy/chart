@@ -240,7 +240,6 @@ worker-manager:
       memory: 200Mi
   config:
     workers:
-      genericMax: 2
       dedicatedMax: 2
       analysis:
         maxFileSizeBytes: 150000

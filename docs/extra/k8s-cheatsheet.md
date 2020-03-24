@@ -1,4 +1,4 @@
-# Kubernetes Cheatsheet
+# Kubernetes cheatsheet
 
 ## How to install a custom Codacy version
 
@@ -20,7 +20,7 @@ helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --time
 
 ## Clean the namespace
 
-```
+```bash
 helm del --purge codacy
 kubectl -n codacy delete --all pod &
 kubectl -n codacy delete --all pvc &
@@ -38,20 +38,9 @@ kubectl -n codacy get job &
 ```
 
 ### Check uninstall was successful
+
 ```bash
 ps aux | grep -i kubectl
-```
-
-## Get logs of a service
-
-```bash
-kubectl get services
-```
-
-**and**
-
-```bash
-kubectl logs svc/<service-name>
 ```
 
 ## Edit configmap
@@ -79,7 +68,6 @@ kubectl get daemonsets
 ```bash
 kubectl rollout restart daemonset/<daemonset-name>
 ```
-
 
 ### deployment
 
@@ -110,7 +98,13 @@ kubectl logs daemonset/<daemonset-name> <container-name> -f
 ### service
 
 ```bash
-kubectl logs service/<service-name> -f
+kubectl get svc
+```
+
+**and**
+
+```bash
+kubectl logs -l $(kubectl get svc/<service-name> -o=json | jq ".spec.selector" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d') -f
 ```
 
 ## Open shell inside container
@@ -125,7 +119,7 @@ kubectl exec -it daemonset/<daemonset-name> -c <container-name> sh
 kubectl exec -it deployment/<deployment-name> sh
 ```
 
-## microk8s
+## MicroK8s
 
 ### Session Manager SSH
 
