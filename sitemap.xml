@@ -46,11 +46,6 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/logging/</loc>
-     <lastmod>2020-03-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
      <loc>https://codacy.github.io/chart/configuration/monitoring/</loc>
      <lastmod>2020-03-24</lastmod>
      <changefreq>daily</changefreq>
@@ -72,6 +67,11 @@
     </url>
     <url>
      <loc>https://codacy.github.io/chart/extra/k8s-cheatsheet/</loc>
+     <lastmod>2020-03-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://codacy.github.io/chart/extra/logs-collect/</loc>
      <lastmod>2020-03-24</lastmod>
      <changefreq>daily</changefreq>
     </url>
