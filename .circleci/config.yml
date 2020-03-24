@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:0.4.2
+      - image: codacy/ci-do:0.6.0
     working_directory: ~/workdir/
 
   helm_values: &helm_values
@@ -338,9 +338,7 @@ jobs:
             mkdocs gh-deploy -m "[ci skip] Updated documentation."
 
   get_changelogs:
-    docker:
-      - image: codacy/ci-base:1.0.1
-    working_directory: ~/workdir/
+    <<: *default_doks_image
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -357,9 +355,12 @@ jobs:
       - run:
           name: "Get changelogs"
           command: bash ./.circleci/getChangelogs.sh
-      - <<: *persist_to_workspace
       - store_artifacts:
           path: ~/workdir/changelogs
+      - run:
+          name: Stash changelog file url
+          command: |
+            curl -s "https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN}" | jq '.[] | .url' | sed 's/"//g' >> .changelog_url
       - <<: *persist_to_workspace
 
   slack_notify_release:
@@ -372,6 +373,7 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
+            Changelog: $(cat .changelog_url)
 
 ############
 #  WORKFLOWS
@@ -416,6 +418,10 @@ workflows:
           context: CodacyDO
           requires:
             - create_sandbox_cluster
+      - get_changelogs:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_sandbox
 
   deploy_chart_to_dev_cluster:
     jobs:

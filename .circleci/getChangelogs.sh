@@ -9,7 +9,7 @@ function prepareChangelogMarkdown(){
     export GITCHANGELOG_CONFIG_FILENAME=$changelog_conf_path/gitchangelog.rc
     markdown_template_path=$(echo "$changelog_conf_path/markdown.tpl" | sed 's/\//\\\//g')
     sed "s/##PATHMACRO##/$markdown_template_path/g" "$changelog_conf_path/gitchangelogtemplate.rc" >> "$GITCHANGELOG_CONFIG_FILENAME"
-    echo "# Codacy Chart Changelog" >> "../changelogs/changelog.md"
+    echo "# Codacy Chart Changelog" >> "changelogs/changelog.md"
 }
 
 function getChangelog() {
