@@ -503,13 +503,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-logs-of-a-service" class="md-nav__link">
-    Get logs of a service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#edit-configmap" class="md-nav__link">
     Edit configmap
   </a>
@@ -681,13 +674,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-logs-of-a-service" class="md-nav__link">
-    Get logs of a service
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#edit-configmap" class="md-nav__link">
     Edit configmap
   </a>
@@ -827,14 +813,6 @@ kubectl -n codacy get job <span class="p">&amp;</span>
 <div class="codehilite"><pre><span></span><code>ps aux <span class="p">|</span> grep -i kubectl
 </code></pre></div>
 
-<h2 id="get-logs-of-a-service">Get logs of a service<a class="headerlink" href="#get-logs-of-a-service" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>kubectl get services
-</code></pre></div>
-
-<p><strong>and</strong></p>
-<div class="codehilite"><pre><span></span><code>kubectl logs svc/&lt;service-name&gt;
-</code></pre></div>
-
 <h2 id="edit-configmap">Edit configmap<a class="headerlink" href="#edit-configmap" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span><code>kubectl get configmaps
 </code></pre></div>
@@ -870,7 +848,11 @@ kubectl -n codacy get job <span class="p">&amp;</span>
 </code></pre></div>
 
 <h3 id="service">service<a class="headerlink" href="#service" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>kubectl logs service/&lt;service-name&gt; -f
+<div class="codehilite"><pre><span></span><code>kubectl get svc
+</code></pre></div>
+
+<p><strong>and</strong></p>
+<div class="codehilite"><pre><span></span><code>kubectl logs -l <span class="k">$(</span>kubectl get svc/&lt;service-name&gt; -o<span class="o">=</span>json <span class="p">|</span> jq <span class="s2">&quot;.spec.selector&quot;</span> <span class="p">|</span> jq -r <span class="s1">&#39;to_entries|map(&quot;\(.key)=\(.value|tostring)&quot;)|.[]&#39;</span> <span class="p">|</span> sed -e <span class="s1">&#39;H;${x;s/\n/,/g;s/^,//;p;};d&#39;</span><span class="k">)</span> -f
 </code></pre></div>
 
 <h2 id="open-shell-inside-container">Open shell inside container<a class="headerlink" href="#open-shell-inside-container" title="Permanent link">&para;</a></h2>
