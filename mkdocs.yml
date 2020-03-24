@@ -48,10 +48,10 @@ nav:
     - configuration/git-providers/github-enterprise.md
     - configuration/git-providers/gitlab-enterprise.md
     - configuration/git-providers/bitbucket-enterprise.md
-    - configuration/logging.md
     - configuration/monitoring.md
   - "Extra":
     - extra/upgrade.md
     - extra/uninstall.md
     - extra/database.md
     - extra/k8s-cheatsheet.md
+    - extra/logs-collect.md
