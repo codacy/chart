@@ -12,4 +12,6 @@ To help troubleshoot issues, obtain the logs from your Codacy instance and send 
 
     You can also [download the script](extract-codacy-logs.sh) to run it manually.
 
-2.  Send the archive file containing the logs to Codacy's support team for analysis.
+2.  Send the compressed logs to Codacy's support team at [support@codacy.com](mailto:support@codacy.com) for analysis.
+
+    If the file is too big, please upload the file to either a cloud storage service such as [Google Drive](https://www.google.com/drive/) or to a file transfer service such as [WeTransfer](http://www.wetransfer.com/) and send us the link to the file instead.
