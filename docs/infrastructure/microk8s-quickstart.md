@@ -95,7 +95,7 @@ After these commands return successfully, we have ensured that dns, http, and ng
 
 ## 5. Installing Codacy
 
-Any `kubectl` command from [our chart installation](../install.md) must be executed as a `microk8s.kubectl` command. You can also create an alias to simplify the process:
+Any `kubectl` command from [our chart installation](../index.md#installing-codacy) must be executed as a `microk8s.kubectl` command. You can also create an alias to simplify the process:
 
 ```bash
 alias kubectl='microk8s.kubectl'
