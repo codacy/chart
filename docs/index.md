@@ -35,7 +35,4 @@ After successfully installing Codacy, follow the post-install configuration step
     -   Create an initial organization
     -   Invite users
 
-3.  Finally, we also recommend that you set up logging and monitoring.
-
-    -   [Logging](configuration/logging.md)
-    -   [Monitoring](configuration/monitoring.md)
+3.  Finally, we also recommend that you set up [monitoring](configuration/monitoring.md).

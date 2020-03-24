@@ -48,7 +48,6 @@ nav:
     - configuration/git-providers/github-enterprise.md
     - configuration/git-providers/gitlab-enterprise.md
     - configuration/git-providers/bitbucket-enterprise.md
-    - configuration/logging.md
     - configuration/monitoring.md
   - "Extra":
     - extra/upgrade.md
