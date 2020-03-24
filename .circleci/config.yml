@@ -372,19 +372,6 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Release on GitHub: https://github.com/codacy/chart/releases/tag/$(cat .version)
-            Release notes: https://github.com/codacy/chart/releases/download/$(cat .version)/changelog.md
-
-  publish_changelog_to_github:
-    <<: *default_doks_image
-    steps:
-      - <<: *attach_workspace
-      - run:
-          name: "Install requirements"
-          command: curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1 && mv bin/hub /usr/local/bin/hub
-      - run:
-          name: Update github release
-          command: hub release edit -a changelogs/changelog.md -m "$(date "+%Y-%m-%d")" -m "Self-hosted helm chart for Codacy." $(cat .version)
 
 ############
 #  WORKFLOWS
@@ -609,11 +596,7 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
-      - publish_changelog_to_github:
-          context: CodacyDO
-          requires:
-            - tag_version
       - slack_notify_release:
           context: CodacyDO
           requires:
-            - publish_changelog_to_github
+            - tag_version_latest
