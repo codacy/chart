@@ -372,8 +372,6 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Release on GitHub: https://github.com/codacy/chart/releases/tag/$(cat .version)
-            Release notes: https://github.com/codacy/chart/releases/download/$(cat .version)/changelog.md
 
 ############
 #  WORKFLOWS
