@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:0.4.2
+      - image: codacy/ci-do:0.6.0
     working_directory: ~/workdir/
 
   helm_values: &helm_values
@@ -338,9 +338,7 @@ jobs:
             mkdocs gh-deploy -m "[ci skip] Updated documentation."
 
   get_changelogs:
-    docker:
-      - image: codacy/ci-base:1.0.1
-    working_directory: ~/workdir/
+    <<: *default_doks_image
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -357,27 +355,25 @@ jobs:
       - run:
           name: "Get changelogs"
           command: bash ./.circleci/getChangelogs.sh
-      - run:
-          name: Stash changelog file url
-          command: curl -s https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN} | jq '.[] | .url' | sed 's/"//g' >> changelog_url.txt
-      - <<: *persist_to_workspace
       - store_artifacts:
           path: ~/workdir/changelogs
+      - run:
+          name: Stash changelog file url
+          command: |
+            curl -s "https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN}" | jq '.[] | .url' | sed 's/"//g' >> .changelog_url
       - <<: *persist_to_workspace
 
   slack_notify_release:
     <<: *default_doks_image
     steps:
       - <<: *attach_workspace
-      - run:
-          command: export CHANGELOG_URL=$(cat changelog_url.txt)
       - slack/notify:
           channel: '#sh_releases'
           color: '#2EB67D'
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Release notes: ${CHANGELOG_URL}
+            Release notes: $(cat .changelog_url)
 
 ############
 #  WORKFLOWS
