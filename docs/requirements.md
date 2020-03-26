@@ -27,19 +27,19 @@ Since all of this runs in kubernetes, you can increase the number of replicas in
 
 The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
 
-| Installation type                        | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
-| ---------------------------------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
-| Kubernetes Small Installation            | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   | 16            | 32 GB          |
-| Kubernetes Medium Installation (default) | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   | 32            | 64 GB          |
-| Kubernetes Big Installation              | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 | 60+           | 110+ GB        |
+| Installation type                        | ~ Total vCPUs | ~ Total Memory | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory |
+| ---------------------------------------- | ------------- | -------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- |
+| Kubernetes Small Installation            | 16            | 32 GB          | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   |
+| Kubernetes Medium Installation (default) | 32            | 64 GB          | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   |
+| Kubernetes Big Installation              | 60+           | 110+ GB        | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 |
 
 **NOTE:**
 For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be used by microk8s itself.
 
-| Installation type              | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
-| ------------------------------ | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
-| MicroK8s Minimum               | 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   | 16            | 32 GB          |
-| MicroK8s Recommended (default) | 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   | 20+           | 32+ GB         |
+| Installation type              | ~ Total vCPUs | ~ Total Memory | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory |
+| ------------------------------ | ------------- | -------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- |
+| MicroK8s Minimum               | 16            | 32 GB          | 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   |
+| MicroK8s Recommended (default) | 20+           | 32+ GB         | 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   |
 
 ## PostgreSQL server setup
 
