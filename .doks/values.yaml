@@ -17,6 +17,9 @@ global:
   jobsdb:
     create: true
 
+  github:
+    enabled: "true"
+
   githubEnterprise:
     enabled: "true"
     hostname: "github.dev.codacy.org"
