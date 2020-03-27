@@ -18,12 +18,14 @@ your project.
 
 !["High Level Architecture"](<./images/High Level Architecture - Analysis II.svg> "High Level Architecture")
 
-Since all of this runs in kubernetes, you can increase the number of replicas in for every deployment, which should give you more resilience and throughput, but it will also increase resource usage. A very simplistic overview of the resource allocations for the "Platform" and "Analysis" goes something like this:
+### Virtual CPUs and memory
 
-| Component                           | vCPU | Memory |
-| ----------------------------------- | ---- | ------ |
-| Platform w/ 1 replica on everything | 4    | 8      |
-| Per Analysis Worker                 | 5    | 10     |
+Since all components are running on Kubernetes, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage. The following is a simplified overview of how to calculate resource allocation for the "Platform" and the "Analysis":
+
+| Component                          | vCPU                    | Memory                   |
+| ---------------------------------- | ----------------------- | ------------------------ |
+| Platform (1 replica per component) | 4                       | 8                        |
+| Analysis Worker                    | 5 (per Analysis Worker) | 10 (per Analysis Worker) |
 
 The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
 
@@ -43,27 +45,25 @@ For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be use
 
 ### Storage
 
-The storage necessary also depends on the number of repositories you have.
-You can use the following table as a guideline to understand the kind of storage allocation
-done by codacy.
+The storage requirements depend mainly on the number of repositories you will be analyzing.
+Use the following table as a guideline to determine Codacy's storage requirements.
 
-| Installation type | Bundled in the chart         | Minimum Recommended |
+| Component | Bundled in the chart         | Minimum Recommended |
 | ----------------- | ---------------------------- | ------------------- |
 | NFS               | Yes                          | 200 GB              |
 | RabbitMQ          | Yes                          | 8 GB                |
 | Minio             | Yes                          | 20 GB               |
 | Postgres          | No (external DB recommended) | 500 GB+             |
 
-For a custom recommendation, please contact us at support@codacy.com.
+For a custom recommendation, please contact us at [support@codacy.com](mailto://support@codacy.com).
 
-## External PostgreSQL
+## External PostgreSQL instance
 
-Codacy requires a working PostgreSQL.
-Google itself [doesn't recommend](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider) that you run PostgreSQL inside you cluster.
-As such, you should consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the postgres server
-inside a dedicated VM/Machine.
+Codacy requires a working PostgreSQL instance to persist data.
 
-The minimum recommended specifications
+Google itself [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the PostgreSQL server inside a dedicated virtual machine.
+
+The following are the minimum recommended specifications of the PostgreSQL instance:
 
 | vCPU | Memory | Storage | Max Connections |
 | ---- | ------ | ------- | --------------- |
@@ -71,7 +71,7 @@ The minimum recommended specifications
 
 ### Setup
 
-We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:
+We recommend that you create a dedicated user for Codacy, with access permissions only to the databases that are specific to Codacy:
 
 1.  Connect to the PostgreSQL server as a database admin user. For example, using the `psql` command-line client:
 
@@ -92,7 +92,7 @@ We recommend that you also create a dedicated user for Codacy, with access permi
     psql -U codacy -h <PostgreSQL server hostname>
     ```
 
-4.  Create the necessary databases
+4.  Create the necessary databases:
 
     ```sql
     CREATE DATABASE accounts WITH OWNER=codacy;
