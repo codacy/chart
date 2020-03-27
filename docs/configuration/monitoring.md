@@ -151,7 +151,7 @@ engine:
 
 Apply this configuration by issuing an helm upgrade while passing these additional values.
 To do so append `--values values-monitoring.yaml --recreate-pods` to the command used to install
-codacy provided in [this documentation](../install.md).
+codacy provided in [this documentation](../index.md#2-installing-codacy).
 
 ```bash
 helm upgrade (...options used to install codacy...) --values values-monitoring-values.yaml --recreate-pods
