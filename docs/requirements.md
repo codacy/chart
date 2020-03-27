@@ -41,15 +41,37 @@ For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be use
 | MicroK8s Minimum               | 16            | 32 GB          | 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   |
 | MicroK8s Recommended (default) | 20+           | 32+ GB         | 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   |
 
-## PostgreSQL server setup
+### Storage
 
-Codacy requires a working PostgreSQL server to run. The recommended specifications are:
+The storage necessary also depends on the number of repositories you have.
+You can use the following table as a guideline to understand the kind of storage allocation
+done by codacy.
 
--   4 CPU
--   8 GB RAM
--   Minimum 500 GB+ hard drive, depending on the number of repositories you have. For a custom recommendation, please contact us at support@codacy.com.
+| Installation type | Bundled in the chart         | Minimum Recommended |
+| ----------------- | ---------------------------- | ------------------- |
+| NFS               | Yes                          | 200 GB              |
+| RabbitMQ          | Yes                          | 8 GB                |
+| Minio             | Yes                          | 20 GB               |
+| Postgres          | No (external DB recommended) | 500 GB+             |
 
-You must manually create the databases required by Codacy on the PostgreSQL server. We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:
+For a custom recommendation, please contact us at support@codacy.com.
+
+## External PostgreSQL
+
+Codacy requires a working PostgreSQL.
+Google itself [doesn't recommend](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider) that you run PostgreSQL inside you cluster.
+As such, you should consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the postgres server
+inside a dedicated VM/Machine.
+
+The minimum recommended specifications
+
+| vCPU | Memory | Storage | Max Connections |
+| ---- | ------ | ------- | --------------- |
+| 4    | 8GB    | 500 GB+ | 300             |
+
+### Setup
+
+We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:
 
 1.  Connect to the PostgreSQL server as a database admin user. For example, using the `psql` command-line client:
 
@@ -61,8 +83,18 @@ You must manually create the databases required by Codacy on the PostgreSQL serv
 
     ```sql
     CREATE USER codacy WITH PASSWORD 'codacy';
-    ALTER ROLE codacy WITH CREATEDB;
+    ALTER ROLE codacy WITH CREATEDB
+    ```
 
+3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example:
+
+    ```bash
+    psql -U codacy -h <PostgreSQL server hostname>
+    ```
+
+4.  Create the necessary databases
+
+    ```sql
     CREATE DATABASE accounts WITH OWNER=codacy;
     CREATE DATABASE analysis WITH OWNER=codacy;
     CREATE DATABASE results WITH OWNER=codacy;
@@ -73,10 +105,4 @@ You must manually create the databases required by Codacy on the PostgreSQL serv
     CREATE DATABASE hotspots WITH OWNER=codacy;
     CREATE DATABASE listener WITH OWNER=codacy;
     CREATE DATABASE crow WITH OWNER=codacy;
-    ```
-
-3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example:
-
-    ```bash
-    psql -U codacy -h <PostgreSQL server hostname>
     ```

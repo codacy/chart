@@ -272,6 +272,9 @@ crow:
       memory: 100Mi
 rabbitmq-ha:
   replicaCount: 3
+  persistentVolume:
+    enabled: true
+    size: 8Gi
   resources:
     limits:
       cpu: 500m
