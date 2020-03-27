@@ -90,7 +90,7 @@ global:
     timeout: 15s
 
   defaultdb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: accounts
@@ -100,7 +100,7 @@ global:
       port: 5432
 
   analysisdb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: analysis
@@ -110,7 +110,7 @@ global:
       port: 5432
 
   resultsdb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: results
@@ -120,7 +120,7 @@ global:
       port: 5432
 
   metricsdb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: metrics
@@ -130,7 +130,7 @@ global:
       port: 5432
 
   filestoredb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: filestore
@@ -140,7 +140,7 @@ global:
       port: 5432
 
   jobsdb:
-    create: true
+    create: false
     imageTag: "9.6.2"
     postgresqlUsername: codacy
     postgresqlDatabase: jobs
@@ -172,7 +172,7 @@ activities:
     periodSeconds: 5
     failureThreshold: 5
   activitiesdb:
-    create: true
+    create: false
     host: codacy-activitiesdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "activities"
@@ -228,7 +228,7 @@ listener:
     #  memory: 1Gi
 
   listenerdb:
-    create: true
+    create: false
     host: codacy-listenerdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "listener"
@@ -336,7 +336,7 @@ crow:
   replicaCount: 1
   fullnameOverride: codacy-crow
   crowdb:
-    create: true
+    create: false
     host: codacy-crowdb
     postgresqlUsername: "codacy"
     postgresqlDatabase: "crow"

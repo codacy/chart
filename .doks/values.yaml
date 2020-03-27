@@ -1,3 +1,43 @@
+global:
+  defaultdb:
+    create: true
+
+  analysisdb:
+    create: true
+
+  resultsdb:
+    create: true
+
+  metricsdb:
+    create: true
+
+  filestoredb:
+    create: true
+
+  jobsdb:
+    create: true
+
+  githubEnterprise:
+    enabled: "true"
+    hostname: "github.dev.codacy.org"
+    port: 443
+    protocol: "https"
+    disableSSL: "true"
+    isPrivateMode: "true"
+
+  gitlabEnterprise:
+    enabled: "true"
+    hostname: "gitlab.dev.codacy.org"
+    protocol: "http"
+    port: 80
+
+  bitbucketEnterprise:
+    enabled: "true"
+    hostname: "bitbucket-server.codacy.org"
+    protocol: "http"
+    port: 7990
+    consumerKey: "codacy-stash-link"
+
 codacy-ingress:
   create: true
   ingress:
@@ -28,6 +68,7 @@ activities:
     periodSeconds: 5
     failureThreshold: 5
   activitiesdb:
+    create: true
     persistence:
       enabled: true
       size: 250Gi
@@ -38,6 +79,7 @@ remote-provider-service:
 hotspots-api:
   replicaCount: 1
   hotspotsdb:
+    create: true
     persistence:
       enabled: true
       size: 250Gi
@@ -48,6 +90,7 @@ hotspots-worker:
 listener:
   replicaCount: 1
   listenerdb:
+    create: true
     persistence:
       enabled: true
       size: 250Gi
@@ -76,25 +119,3 @@ worker-manager:
 
 fluentdoperator:
   enabled: true
-
-global:
-  githubEnterprise:
-    enabled: "true"
-    hostname: "github.dev.codacy.org"
-    port: 443
-    protocol: "https"
-    disableSSL: "true"
-    isPrivateMode: "true"
-
-  gitlabEnterprise:
-    enabled: "true"
-    hostname: "gitlab.dev.codacy.org"
-    protocol: "http"
-    port: 80
-
-  bitbucketEnterprise:
-    enabled: "true"
-    hostname: "bitbucket-server.codacy.org"
-    protocol: "http"
-    port: 7990
-    consumerKey: "codacy-stash-link"
