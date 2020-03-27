@@ -15,7 +15,7 @@ serviceMonitor:
 persistence:
   enabled: true
   size: 100Gi # adjust persistence volume size if needed
-  storageClassName: <--- storage class ---> # use, for instance microk8s-hostpath, for microk8s
+  #storageClassName: <--- storage class ---> 
 table_manager:
   retention_deletes_enabled: true
   retention_period: 72h

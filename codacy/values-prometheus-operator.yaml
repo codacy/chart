@@ -1,9 +1,6 @@
 grafana:
   enabled: true
   adminPassword: <--- admin user password --->
-  service:
-    type: NodePort
-    nodePort: 30080
   sidecar:
     dashboards:
       searchNamespace: ALL
