@@ -418,10 +418,6 @@ workflows:
           context: CodacyDO
           requires:
             - create_sandbox_cluster
-      - get_changelogs:
-          context: CodacyDO
-          requires:
-            - deploy_to_doks_sandbox
 
   deploy_chart_to_dev_cluster:
     jobs:
