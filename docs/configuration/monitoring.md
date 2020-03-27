@@ -96,8 +96,6 @@ For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
 
-kubectl create namespace monitoring
-
 helm upgrade --install --atomic loki loki/loki --version 0.17.0 \
   --recreate-pods --namespace codacy --values values-loki.yaml
 ```
