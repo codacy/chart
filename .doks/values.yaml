@@ -119,3 +119,22 @@ worker-manager:
 
 fluentdoperator:
   enabled: true
+
+crow:
+  replicaCount: 1
+  fullnameOverride: codacy-crow
+  crowdb:
+    create: true
+    host: codacy-crowdb
+    postgresqlUsername: "codacy"
+    postgresqlDatabase: "crow"
+    postgresqlPassword: "PLEASE_CHANGE_ME"
+    service:
+      port: 5432
+    fullnameOverride: codacy-crowdb
+  config:
+    play:
+      http:
+        context: "/monitoring"
+    passwordAuth:
+      password: "PLEASE_CHANGE_ME"
