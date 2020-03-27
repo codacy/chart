@@ -189,7 +189,7 @@ hotspots-api:
   replicaCount: 1
   fullnameOverride: codacy-hotspots-api
   hotspotsdb:
-    create: true
+    create: false
     host: codacy-hotspotsdb
     postgresqlUsername: codacy
     postgresqlDatabase: hotspots
