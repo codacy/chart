@@ -123,3 +123,9 @@ You can now follow the generic [Codacy installation instructions](../index.md#2-
     ```
 
 -   When running the `helm upgrade` command that installs the Codacy chart you must append the file `values-microk8s.yaml` that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.
+
+    You can download the file `values-microk8s.yaml` by running:
+
+    ```bash
+    wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
+    ```
