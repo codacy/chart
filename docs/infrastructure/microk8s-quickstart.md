@@ -10,8 +10,8 @@ Follow the steps below to set up a microk8s instance from scratch, including all
 
 Two executables will get installed onto the cluster as part of this process: `helm` and `tiller`.
 
-* `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
-* `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
+-   `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
+-   `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
 
 `helm` is the client facing side, while `tiller` is the server/cluster facing side.
 
@@ -19,20 +19,21 @@ Two executables will get installed onto the cluster as part of this process: `he
 
 Prepare your environment to set up the microk8s cluster. For your infrastructure, you will need the following:
 
-* A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
-* A [PostgreSQL instance with all the necessary databases created](../requirements.md#postgresql-server-setup). The machine above must be able to connect to this PostgreSQL instance.
+-   A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
+
+-   A [PostgreSQL instance with all the necessary databases created](../requirements.md#postgresql-server-setup). The machine above must be able to connect to this PostgreSQL instance.
 
 All the following steps assume that you are starting from a blank slate.
 
 ## 3. Installing microk8s
 
-1. Make sure the machine has the `nfs-common` package installed.
+1.  Make sure the machine has the `nfs-common` package installed.
 
     ```bash
     sudo apt update && sudo apt install nfs-common -y
     ```
 
-2. Install microk8s from the `1.15/stable` channel.
+2.  Install microk8s from the `1.15/stable` channel.
 
     ```bash
     sudo snap install microk8s --classic --channel=1.15/stable && \
@@ -46,7 +47,7 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.status --wait-ready
     ```
 
-3. Install the version `v2.16.3` of the helm binary
+3.  Install the version `v2.16.3` of the helm binary
 
     ```bash
     HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
@@ -58,7 +59,7 @@ All the following steps assume that you are starting from a blank slate.
 
 ## 4. Configuring microk8s
 
-1. First, we must enable the following plugins on microk8s:
+1.  First, we must enable the following plugins on microk8s:
 
     ```bash
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
@@ -73,7 +74,7 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.status --wait-ready
     ```
 
-2. Install Tiller:
+2.  Install Tiller:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
@@ -81,7 +82,7 @@ All the following steps assume that you are starting from a blank slate.
     helm init --service-account tiller
     ```
 
-3. The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
+3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
