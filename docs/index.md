@@ -1,12 +1,12 @@
 # Installing Codacy on Kubernetes
 
-This documentation guides you on how to install Codacy on a Kubernetes or MicroK8s cluster.
+This documentation guides you on how to install Codacy on Kubernetes or MicroK8s.
 
 To install Codacy you must complete these main steps:
 
 1.  [**Setting up the system requirements**](#1-setting-up-the-system-requirements)
 
-    Ensure that your infrastructre meets the system requirements to run Codacy. This includes provisioning the hardware resources for your Kubernetes or MicroK8s cluster, setting up the cluster, and running a PostgreSQL instance external to your cluster.
+    Ensure that your infrastructre meets the system requirements to run Codacy. This includes provisioning the hardware resources for your Kubernetes cluster or MicroK8s instance, setting up the cluster, and running a PostgreSQL instance external to your cluster.
 
 2.  [**Installing Codacy**](#2-installing-codacy)
 
@@ -26,11 +26,11 @@ Carefully review and set up the system requirements to run Codacy by following t
 
 -   [System requirements](requirements.md)
 
-Optionally, you can follow one of the guides provided below to quickly create a new Kubernetes or MicroK8s cluster as listed on the system requirements page:
+Optionally, you can follow one of the guides provided below to quickly create a new Kubernetes cluster or MicroK8s instance as listed on the system requirements page:
 
 -   [Creating an Amazon EKS cluster](infrastructure/eks-quickstart.md)
 -   [Creating an AKS cluster](infrastructure/aks-quickstart.md)
--   [Creating a MicroK8s cluster](infrastructure/microk8s-quickstart.md)
+-   [Creating a MicroK8s instance](infrastructure/microk8s-quickstart.md)
 
 ## 2. Installing Codacy
 

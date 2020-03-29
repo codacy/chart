@@ -1,8 +1,8 @@
-# Creating a MicroK8s cluster
+# Creating a MicroK8s instance
 
-[Microk8s](https://microk8s.io/) is a single-package fully conformant lightweight Kubernetes that works on 42 Linux versions. The project is publicly available and can be [found here](https://github.com/ubuntu/microk8s).
+[Microk8s](https://microk8s.io/) is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is [publicly available on GitHub](https://github.com/ubuntu/microk8s).
 
-Follow the steps below to set up a microk8s instance from scratch, including all the necessary dependencies and configuration.
+Follow the steps below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
 
 ## 1. Concepts
 
@@ -17,7 +17,7 @@ Two executables will get installed onto the cluster as part of this process: `he
 
 ## 2. Prepare your environment
 
-Prepare your environment to set up the microk8s cluster. For your infrastructure, you will need the following:
+Prepare your environment to set up the MicroK8s cluster. For your infrastructure, you will need the following:
 
 -   A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
 
@@ -25,7 +25,7 @@ Prepare your environment to set up the microk8s cluster. For your infrastructure
 
 All the following steps assume that you are starting from a blank slate.
 
-## 3. Installing microk8s
+## 3. Installing MicroK8s
 
 1.  Make sure the machine has the `nfs-common` package installed.
 
@@ -33,7 +33,7 @@ All the following steps assume that you are starting from a blank slate.
     sudo apt update && sudo apt install nfs-common -y
     ```
 
-2.  Install microk8s from the `1.15/stable` channel.
+2.  Install MicroK8s from the `1.15/stable` channel.
 
     ```bash
     sudo snap install microk8s --classic --channel=1.15/stable && \
@@ -41,7 +41,7 @@ All the following steps assume that you are starting from a blank slate.
     sudo su - $USER
     ```
 
-    Check that microk8s is running.
+    Check that MicroK8s is running.
 
     ```bash
     microk8s.status --wait-ready
@@ -57,9 +57,9 @@ All the following steps assume that you are starting from a blank slate.
     rm -rvf $HELM_PKG linux-amd64/
     ```
 
-## 4. Configuring microk8s
+## 4. Configuring MicroK8s
 
-1.  First, we must enable the following plugins on microk8s:
+1.  First, we must enable the following plugins on MicroK8s:
 
     ```bash
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
@@ -82,7 +82,7 @@ All the following steps assume that you are starting from a blank slate.
     helm init --service-account tiller
     ```
 
-3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some microk8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
+3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some MicroK8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
@@ -102,4 +102,4 @@ Any `kubectl` command from [our chart installation](../index.md#installing-codac
 alias kubectl='microk8s.kubectl'
 ```
 
-When you get to the installation step you also need to append the [`values-microk8s.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is microk8s.
+When you get to the installation step you also need to append the [`values-microk8s.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is MicroK8s.
