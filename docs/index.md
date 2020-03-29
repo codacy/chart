@@ -40,7 +40,8 @@ Install Codacy on an existing cluster using our Helm chart:
 
     -   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) within one minor version difference of your cluster
 
-        **If you are using MicroK8s** you don't need to install kubectl because all `kubectl` commands will be executed as `microk8s.kubectl` instead. Check [how to create an alias](infrastructure/microk8s-quickstart.md#5-installing-codacy) for `kubectl`.
+        !!! important
+            **If you are using MicroK8s** you don't need to install kubectl because all `kubectl` commands will be executed as `microk8s.kubectl` instead. Check [how to create an alias](infrastructure/microk8s-quickstart.md#5-installing-codacy) for `kubectl`.
 
     -   [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.3
 
@@ -69,11 +70,13 @@ Install Codacy on an existing cluster using our Helm chart:
 
 5.  Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.
 
-    **If you are using MicroK8s** you must map the hostname to the public IP address of the machine running MicroK8s.
+    !!! important
+        **If you are using MicroK8s** you must map the hostname to the public IP address of the machine running MicroK8s.
 
 6.  Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.
 
-    **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](infrastructure/microk8s-quickstart.md#5-installing-codacy). To do this, uncomment the last line before running the command below.
+    !!! important
+        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](infrastructure/microk8s-quickstart.md#5-installing-codacy). To do this, uncomment the last line before running the command below.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
