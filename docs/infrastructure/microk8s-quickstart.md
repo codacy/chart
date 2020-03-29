@@ -2,38 +2,35 @@
 
 [Microk8s](https://microk8s.io/) is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is [publicly available on GitHub](https://github.com/ubuntu/microk8s).
 
-Follow the steps below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
+Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
 
-## 1. Concepts
+As part of this process, the Helm client (`helm`) and the Helm server (`tiller`) will be installed on the MicroK8s instance:
 
-### Helm and tiller
+-   `helm` is the command-line client responsible for resolving the configuration of the chart to be installed and issuing the correct install commands onto the Helm server.
+-   `tiller` is the in-cluster server responsible for receiving the install commands issued by the Helm client and managing the lifecycle of the components that have been installed.
 
-Two executables will get installed onto the cluster as part of this process: `helm` and `tiller`.
+## 1. Prepare your environment
 
--   `helm` is responsible for resolving the configuration of the chart to be installed, while issuing the correct install commands onto the cluster.
--   `tiller` is responsible for receiving the install commands issued by `helm`, as well as managing the lifecycle of the components that have been installed.
+Prepare your environment to set up the MicroK8s instance.
 
-`helm` is the client facing side, while `tiller` is the server/cluster facing side.
+You will need a machine running [Ubuntu Server 18.04 LTS](https://ubuntu.com/download/server) that:
 
-## 2. Prepare your environment
+-   Is correctly provisioned with the resoures described for MicroK8s in the [system requirements](../requirements.md#hardware-requirements)
+-   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup).
 
-Prepare your environment to set up the MicroK8s cluster. For your infrastructure, you will need the following:
+The next steps assume that you are starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.
 
--   A machine running Ubuntu 18.04 LTS. You must start a local or remote command line session on this machine.
+## 2. Installing MicroK8s
 
--   A [PostgreSQL instance with all the necessary databases created](../requirements.md#postgresql-server-setup). The machine above must be able to connect to this PostgreSQL instance.
+Install MicroK8s on the machine:
 
-All the following steps assume that you are starting from a blank slate.
-
-## 3. Installing MicroK8s
-
-1.  Make sure the machine has the `nfs-common` package installed.
+1.  Make sure that the package `nfs-common` is installed:
 
     ```bash
     sudo apt update && sudo apt install nfs-common -y
     ```
 
-2.  Install MicroK8s from the `1.15/stable` channel.
+2.  Install MicroK8s from the `1.15/stable` channel:
 
     ```bash
     sudo snap install microk8s --classic --channel=1.15/stable && \
@@ -41,25 +38,34 @@ All the following steps assume that you are starting from a blank slate.
     sudo su - $USER
     ```
 
-    Check that MicroK8s is running.
+3.  Check that MicroK8s is running:
 
     ```bash
-    microk8s.status --wait-ready
+    $ microk8s.status --wait-ready
+    microk8s is running
+    addons:
+    knative: disabled
+    jaeger: disabled
+    fluentd: disabled
+    gpu: disabled
+    cilium: disabled
+    storage: disabled
+    registry: disabled
+    rbac: disabled
+    ingress: disabled
+    dns: disabled
+    metrics-server: disabled
+    linkerd: disabled
+    prometheus: disabled
+    istio: disabled
+    dashboard: disabled
     ```
 
-3.  Install the version `v2.16.3` of the helm binary
+## 3. Configuring MicroK8s
 
-    ```bash
-    HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz
-    wget https://get.helm.sh/$HELM_PKG
-    tar xvzf $HELM_PKG
-    sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin
-    rm -rvf $HELM_PKG linux-amd64/
-    ```
+Now that MicroK8s is running on the machine we can proceed to enabling the necessary plugins and installing the Helm client and server:
 
-## 4. Configuring MicroK8s
-
-1.  First, we must enable the following plugins on MicroK8s:
+1.  Enable the following plugins on MicroK8s:
 
     ```bash
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
@@ -74,7 +80,17 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.status --wait-ready
     ```
 
-2.  Install Tiller:
+2.  Install version v2.16.3 of the Helm client:
+
+    ```bash
+    HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz && \
+    wget https://get.helm.sh/$HELM_PKG && \
+    tar xvzf $HELM_PKG && \
+    sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin && \
+    rm -rvf $HELM_PKG linux-amd64/
+    ```
+
+3.  Install the Helm server:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
@@ -82,7 +98,7 @@ All the following steps assume that you are starting from a blank slate.
     helm init --service-account tiller
     ```
 
-3.  The plugins are now enabled and the cluster bootstrapped. However, we must still wait for some MicroK8s internals (dns, http, and ingress) plugins to be ready, as failing to do so can result in pods entering a `CrashLoopBackoff` state:
+4.  The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
@@ -92,14 +108,18 @@ All the following steps assume that you are starting from a blank slate.
     microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
     ```
 
-After these commands return successfully, we have ensured that dns, http, and nginx ingress are enabled and working properly inside the cluster.
+    After these commands return successfully we have ensured that DNS, HTTP, and NGINX Ingress are enabled and working properly inside the MicroK8s instance.
 
-## 5. Installing Codacy
+## Notes on installing Codacy
 
-Any `kubectl` command from [our chart installation](../index.md#installing-codacy) must be executed as a `microk8s.kubectl` command. You can also create an alias to simplify the process:
+You can now follow the generic [Codacy installation instructions](../index.md#2-installing-codacy) but please note the following:
 
-```bash
-alias kubectl='microk8s.kubectl'
-```
+-   You must execute all `kubectl` commands as `microk8s.kubectl` commands instead.
 
-When you get to the installation step you also need to append the [`values-microk8s.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml) configuration that downsizes some of the limits, making it easier to fit in the lightweight solution that is MicroK8s.
+    To simplify this, we suggest that you create an alias so that you can run the commands directly as provided on the instructions:
+
+    ```bash
+    alias kubectl=microk8s.kubectl
+    ```
+
+-   When running the `helm upgrade` command that installs the Codacy chart you must append the file `values-microk8s.yaml` that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.

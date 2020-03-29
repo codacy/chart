@@ -20,13 +20,13 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Setting up the system requirements
 
-Before you start, you must prepare and and provision the cluster and database that will host Codacy.
+Before you start, you must prepare and and provision the database server and Kubernetes cluster or MicroK8s instance that will host Codacy.
 
 Carefully review and set up the system requirements to run Codacy by following the instructions on the page below:
 
 -   [System requirements](requirements.md)
 
-Optionally, you can follow one of the guides provided below to quickly create a new Kubernetes cluster or MicroK8s instance as listed on the system requirements page:
+Optionally, you can follow one of the guides that we provide to quickly create a new Kubernetes cluster or MicroK8s instance as listed on the system requirements page:
 
 -   [Creating an Amazon EKS cluster](infrastructure/eks-quickstart.md)
 -   [Creating an AKS cluster](infrastructure/aks-quickstart.md)
@@ -41,7 +41,7 @@ Install Codacy on an existing cluster using our Helm chart:
     -   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) within one minor version difference of your cluster
 
         !!! important
-            **If you are using MicroK8s** you don't need to install kubectl because all `kubectl` commands will be executed as `microk8s.kubectl` instead. Check [how to create an alias](infrastructure/microk8s-quickstart.md#5-installing-codacy) for `kubectl`.
+            **If you are using MicroK8s** you don't need to install kubectl because you will execute all `kubectl` commands as `microk8s.kubectl` commands instead. To simplify this, [check how to create an alias](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy) for `kubectl`.
 
     -   [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.3
 
@@ -76,7 +76,7 @@ Install Codacy on an existing cluster using our Helm chart:
 6.  Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.
 
     !!! important
-        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](infrastructure/microk8s-quickstart.md#5-installing-codacy). To do this, uncomment the last line before running the command below.
+        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy). To do this, uncomment the last line before running the command below.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
