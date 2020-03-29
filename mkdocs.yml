@@ -28,10 +28,11 @@ plugins:
 markdown_extensions:
 - admonition
 - codehilite
+- attr_list
 - pymdownx.inlinehilite
+- pymdownx.superfences
 - pymdownx.tasklist:
     custom_checkbox: true
-- pymdownx.superfences
 - toc:
     permalink: true
 

@@ -29,7 +29,7 @@ Since all components are running on Kubernetes, you can increase the number of r
 
 #### Standard Cluster Installation
 
-The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
+The resources described on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){: target="_blank"} file, which you might need to adapt taking into account your use case.
 
 | Installation type                        | ~ Total vCPUs | ~ Total Memory | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory |
 | ---------------------------------------- | ------------- | -------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- |

@@ -39,7 +39,7 @@ Install Codacy as follows:
     kubectl create secret docker-registry docker-credentials --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --namespace codacy
     ```
 
-3.  Use a text editor of your choice edit the [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml) file, changing the values with placeholders as described in the comments.
+3.  Use a text editor of your choice edit the [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){: target="_blank"} file, changing the values with placeholders as described in the comments.
 
 4.  Create a record in your DNS provider with the hostname you used in the previous step to send traffic to your ingress controller.
 
@@ -49,7 +49,7 @@ Install Codacy as follows:
 5.  Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.
 
     **NOTE:**
-    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml) configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
+    If you are in microk8s, don't forget to use the [`values-microk8s.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml){: target="_blank"} configuration file as stated [here](infrastructure/microk8s-quickstart.md#5-installing-codacy).
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
