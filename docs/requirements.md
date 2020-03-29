@@ -4,7 +4,7 @@ Running Codacy on a Kubernetes cluster requires the following:
 
 -   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#hardware-requirements)
 -   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly set up in your cluster
--   A [PostgreSQL server](#postgresql-server-setup) accessible from the Kubernetes cluster
+-   A [PostgreSQL server](#external-postgresql-instance) accessible from the Kubernetes cluster
 
 ## Hardware requirements
 
@@ -67,9 +67,9 @@ Google itself [doesn't recommend running database servers on your cluster](https
 
 The following are the minimum recommended specifications of the PostgreSQL instance:
 
-| vCPU | Memory | Storage | Max Connections |
-| ---- | ------ | ------- | --------------- |
-| 4    | 8GB    | 500 GB+ | 300             |
+| vCPUs | Memory | Storage | Max. concurrent connections |
+| ----- | ------ | ------- | --------------------------- |
+| 4     | 8 GB   | 500 GB+ | 300                         |
 
 ### Setup
 
