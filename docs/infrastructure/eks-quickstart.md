@@ -1,4 +1,4 @@
-# Setting up an Amazon EKS cluster
+# Creating an Amazon EKS cluster
 
 Follow the steps below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
