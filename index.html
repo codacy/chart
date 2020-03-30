@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#how-to-install-codacy-on-kubernetes" tabindex="0" class="md-skip">
+      <a href="#installing-codacy-on-kubernetes" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                How to install Codacy on Kubernetes
+                Installing Codacy on Kubernetes
               
             </span>
           
@@ -191,11 +191,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        How to install Codacy on Kubernetes
+        Installing Codacy on Kubernetes
       </label>
     
-    <a href="." title="How to install Codacy on Kubernetes" class="md-nav__link md-nav__link--active">
-      How to install Codacy on Kubernetes
+    <a href="." title="Installing Codacy on Kubernetes" class="md-nav__link md-nav__link--active">
+      Installing Codacy on Kubernetes
     </a>
     
       
@@ -209,8 +209,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-setting-up-the-kubernetes-infrastructure" class="md-nav__link">
-    1. Setting up the Kubernetes infrastructure
+  <a href="#1-setting-up-the-system-requirements" class="md-nav__link">
+    1. Setting up the system requirements
   </a>
   
 </li>
@@ -223,8 +223,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-post-install-configuration" class="md-nav__link">
-    3. Post-install configuration
+  <a href="#3-configuring-codacy" class="md-nav__link">
+    3. Configuring Codacy
   </a>
   
 </li>
@@ -262,11 +262,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      Setting up the Kubernetes infrastructure
+      Setting up Kubernetes
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
-        Setting up the Kubernetes infrastructure
+        Setting up Kubernetes
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -277,8 +277,8 @@
 
 
   <li class="md-nav__item">
-    <a href="infrastructure/eks-quickstart/" title="Setting up an Amazon EKS cluster" class="md-nav__link">
-      Setting up an Amazon EKS cluster
+    <a href="infrastructure/eks-quickstart/" title="Creating an Amazon EKS cluster" class="md-nav__link">
+      Creating an Amazon EKS cluster
     </a>
   </li>
 
@@ -289,8 +289,8 @@
 
 
   <li class="md-nav__item">
-    <a href="infrastructure/aks-quickstart/" title="Setting up an AKS cluster" class="md-nav__link">
-      Setting up an AKS cluster
+    <a href="infrastructure/aks-quickstart/" title="Creating an AKS cluster" class="md-nav__link">
+      Creating an AKS cluster
     </a>
   </li>
 
@@ -301,8 +301,8 @@
 
 
   <li class="md-nav__item">
-    <a href="infrastructure/microk8s-quickstart/" title="Setting up a microk8s instance" class="md-nav__link">
-      Setting up a microk8s instance
+    <a href="infrastructure/microk8s-quickstart/" title="Creating a MicroK8s instance" class="md-nav__link">
+      Creating a MicroK8s instance
     </a>
   </li>
 
@@ -322,11 +322,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
-      Post-install configuration
+      Configuring Codacy
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        Post-install configuration
+        Configuring Codacy
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -501,8 +501,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-setting-up-the-kubernetes-infrastructure" class="md-nav__link">
-    1. Setting up the Kubernetes infrastructure
+  <a href="#1-setting-up-the-system-requirements" class="md-nav__link">
+    1. Setting up the system requirements
   </a>
   
 </li>
@@ -515,8 +515,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-post-install-configuration" class="md-nav__link">
-    3. Post-install configuration
+  <a href="#3-configuring-codacy" class="md-nav__link">
+    3. Configuring Codacy
   </a>
   
 </li>
@@ -538,67 +538,100 @@
               
                 
                 
-                <h1 id="how-to-install-codacy-on-kubernetes">How to install Codacy on Kubernetes<a class="headerlink" href="#how-to-install-codacy-on-kubernetes" title="Permanent link">&para;</a></h1>
-<p>Before you start, review the following requirements that must be met when provisioning the infrastructure that will host Codacy:</p>
+                <h1 id="installing-codacy-on-kubernetes">Installing Codacy on Kubernetes<a class="headerlink" href="#installing-codacy-on-kubernetes" title="Permanent link">&para;</a></h1>
+<p>This documentation guides you on how to install Codacy on Kubernetes or MicroK8s.</p>
+<p>To install Codacy you must complete these main steps:</p>
+<ol>
+<li>
+<p><a href="#1-setting-up-the-system-requirements"><strong>Setting up the system requirements</strong></a></p>
+<p>Ensure that your infrastructre meets the system requirements to run Codacy. This includes provisioning the hardware resources for your Kubernetes cluster or MicroK8s instance, setting up the cluster, and running a PostgreSQL instance external to your cluster.</p>
+</li>
+<li>
+<p><a href="#2-installing-codacy"><strong>Installing Codacy</strong></a></p>
+<p>Install Codacy on the cluster using our <a href="https://github.com/codacy/chart/">Helm chart</a> that includes all the necessary components and dependencies.</p>
+</li>
+<li>
+<p><a href="#3-configuring-codacy"><strong>Configuring Codacy</strong></a></p>
+<p>Configure integrations with Git providers and set up monitoring.</p>
+</li>
+</ol>
+<p>The next sections include detailed instructions on how to complete each step of the installation process. Make sure that you complete each step before advancing to the next one.</p>
+<h2 id="1-setting-up-the-system-requirements">1. Setting up the system requirements<a class="headerlink" href="#1-setting-up-the-system-requirements" title="Permanent link">&para;</a></h2>
+<p>Before you start, you must prepare and and provision the database server and Kubernetes cluster or MicroK8s instance that will host Codacy.</p>
+<p>Carefully review and set up the system requirements to run Codacy by following the instructions on the page below:</p>
 <ul>
 <li><a href="requirements/">System requirements</a></li>
 </ul>
-<h2 id="1-setting-up-the-kubernetes-infrastructure">1. Setting up the Kubernetes infrastructure<a class="headerlink" href="#1-setting-up-the-kubernetes-infrastructure" title="Permanent link">&para;</a></h2>
-<p>You can follow one of the guides below to quickly set up a Kubernetes cluster on your cloud infrastructure using Terraform configuration files provided by Codacy:</p>
+<p>Optionally, you can follow one of the guides that we provide to quickly create a new Kubernetes cluster or MicroK8s instance as listed on the system requirements page:</p>
 <ul>
-<li><a href="infrastructure/eks-quickstart/">Setting up an Amazon EKS cluster</a></li>
-<li><a href="infrastructure/aks-quickstart/">Setting up an AKS cluster</a></li>
-<li><a href="infrastructure/microk8s-quickstart/">Setting up a MicroK8s machine</a></li>
+<li><a href="infrastructure/eks-quickstart/">Creating an Amazon EKS cluster</a></li>
+<li><a href="infrastructure/aks-quickstart/">Creating an AKS cluster</a></li>
+<li><a href="infrastructure/microk8s-quickstart/">Creating a MicroK8s instance</a></li>
 </ul>
 <h2 id="2-installing-codacy">2. Installing Codacy<a class="headerlink" href="#2-installing-codacy" title="Permanent link">&para;</a></h2>
-<p>Follow the steps below to install Codacy on an existing Kubernetes cluster using the provided cloud-native Helm chart.</p>
-<p>Before you continue, make sure you have the following tools installed in your machine.</p>
+<p>Install Codacy on an existing cluster using our Helm chart:</p>
+<ol>
+<li>
+<p>Make sure that you have the following tools installed on your machine:</p>
 <ul>
 <li>
-<p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> version compatible with your cluster (<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#before-you-begin">within one minor version difference of your cluster</a>)</p>
-<p><strong>NOTE:</strong>
- If you are in microk8s, any <code class="codehilite"><span class="err">kubectl</span></code> command must be executed as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> instead.</p>
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> within one minor version difference of your cluster</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>If you are using MicroK8s</strong> you don't need to install kubectl because you will execute all <code class="codehilite"><span class="err">kubectl</span></code> commands as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> commands instead. To simplify this, <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">check how to create an alias</a> for <code class="codehilite"><span class="err">kubectl</span></code>.</p>
+</div>
 </li>
 <li>
 <p><a href="https://v2.helm.sh/docs/using_helm/#installing-helm">Helm client</a> version 2.16.3</p>
 </li>
 </ul>
-<p>Install Codacy as follows:</p>
-<ol>
+</li>
 <li>
-<p>Create a Kubernetes namespace called <code class="codehilite"><span class="err">codacy</span></code> that will group all cluster resources related to Codacy.</p>
+<p>Create a cluster namespace called <code class="codehilite"><span class="err">codacy</span></code> that will group all resources related to Codacy.</p>
 <div class="codehilite"><pre><span></span><code>kubectl create namespace codacy
 </code></pre></div>
 
 </li>
 <li>
-<p>Add the Docker registry credentials that you received together with your Codacy license to a secret in the namespace created above. This is necessary because some Codacy Docker images are currently private.</p>
-<div class="codehilite"><pre><span></span><code>kubectl create secret docker-registry docker-credentials --docker-username<span class="o">=</span><span class="nv">$DOCKER_USERNAME</span> --docker-password<span class="o">=</span><span class="nv">$DOCKER_PASSWORD</span> --namespace codacy
+<p>Add the Docker registry credentials provided by Codacy together with your license to a cluster Secret. This is necessary because some Codacy Docker images are currently private.</p>
+<p>Substitute <code class="codehilite"><span class="err">&lt;docker_username&gt;</span></code> and <code class="codehilite"><span class="err">&lt;docker_password&gt;</span></code> with the Docker registry username and password and run the following command:</p>
+<div class="codehilite"><pre><span></span><code>kubectl create secret docker-registry docker-credentials <span class="se">\</span>
+    --docker-username<span class="o">=</span>&lt;docker_username&gt; <span class="se">\</span>
+    --docker-password<span class="o">=</span>&lt;docker_password&gt; <span class="se">\</span>
+    --namespace codacy
 </code></pre></div>
 
 </li>
 <li>
-<p>Use a text editor of your choice edit the <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> file, changing the values with placeholders as described in the comments.</p>
+<p>Download the template file <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml" target="_blank"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:</p>
+<div class="codehilite"><pre><span></span><code>wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml
+</code></pre></div>
+
 </li>
 <li>
-<p>Create a record in your DNS provider with the hostname you used in the previous step to send traffic to your ingress controller.</p>
-<p><strong>NOTE:</strong>
-If you are in microk8s, you need to configure it with the public IP address of your machine.</p>
+<p>Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>If you are using MicroK8s</strong> you must map the hostname to the public IP address of the machine running MicroK8s.</p>
+</div>
 </li>
 <li>
-<p>Add Codacy's chart repository to your helm client and install the Codacy chart using the values file created in the previous step.</p>
-<p><strong>NOTE:</strong>
-If you are in microk8s, don't forget to use the <a href="https://github.com/codacy/chart/blob/master/codacy/values-microk8s.yaml"><code class="codehilite"><span class="err">values-microk8s.yaml</span></code></a> configuration file as stated <a href="infrastructure/microk8s-quickstart/#5-installing-codacy">here</a>.</p>
+<p>Add Codacy's chart repository to your Helm client and install the Codacy chart using the file <code class="codehilite"><span class="err">values-production.yaml</span></code> created previously.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>If you are using MicroK8s</strong> don't forget to use the file <code class="codehilite"><span class="err">values-microk8s.yaml</span></code> together with the file <code class="codehilite"><span class="err">values-production.yaml</span></code> as <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">described here</a>. To do this, uncomment the last line before running the command below.</p>
+</div>
 <div class="codehilite"><pre><span></span><code>helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
 helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
              --namespace codacy <span class="se">\</span>
-           --values values-production.yaml <span class="c1"># --values values-microk8s.yaml</span>
+             --values values-production.yaml <span class="se">\</span>
+             <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>By now all the Codacy pods should be starting in the Kubernetes cluster. Check this with the command below and <strong>wait for all the pods to be Running</strong>:</p>
+<p>By now all the Codacy pods should be starting in the cluster. Run the following command <strong>and wait for all the pods to have the status Running</strong> to verify this:</p>
 <div class="codehilite"><pre><span></span><code>$ kubectl get pods -n codacy
 NAME                                            READY   STATUS    RESTARTS   AGE
 codacy-activities-6d9db9499-stk2k               <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
@@ -627,29 +660,29 @@ codacy-worker-manager-656dbf8d6d-n4j7c          <span class="m">1</span>/1     R
 
 </li>
 </ol>
-<h2 id="3-post-install-configuration">3. Post-install configuration<a class="headerlink" href="#3-post-install-configuration" title="Permanent link">&para;</a></h2>
-<p>After successfully installing Codacy, follow the post-install configuration steps:</p>
+<h2 id="3-configuring-codacy">3. Configuring Codacy<a class="headerlink" href="#3-configuring-codacy" title="Permanent link">&para;</a></h2>
+<p>After successfully installing Codacy on your cluster, you are now ready to perform the post-install configuration steps:</p>
 <ol>
 <li>
-<p>Enable the Ingress on <code class="codehilite"><span class="err">codacy-api</span></code>.</p>
+<p>Use a browser to navigate to the Codacy hostname previously configured on the file <code class="codehilite"><span class="err">values-production.yaml</span></code>.</p>
 </li>
 <li>
-<p>Start configuring Codacy in the UI. The onboarding process will guide you through the following steps:</p>
+<p>Follow Codacy's onboarding process, which will guide you through the following steps:</p>
 <ul>
-<li>Create an administrator account</li>
-<li>Configure one or more of the following supported git providers:<ul>
+<li>Creating an administrator account</li>
+<li>Configuring one or more of the following supported Git providers:<ul>
 <li><a href="configuration/git-providers/github-cloud/">Github Cloud</a></li>
 <li><a href="configuration/git-providers/github-enterprise/">Github Enterprise</a></li>
 <li><a href="configuration/git-providers/gitlab-enterprise/">Gitlab Enterprise</a></li>
 <li><a href="configuration/git-providers/bitbucket-enterprise/">Bitbucket Enterprise</a></li>
 </ul>
 </li>
-<li>Create an initial organization</li>
-<li>Invite users</li>
+<li>Creating an initial organization</li>
+<li>Inviting users to Codacy</li>
 </ul>
 </li>
 <li>
-<p>Finally, we also recommend that you set up <a href="configuration/monitoring/">monitoring</a>.</p>
+<p>As a last step we recommend that you <a href="configuration/monitoring/">set up monitoring</a> on your Codacy instance.</p>
 </li>
 </ol>
                 

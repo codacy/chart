@@ -182,8 +182,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../.." title="How to install Codacy on Kubernetes" class="md-nav__link">
-      How to install Codacy on Kubernetes
+    <a href="../.." title="Installing Codacy on Kubernetes" class="md-nav__link">
+      Installing Codacy on Kubernetes
     </a>
   </li>
 
@@ -210,11 +210,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      Setting up the Kubernetes infrastructure
+      Setting up Kubernetes
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
-        Setting up the Kubernetes infrastructure
+        Setting up Kubernetes
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -225,8 +225,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../infrastructure/eks-quickstart/" title="Setting up an Amazon EKS cluster" class="md-nav__link">
-      Setting up an Amazon EKS cluster
+    <a href="../../infrastructure/eks-quickstart/" title="Creating an Amazon EKS cluster" class="md-nav__link">
+      Creating an Amazon EKS cluster
     </a>
   </li>
 
@@ -237,8 +237,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../infrastructure/aks-quickstart/" title="Setting up an AKS cluster" class="md-nav__link">
-      Setting up an AKS cluster
+    <a href="../../infrastructure/aks-quickstart/" title="Creating an AKS cluster" class="md-nav__link">
+      Creating an AKS cluster
     </a>
   </li>
 
@@ -249,8 +249,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../infrastructure/microk8s-quickstart/" title="Setting up a microk8s instance" class="md-nav__link">
-      Setting up a microk8s instance
+    <a href="../../infrastructure/microk8s-quickstart/" title="Creating a MicroK8s instance" class="md-nav__link">
+      Creating a MicroK8s instance
     </a>
   </li>
 
@@ -272,11 +272,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
-      Post-install configuration
+      Configuring Codacy
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        Post-install configuration
+        Configuring Codacy
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -362,13 +362,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setting-up-monitoring-using-grafana-prometheus" class="md-nav__link">
-    Setting up monitoring using Grafana &amp; Prometheus
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#setting-up-monitoring-using-crow" class="md-nav__link">
     Setting up monitoring using Crow
   </a>
@@ -389,9 +382,50 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#default-credentials" class="md-nav__link">
-    Default credentials
+  <a href="#setting-up-monitoring-using-grafana-prometheus-and-loki" class="md-nav__link">
+    Setting up monitoring using Grafana, Prometheus, and Loki
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-crds" class="md-nav__link">
+    Installing CRDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-loki" class="md-nav__link">
+    Install Loki
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-promtail" class="md-nav__link">
+    Install Promtail
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-prometheus-and-grafana" class="md-nav__link">
+    Install Prometheus and Grafana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-service-dashboards" class="md-nav__link">
+    Enable Service Dashboards
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -516,13 +550,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setting-up-monitoring-using-grafana-prometheus" class="md-nav__link">
-    Setting up monitoring using Grafana &amp; Prometheus
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#setting-up-monitoring-using-crow" class="md-nav__link">
     Setting up monitoring using Crow
   </a>
@@ -543,9 +570,50 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#default-credentials" class="md-nav__link">
-    Default credentials
+  <a href="#setting-up-monitoring-using-grafana-prometheus-and-loki" class="md-nav__link">
+    Setting up monitoring using Grafana, Prometheus, and Loki
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-crds" class="md-nav__link">
+    Installing CRDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-loki" class="md-nav__link">
+    Install Loki
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-promtail" class="md-nav__link">
+    Install Promtail
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-prometheus-and-grafana" class="md-nav__link">
+    Install Prometheus and Grafana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-service-dashboards" class="md-nav__link">
+    Enable Service Dashboards
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -567,38 +635,110 @@
                 
                 
                 <h1 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h1>
-<p>In older versions, Codacy was monitored using an application we build
-in-house called "Crow". Going forward, we are deprecating Crow and
-setting up "Prometheus style" metrics in all our components that
-can be accessed using the Prometheus + Grafana ecosystem.</p>
-<p>Initially Crow will still be bundled in Codacy helm chart, until
-we have all functionality available on Grafana.</p>
-<h2 id="setting-up-monitoring-using-grafana-prometheus">Setting up monitoring using Grafana &amp; Prometheus<a class="headerlink" href="#setting-up-monitoring-using-grafana-prometheus" title="Permanent link">&para;</a></h2>
+<p>Currently two monitoring solutions are supported:</p>
+<ul>
+<li><a href="#setting-up-monitoring-using-crow"><strong>Crow</strong></a> - A simple, lightweight, and built-in monitoring solution.</li>
+<li><a href="#setting-up-monitoring-using-grafana-prometheus-and-loki"><strong>Prometheus + Grafana + Loki</strong></a> - A comprehensive third-party monitoring solution, recommended for more advanced usage.</li>
+</ul>
+<h2 id="setting-up-monitoring-using-crow">Setting up monitoring using Crow<a class="headerlink" href="#setting-up-monitoring-using-crow" title="Permanent link">&para;</a></h2>
+<p>Crow displays information about the projects pending analysis and the jobs currently running on Codacy.</p>
+<p>The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
+It can be accessed through the <code class="codehilite"><span class="err">/monitoring</span></code> path of the url pointing to your Codacy
+installation, e.g. <code class="codehilite"><span class="c">http://codacy.company.org/monitoring</span></code>. You must set the
+<code class="codehilite"><span class="err">global.codacy.crow.url</span></code> value in your <code class="codehilite"><span class="err">values.yaml</span></code> file so that anchor links to your
+projects can be properly established inside <code class="codehilite"><span class="err">crow</span></code>.</p>
+<p>For example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+  <span class="nt">codacy</span><span class="p">:</span>
+    <span class="nt">crow</span><span class="p">:</span>
+      <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com/monitoring&quot;</span>
+</code></pre></div>
+
+<h3 id="configuring-your-credentials">Configuring your credentials<a class="headerlink" href="#configuring-your-credentials" title="Permanent link">&para;</a></h3>
+<p>We highly recommend that you define a custom password for the Crow installation. You can do this either through the <code class="codehilite"><span class="err">values.yaml</span></code> file or through a <code class="codehilite"><span class="err">--set</span></code> parameter during the Helm installation process. This parameter can be configured as follows:</p>
+<ul>
+<li>Through a <code class="codehilite"><span class="err">--set</span></code> parameter:</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">helm upgrade (...options used to install codacy...) --set crow.config.passwordAuth.password=&lt;--- crow password ---&gt;</span>
+</code></pre></div>
+
+<ul>
+<li>Through the <code class="codehilite"><span class="err">values.yaml</span></code> file:</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="nt">crow</span><span class="p">:</span>
+  <span class="nt">config</span><span class="p">:</span>
+    <span class="nt">passwordAuth</span><span class="p">:</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;--- crow password ---&gt;</span>
+</code></pre></div>
+
+<p><strong>If you have not configured your <code class="codehilite"><span class="err">crow</span></code> credentials as described above
+the following default credentials will be used:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">codacy</span>
+<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">C0dacy123</span>
+</code></pre></div>
+
+<h2 id="setting-up-monitoring-using-grafana-prometheus-and-loki">Setting up monitoring using Grafana, Prometheus, and Loki<a class="headerlink" href="#setting-up-monitoring-using-grafana-prometheus-and-loki" title="Permanent link">&para;</a></h2>
+<p><a href="https://prometheus.io">Prometheus</a> is an open-source systems monitoring and alerting
+toolkit. Logs can be collected using <a href="https://grafana.com/oss/loki/">Loki</a>, which is a
+horizontally-scalable, highly-available, multi-tenant log aggregation system
+Its data can be visualized with <a href="https://grafana.com">Grafana</a>, a widely used
+open source analytics and monitoring solution.</p>
+<p>The following guide covers the basic installation of the components in this monitoring stack.
+This solution is considerably more resource demanding than Crow, and is recommended only for
+more advanced usage. Furthermore, its installation, configuration, and management
+requires a deeper knowledge of Kubernetes as each component must be carefully tweaked
+to match your specific use case, using as starting point the .yaml values files provided by us.</p>
+<h3 id="installing-crds">Installing CRDs<a class="headerlink" href="#installing-crds" title="Permanent link">&para;</a></h3>
 <p>The simplest way to setup prometheus in your cluster is by using the
 <a href="https://github.com/helm/charts/tree/master/stable/prometheus-operator">Prometheus-Operator</a>
-bundle.</p>
+bundle. Start by adding the custom resources required for installing this bundle in your cluster.</p>
+<p><strong>NOTE:</strong> if installing on MicroK8s use <code class="codehilite"><span class="err">microk8s.kubectl</span></code> instead of <code class="codehilite"><span class="err">kubectl</span></code></p>
 <div class="codehilite"><pre><span></span><code>kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
-
-sleep <span class="m">5</span> <span class="c1"># wait for crds to be created</span>
-
-helm upgrade --install monitoring stable/prometheus-operator <span class="se">\</span>
-  --version <span class="m">6</span>.9.3 <span class="se">\</span>
-  --namespace monitoring <span class="se">\</span>
-  --set prometheusOperator.createCustomResource<span class="o">=</span><span class="nb">false</span> <span class="se">\</span>
-  --set grafana.service.type<span class="o">=</span>NodePort<span class="se">\</span>
-  --set grafana.adminPassword<span class="o">=</span><span class="s2">&quot;CHANGE_HERE&quot;</span>
-
-kubectl get svc monitoring-grafana -n monitoring
 </code></pre></div>
 
-<p>Now that you have prometheus and grafana you can enable <code class="codehilite"><span class="err">ServiceMonitors</span></code> and <code class="codehilite"><span class="err">GrafanaDashboards</span></code>
-for Codacy components:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">codacy-api</span><span class="p">:</span>
+<h3 id="install-loki">Install Loki<a class="headerlink" href="#install-loki" title="Permanent link">&para;</a></h3>
+<p>Obtain the configuration file for Loki, <a href="https://github.com/codacy/chart/blob/master/codacy/values-loki.yaml">values-loki.yaml</a>,
+and install it as described below. While the default storage class setting
+for Loki persistence should suit most use cases, you may need to adjust
+it to your specific Kubernetes installation. For instance, for MicroK8s use
+<code class="codehilite"><span class="n">storageClassName</span><span class="o">:</span> <span class="n">microk8s</span><span class="o">-</span><span class="n">hostpath</span></code>.</p>
+<div class="codehilite"><pre><span></span><code>helm repo add loki https://grafana.github.io/loki/charts
+
+helm upgrade --install --atomic loki loki/loki --version <span class="m">0</span>.17.0 <span class="se">\</span>
+  --recreate-pods --namespace codacy --values values-loki.yaml
+</code></pre></div>
+
+<h3 id="install-promtail">Install Promtail<a class="headerlink" href="#install-promtail" title="Permanent link">&para;</a></h3>
+<p>Promtail is an agent which ships the contents of local logs to a Loki instance.
+Obtain its configuration file, <a href="https://github.com/codacy/chart/blob/master/codacy/values-promtail.yaml">values-promtail.yaml</a>,
+and install it with</p>
+<div class="codehilite"><pre><span></span><code>helm upgrade --install --atomic promtail loki/promtail --version <span class="m">0</span>.13.0 <span class="se">\</span>
+  --recreate-pods --namespace codacy --values promtail-values.yaml
+</code></pre></div>
+
+<h3 id="install-prometheus-and-grafana">Install Prometheus and Grafana<a class="headerlink" href="#install-prometheus-and-grafana" title="Permanent link">&para;</a></h3>
+<p>Obtain the <a href="https://github.com/helm/charts/tree/master/stable/prometheus-operator">Prometheus bundle</a>
+configuration file, <a href="https://github.com/codacy/chart/blob/master/codacy/values-prometheus-operator.yaml">values-prometheus-operator.yaml</a>.
+You <strong>must edit the Grafana password</strong> for the <code class="codehilite"><span class="err">admin</span></code> user in this file.
+Use the following command to install this bundle on your cluster.</p>
+<div class="codehilite"><pre><span></span><code>helm upgrade --install --atomic monitoring stable/prometheus-operator --version <span class="m">6</span>.9.3 <span class="se">\</span>
+  --recreate-pods --namespace codacy --values values-prometheus-operator.yaml
+</code></pre></div>
+
+<p>Follow the <a href="https://v1-15.docs.kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster">Kubernetes documentation</a>
+to access the Grafana service now running on your cluster, using the method that
+best suits your use case.</p>
+<h3 id="enable-service-dashboards">Enable Service Dashboards<a class="headerlink" href="#enable-service-dashboards" title="Permanent link">&para;</a></h3>
+<p>Now that you have Prometheus and Grafana installed you can enable <code class="codehilite"><span class="err">serviceMonitors</span></code>
+and <code class="codehilite"><span class="err">grafana_dashboards</span></code> for Codacy components. To do this create the following
+configuration file:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># values-monitoring.yaml</span>
+<span class="nt">codacy-api</span><span class="p">:</span>
   <span class="nt">metrics</span><span class="p">:</span>
     <span class="nt">serviceMonitor</span><span class="p">:</span>
       <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -612,41 +752,10 @@ for Codacy components:</p>
       <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 
-<h2 id="setting-up-monitoring-using-crow">Setting up monitoring using Crow<a class="headerlink" href="#setting-up-monitoring-using-crow" title="Permanent link">&para;</a></h2>
-<p>Crow is a visualization tool that displays information about the projects and jobs that are pending for analysis, as well as the ones running in the Codacy platform.</p>
-<p>The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.</p>
-<p>The <code class="codehilite"><span class="err">crow</span></code> tool can be accessed through the <code class="codehilite"><span class="err">/monitoring</span></code> path of the url pointing to your Codacy installation, e.g. <code class="codehilite"><span class="c">http://codacy.company.org/monitoring</span></code>.
-You must set the <code class="codehilite"><span class="err">global.codacy.crow.url</span></code> value in your <code class="codehilite"><span class="err">values.yaml</span></code> file so that anchor links to your projects can be properly established inside <code class="codehilite"><span class="err">crow</span></code>.
-For example:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
-  <span class="nt">codacy</span><span class="p">:</span>
-    <span class="nt">crow</span><span class="p">:</span>
-      <span class="nt">url</span><span class="p">:</span> <span class="s">&quot;http://codacy.example.com/monitoring&quot;</span>
-</code></pre></div>
-
-<p>Please see the <a href="https://github.com/codacy/chart/blob/master/README.md">README.md</a> for more information about these values.</p>
-<h3 id="configuring-your-credentials">Configuring your credentials<a class="headerlink" href="#configuring-your-credentials" title="Permanent link">&para;</a></h3>
-<p>You <strong>should</strong> provide a password for the <code class="codehilite"><span class="err">crow</span></code> installation either through the <code class="codehilite"><span class="err">values.yaml</span></code> file or through a <code class="codehilite"><span class="err">--set</span></code> parameter during the <code class="codehilite"><span class="err">helm</span></code> installation process. This parameter can be configured as follows:</p>
-<ul>
-<li>Through a <code class="codehilite"><span class="err">--set</span></code> parameter:</li>
-</ul>
-<div class="codehilite"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">helm upgrade (...) --set crow.config.passwordAuth.password=&lt;--- crow password ---&gt;</span>
-</code></pre></div>
-
-<ul>
-<li>Through the <code class="codehilite"><span class="err">values.yaml</span></code> file:</li>
-</ul>
-<div class="codehilite"><pre><span></span><code><span class="nt">crow</span><span class="p">:</span>
-  <span class="nt">config</span><span class="p">:</span>
-    <span class="nt">passwordAuth</span><span class="p">:</span>
-      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;--- crow password ---&gt;</span>
-</code></pre></div>
-
-<p><strong>Failing to do so your <code class="codehilite"><span class="err">crow</span></code> will fall back to using the default credentials as described <a href="##Default-credentials">below</a>.</strong></p>
-<h2 id="default-credentials">Default credentials<a class="headerlink" href="#default-credentials" title="Permanent link">&para;</a></h2>
-<p>If you have not configured your <code class="codehilite"><span class="err">crow</span></code> credentials as described <a href="###Configuring-your-credentials">above</a>, you can login with the following default credentials:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">codacy</span>
-<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">C0dacy123</span>
+<p>Apply this configuration by issuing an helm upgrade while passing these additional values.
+To do so append <code class="codehilite"><span class="err">--values values-monitoring.yaml --recreate-pods</span></code> to the command used to install
+codacy provided in <a href="../..#2-installing-codacy">this documentation</a>.</p>
+<div class="codehilite"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install codacy...<span class="o">)</span> --values values-monitoring-values.yaml --recreate-pods
 </code></pre></div>
                 
                   

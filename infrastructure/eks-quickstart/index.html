@@ -38,7 +38,7 @@
     
     
       
-        <title>Setting up an Amazon EKS cluster - Chart</title>
+        <title>Creating an Amazon EKS cluster - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#setting-up-an-amazon-eks-cluster" tabindex="0" class="md-skip">
+      <a href="#creating-an-amazon-eks-cluster" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Setting up an Amazon EKS cluster
+                Creating an Amazon EKS cluster
               
             </span>
           
@@ -182,8 +182,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../.." title="How to install Codacy on Kubernetes" class="md-nav__link">
-      How to install Codacy on Kubernetes
+    <a href="../.." title="Installing Codacy on Kubernetes" class="md-nav__link">
+      Installing Codacy on Kubernetes
     </a>
   </li>
 
@@ -212,11 +212,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
-      Setting up the Kubernetes infrastructure
+      Setting up Kubernetes
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
-        Setting up the Kubernetes infrastructure
+        Setting up Kubernetes
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -236,11 +236,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Setting up an Amazon EKS cluster
+        Creating an Amazon EKS cluster
       </label>
     
-    <a href="./" title="Setting up an Amazon EKS cluster" class="md-nav__link md-nav__link--active">
-      Setting up an Amazon EKS cluster
+    <a href="./" title="Creating an Amazon EKS cluster" class="md-nav__link md-nav__link--active">
+      Creating an Amazon EKS cluster
     </a>
     
       
@@ -305,8 +305,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../aks-quickstart/" title="Setting up an AKS cluster" class="md-nav__link">
-      Setting up an AKS cluster
+    <a href="../aks-quickstart/" title="Creating an AKS cluster" class="md-nav__link">
+      Creating an AKS cluster
     </a>
   </li>
 
@@ -317,8 +317,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../microk8s-quickstart/" title="Setting up a microk8s instance" class="md-nav__link">
-      Setting up a microk8s instance
+    <a href="../microk8s-quickstart/" title="Creating a MicroK8s instance" class="md-nav__link">
+      Creating a MicroK8s instance
     </a>
   </li>
 
@@ -338,11 +338,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
-      Post-install configuration
+      Configuring Codacy
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        Post-install configuration
+        Configuring Codacy
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -568,33 +568,35 @@
               
                 
                 
-                <h1 id="setting-up-an-amazon-eks-cluster">Setting up an Amazon EKS cluster<a class="headerlink" href="#setting-up-an-amazon-eks-cluster" title="Permanent link">&para;</a></h1>
-<p>Follow the steps below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.</p>
-<p>Before you continue, make sure you have the following tools installed in your machine.</p>
+                <h1 id="creating-an-amazon-eks-cluster">Creating an Amazon EKS cluster<a class="headerlink" href="#creating-an-amazon-eks-cluster" title="Permanent link">&para;</a></h1>
+<p>Follow the instructions below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.</p>
+<h2 id="1-prepare-your-environment">1. Prepare your environment<a class="headerlink" href="#1-prepare-your-environment" title="Permanent link">&para;</a></h2>
+<p>Prepare your environment to set up the Amazon EKS cluster:</p>
+<ol>
+<li>
+<p>Make sure that you have the following tools installed on your machine:</p>
 <ul>
 <li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> version &gt;= 2.0.0</li>
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html">AWS CLI</a> version 1</li>
 <li><a href="https://learn.hashicorp.com/terraform/getting-started/install.html">Terraform</a> version &gt;= 0.12</li>
 </ul>
-<h2 id="1-prepare-your-environment">1. Prepare your environment<a class="headerlink" href="#1-prepare-your-environment" title="Permanent link">&para;</a></h2>
-<p>Prepare your environment to set up the Amazon EKS cluster:</p>
-<ol>
+</li>
 <li>
 <p>Set up the AWS CLI credentials for your AWS account using the <a href="https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html">AWS CLI</a> and <a href="https://www.terraform.io/docs/providers/aws/index.html">Terraform</a> documentation as reference.</p>
-<p>Note that, as stated in the documentation, if your <code class="codehilite"><span class="na">.aws</span><span class="err">/</span><span class="no">credentials</span></code> are fairly complex you might need to set <code class="codehilite"><span class="err">AWS_SDK_LOAD_CONFIG=1</span></code> for Terraform to work correctly:</p>
+<p>Note that, as stated in the <a href="https://www.terraform.io/docs/providers/aws/index.html#shared-credentials-file">Terraform documentation</a>, if your <code class="codehilite"><span class="na">.aws</span><span class="err">/</span><span class="no">credentials</span></code> are more complex you might need to set <code class="codehilite"><span class="err">AWS_SDK_LOAD_CONFIG=1</span></code> for Terraform to work correctly:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">AWS_SDK_LOAD_CONFIG</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>Clone the Chart repository and change to the directory that includes the Terraform configuration files provided by Codacy:</p>
+<p>Clone the Codacy chart repository and change to the directory that includes the provided Terraform configuration files:</p>
 <div class="codehilite"><pre><span></span><code>git clone https://github.com/codacy/chart.git
 <span class="nb">cd</span> chart/docs/infrastructure/EKS/
 </code></pre></div>
 
-<p>The folder includes the following infrastructure stacks:</p>
+<p>This folder includes the following infrastructure stacks:</p>
 <ul>
-<li><strong>backend</strong>: Optional S3 bucket for storing the Terraform state and the DynamoDB table for state locking</li>
+<li><strong>backend</strong>: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking</li>
 <li><strong>main</strong>: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster</li>
 <li><strong>setup</strong>: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster</li>
 </ul>
@@ -602,7 +604,7 @@
 </ol>
 <h2 id="2-set-up-the-terraform-state-storage-backend">2. Set up the Terraform state storage backend<a class="headerlink" href="#2-set-up-the-terraform-state-storage-backend" title="Permanent link">&para;</a></h2>
 <p>The <a href="https://www.terraform.io/docs/backends/index.html">backend</a> stores the current and historical state of your infrastructure.</p>
-<p>Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these templates to make modifications to the cluster in the future:</p>
+<p>Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these Terraform templates to make modifications to the cluster in the future:</p>
 <ol>
 <li>
 <p>Initialize Terraform and deploy the infrastructure described in the <code class="codehilite"><span class="err">backend/</span></code> directory, then follow Terraform's instructions:</p>
@@ -610,13 +612,13 @@
 terraform init <span class="o">&amp;&amp;</span> terraform apply
 </code></pre></div>
 
-<p>An Amazon S3 bucket with a unique name to save the infrastructure state is created.</p>
+<p>This creates an Amazon S3 bucket with a unique name to save the infrastructure state.</p>
 </li>
 <li>
-<p>Note the value of <code class="codehilite"><span class="err">state_bucket_name</span></code> in the output of the command.</p>
+<p>Take note of the value of <code class="codehilite"><span class="err">state_bucket_name</span></code> in the output of the command.</p>
 </li>
 <li>
-<p>Edit the <code class="codehilite"><span class="err">config.tf</span></code> files that exist in the <code class="codehilite"><span class="err">main/</span></code> and <code class="codehilite"><span class="err">setup/</span></code> directories and follow the instructions to set the name of the Amazon S3 bucket and enable the use of the backend in those infrastructure stacks.</p>
+<p>Edit the <code class="codehilite"><span class="err">main/config.tf</span></code> and <code class="codehilite"><span class="err">setup/config.tf</span></code> files and follow the instructions included in the comments to set the name of the Amazon S3 bucket created above and enable the use of the backend in those infrastructure stacks.</p>
 </li>
 </ol>
 <h2 id="3-create-a-vanilla-amazon-eks-cluster">3. Create a vanilla Amazon EKS cluster<a class="headerlink" href="#3-create-a-vanilla-amazon-eks-cluster" title="Permanent link">&para;</a></h2>
@@ -632,8 +634,8 @@ terraform init <span class="o">&amp;&amp;</span> terraform apply
 </li>
 <li>
 <p>Consider if you want to tailor the cluster to your needs by customizing the cluster configuration.</p>
-<p>The cluster configuration (such as the type/number of nodes, network CIDRs, etc.) is exposed as variables in the <a href="https://github.com/codacy/chart/blob/master/docs/infrastructure/EKS/main/variables.tf"><code class="codehilite"><span class="err">main/variables.tf</span></code></a> file.</p>
-<p>To customize the defaults of that file we recommend that you use a <a href="https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files">variable definitions file</a> by setting the variables in a file named <code class="codehilite"><span class="err">terraform.tfvars</span></code> in the directory <code class="codehilite"><span class="err">main/</span></code>. The following is an example <code class="codehilite"><span class="err">terraform.tfvars</span></code>:</p>
+<p>The cluster configuration (such as the type and number of nodes, network CIDRs, etc.) is exposed as variables in the <code class="codehilite"><span class="err">main/variables.tf</span></code> file.</p>
+<p>To customize the defaults of that file we recommend that you use a <a href="https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files">variable definitions file</a> and set the variables in a file named <code class="codehilite"><span class="err">terraform.tfvars</span></code> in the directory <code class="codehilite"><span class="err">main/</span></code>. The following is an example <code class="codehilite"><span class="err">terraform.tfvars</span></code>:</p>
 <div class="codehilite"><pre><span></span><code>some_key = &quot;a_string_value&quot;
 another_key = 3
 someting_else = true
@@ -675,7 +677,7 @@ terraform init <span class="o">&amp;&amp;</span> terraform apply
 
 </li>
 <li>
-<p>To connect to the Kubernetes Dashboard, run:</p>
+<p>Connect to the Kubernetes Dashboard:</p>
 <div class="codehilite"><pre><span></span><code>kubectl proxy
 </code></pre></div>
 
@@ -688,17 +690,21 @@ terraform init <span class="o">&amp;&amp;</span> terraform apply
 </li>
 </ol>
 <h2 id="uninstalling-the-amazon-eks-cluster">Uninstalling the Amazon EKS cluster<a class="headerlink" href="#uninstalling-the-amazon-eks-cluster" title="Permanent link">&para;</a></h2>
-<p><strong>WARNING:</strong>
-If you proceed beyond this point you'll permanently delete and break things.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you proceed beyond this point you'll permanently delete and break things.</p>
+</div>
 <ol>
 <li>
-<p>Cleanup your cluster back to a vanilla state by removing the setup required to install Codacy. Run the following command in the <code class="codehilite"><span class="err">setup/</span></code> folder:</p>
+<p>Clean up your cluster back to a vanilla state by removing the setup required to install Codacy.</p>
+<p>Run the following command in the <code class="codehilite"><span class="err">setup/</span></code> folder:</p>
 <div class="codehilite"><pre><span></span><code>terraform destroy
 </code></pre></div>
 
 </li>
 <li>
-<p>After removing the stacks and setup above, you may now delete the Kubernetes cluster. Run the following command in the <code class="codehilite"><span class="err">main/</span></code> directory:</p>
+<p>After removing the stacks and setup above, you may now delete the Kubernetes cluster.</p>
+<p>Run the following command in the <code class="codehilite"><span class="err">main/</span></code> directory:</p>
 <div class="codehilite"><pre><span></span><code>terraform destroy
 </code></pre></div>
 
@@ -707,7 +713,7 @@ If you proceed beyond this point you'll permanently delete and break things.</p>
 <li>
 <p>Remove the Terraform backend.</p>
 <p>If you created the Terraform backend with the provided stack you can now safely delete it.</p>
-<p>The backend is purposely created with extra settings to prevent its accidental destruction, so to destroy it cleanly you must first disable these extra settings. Edit the file <code class="codehilite"><span class="err">backend/state_and_lock.tf</span></code> and follow the instructions included in the comments.</p>
+<p>The backend is purposely created with extra settings to prevent its accidental destruction. To destroy it cleanly you must first disable these settings by editing the file <code class="codehilite"><span class="err">backend/state_and_lock.tf</span></code> and following the instructions included in the comments.</p>
 <p>Afterwards, run the following command in the <code class="codehilite"><span class="err">backend/</span></code> directory:</p>
 <div class="codehilite"><pre><span></span><code>terraform apply <span class="o">&amp;&amp;</span> terraform destroy
 </code></pre></div>
@@ -752,13 +758,13 @@ then will <code class="codehilite"><span class="err">terraform destroy</span></c
           </a>
         
         
-          <a href="../aks-quickstart/" title="Setting up an AKS cluster" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../aks-quickstart/" title="Creating an AKS cluster" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Setting up an AKS cluster
+                Creating an AKS cluster
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
