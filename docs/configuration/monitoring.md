@@ -74,7 +74,7 @@ The simplest way to setup prometheus in your cluster is by using the
 [Prometheus-Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator)
 bundle. Start by adding the custom resources required for installing this bundle in your cluster.
 
-NOTE: if installing on MicroK8s use `microk8s.kubectl` instead of `kubectl`
+**NOTE:** if installing on MicroK8s use `microk8s.kubectl` instead of `kubectl`
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
