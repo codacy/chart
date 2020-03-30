@@ -3,16 +3,16 @@
 Running Codacy on a Kubernetes cluster requires the following:
 
 -   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#hardware-requirements)
--   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly set up in your cluster
+-   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly setup in your cluster
 -   A [PostgreSQL server](#external-postgresql-instance) accessible from the Kubernetes cluster
 
 ## Hardware requirements
 
 The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.
 
-You can look at Codacy separately as the **"Platform"** and the **"Analysis"** cluster. The Platform contains the UI and other
-components important to treat and show results. The Analysis is the swarm of workers that run several linters for
-your project.
+You can look at Codacy separately as the **"Platform"** and the **"Analysis"**. The Platform contains the UI and other
+components important to treat and show results. The Analysis is the swarm of workers that depending on the characteristics of you projects (languages, number of files, etc..) will run **up to** 4 linters at
+the same time.
 
 **The resources needed for Codacy depend a lot on the rate of commits done by your team.**
 
@@ -22,28 +22,28 @@ your project.
 
 Since all components are running on Kubernetes, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage. The following is a simplified overview of how to calculate resource allocation for the **"Platform"** and the **"Analysis"**:
 
-| Component                          | vCPU                    | Memory                   |
-| ---------------------------------- | ----------------------- | ------------------------ |
-| Platform (1 replica per component) | 4                       | 8                        |
-| Analysis Worker + 4 linters        | 5 (per Analysis Worker) | 10 (per Analysis Worker) |
+| Component                             | vCPU                    | Memory                      |
+| ------------------------------------- | ----------------------- | --------------------------- |
+| Platform (1 replica per component)    | 4                       | 8 GB                        |
+| Analysis Worker + **up to** 4 linters | 5 (per Analysis Worker) | 10 GB (per Analysis Worker) |
 
 #### Standard Cluster Installation
 
-The resources described on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){: target="_blank"} file, which you might need to adapt taking into account your use case.
+The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
 
-| Installation type                        | ~ Total vCPUs | ~ Total Memory | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory |
-| ---------------------------------------- | ------------- | -------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- |
-| Kubernetes Small Installation            | 16            | 32 GB          | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   |
-| Kubernetes Medium Installation (default) | 32            | 64 GB          | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   |
-| Kubernetes Big Installation              | 60+           | 110+ GB        | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 |
+| Installation type                        | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
+| ---------------------------------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
+| Kubernetes Small Installation            | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   | 16            | 32 GB          |
+| Kubernetes Medium Installation (default) | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   | 32            | 64 GB          |
+| Kubernetes Big Installation              | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 | 60+           | 110+ GB        |
 
 **NOTE:**
 For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be used by microk8s itself.
 
-| Installation type              | ~ Total vCPUs | ~ Total Memory | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory |
-| ------------------------------ | ------------- | -------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- |
-| MicroK8s Minimum               | 16            | 32 GB          | 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   |
-| MicroK8s Recommended (default) | 20+           | 32+ GB         | 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   |
+| Installation type              | ~ Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | Total vCPUs | ~ Total Memory |
+| ------------------------------ | ------------------------ | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ----------- | -------------- |
+| MicroK8s Minimum               | 1 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   | 6           | 32 GB          |
+| MicroK8s Recommended (default) | 2 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   | 0+          | 32+ GB         |
 
 ### Storage
 
@@ -63,7 +63,7 @@ For a custom recommendation, please contact us at [support@codacy.com](mailto://
 
 Codacy requires a working PostgreSQL instance to persist data.
 
-Google itself [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the PostgreSQL server inside a dedicated virtual machine.
+Google, the developer of Kubernetes [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the PostgreSQL server inside a dedicated virtual machine.
 
 The following are the minimum recommended specifications of the PostgreSQL instance:
 
@@ -85,13 +85,13 @@ We recommend that you create a dedicated user for Codacy, with access permission
 
     ```sql
     CREATE USER codacy WITH PASSWORD 'codacy';
-    ALTER ROLE codacy WITH CREATEDB
+    ALTER ROLE codacy WITH CREATEDB;
     ```
 
 3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example:
 
     ```bash
-    psql -U codacy -h <PostgreSQL server hostname>
+    psql -U codacy -d postgres -h <PostgreSQL server hostname>
     ```
 
 4.  Create the necessary databases:

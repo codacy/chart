@@ -2,13 +2,12 @@
 
 Currently two monitoring solutions are supported:
 
-* [**Crow**](##Setting-up-monitoring-using-Crow) - A simple, lightweight, and builtin monitoring solution.
-* [**Prometheus+Grafana+Loki**](##Setting-up-monitoring-using-Grafana,-Prometheus,-and-Loki) - A more comprehensive third-party monitoring solution, for more advanced usage.
+* [**Crow**](#setting-up-monitoring-using-crow) - A simple, lightweight, and built-in monitoring solution.
+* [**Prometheus + Grafana + Loki**](#setting-up-monitoring-using-grafana-prometheus-and-loki) - A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 ## Setting up monitoring using Crow
 
-Crow is a visualization tool that displays information about the projects and jobs
-that are pending for analysis, as well as the ones running in the Codacy platform.
+Crow displays information about the projects pending analysis and the jobs currently running on Codacy.
 
 The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 It can be accessed through the `/monitoring` path of the url pointing to your Codacy
@@ -25,16 +24,14 @@ global:
       url: "http://codacy.example.com/monitoring"
 ```
 
-Please see the [README.md](https://github.com/codacy/chart/blob/master/README.md) for more information about these values.
-
 ### Configuring your credentials
 
-You **should** provide a password for the `crow` installation either through the `values.yaml` file or through a `--set` parameter during the `helm` installation process. This parameter can be configured as follows:
+We highly recommend that you define a custom password for the Crow installation. You can do this either through the `values.yaml` file or through a `--set` parameter during the Helm installation process. This parameter can be configured as follows:
 
 * Through a `--set` parameter:
 
 ```yaml
-helm upgrade (...) --set crow.config.passwordAuth.password=<--- crow password --->
+helm upgrade (...options used to install codacy...) --set crow.config.passwordAuth.password=<--- crow password --->
 ```
 
 * Through the `values.yaml` file:
@@ -59,14 +56,14 @@ password: C0dacy123
 [Prometheus](https://prometheus.io) is an open-source systems monitoring and alerting
 toolkit. Logs can be collected using [Loki](https://grafana.com/oss/loki/), which is a
 horizontally-scalable, highly-available, multi-tenant log aggregation system
-It's data can be visualized with [Grafana](https://grafana.com), a widely used
+Its data can be visualized with [Grafana](https://grafana.com), a widely used
 open source analytics and monitoring solution.
 
-The following guide covers the basic installation of the components. This monitoring
-stack is considerably more resource demanding than Crow, and is recommended only for
+The following guide covers the basic installation of the components in this monitoring stack.
+This solution is considerably more resource demanding than Crow, and is recommended only for
 more advanced usage. Furthermore, its installation, configuration, and management
 requires a deeper knowledge of Kubernetes as each component must be carefully tweaked
-to match your specific use case, using as starting point the values files herein provided.
+to match your specific use case, using as starting point the .yaml values files provided by us.
 
 ### Installing CRDs
 
@@ -74,7 +71,7 @@ The simplest way to setup prometheus in your cluster is by using the
 [Prometheus-Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator)
 bundle. Start by adding the custom resources required for installing this bundle in your cluster.
 
-NOTE: if installing on MicroK8s use `microk8s.kubectl` instead of `kubectl`
+**NOTE:** if installing on MicroK8s use `microk8s.kubectl` instead of `kubectl`
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
@@ -88,10 +85,10 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/re
 ### Install Loki
 
 Obtain the configuration file for Loki, [values-loki.yaml](https://github.com/codacy/chart/blob/master/codacy/values-loki.yaml),
-and install it as described below. You may need to edit the storage class for Loki
-persistence in this configuration file. While the default setting should suit most use
-cases, you may need to adjust it to your specific Kubernetes installation.
-For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
+and install it as described below. While the default storage class setting
+for Loki persistence should suit most use cases, you may need to adjust
+it to your specific Kubernetes installation. For instance, for MicroK8s use
+`storageClassName: microk8s-hostpath`.
 
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
