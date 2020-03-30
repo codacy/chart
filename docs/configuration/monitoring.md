@@ -88,10 +88,10 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/re
 ### Install Loki
 
 Obtain the configuration file for Loki, [values-loki.yaml](https://github.com/codacy/chart/blob/master/codacy/values-loki.yaml),
-and install it as described below. You may need to edit the storage class for Loki
-persistence in this configuration file. While the default setting should suit most use
-cases, you may need to adjust it to your specific Kubernetes installation.
-For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
+and install it as described below. While the default storage class setting
+for Loki persistence should suit most use cases, you may need to adjust
+it to your specific Kubernetes installation. For instance, for MicroK8s use
+`storageClassName: microk8s-hostpath`.
 
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
