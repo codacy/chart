@@ -28,10 +28,11 @@ plugins:
 markdown_extensions:
 - admonition
 - codehilite
+- attr_list
 - pymdownx.inlinehilite
+- pymdownx.superfences
 - pymdownx.tasklist:
     custom_checkbox: true
-- pymdownx.superfences
 - toc:
     permalink: true
 
@@ -39,11 +40,11 @@ markdown_extensions:
 nav:
   - index.md
   - requirements.md
-  - "Setting up the Kubernetes infrastructure":
+  - "Setting up Kubernetes":
     - infrastructure/eks-quickstart.md
     - infrastructure/aks-quickstart.md
     - infrastructure/microk8s-quickstart.md
-  - "Post-install configuration":
+  - "Configuring Codacy":
     - configuration/git-providers/github-cloud.md
     - configuration/git-providers/github-enterprise.md
     - configuration/git-providers/gitlab-enterprise.md
