@@ -2,8 +2,8 @@
 
 Currently two monitoring solutions are supported:
 
-* [**Crow**](##Setting-up-monitoring-using-Crow) - A simple, lightweight, and builtin monitoring solution.
-* [**Prometheus+Grafana+Loki**](##Setting-up-monitoring-using-Grafana,-Prometheus,-and-Loki) - A more comprehensive third-party monitoring solution, for more advanced usage.
+* [**Crow**](#setting-up-monitoring-using-crow) - A simple, lightweight, and built-in monitoring solution.
+* [**Prometheus + Grafana + Loki**](#setting-up-monitoring-using-grafana-prometheus-and-loki) - A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 ## Setting up monitoring using Crow
 
