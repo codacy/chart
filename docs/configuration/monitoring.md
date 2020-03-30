@@ -29,7 +29,7 @@ Please see the [README.md](https://github.com/codacy/chart/blob/master/README.md
 
 ### Configuring your credentials
 
-You **should** provide a password for the `crow` installation either through the `values.yaml` file or through a `--set` parameter during the `helm` installation process. This parameter can be configured as follows:
+We highly recommend that you define a custom password for the Crow installation. You can do this either through the `values.yaml` file or through a `--set` parameter during the Helm installation process. This parameter can be configured as follows:
 
 * Through a `--set` parameter:
 
