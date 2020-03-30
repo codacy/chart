@@ -62,11 +62,11 @@ horizontally-scalable, highly-available, multi-tenant log aggregation system
 It's data can be visualized with [Grafana](https://grafana.com), a widely used
 open source analytics and monitoring solution.
 
-The following guide covers the basic installation of the components. This monitoring
-stack is considerably more resource demanding than Crow, and is recommended only for
+The following guide covers the basic installation of the components in this monitoring stack.
+This solution is considerably more resource demanding than Crow, and is recommended only for
 more advanced usage. Furthermore, its installation, configuration, and management
 requires a deeper knowledge of Kubernetes as each component must be carefully tweaked
-to match your specific use case, using as starting point the values files herein provided.
+to match your specific use case, using as starting point the .yaml values files provided by us.
 
 ### Installing CRDs
 
