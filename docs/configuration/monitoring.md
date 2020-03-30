@@ -7,8 +7,7 @@ Currently two monitoring solutions are supported:
 
 ## Setting up monitoring using Crow
 
-Crow is a visualization tool that displays information about the projects and jobs
-that are pending for analysis, as well as the ones running in the Codacy platform.
+Crow displays information about the projects pending analysis and the jobs currently running on Codacy.
 
 The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
 It can be accessed through the `/monitoring` path of the url pointing to your Codacy
@@ -25,8 +24,6 @@ global:
       url: "http://codacy.example.com/monitoring"
 ```
 
-Please see the [README.md](https://github.com/codacy/chart/blob/master/README.md) for more information about these values.
-
 ### Configuring your credentials
 
 We highly recommend that you define a custom password for the Crow installation. You can do this either through the `values.yaml` file or through a `--set` parameter during the Helm installation process. This parameter can be configured as follows:
@@ -34,7 +31,7 @@ We highly recommend that you define a custom password for the Crow installation.
 * Through a `--set` parameter:
 
 ```yaml
-helm upgrade (...) --set crow.config.passwordAuth.password=<--- crow password --->
+helm upgrade (...options used to install codacy...) --set crow.config.passwordAuth.password=<--- crow password --->
 ```
 
 * Through the `values.yaml` file:
@@ -59,7 +56,7 @@ password: C0dacy123
 [Prometheus](https://prometheus.io) is an open-source systems monitoring and alerting
 toolkit. Logs can be collected using [Loki](https://grafana.com/oss/loki/), which is a
 horizontally-scalable, highly-available, multi-tenant log aggregation system
-It's data can be visualized with [Grafana](https://grafana.com), a widely used
+Its data can be visualized with [Grafana](https://grafana.com), a widely used
 open source analytics and monitoring solution.
 
 The following guide covers the basic installation of the components in this monitoring stack.
