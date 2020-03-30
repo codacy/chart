@@ -12,6 +12,8 @@ define rotate_pod
 endef
 
 define call_helm_install
+	eval extra_args=$${HELM_INSTALL_EXTRA_FLAGS}
+
 	helm upgrade --install ${1} ${3} \
 	--atomic \
 	--timeout=1800 \
@@ -33,7 +35,7 @@ define call_helm_install
 	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
-	$${HELM_INSTALL_EXTRA_FLAGS}
+	$extra_args
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
