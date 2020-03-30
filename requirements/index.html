@@ -221,23 +221,36 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cluster-resource-requirements" class="md-nav__link">
-    Cluster resource requirements
+  <a href="#hardware-requirements" class="md-nav__link">
+    Hardware requirements
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    Analysis
+  <a href="#virtual-cpus-and-memory" class="md-nav__link">
+    Virtual CPUs and memory
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-cluster-installation" class="md-nav__link">
+    Standard Cluster Installation
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
+  <a href="#storage" class="md-nav__link">
+    Storage
   </a>
   
 </li>
@@ -248,9 +261,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#postgresql-server-setup" class="md-nav__link">
-    PostgreSQL server setup
+  <a href="#external-postgresql-instance" class="md-nav__link">
+    External PostgreSQL instance
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -514,23 +540,36 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cluster-resource-requirements" class="md-nav__link">
-    Cluster resource requirements
+  <a href="#hardware-requirements" class="md-nav__link">
+    Hardware requirements
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    Analysis
+  <a href="#virtual-cpus-and-memory" class="md-nav__link">
+    Virtual CPUs and memory
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-cluster-installation" class="md-nav__link">
+    Standard Cluster Installation
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
+  <a href="#storage" class="md-nav__link">
+    Storage
   </a>
   
 </li>
@@ -541,9 +580,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#postgresql-server-setup" class="md-nav__link">
-    PostgreSQL server setup
+  <a href="#external-postgresql-instance" class="md-nav__link">
+    External PostgreSQL instance
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -567,70 +619,192 @@
                 <h1 id="system-requirements">System requirements<a class="headerlink" href="#system-requirements" title="Permanent link">&para;</a></h1>
 <p>Running Codacy on a Kubernetes cluster requires the following:</p>
 <ul>
-<li>A Kubernetes 1.14.* or 1.15.* cluster provisioned with the <a href="#cluster-resource-requirements">required resources</a></li>
-<li>The <a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">NGINX Ingress Controller</a> for Kubernetes</li>
-<li>A <a href="#postgresql-server-setup">PostgreSQL server</a> accessible from the Kubernetes cluster</li>
+<li>A Kubernetes 1.14.* or 1.15.* cluster provisioned with the <a href="#hardware-requirements">required resources</a></li>
+<li>The <a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">NGINX Ingress Controller</a> correctly setup in your cluster</li>
+<li>A <a href="#external-postgresql-instance">PostgreSQL server</a> accessible from the Kubernetes cluster</li>
 </ul>
-<h2 id="cluster-resource-requirements">Cluster resource requirements<a class="headerlink" href="#cluster-resource-requirements" title="Permanent link">&para;</a></h2>
-<p>To have an enjoyable experience with Codacy, you should have the
-following calculations in mind when allocating resources for the
-installation and defining the number of concurrent analysis.</p>
-<p>Without accounting for analysis (<a href="#analysis">next section</a>),
-you should need at least the following resources:</p>
-<div class="codehilite"><pre><span></span><code>CPU: 7 CPU
-Memory: 40 GB
-</code></pre></div>
-
-<p>Check the
-<a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml">values-production.yaml</a>
-file to find a configuration reference that should work for you to run a
-"production-ready" version of Codacy.</p>
-<h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
-<p>Each analysis runs a maximum number of 4 plugins in parallel (not configurable)</p>
-<p>Note: All the following configurations are nested inside the <code class="codehilite"><span class="err">worker-manager.config</span></code>
-configuration object, but for simplicity, we decided to omit the full path.</p>
-<div class="codehilite"><pre><span></span><code>CPU: workerResources.requests.cpu + (pluginResources.requests.cpu * 4)
-
-Memory: workerResources.requests.memory + (pluginResources.requests.memory * 4)
-
-Number of concurrent analysis: workers.dedicatedMax
-</code></pre></div>
-
-<p>Given the previous values, the total number of resources required should be the "per-analysis" amount times the number of concurrent analysis.</p>
-<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
-<p><em>Maximum of 6 concurrent analysis</em></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">worker-manager</span><span class="p">:</span>
-  <span class="nt">config</span><span class="p">:</span>
-    <span class="nt">workers</span><span class="p">:</span>
-      <span class="nt">dedicatedMax</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
-    <span class="nt">workerResources</span><span class="p">:</span>
-      <span class="nt">limits</span><span class="p">:</span>
-        <span class="nt">cpu</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-        <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
-    <span class="nt">pluginResources</span><span class="p">:</span>
-      <span class="nt">requests</span><span class="p">:</span>
-        <span class="nt">cpu</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
-        <span class="nt">memory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000000</span> <span class="c1"># 1GB</span>
-</code></pre></div>
-
-<p>In this example the minimum number of resources required would be:</p>
-<div class="codehilite"><pre><span></span><code>CPU: 6 * (1 + (0.5 * 4)) = 18 CPU
-Memory: 6 * (2 + (1 * 4)) = 36 GB
-</code></pre></div>
-
-<p><strong>Total:</strong></p>
-<div class="codehilite"><pre><span></span><code>CPU: 7 CPU + 18 CPU = 25 CPU
-Memory: 40 GB + 36 GB = 76 GB
-</code></pre></div>
-
-<h2 id="postgresql-server-setup">PostgreSQL server setup<a class="headerlink" href="#postgresql-server-setup" title="Permanent link">&para;</a></h2>
-<p>Codacy requires a working PostgreSQL server to run. The recommended specifications are:</p>
-<ul>
-<li>4 CPU</li>
-<li>8 GB RAM</li>
-<li>Minimum 500 GB+ hard drive, depending on the number of repositories you have. For a custom recommendation, please contact us at support@codacy.com.</li>
-</ul>
-<p>You must manually create the databases required by Codacy on the PostgreSQL server. We recommend that you also create a dedicated user for Codacy, with access permissions only to the databases specific to Codacy:</p>
+<h2 id="hardware-requirements">Hardware requirements<a class="headerlink" href="#hardware-requirements" title="Permanent link">&para;</a></h2>
+<p>The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.</p>
+<p>You can look at Codacy separately as the <strong>"Platform"</strong> and the <strong>"Analysis"</strong>. The Platform contains the UI and other
+components important to treat and show results. The Analysis is the swarm of workers that depending on the characteristics of you projects (languages, number of files, etc..) will run <strong>up to</strong> 4 linters at
+the same time.</p>
+<p><strong>The resources needed for Codacy depend a lot on the rate of commits done by your team.</strong></p>
+<p><img alt="&quot;High Level Architecture&quot;" src="../images/High Level Architecture - Analysis II.svg" title="High Level Architecture" /></p>
+<h3 id="virtual-cpus-and-memory">Virtual CPUs and memory<a class="headerlink" href="#virtual-cpus-and-memory" title="Permanent link">&para;</a></h3>
+<p>Since all components are running on Kubernetes, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage. The following is a simplified overview of how to calculate resource allocation for the <strong>"Platform"</strong> and the <strong>"Analysis"</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>vCPU</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Platform (1 replica per component)</td>
+<td>4</td>
+<td>8 GB</td>
+</tr>
+<tr>
+<td>Analysis Worker + <strong>up to</strong> 4 linters</td>
+<td>5 (per Analysis Worker)</td>
+<td>10 GB (per Analysis Worker)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="standard-cluster-installation">Standard Cluster Installation<a class="headerlink" href="#standard-cluster-installation" title="Permanent link">&para;</a></h4>
+<p>The resources described on the following table are based on our experience and are also the defaults in the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml">values-production.yaml</a> file, which you might need to adapt taking into account your use case.</p>
+<table>
+<thead>
+<tr>
+<th>Installation type</th>
+<th>Replicas per component</th>
+<th>Max. commits analyzed concurrently</th>
+<th>Platform vCPUs</th>
+<th>Platform Memory</th>
+<th>Analysis Workers vCPUs</th>
+<th>Analysis Workers Memory</th>
+<th>~ Total vCPUs</th>
+<th>~ Total Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kubernetes Small Installation</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>8 GB</td>
+<td>10</td>
+<td>20 GB</td>
+<td>16</td>
+<td>32 GB</td>
+</tr>
+<tr>
+<td>Kubernetes Medium Installation (default)</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>16 GB</td>
+<td>20</td>
+<td>40 GB</td>
+<td>32</td>
+<td>64 GB</td>
+</tr>
+<tr>
+<td>Kubernetes Big Installation</td>
+<td>2+</td>
+<td>10+</td>
+<td>8+</td>
+<td>16+ GB</td>
+<td>50+</td>
+<td>100+ GB</td>
+<td>60+</td>
+<td>110+ GB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong>
+For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be used by microk8s itself.</p>
+<table>
+<thead>
+<tr>
+<th>Installation type</th>
+<th>~ Replicas per component</th>
+<th>Max. commits analyzed concurrently</th>
+<th>Platform vCPUs</th>
+<th>Platform Memory</th>
+<th>Analysis Workers vCPUs</th>
+<th>Analysis Workers Memory</th>
+<th>Total vCPUs</th>
+<th>~ Total Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MicroK8s Minimum</td>
+<td>1 1</td>
+<td>2</td>
+<td>5.5</td>
+<td>9.5 GB</td>
+<td>10</td>
+<td>20 GB</td>
+<td>6</td>
+<td>32 GB</td>
+</tr>
+<tr>
+<td>MicroK8s Recommended (default)</td>
+<td>2 1-2</td>
+<td>2</td>
+<td>11+</td>
+<td>20+ GB</td>
+<td>10</td>
+<td>20 GB</td>
+<td>0+</td>
+<td>32+ GB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h3>
+<p>The storage requirements depend mainly on the number of repositories you will be analyzing.
+Use the following table as a guideline to determine Codacy's storage requirements.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Bundled in the chart</th>
+<th>Minimum Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFS</td>
+<td>Yes</td>
+<td>200 GB</td>
+</tr>
+<tr>
+<td>RabbitMQ</td>
+<td>Yes</td>
+<td>8 GB</td>
+</tr>
+<tr>
+<td>Minio</td>
+<td>Yes</td>
+<td>20 GB</td>
+</tr>
+<tr>
+<td>Postgres</td>
+<td>No (external DB recommended)</td>
+<td>500 GB+</td>
+</tr>
+</tbody>
+</table>
+<p>For a custom recommendation, please contact us at <a href="mailto://support@codacy.com">support@codacy.com</a>.</p>
+<h2 id="external-postgresql-instance">External PostgreSQL instance<a class="headerlink" href="#external-postgresql-instance" title="Permanent link">&para;</a></h2>
+<p>Codacy requires a working PostgreSQL instance to persist data.</p>
+<p>Google, the developer of Kubernetes <a href="https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider">doesn't recommend running database servers on your cluster</a>. As such, consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the PostgreSQL server inside a dedicated virtual machine.</p>
+<p>The following are the minimum recommended specifications of the PostgreSQL instance:</p>
+<table>
+<thead>
+<tr>
+<th>vCPUs</th>
+<th>Memory</th>
+<th>Storage</th>
+<th>Max. concurrent connections</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>8 GB</td>
+<td>500 GB+</td>
+<td>300</td>
+</tr>
+</tbody>
+</table>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<p>We recommend that you create a dedicated user for Codacy, with access permissions only to the databases that are specific to Codacy:</p>
 <ol>
 <li>
 <p>Connect to the PostgreSQL server as a database admin user. For example, using the <code class="codehilite"><span class="err">psql</span></code> command-line client:</p>
@@ -642,8 +816,18 @@ Memory: 40 GB + 36 GB = 76 GB
 <p>Execute the SQL script below to create the dedicated user and the databases required by Codacy. Make sure that you change the user name and password to suit your security needs.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;codacy&#39;</span><span class="p">;</span>
 <span class="k">ALTER</span> <span class="k">ROLE</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>
+</code></pre></div>
 
-<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+</li>
+<li>
+<p>Make sure that you can connect to the PostgreSQL database using the newly created user. For example:</p>
+<div class="codehilite"><pre><span></span><code>psql -U codacy -d postgres -h &lt;PostgreSQL server hostname&gt;
+</code></pre></div>
+
+</li>
+<li>
+<p>Create the necessary databases:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">analysis</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">results</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">metrics</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
@@ -653,12 +837,6 @@ Memory: 40 GB + 36 GB = 76 GB
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">hotspots</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">listener</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">crow</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
-</code></pre></div>
-
-</li>
-<li>
-<p>Make sure that you can connect to the PostgreSQL database using the newly created user. For example:</p>
-<div class="codehilite"><pre><span></span><code>psql -U codacy -h &lt;PostgreSQL server hostname&gt;
 </code></pre></div>
 
 </li>
