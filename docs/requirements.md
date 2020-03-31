@@ -1,12 +1,19 @@
 # System requirements
 
-Running Codacy on a Kubernetes cluster requires the following:
+Before installing Codacy you must ensure that you have the following infrastructure correctly provisioned and configured:
+
+-   A [Kubernetes or MicroK8s cluster](#kubernetes-or-microK8s-cluster-setup)
+-   A [PostgreSQL server](#postgresql-server-setup)
+
+The next sections describe in detail how to set up these system requirements.
+
+## Kubernetes or MicroK8s cluster setup
 
 -   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#hardware-requirements)
 -   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly setup in your cluster
--   A [PostgreSQL server](#external-postgresql-instance) accessible from the Kubernetes cluster
+-   Helm
 
-## Hardware requirements
+### Hardware requirements
 
 The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.
 
@@ -16,9 +23,9 @@ the same time.
 
 **The resources needed for Codacy depend a lot on the rate of commits done by your team.**
 
-!["High Level Architecture"](<./images/High Level Architecture - Analysis II.svg> "High Level Architecture")
+![High-level architecture](images/codacy-architecture.svg)
 
-### Virtual CPUs and memory
+#### Virtual CPUs and memory
 
 Since all components are running on Kubernetes, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage. The following is a simplified overview of how to calculate resource allocation for the **"Platform"** and the **"Analysis"**:
 
@@ -27,7 +34,7 @@ Since all components are running on Kubernetes, you can increase the number of r
 | Platform (1 replica per component)    | 4                       | 8 GB                        |
 | Analysis Worker + **up to** 4 linters | 5 (per Analysis Worker) | 10 GB (per Analysis Worker) |
 
-#### Standard Cluster Installation
+##### Standard Cluster Installation
 
 The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
 
@@ -59,7 +66,10 @@ Use the following table as a guideline to determine Codacy's storage requirement
 
 For a custom recommendation, please contact us at [support@codacy.com](mailto://support@codacy.com).
 
-## External PostgreSQL instance
+
+## PostgreSQL server setup
+
+-   A [PostgreSQL server](#external-postgresql-instance) accessible from the Kubernetes cluster
 
 Codacy requires a working PostgreSQL instance to persist data.
 
