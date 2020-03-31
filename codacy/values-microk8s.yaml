@@ -58,6 +58,7 @@ worker-manager:
   resources:
     limits:
       memory: 500Mi
+  config:
     workerResources:
       limits:
         memory: "2Gi"
