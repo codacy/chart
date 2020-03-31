@@ -2,8 +2,8 @@
 
 Before installing Codacy you must ensure that you have the following infrastructure correctly provisioned and configured:
 
--   A [Kubernetes or MicroK8s cluster](#kubernetes-or-microK8s-cluster-setup)
--   A [PostgreSQL server](#postgresql-server-setup)
+-   [Kubernetes or MicroK8s cluster](#kubernetes-or-microK8s-cluster-setup)
+-   [PostgreSQL server](#postgresql-server-setup)
 
 The next sections describe in detail how to set up these prerequisites.
 
@@ -20,57 +20,51 @@ The cluster running Codacy must satisfy the following requirements:
 
 ### Cluster hardware requirements
 
-The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.
+The high-level architecture described in the next section is important in understanding how Codacy uses and allocates hardware resources. Below we also provide guidance on [resource provisioning for typical scenarios](#standard-cluster-provisioning).
 
-You can look at Codacy separately as the **"Platform"** and the **"Analysis"**. The Platform contains the UI and other
-components important to treat and show results. The Analysis is the swarm of workers that depending on the characteristics of you projects (languages, number of files, etc..) will run **up to** 4 linters at
-the same time.
+For a custom hardware resource recommendation, please contact us at [support@codacy.com](mailto://support@codacy.com).
 
-**The resources needed for Codacy depend a lot on the rate of commits done by your team.**
+#### Codacy architecture
+
+You can look at Codacy separately as two parts:
+
+-   The **"Platform"** contains the UI and other components important to treat and show results
+-   The **"Analysis"** is the swarm of workers that run **between one and four** linters simultaneously, depending on factors such as the number of files or the programming languages used in your projects
 
 ![High-level architecture](images/codacy-architecture.svg)
 
-#### Virtual CPUs and memory
+Since all components are running on a cluster, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage.
 
-Since all components are running on Kubernetes, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage. The following is a simplified overview of how to calculate resource allocation for the **"Platform"** and the **"Analysis"**:
+The following is a simplified overview of how to calculate resource allocation for the "Platform" and the "Analysis":
 
-| Component                             | vCPU                    | Memory                      |
-| ------------------------------------- | ----------------------- | --------------------------- |
-| Platform (1 replica per component)    | 4                       | 8 GB                        |
-| Analysis Worker + **up to** 4 linters | 5 (per Analysis Worker) | 10 GB (per Analysis Worker) |
+| Component                                              | vCPU                        | Memory                          |
+| ------------------------------------------------------ | --------------------------- | ------------------------------- |
+| Platform<br/>(1 replica per component)                 | 4                           | 8 GB                            |
+| Analysis<br/>(1 Analysis Worker + **up to** 4 linters) | 5<br/>(per Analysis Worker) | 10 GB<br/>(per Analysis Worker) |
 
-##### Standard Cluster Installation
+#### Standard cluster provisioning
 
-The resources described on the following table are based on our experience and are also the defaults in the [values-production.yaml](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case.
+The resources recommended on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy **depend mainly on the rate of commits** done by your team that Codacy will be analyzing.
 
-| Installation type                        | Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | ~ Total vCPUs | ~ Total Memory |
-| ---------------------------------------- | ---------------------- | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ------------- | -------------- |
-| Kubernetes Small Installation            | 1                      | 2                                  | 4              | 8 GB            | 10                     | 20 GB                   | 16            | 32 GB          |
-| Kubernetes Medium Installation (default) | 2                      | 4                                  | 8              | 16 GB           | 20                     | 40 GB                   | 32            | 64 GB          |
-| Kubernetes Big Installation              | 2+                     | 10+                                | 8+             | 16+ GB          | 50+                    | 100+ GB                 | 60+           | 110+ GB        |
+!!! important
+    For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.
 
-**NOTE:**
-For microk8s we added 1.5 CPU and 1.5 GB extra in the "Platform" meant to be used by microk8s itself.
+| Installation type                            | Replicas per component | Max. concurrent analysis | Platform resources       | Analysis resources        | **~ Total resources**         |
+| -------------------------------------------- | ---------------------- | ------------------------ | ------------------------ | ------------------------- | ----------------------------- |
+| Kubernetes<br/>Small Installation            | 1                      | 2                        | 4 vCPUs<br/>8 GB RAM     | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
+| Kubernetes<br/>Medium Installation (default) | 2                      | 4                        | 8 vCPUs<br/>16 GB RAM    | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
+| Kubernetes<br/>Big Installation              | 2+                     | 10+                      | 8+ vCPUs<br/>16+ GB RAM  | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
+| MicroK8s<br/>Minimum                         | 1 1                    | 2                        | 5.5 vCPUs<br/>9.5 GB RAM | 10 vCPUs<br/>20 GB RAM    | **6 vCPUs<br/>32 GB RAM**     |
+| MicroK8s<br/>Recommended (default)           | 2 1-2                  | 2                        | 11+ vCPUs<br/>20+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **0+ vCPUs<br/>32+ GB RAM**   |
 
-| Installation type              | ~ Replicas per component | Max. commits analyzed concurrently | Platform vCPUs | Platform Memory | Analysis Workers vCPUs | Analysis Workers Memory | Total vCPUs | ~ Total Memory |
-| ------------------------------ | ------------------------ | ---------------------------------- | -------------- | --------------- | ---------------------- | ----------------------- | ----------- | -------------- |
-| MicroK8s Minimum               | 1 1                      | 2                                  | 5.5            | 9.5 GB          | 10                     | 20 GB                   | 6           | 32 GB          |
-| MicroK8s Recommended (default) | 2 1-2                    | 2                                  | 11+            | 20+ GB          | 10                     | 20 GB                   | 0+          | 32+ GB         |
+The storage requirements recommended on the following table **depend mainly on the number of repositories** that Codacy will be analyzing and should be used as a guideline to determine your installation requirements.
 
-### Storage
-
-The storage requirements depend mainly on the number of repositories you will be analyzing.
-Use the following table as a guideline to determine Codacy's storage requirements.
-
-| Component | Bundled in the chart         | Minimum Recommended |
-| --------- | ---------------------------- | ------------------- |
-| NFS       | Yes                          | 200 GB              |
-| RabbitMQ  | Yes                          | 8 GB                |
-| Minio     | Yes                          | 20 GB               |
-| Postgres  | No (external DB recommended) | 500 GB+             |
-
-For a custom recommendation, please contact us at [support@codacy.com](mailto://support@codacy.com).
-
+| Component  | Bundled in the chart?        | **Minimum recommended** |
+| ---------- | ---------------------------- | ----------------------- |
+| NFS        | Yes                          | **200 GB**              |
+| RabbitMQ   | Yes                          | **8 GB**                |
+| Minio      | Yes                          | **20 GB**               |
+| PostgreSQL | No (external DB recommended) | **500 GB+**             |
 
 ## PostgreSQL server setup
 
