@@ -26,7 +26,7 @@ Carefully review and set up the system requirements to run Codacy by following t
 
 -   [System requirements](requirements.md)
 
-Optionally, you can follow one of the guides that we provide to quickly create a new Kubernetes or MicroK8s cluster as listed on the system requirements page:
+Optionally, you can follow one of the guides below to quickly create a new Kubernetes or MicroK8s cluster that satisfies the characteristics described in the system requirements:
 
 -   [Creating an Amazon EKS cluster](infrastructure/eks-quickstart.md)
 -   [Creating an AKS cluster](infrastructure/aks-quickstart.md)
