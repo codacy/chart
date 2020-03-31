@@ -27,7 +27,7 @@ global:
     # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
     # app:
-    #  appId: "1234"
+    #  id: "1234"
     #  privateKey: ""
 
   githubEnterprise: {}
@@ -39,7 +39,7 @@ global:
     # disableSSL: "false"
     # isPrivateMode: "true"
     # app:
-    #  appId: "1234"
+    #  id: "1234"
     #  privateKey: ""
 
   gitlabEnterprise: {}
