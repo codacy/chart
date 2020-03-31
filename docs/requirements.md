@@ -5,15 +5,20 @@ Before installing Codacy you must ensure that you have the following infrastruct
 -   A [Kubernetes or MicroK8s cluster](#kubernetes-or-microK8s-cluster-setup)
 -   A [PostgreSQL server](#postgresql-server-setup)
 
-The next sections describe in detail how to set up these system requirements.
+The next sections describe in detail how to set up these prerequisites.
 
 ## Kubernetes or MicroK8s cluster setup
 
--   A Kubernetes 1.14.\* or 1.15.\* cluster provisioned with the [required resources](#hardware-requirements)
--   The [NGINX Ingress Controller](https://github.com/helm/charts/tree/master/stable/nginx-ingress) correctly setup in your cluster
--   Helm
+The cluster running Codacy must satisfy the following requirements:
 
-### Hardware requirements
+-   The infrastructure hosting the cluster must be provisioned with the hardware requirements described below
+-   The orchestration platform managing the cluster must be one of:
+    -   [Kubernetes](https://kubernetes.io/) **version 1.14.\*** or **1.15.\***
+    -   [MicroK8s](https://microk8s.io/) **version 1.15**
+-   Tiller, the server part of [Helm](https://v2.helm.sh/) **version 2.16**, must be installed in the cluster
+-   The [NGINX Ingress controller](https://github.com/kubernetes/ingress-nginx) must be installed and correctly set up in the cluster
+
+### Cluster hardware requirements
 
 The following high-level architecture is important in understanding how Codacy uses and allocates hardware resources.
 
@@ -69,42 +74,50 @@ For a custom recommendation, please contact us at [support@codacy.com](mailto://
 
 ## PostgreSQL server setup
 
--   A [PostgreSQL server](#external-postgresql-instance) accessible from the Kubernetes cluster
+Codacy requires a database server to persist data that must satisfy the following requirements:
 
-Codacy requires a working PostgreSQL instance to persist data.
+-   The infrastructure hosting the database server must be provisioned with the hardware requirements described below
+-   The DBMS server must be [PostgreSQL](https://www.postgresql.org/) **version 9.6**
+-   The PostgreSQL server must be configured to accept connections from the cluster
+-   The Codacy databases and a dedicated user must be created using the instructions below
 
-Google, the developer of Kubernetes [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed a solution like AWS RDS or Google Cloud SQL, or running the PostgreSQL server inside a dedicated virtual machine.
+!!! important
+    Google, the developer of Kubernetes, [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed solution like Amazon RDS or Google Cloud SQL, or running the PostgreSQL server on a dedicated virtual machine.
 
-The following are the minimum recommended specifications of the PostgreSQL instance:
+### PostgreSQL hardware requirements
+
+The following are the minimum specifications recommended for provisioning the PostgreSQL server:
 
 | vCPUs | Memory | Storage | Max. concurrent connections |
 | ----- | ------ | ------- | --------------------------- |
 | 4     | 8 GB   | 500 GB+ | 300                         |
 
-### Setup
+### Preparing PostgreSQL for Codacy
 
-We recommend that you create a dedicated user for Codacy, with access permissions only to the databases that are specific to Codacy:
+Before installing Codacy you must create a set of databases that will be used by Codacy to persist data. We also recommend that you create a dedicated user for Codacy, with access permissions only to the databases that are specific to Codacy:
 
-1.  Connect to the PostgreSQL server as a database admin user. For example, using the `psql` command-line client:
+1.  Connect to the PostgreSQL server as a database admin user. For example, using the `psql` command line client:
 
     ```bash
     psql -U postgres -h <PostgreSQL server hostname>
     ```
 
-2.  Execute the SQL script below to create the dedicated user and the databases required by Codacy. Make sure that you change the user name and password to suit your security needs.
+2.  Create the dedicated user that Codacy will use to connect to PostgreSQL. Make sure that you change the username and password to suit your security needs:
 
     ```sql
     CREATE USER codacy WITH PASSWORD 'codacy';
     ALTER ROLE codacy WITH CREATEDB;
     ```
 
-3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example:
+    Take note of the username and password you define, as you will require them later to configure the connection from Codacy to the PostgreSQL server.
+
+3.  Make sure that you can connect to the PostgreSQL database using the newly created user. For example, using the `psql` command line client:
 
     ```bash
     psql -U codacy -d postgres -h <PostgreSQL server hostname>
     ```
 
-4.  Create the necessary databases:
+4.  Create the databases required by Codacy:
 
     ```sql
     CREATE DATABASE accounts WITH OWNER=codacy;
