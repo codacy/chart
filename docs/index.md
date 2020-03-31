@@ -6,7 +6,7 @@ To install Codacy you must complete these main steps:
 
 1.  [**Setting up the system requirements**](#1-setting-up-the-system-requirements)
 
-    Ensure that your infrastructre meets the system requirements to run Codacy. This includes provisioning the hardware resources for your Kubernetes cluster or MicroK8s instance, setting up the cluster, and running a PostgreSQL instance external to your cluster.
+    Ensure that your infrastructure meets the hardware and system requirements to run Codacy.
 
 2.  [**Installing Codacy**](#2-installing-codacy)
 
