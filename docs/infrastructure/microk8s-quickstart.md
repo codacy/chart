@@ -1,6 +1,6 @@
-# Creating a MicroK8s instance
+# Creating a MicroK8s cluster
 
-[Microk8s](https://microk8s.io/) is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is [publicly available on GitHub](https://github.com/ubuntu/microk8s).
+[MicroK8s](https://microk8s.io/) is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is [publicly available on GitHub](https://github.com/ubuntu/microk8s).
 
 Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
 
@@ -15,8 +15,8 @@ Prepare your environment to set up the MicroK8s instance.
 
 You will need a machine running [Ubuntu Server 18.04 LTS](https://ubuntu.com/download/server) that:
 
--   Is correctly provisioned with the resoures described for MicroK8s in the [system requirements](../requirements.md#hardware-requirements)
--   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup).
+-   Is correctly provisioned with the resources described for MicroK8s in the [system requirements](../requirements.md#kubernetes-or-microK8s-cluster-setup)
+-   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup)
 
 The next steps assume that you are starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.
 
