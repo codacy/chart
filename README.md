@@ -99,12 +99,17 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.postgresqlPassword`              | Hostname of the Postgresql server                                                                            | `nil`           |
 | `global.jobsdb.host`                            | Hostname of the Postgresql server                                                                            | `nil`           |
 | `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
+| `global.github.enabled`                         | Enable github                                                                                                | `nil`           |
+| `global.github.app.id`                          | App id used in Codacy to integrate with GitHub Apps                                                          | `nil`           |
+| `global.github.app.privateKey`                  | Private key generated after the GitHub App's creation                                                        | `nil`           |
 | `global.githubEnterprise.enabled`               | Enable githubEnterprise                                                                                      | `nil`           |
 | `global.githubEnterprise.hostname`              | Hostname of githubEnterprise instance                                                                        | `nil`           |
 | `global.githubEnterprise.protocol`              | Protocol of githubEnterprise instance                                                                        | `nil`           |
 | `global.githubEnterprise.port`                  | Port of githubEnterprise instance                                                                            | `nil`           |
 | `global.githubEnterprise.isPrivateMode`         | Status of private mode on githubEnterprise instance                                                          | `nil`           |
 | `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`           |
+| `global.githubEnterprise.app.id`                | App id used in Codacy to integrate with GitHub Apps in GitHub Enterprise                                     | `nil`           |
+| `global.githubEnterprise.app.privateKey`        | Private key generated after the GitHub App's creation in GitHub Enterprise                                   | `nil`           |
 | `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
 | `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |
 | `global.gitlabEnterprise.protocol`              | Protocol of gitlabEnterprise instance                                                                        | `nil`           |

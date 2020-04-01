@@ -1,4 +1,11 @@
 global:
+  github: {}
+    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # enabled: "false"
+    # app:
+    #   id: "1234"
+    #   privateKey: ""
+
   githubEnterprise: {}
     # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
@@ -7,6 +14,9 @@ global:
     # protocol: "https"
     # disableSSL: "false"
     # isPrivateMode: "true"
+    # app:
+    #   id: "1234"
+    #   privateKey: ""
 
   gitlabEnterprise: {}
     # if you set this provider configuration, you must save it on the admin/integrations ui.
