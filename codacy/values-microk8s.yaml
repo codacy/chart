@@ -33,9 +33,12 @@ listener:
   resources:
     limits:
       cpu: 500m
+  # These configurations are only used if the `nfsserverprovisioner` is enabled
   persistence:
     claim:
-      size: 50Gi
+      # This is the size of the claim that the component will get from the provisioner (if used)
+      # Therefore this value needs to be smaller than `nfsserverprovisioner.persistence.size`
+      size: 90Gi
   nfsserverprovisioner:
     persistence:
       size: 100Gi

@@ -196,9 +196,12 @@ listener:
     host: <--- codacy-db-host --->
     service:
       port: 5432
+  # These configurations are only used if the `nfsserverprovisioner` is enabled
   persistence:
     claim:
-      size: 140Gi
+      # This is the size of the claim that the component will get from the provisioner (if used)
+      # Therefore this value needs to be smaller than `nfsserverprovisioner.persistence.size`
+      size: 190Gi
   nfsserverprovisioner:
     enabled: true
     persistence:

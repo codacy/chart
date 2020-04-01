@@ -210,9 +210,12 @@ listener:
       configFile: application.enterprise.conf
       logFile: logback.xml
 
+  # These configurations are only used if the `nfsserverprovisioner` is enabled
   persistence:
     claim:
-      size: 100Gi
+      # This is the size of the claim that the component will get from the provisioner (if used)
+      # Therefore this value needs to be smaller than `nfsserverprovisioner.persistence.size`
+      size: 110Gi
 
   nfsserverprovisioner:
     enabled: true
