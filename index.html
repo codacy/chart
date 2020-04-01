@@ -301,8 +301,8 @@
 
 
   <li class="md-nav__item">
-    <a href="infrastructure/microk8s-quickstart/" title="Creating a MicroK8s instance" class="md-nav__link">
-      Creating a MicroK8s instance
+    <a href="infrastructure/microk8s-quickstart/" title="Creating a MicroK8s cluster" class="md-nav__link">
+      Creating a MicroK8s cluster
     </a>
   </li>
 
@@ -544,7 +544,7 @@
 <ol>
 <li>
 <p><a href="#1-setting-up-the-system-requirements"><strong>Setting up the system requirements</strong></a></p>
-<p>Ensure that your infrastructre meets the system requirements to run Codacy. This includes provisioning the hardware resources for your Kubernetes cluster or MicroK8s instance, setting up the cluster, and running a PostgreSQL instance external to your cluster.</p>
+<p>Ensure that your infrastructure meets the hardware and system requirements to run Codacy.</p>
 </li>
 <li>
 <p><a href="#2-installing-codacy"><strong>Installing Codacy</strong></a></p>
@@ -557,16 +557,16 @@
 </ol>
 <p>The next sections include detailed instructions on how to complete each step of the installation process. Make sure that you complete each step before advancing to the next one.</p>
 <h2 id="1-setting-up-the-system-requirements">1. Setting up the system requirements<a class="headerlink" href="#1-setting-up-the-system-requirements" title="Permanent link">&para;</a></h2>
-<p>Before you start, you must prepare and and provision the database server and Kubernetes cluster or MicroK8s instance that will host Codacy.</p>
+<p>Before you start, you must prepare and and provision the database server and Kubernetes or MicroK8s cluster that will host Codacy.</p>
 <p>Carefully review and set up the system requirements to run Codacy by following the instructions on the page below:</p>
 <ul>
 <li><a href="requirements/">System requirements</a></li>
 </ul>
-<p>Optionally, you can follow one of the guides that we provide to quickly create a new Kubernetes cluster or MicroK8s instance as listed on the system requirements page:</p>
+<p>Optionally, you can follow one of the guides below to quickly create a new Kubernetes or MicroK8s cluster that satisfies the characteristics described in the system requirements:</p>
 <ul>
 <li><a href="infrastructure/eks-quickstart/">Creating an Amazon EKS cluster</a></li>
 <li><a href="infrastructure/aks-quickstart/">Creating an AKS cluster</a></li>
-<li><a href="infrastructure/microk8s-quickstart/">Creating a MicroK8s instance</a></li>
+<li><a href="infrastructure/microk8s-quickstart/">Creating a MicroK8s cluster</a></li>
 </ul>
 <h2 id="2-installing-codacy">2. Installing Codacy<a class="headerlink" href="#2-installing-codacy" title="Permanent link">&para;</a></h2>
 <p>Install Codacy on an existing cluster using our Helm chart:</p>

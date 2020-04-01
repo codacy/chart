@@ -38,7 +38,7 @@
     
     
       
-        <title>Creating a MicroK8s instance - Chart</title>
+        <title>Creating a MicroK8s cluster - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#creating-a-microk8s-instance" tabindex="0" class="md-skip">
+      <a href="#creating-a-microk8s-cluster" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Creating a MicroK8s instance
+                Creating a MicroK8s cluster
               
             </span>
           
@@ -260,11 +260,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Creating a MicroK8s instance
+        Creating a MicroK8s cluster
       </label>
     
-    <a href="./" title="Creating a MicroK8s instance" class="md-nav__link md-nav__link--active">
-      Creating a MicroK8s instance
+    <a href="./" title="Creating a MicroK8s cluster" class="md-nav__link md-nav__link--active">
+      Creating a MicroK8s cluster
     </a>
     
       
@@ -554,8 +554,8 @@
               
                 
                 
-                <h1 id="creating-a-microk8s-instance">Creating a MicroK8s instance<a class="headerlink" href="#creating-a-microk8s-instance" title="Permanent link">&para;</a></h1>
-<p><a href="https://microk8s.io/">Microk8s</a> is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is <a href="https://github.com/ubuntu/microk8s">publicly available on GitHub</a>.</p>
+                <h1 id="creating-a-microk8s-cluster">Creating a MicroK8s cluster<a class="headerlink" href="#creating-a-microk8s-cluster" title="Permanent link">&para;</a></h1>
+<p><a href="https://microk8s.io/">MicroK8s</a> is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is <a href="https://github.com/ubuntu/microk8s">publicly available on GitHub</a>.</p>
 <p>Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.</p>
 <p>As part of this process, the Helm client (<code class="codehilite"><span class="err">helm</span></code>) and the Helm server (<code class="codehilite"><span class="err">tiller</span></code>) will be installed on the MicroK8s instance:</p>
 <ul>
@@ -566,8 +566,8 @@
 <p>Prepare your environment to set up the MicroK8s instance.</p>
 <p>You will need a machine running <a href="https://ubuntu.com/download/server">Ubuntu Server 18.04 LTS</a> that:</p>
 <ul>
-<li>Is correctly provisioned with the resoures described for MicroK8s in the <a href="../../requirements/#hardware-requirements">system requirements</a></li>
-<li>Is able to establish a connection to the PostgreSQL instance described in the <a href="../../requirements/#postgresql-server-setup">system requirements</a>.</li>
+<li>Is correctly provisioned with the resources described for MicroK8s in the <a href="../../requirements/#kubernetes-or-microK8s-cluster-setup">system requirements</a></li>
+<li>Is able to establish a connection to the PostgreSQL instance described in the <a href="../../requirements/#postgresql-server-setup">system requirements</a></li>
 </ul>
 <p>The next steps assume that you are starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.</p>
 <h2 id="2-installing-microk8s">2. Installing MicroK8s<a class="headerlink" href="#2-installing-microk8s" title="Permanent link">&para;</a></h2>
