@@ -269,10 +269,10 @@ codacy-ingress:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: "true"
     extraPaths:
-      - backend:
-          serviceName: codacy-crow
-          servicePort: http
-        path: /monitoring
+    - backend:
+        serviceName: codacy-crow
+        servicePort: http
+      path: /monitoring
 
 codacy-api:
   replicaCount: 1
@@ -312,7 +312,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: stable
+        image: 6.7.9
 
     # The resources to assign to a worker pod
     workerResources:
