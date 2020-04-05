@@ -41,10 +41,7 @@ Follow the steps below to configure Crow and change the default configurations:
           password: <--- Crow password --->
     ```
 
-3.  Upgrade the Helm release with the updated `values.yaml` file: 
-
-
-4.  Apply this configuration by performing a Helm upgrade. To do so append `--values values.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
+3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
@@ -79,7 +76,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/re
 
 ### 2. Installing Loki
 
-Obtain the configuration file for Loki, [`values-loki.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
+Obtain the configuration file for Loki, [`values-loki.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
 
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
@@ -91,7 +88,7 @@ helm upgrade --install --atomic loki loki/loki --version 0.17.0 \
 
 Promtail is an agent that ships the contents of local logs to a Loki instance.
 
-Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-promtail.yaml), and install it by running the command below.
+Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-promtail.yaml), and install it by running the command below.
 
 ```bash
 helm upgrade --install --atomic promtail loki/promtail --version 0.13.0 \
@@ -100,7 +97,7 @@ helm upgrade --install --atomic promtail loki/promtail --version 0.13.0 \
 
 ### 4. Installing Prometheus and Grafana
 
-Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-prometheus-operator.yaml). Then:
+Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-prometheus-operator.yaml). Then:
 
 1.  Edit the Grafana password for the `admin` user in the `values-prometheus-operator.yaml` file.
 
