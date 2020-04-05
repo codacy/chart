@@ -1,55 +1,51 @@
 # Monitoring
 
-Currently two monitoring solutions are supported:
+Currently, we support two monitoring solutions:
 
-* [**Crow**](#setting-up-monitoring-using-crow) - A simple, lightweight, and built-in monitoring solution.
-* [**Prometheus + Grafana + Loki**](#setting-up-monitoring-using-grafana-prometheus-and-loki) - A comprehensive third-party monitoring solution, recommended for more advanced usage.
+-   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution.
+-   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
+
+The sections below provide details on how to set up each monitoring solution.
 
 ## Setting up monitoring using Crow
 
-Crow displays information about the projects pending analysis and the jobs currently running on Codacy.
+Crow displays information about the projects that are pending analysis and the jobs currently running on Codacy.
 
-The Crow tool is installed alongside Codacy after the helm chart is deployed to the cluster.
-It can be accessed through the `/monitoring` path of the url pointing to your Codacy
-installation, e.g. `http://codacy.company.org/monitoring`. You must set the
-`global.codacy.crow.url` value in your `values.yaml` file so that anchor links to your
-projects can be properly established inside `crow`.
+The Crow tool is installed alongside Codacy when the Helm chart is deployed to the cluster and is configured as follows by default:
 
-For example:
+-   Crow is available on the `/monitoring` path of your Codacy installation URL, such as `http://codacy.company.org/monitoring`
+-   The default credentials to access Crow are:
 
-```yaml
-global:
-  codacy:
+    ```yaml
+    username: codacy
+    password: C0dacy123
+    ```
+
+Follow the steps below to configure Crow and change the default configurations:
+
+1.  Set the `global.codacy.crow.url` value in your `values.yaml` file so that Crow correctly generates anchor links to your projects. For example:
+
+    ```yaml
+    global:
+      codacy:
+        crow:
+          url: "http://codacy.example.com/monitoring"
+    ```
+
+2.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
+
+    ```yaml
     crow:
-      url: "http://codacy.example.com/monitoring"
-```
+      config:
+        passwordAuth:
+          password: <--- Crow password --->
+    ```
 
-### Configuring your credentials
+3.  Upgrade the Helm release with the updated `values.yaml` file: 
 
-We highly recommend that you define a custom password for the Crow installation. You can do this either through the `values.yaml` file or through a `--set` parameter during the Helm installation process. This parameter can be configured as follows:
-
-* Through a `--set` parameter:
-
-```yaml
-helm upgrade (...options used to install codacy...) --set crow.config.passwordAuth.password=<--- crow password --->
-```
-
-* Through the `values.yaml` file:
-
-```yaml
-crow:
-  config:
-    passwordAuth:
-      password: <--- crow password --->
-```
-
-**If you have not configured your `crow` credentials as described above
-the following default credentials will be used:**
-
-```yaml
-username: codacy
-password: C0dacy123
-```
+    ```bash
+    helm upgrade (...options used to install Codacy...) --values values.yaml
+    ```
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
