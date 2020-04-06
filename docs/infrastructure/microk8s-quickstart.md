@@ -33,8 +33,8 @@ Install MicroK8s on the machine:
 2.  Install MicroK8s from the `1.15/stable` channel:
 
     ```bash
-    sudo snap install microk8s --classic --channel=1.15/stable && \
-    sudo usermod -a -G microk8s $USER  && \
+    sudo snap install microk8s --classic --channel=1.15/stable
+    sudo usermod -a -G microk8s $USER
     sudo su - $USER
     ```
 
@@ -68,33 +68,29 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
 1.  Enable the following plugins on MicroK8s:
 
     ```bash
-    sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver && \
-    microk8s.enable dns && \
-    microk8s.status --wait-ready && \
-    microk8s.enable storage && \
-    microk8s.status --wait-ready && \
-    microk8s.enable ingress && \
-    microk8s.status --wait-ready && \
-    microk8s.stop && \
-    microk8s.start && \
+    sudo mkdir -p /var/snap/microk8s/current/args
+    sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
+    microk8s.status --wait-ready
+    microk8s.enable dns
+    microk8s.enable storage
+    microk8s.enable ingress
+    microk8s.status --wait-ready
+    microk8s.stop
+    microk8s.start
     microk8s.status --wait-ready
     ```
 
 2.  Install version v2.16.3 of the Helm client:
 
     ```bash
-    HELM_PKG=helm-v2.16.3-linux-amd64.tar.gz && \
-    wget https://get.helm.sh/$HELM_PKG && \
-    tar xvzf $HELM_PKG && \
-    sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin && \
-    rm -rvf $HELM_PKG linux-amd64/
+    sudo snap install helm --classic --channel=2.16/stable
     ```
 
 3.  Install the Helm server:
 
     ```bash
-    microk8s.kubectl create serviceaccount --namespace kube-system tiller && \
-    microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller && \
+    microk8s.kubectl create serviceaccount --namespace kube-system tiller
+    microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
     helm init --service-account tiller
     ```
 
