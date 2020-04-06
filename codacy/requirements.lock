@@ -16,16 +16,16 @@ dependencies:
   version: 0.2.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 6.9.0
+  version: 6.9.1
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 22.1.0
+  version: 22.1.5
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.4.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 8.7.0
+  version: 8.7.2
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.4.1
@@ -40,10 +40,10 @@ dependencies:
   version: 3.1.0
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 6.8.0
+  version: 6.8.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 9.3.0
+  version: 9.5.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.1.0
@@ -51,4 +51,4 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 4.9.1
 digest: sha256:672f58cc80faadce2d7c960206c49b7774f73ed607412520d2de25a68ef9aa97
-generated: "2020-04-01T18:11:13.295464+01:00"
+generated: "2020-04-06T16:49:32.227218+01:00"
