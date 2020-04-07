@@ -17,8 +17,8 @@ function getChangelog() {
     old_version=$2
     new_version=$3
     repository_url=$4
-    echo " * getting changelog ..."
     cd "$project_name"
+    echo "  * $old_version -> $new_version"
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
     echo "## $project_name($repository_url)" >> "../changelogs/changelog.md"
@@ -32,8 +32,30 @@ function cloneRepository() {
     old_version=$2
     new_version=$3
     repository_url=$4
-    echo "[OK] $project_name($repository_url) : $old_version -> $new_version"
+    echo "[OK] checking out: $project_name($repository_url)"
     git clone "$repository_url" "$project_name" --quiet
+}
+
+function getOldDependencyVersion(){
+    old_version="$(getDependencyVersion \"$OLD_LOCK_FILE\" \"$1\")"
+    if [ "$old_version" == "" ]; then
+        # this means this dependency is new as there is no old_version as per the requirements file
+        # therefore we fetch the oldest tag from the git remote
+        old_version="$(git ls-remote --tags \"$2\" | sort -t '/' -k 3 -V | awk '{print $2}' | sed 's/refs\/tags\///g' | head -n 1)"
+    fi
+    echo "$old_version"
+}
+
+function getDependencies() {
+    echo "$(yq r \"$1\" dependencies -j | jq -r \".[].name\")"
+}
+
+function getDependencyVersion() {
+    echo "$(yq r \"$1\" dependencies -j | jq -r \".[] | select(.name==$2).version\")"
+}
+
+function getDependencyRepoUrl() {
+    echo "$(yq r \"$1\" dependencies -j | jq -r \".[] | select(.name==$2).git\")"
 }
 
 rm -rf ./changelogs
@@ -42,13 +64,14 @@ prepareChangelogMarkdown
 
 LATEST_TAG="stable"
 git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
-DEPENDENCIES=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[].name" | sed "s/\"//g")
+DEPENDENCIES=$(getDependencies $NEW_LOCK_FILE)
 
 for key in $DEPENDENCIES
 do
-    old_version=$(yq r $OLD_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
-    new_version=$(yq r $NEW_LOCK_FILE dependencies -j | jq ".[] | select(.name==\"$key\").version" | sed "s/\"//g")
-    repository_url=$(yq r $REQUIREMENTS_FILE dependencies -j | jq ".[] | select(.name==\"$key\").git" | sed "s/\"//g")
+    repository_url="$(getDependencyRepoUrl \"$REQUIREMENTS_FILE\" \"$key\")"
+    old_version="$(getOldDependencyVersion \"$key\" \"$repository_url\")"
+    new_version="$(getDependencyVersion \"$NEW_LOCK_FILE\" \"$key\")"
+
     if [ "$old_version" != "$new_version" ] && [ "$repository_url" != "null" ];
         then
             cloneRepository "$key" "$old_version" "$new_version" "$repository_url"
