@@ -557,10 +557,10 @@
                 <h1 id="creating-a-microk8s-cluster">Creating a MicroK8s cluster<a class="headerlink" href="#creating-a-microk8s-cluster" title="Permanent link">&para;</a></h1>
 <p><a href="https://microk8s.io/">MicroK8s</a> is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is <a href="https://github.com/ubuntu/microk8s">publicly available on GitHub</a>.</p>
 <p>Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.</p>
-<p>As part of this process, the Helm client (<code class="codehilite"><span class="err">helm</span></code>) and the Helm server (<code class="codehilite"><span class="err">tiller</span></code>) will be installed on the MicroK8s instance:</p>
+<p>As part of this process, the Helm client (<code>helm</code>) and the Helm server (<code>tiller</code>) will be installed on the MicroK8s instance:</p>
 <ul>
-<li><code class="codehilite"><span class="err">helm</span></code> is the command-line client responsible for resolving the configuration of the chart to be installed and issuing the correct install commands onto the Helm server.</li>
-<li><code class="codehilite"><span class="err">tiller</span></code> is the in-cluster server responsible for receiving the install commands issued by the Helm client and managing the lifecycle of the components that have been installed.</li>
+<li><code>helm</code> is the command-line client responsible for resolving the configuration of the chart to be installed and issuing the correct install commands onto the Helm server.</li>
+<li><code>tiller</code> is the in-cluster server responsible for receiving the install commands issued by the Helm client and managing the lifecycle of the components that have been installed.</li>
 </ul>
 <h2 id="1-prepare-your-environment">1. Prepare your environment<a class="headerlink" href="#1-prepare-your-environment" title="Permanent link">&para;</a></h2>
 <p>Prepare your environment to set up the MicroK8s instance.</p>
@@ -574,22 +574,22 @@
 <p>Install MicroK8s on the machine:</p>
 <ol>
 <li>
-<p>Make sure that the package <code class="codehilite"><span class="err">nfs-common</span></code> is installed:</p>
-<div class="codehilite"><pre><span></span><code>sudo apt update <span class="o">&amp;&amp;</span> sudo apt install nfs-common -y
+<p>Make sure that the package <code>nfs-common</code> is installed:</p>
+<div class="highlight"><pre><span></span><code>sudo apt update <span class="o">&amp;&amp;</span> sudo apt install nfs-common -y
 </code></pre></div>
 
 </li>
 <li>
-<p>Install MicroK8s from the <code class="codehilite"><span class="err">1.15/stable</span></code> channel:</p>
-<div class="codehilite"><pre><span></span><code>sudo snap install microk8s --classic --channel<span class="o">=</span><span class="m">1</span>.15/stable <span class="o">&amp;&amp;</span> <span class="se">\</span>
-sudo usermod -a -G microk8s <span class="nv">$USER</span>  <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<p>Install MicroK8s from the <code>1.15/stable</code> channel:</p>
+<div class="highlight"><pre><span></span><code>sudo snap install microk8s --classic --channel<span class="o">=</span><span class="m">1</span>.15/stable
+sudo usermod -a -G microk8s <span class="nv">$USER</span>
 sudo su - <span class="nv">$USER</span>
 </code></pre></div>
 
 </li>
 <li>
 <p>Check that MicroK8s is running:</p>
-<div class="codehilite"><pre><span></span><code>$ microk8s.status --wait-ready
+<div class="highlight"><pre><span></span><code>$ microk8s.status --wait-ready
 microk8s is running
 addons:
 knative: disabled
@@ -616,40 +616,36 @@ dashboard: disabled
 <ol>
 <li>
 <p>Enable the following plugins on MicroK8s:</p>
-<div class="codehilite"><pre><span></span><code>sudo <span class="nb">echo</span> <span class="s2">&quot;--allow-privileged=true&quot;</span> &gt;&gt; /var/snap/microk8s/current/args/kube-apiserver <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.enable dns <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.status --wait-ready <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.enable storage <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.status --wait-ready <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.enable ingress <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.status --wait-ready <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.stop <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.start <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>sudo mkdir -p /var/snap/microk8s/current/args
+sudo <span class="nb">echo</span> <span class="s2">&quot;--allow-privileged=true&quot;</span> &gt;&gt; /var/snap/microk8s/current/args/kube-apiserver
+microk8s.status --wait-ready
+microk8s.enable dns
+microk8s.enable storage
+microk8s.enable ingress
+microk8s.status --wait-ready
+microk8s.stop
+microk8s.start
 microk8s.status --wait-ready
 </code></pre></div>
 
 </li>
 <li>
 <p>Install version v2.16.3 of the Helm client:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">HELM_PKG</span><span class="o">=</span>helm-v2.16.3-linux-amd64.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
-wget https://get.helm.sh/<span class="nv">$HELM_PKG</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-tar xvzf <span class="nv">$HELM_PKG</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-sudo mv linux-amd64/tiller linux-amd64/helm /usr/local/bin <span class="o">&amp;&amp;</span> <span class="se">\</span>
-rm -rvf <span class="nv">$HELM_PKG</span> linux-amd64/
+<div class="highlight"><pre><span></span><code>sudo snap install helm --classic --channel<span class="o">=</span><span class="m">2</span>.16/stable
 </code></pre></div>
 
 </li>
 <li>
 <p>Install the Helm server:</p>
-<div class="codehilite"><pre><span></span><code>microk8s.kubectl create serviceaccount --namespace kube-system tiller <span class="o">&amp;&amp;</span> <span class="se">\</span>
-microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole<span class="o">=</span>cluster-admin --serviceaccount<span class="o">=</span>kube-system:tiller <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>microk8s.kubectl create serviceaccount --namespace kube-system tiller
+microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole<span class="o">=</span>cluster-admin --serviceaccount<span class="o">=</span>kube-system:tiller
 helm init --service-account tiller
 </code></pre></div>
 
 </li>
 <li>
-<p>The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a <code class="codehilite"><span class="err">CrashLoopBackoff</span></code> state:</p>
-<div class="codehilite"><pre><span></span><code>microk8s.kubectl <span class="nb">wait</span> -n kube-system --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l k8s-app<span class="o">=</span>kube-dns
+<p>The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a <code>CrashLoopBackoff</code> state:</p>
+<div class="highlight"><pre><span></span><code>microk8s.kubectl <span class="nb">wait</span> -n kube-system --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l k8s-app<span class="o">=</span>kube-dns
 microk8s.kubectl <span class="nb">wait</span> -n kube-system --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l k8s-app<span class="o">=</span>hostpath-provisioner
 <span class="c1"># If the following command fails, you probably installed the wrong microk8s version</span>
 microk8s.kubectl <span class="nb">wait</span> -n default --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l <span class="nv">name</span><span class="o">=</span>nginx-ingress-microk8s
@@ -663,16 +659,16 @@ microk8s.kubectl -n kube-system <span class="nb">wait</span> --for<span class="o
 <p>You can now follow the generic <a href="../..#2-installing-codacy">Codacy installation instructions</a> but please note the following:</p>
 <ul>
 <li>
-<p>You must execute all <code class="codehilite"><span class="err">kubectl</span></code> commands as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> commands instead.</p>
+<p>You must execute all <code>kubectl</code> commands as <code>microk8s.kubectl</code> commands instead.</p>
 <p>To simplify this, we suggest that you create an alias so that you can run the commands directly as provided on the instructions:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">alias</span> <span class="nv">kubectl</span><span class="o">=</span>microk8s.kubectl
+<div class="highlight"><pre><span></span><code><span class="nb">alias</span> <span class="nv">kubectl</span><span class="o">=</span>microk8s.kubectl
 </code></pre></div>
 
 </li>
 <li>
-<p>When running the <code class="codehilite"><span class="err">helm upgrade</span></code> command that installs the Codacy chart you must append the file <code class="codehilite"><span class="err">values-microk8s.yaml</span></code> that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.</p>
-<p>You can download the file <code class="codehilite"><span class="err">values-microk8s.yaml</span></code> by running:</p>
-<div class="codehilite"><pre><span></span><code>wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
+<p>When running the <code>helm upgrade</code> command that installs the Codacy chart you must append the file <code>values-microk8s.yaml</code> that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.</p>
+<p>You can download the file <code>values-microk8s.yaml</code> by running:</p>
+<div class="highlight"><pre><span></span><code>wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
 </code></pre></div>
 
 </li>

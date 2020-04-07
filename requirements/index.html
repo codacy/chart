@@ -683,7 +683,7 @@
 </tbody>
 </table>
 <h4 id="standard-cluster-provisioning">Standard cluster provisioning<a class="headerlink" href="#standard-cluster-provisioning" title="Permanent link">&para;</a></h4>
-<p>The resources recommended on the following table are based on our experience and are also the defaults in the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy <strong>depend mainly on the rate of commits</strong> done by your team that Codacy will be analyzing.</p>
+<p>The resources recommended on the following table are based on our experience and are also the defaults in the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml"><code>values-production.yaml</code></a> file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy <strong>depend mainly on the rate of commits</strong> done by your team that Codacy will be analyzing.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.</p>
@@ -810,28 +810,28 @@
 <p>Before installing Codacy you must create a set of databases that will be used by Codacy to persist data. We also recommend that you create a dedicated user for Codacy, with access permissions only to the databases that are specific to Codacy:</p>
 <ol>
 <li>
-<p>Connect to the PostgreSQL server as a database admin user. For example, using the <code class="codehilite"><span class="err">psql</span></code> command line client:</p>
-<div class="codehilite"><pre><span></span><code>psql -U postgres -h &lt;PostgreSQL server hostname&gt;
+<p>Connect to the PostgreSQL server as a database admin user. For example, using the <code>psql</code> command line client:</p>
+<div class="highlight"><pre><span></span><code>psql -U postgres -h &lt;PostgreSQL server hostname&gt;
 </code></pre></div>
 
 </li>
 <li>
 <p>Create the dedicated user that Codacy will use to connect to PostgreSQL. Make sure that you change the username and password to suit your security needs:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;codacy&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;codacy&#39;</span><span class="p">;</span>
 <span class="k">ALTER</span> <span class="k">ROLE</span> <span class="n">codacy</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>
 </code></pre></div>
 
 <p>Take note of the username and password you define, as you will require them later to configure the connection from Codacy to the PostgreSQL server.</p>
 </li>
 <li>
-<p>Make sure that you can connect to the PostgreSQL database using the newly created user. For example, using the <code class="codehilite"><span class="err">psql</span></code> command line client:</p>
-<div class="codehilite"><pre><span></span><code>psql -U codacy -d postgres -h &lt;PostgreSQL server hostname&gt;
+<p>Make sure that you can connect to the PostgreSQL database using the newly created user. For example, using the <code>psql</code> command line client:</p>
+<div class="highlight"><pre><span></span><code>psql -U codacy -d postgres -h &lt;PostgreSQL server hostname&gt;
 </code></pre></div>
 
 </li>
 <li>
 <p>Create the databases required by Codacy:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">accounts</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">analysis</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">results</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">metrics</span> <span class="k">WITH</span> <span class="k">OWNER</span><span class="o">=</span><span class="n">codacy</span><span class="p">;</span>

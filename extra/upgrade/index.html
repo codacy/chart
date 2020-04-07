@@ -469,16 +469,16 @@
                 
                 <h1 id="upgrading-codacy">Upgrading Codacy<a class="headerlink" href="#upgrading-codacy" title="Permanent link">&para;</a></h1>
 <p><strong>NOTE:</strong>
-You can retrieve your previous <code class="codehilite"><span class="err">--set</span></code> arguments cleanly, with
-<code class="codehilite"><span class="err">helm get values &lt;release name&gt;</span></code>. If you direct this into a file
-(<code class="codehilite"><span class="err">helm get values &lt;release name&gt; &gt; codacy.yaml</span></code>), you can safely pass this
-file via <code class="codehilite"><span class="err">-f</span></code>, like <code class="codehilite"><span class="err">helm upgrade codacy codacy/codacy -f codacy.yaml</span></code>.
-This safely replaces the behavior of <code class="codehilite"><span class="err">--reuse-values</span></code></p>
+You can retrieve your previous <code>--set</code> arguments cleanly, with
+<code>helm get values &lt;release name&gt;</code>. If you direct this into a file
+(<code>helm get values &lt;release name&gt; &gt; codacy.yaml</code>), you can safely pass this
+file via <code>-f</code>, like <code>helm upgrade codacy codacy/codacy -f codacy.yaml</code>.
+This safely replaces the behavior of <code>--reuse-values</code></p>
 <p>The following are the steps to upgrade Codacy to a newer version:</p>
 <ol>
 <li>
-<p>Extract your previous <code class="codehilite"><span class="err">--set</span></code> arguments with:</p>
-<div class="codehilite"><pre><span></span><code>helm get values codacy &gt; codacy.yaml
+<p>Extract your previous <code>--set</code> arguments with:</p>
+<div class="highlight"><pre><span></span><code>helm get values codacy &gt; codacy.yaml
 </code></pre></div>
 
 </li>
@@ -486,8 +486,8 @@ This safely replaces the behavior of <code class="codehilite"><span class="err">
 <p>Decide on all the values you need to set.</p>
 </li>
 <li>
-<p>Perform the upgrade, with all <code class="codehilite"><span class="err">--set</span></code> arguments extracted in step 2:</p>
-<div class="codehilite"><pre><span></span><code>helm upgrade codacy codacy/codacy <span class="se">\</span>
+<p>Perform the upgrade, with all <code>--set</code> arguments extracted in step 2:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade codacy codacy/codacy <span class="se">\</span>
   -f codacy.yaml <span class="se">\</span>
   --set ...
 </code></pre></div>

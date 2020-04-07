@@ -597,32 +597,32 @@
 <li>results</li>
 </ol>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p>The following operations must be executed by a user which has elevated access (<code class="codehilite"><span class="err">SUPERUSER</span></code>) in the Postgres databases.</p>
+<p>The following operations must be executed by a user which has elevated access (<code>SUPERUSER</code>) in the Postgres databases.</p>
 <h2 id="dumping-your-current-data-out-of-a-running-postgres">Dumping your current data out of a running Postgres<a class="headerlink" href="#dumping-your-current-data-out-of-a-running-postgres" title="Permanent link">&para;</a></h2>
 <p>You will need to know the following:</p>
 <ul>
-<li><code class="codehilite"><span class="err">$HOSTNAME</span></code> - the hostname where the database is located.</li>
-<li><code class="codehilite"><span class="err">$DB_USER</span></code> - the username with privileged access to the database that will perform the dump.</li>
-<li><code class="codehilite"><span class="err">$DB</span></code> - the database that you would like to export.</li>
-<li><code class="codehilite"><span class="err">$DB_PASSWORD</span></code> - the database password.</li>
+<li><code>$HOSTNAME</code> - the hostname where the database is located.</li>
+<li><code>$DB_USER</code> - the username with privileged access to the database that will perform the dump.</li>
+<li><code>$DB</code> - the database that you would like to export.</li>
+<li><code>$DB_PASSWORD</code> - the database password.</li>
 </ul>
 <h3 id="pg_dump">pg_dump<a class="headerlink" href="#pg_dump" title="Permanent link">&para;</a></h3>
 <p>The following command lets you extract a given database into a dump file:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar
+<div class="highlight"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_dump -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t -f /tmp/<span class="nv">$DB</span>.sql.tar
 </code></pre></div>
 
-<p>This will dump the file with the <code class="codehilite"><span class="na">.sql.tar</span></code> extension into the <code class="codehilite"><span class="err">/tmp</span></code> folder.</p>
+<p>This will dump the file with the <code>.sql.tar</code> extension into the <code>/tmp</code> folder.</p>
 <p><a href="https://www.postgresql.org/docs/10/app-pgdump.html">For more information and additional options, please check the official documentation.</a></p>
 <h3 id="pg_restore">pg_restore<a class="headerlink" href="#pg_restore" title="Permanent link">&para;</a></h3>
-<p>To restore a database, you can run a <code class="codehilite"><span class="err">pg_restore</span></code> command to consume the dump file and replicate the data onto Postgres:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar --clean --if-exists --create
+<p>To restore a database, you can run a <code>pg_restore</code> command to consume the dump file and replicate the data onto Postgres:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="nv">$DB_PASSWORD</span> pg_restore -h <span class="nv">$HOSTNAME</span> -U <span class="nv">$DB_USER</span> -d <span class="nv">$DB</span> -F t /tmp/<span class="nv">$DB</span>.sql.tar --clean --if-exists --create
 </code></pre></div>
 
-<p><em>NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called <code class="codehilite"><span class="err">jobs</span></code> created there)</em></p>
+<p><em>NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called <code>jobs</code> created there)</em></p>
 <p><a href="https://www.postgresql.org/docs/9.6/app-pgrestore.html">For more information and additional options, please check the official documentation.</a></p>
 <h2 id="sample-script">Sample script<a class="headerlink" href="#sample-script" title="Permanent link">&para;</a></h2>
-<p>Assuming you have the same <code class="codehilite"><span class="err">$DB_USER</span></code> and <code class="codehilite"><span class="err">$DB_PASSWORD</span></code>, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">SRC_HOSTNAME</span><span class="o">=</span><span class="nv">$1</span>
+<p>Assuming you have the same <code>$DB_USER</code> and <code>$DB_PASSWORD</code>, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">SRC_HOSTNAME</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">DEST_HOSTNAME</span><span class="o">=</span><span class="nv">$2</span>
 <span class="nv">DB_USER</span><span class="o">=</span><span class="nv">$3</span>
 <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="nv">$4</span>
@@ -636,7 +636,7 @@
 </code></pre></div>
 
 <p>You could simply invoke it with:</p>
-<div class="codehilite"><pre><span></span><code>migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com postgres–instance1.eu-west-1.rds.amazonaws.com super_user secret_password
+<div class="highlight"><pre><span></span><code>migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com postgres–instance1.eu-west-1.rds.amazonaws.com super_user secret_password
 </code></pre></div>
                 
                   

@@ -578,7 +578,7 @@
 <p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> within one minor version difference of your cluster</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p><strong>If you are using MicroK8s</strong> you don't need to install kubectl because you will execute all <code class="codehilite"><span class="err">kubectl</span></code> commands as <code class="codehilite"><span class="err">microk8s.kubectl</span></code> commands instead. To simplify this, <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">check how to create an alias</a> for <code class="codehilite"><span class="err">kubectl</span></code>.</p>
+<p><strong>If you are using MicroK8s</strong> you don't need to install kubectl because you will execute all <code>kubectl</code> commands as <code>microk8s.kubectl</code> commands instead. To simplify this, <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">check how to create an alias</a> for <code>kubectl</code>.</p>
 </div>
 </li>
 <li>
@@ -587,15 +587,15 @@
 </ul>
 </li>
 <li>
-<p>Create a cluster namespace called <code class="codehilite"><span class="err">codacy</span></code> that will group all resources related to Codacy.</p>
-<div class="codehilite"><pre><span></span><code>kubectl create namespace codacy
+<p>Create a cluster namespace called <code>codacy</code> that will group all resources related to Codacy.</p>
+<div class="highlight"><pre><span></span><code>kubectl create namespace codacy
 </code></pre></div>
 
 </li>
 <li>
 <p>Add the Docker registry credentials provided by Codacy together with your license to a cluster Secret. This is necessary because some Codacy Docker images are currently private.</p>
-<p>Substitute <code class="codehilite"><span class="err">&lt;docker_username&gt;</span></code> and <code class="codehilite"><span class="err">&lt;docker_password&gt;</span></code> with the Docker registry username and password and run the following command:</p>
-<div class="codehilite"><pre><span></span><code>kubectl create secret docker-registry docker-credentials <span class="se">\</span>
+<p>Substitute <code>&lt;docker_username&gt;</code> and <code>&lt;docker_password&gt;</code> with the Docker registry username and password and run the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl create secret docker-registry docker-credentials <span class="se">\</span>
     --docker-username<span class="o">=</span>&lt;docker_username&gt; <span class="se">\</span>
     --docker-password<span class="o">=</span>&lt;docker_password&gt; <span class="se">\</span>
     --namespace codacy
@@ -603,8 +603,8 @@
 
 </li>
 <li>
-<p>Download the template file <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml" target="_blank"><code class="codehilite"><span class="err">values-production.yaml</span></code></a> and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:</p>
-<div class="codehilite"><pre><span></span><code>wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml
+<p>Download the template file <a href="https://github.com/codacy/chart/blob/master/codacy/values-production.yaml" target="_blank"><code>values-production.yaml</code></a> and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:</p>
+<div class="highlight"><pre><span></span><code>wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml
 </code></pre></div>
 
 </li>
@@ -616,12 +616,12 @@
 </div>
 </li>
 <li>
-<p>Add Codacy's chart repository to your Helm client and install the Codacy chart using the file <code class="codehilite"><span class="err">values-production.yaml</span></code> created previously.</p>
+<p>Add Codacy's chart repository to your Helm client and install the Codacy chart using the file <code>values-production.yaml</code> created previously.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p><strong>If you are using MicroK8s</strong> don't forget to use the file <code class="codehilite"><span class="err">values-microk8s.yaml</span></code> together with the file <code class="codehilite"><span class="err">values-production.yaml</span></code> as <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">described here</a>. To do this, uncomment the last line before running the command below.</p>
+<p><strong>If you are using MicroK8s</strong> don't forget to use the file <code>values-microk8s.yaml</code> together with the file <code>values-production.yaml</code> as <a href="infrastructure/microk8s-quickstart/#notes-on-installing-codacy">described here</a>. To do this, uncomment the last line before running the command below.</p>
 </div>
-<div class="codehilite"><pre><span></span><code>helm repo add codacy-stable https://charts.codacy.com/stable/
+<div class="highlight"><pre><span></span><code>helm repo add codacy-stable https://charts.codacy.com/stable/
 helm repo update
 helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
              --namespace codacy <span class="se">\</span>
@@ -632,7 +632,7 @@ helm upgrade --install codacy codacy-stable/codacy <span class="se">\</span>
 </li>
 <li>
 <p>By now all the Codacy pods should be starting in the cluster. Run the following command <strong>and wait for all the pods to have the status Running</strong> to verify this:</p>
-<div class="codehilite"><pre><span></span><code>$ kubectl get pods -n codacy
+<div class="highlight"><pre><span></span><code>$ kubectl get pods -n codacy
 NAME                                            READY   STATUS    RESTARTS   AGE
 codacy-activities-6d9db9499-stk2k               <span class="m">1</span>/1     Running   <span class="m">2</span>          8m57s
 codacy-activitiesdb-0                           <span class="m">1</span>/1     Running   <span class="m">0</span>          8m57s
@@ -664,7 +664,7 @@ codacy-worker-manager-656dbf8d6d-n4j7c          <span class="m">1</span>/1     R
 <p>After successfully installing Codacy on your cluster, you are now ready to perform the post-install configuration steps:</p>
 <ol>
 <li>
-<p>Use a browser to navigate to the Codacy hostname previously configured on the file <code class="codehilite"><span class="err">values-production.yaml</span></code>.</p>
+<p>Use a browser to navigate to the Codacy hostname previously configured on the file <code>values-production.yaml</code>.</p>
 </li>
 <li>
 <p>Follow Codacy's onboarding process, which will guide you through the following steps:</p>

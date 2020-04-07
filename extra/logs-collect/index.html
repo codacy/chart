@@ -471,13 +471,13 @@
 <p>To help troubleshoot issues, obtain the logs from your Codacy instance and send them to Codacy's Support:</p>
 <ol>
 <li>
-<p>Download the logs of the last 7 days as an archive file with the name <code class="codehilite"><span class="err">codacy_logs_&lt;timestamp&gt;.zip</span></code> by running the following command locally, replacing <code class="codehilite"><span class="err">&lt;namespace&gt;</span></code> with the namespace in which Codacy was installed:</p>
-<div class="codehilite"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
+<p>Download the logs of the last 7 days as an archive file with the name <code>codacy_logs_&lt;timestamp&gt;.zip</code> by running the following command locally, replacing <code>&lt;namespace&gt;</code> with the namespace in which Codacy was installed:</p>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
     -n &lt;namespace&gt;
 </code></pre></div>
 
-<p>To reduce the size of the compressed archive file, you should retrieve logs for a smaller number of days by replacing <code class="codehilite"><span class="err">&lt;days&gt;</span></code> with a number between 1 and 7:</p>
-<div class="codehilite"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
+<p>To reduce the size of the compressed archive file, you should retrieve logs for a smaller number of days by replacing <code>&lt;days&gt;</code> with a number between 1 and 7:</p>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
     -n &lt;namespace&gt; -d &lt;days&gt;
 </code></pre></div>
 

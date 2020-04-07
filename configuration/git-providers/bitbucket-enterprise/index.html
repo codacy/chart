@@ -567,26 +567,26 @@
                 
                 
                 <h1 id="bitbucket-server">Bitbucket Server<a class="headerlink" href="#bitbucket-server" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your Bitbucket instance on the <code class="codehilite"><span class="err">values.yaml</span></code> file.</p>
+<p>Set your configuration values for your Bitbucket instance on the <code>values.yaml</code> file.</p>
 <p><strong>NOTE:</strong> Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:</p>
 <ol>
 <li>
 <p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following commands below, making sure that you don't define a passphrase:</p>
 </li>
 <li>
-<p><code class="codehilite"><span class="err">openssl genrsa -out mykey</span></code></p>
+<p><code>openssl genrsa -out mykey</code></p>
 </li>
-<li><code class="codehilite"><span class="err">openssl pkcs8 -nocrypt -in mykey -out mykeypkcs8 -topk8</span></code></li>
+<li><code>openssl pkcs8 -nocrypt -in mykey -out mykeypkcs8 -topk8</code></li>
 <li>
-<p><code class="codehilite"><span class="err">openssl rsa -in mykey -pubout -out mykey.pub</span></code></p>
+<p><code>openssl rsa -in mykey -pubout -out mykey.pub</code></p>
 </li>
 <li>
-<p>Copy the private key from the <code class="codehilite"><span class="err">mykeypkcs8</span></code> file and set it in the <code class="codehilite"><span class="err">consumerPrivateKey</span></code>, ignoring the first and last lines.</p>
+<p>Copy the private key from the <code>mykeypkcs8</code> file and set it in the <code>consumerPrivateKey</code>, ignoring the first and last lines.</p>
 </li>
-<li>Copy the public key from the <code class="codehilite"><span class="err">mykey.pub</span></code> file and set it in the <code class="codehilite"><span class="err">consumerPublicKey</span></code>, ignoring the first and last lines. </li>
+<li>Copy the public key from the <code>mykey.pub</code> file and set it in the <code>consumerPublicKey</code>, ignoring the first and last lines. </li>
 </ol>
-<p><strong>Please note that you must go to <code class="codehilite"><span class="c">http://codacy.example.com/admin/integrations</span></code>, select the desired provider and <code class="codehilite"><span class="err">Test &amp; Save</span></code> your configuration for it to be applied.</strong></p>
-<p>Go to <code class="codehilite"><span class="err">admin/integration</span></code> on Codacy and set the <strong>Project Keys</strong> on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.</p>
+<p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
+<p>Go to <code>admin/integration</code> on Codacy and set the <strong>Project Keys</strong> on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.</p>
 <p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
 <h2 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h2>
 <p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.
