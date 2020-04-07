@@ -38,7 +38,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:2.1.5
+      - image: codacy/qa-automation-test-runner:2.1.6
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -106,17 +106,17 @@ references:
     RP_ENDPOINT: https://reportportal.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
-    TEST_PATH: Suite/Enterprise/RELEASE/WEB.xml
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
     LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     LAUNCH_NAME: WEB_K8S_RELEASE
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
-    TEST_PATH: Suite/Enterprise/RELEASE/E2E.xml
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/E2E.xml
     LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
     LAUNCH_NAME: E2E_K8S_RELEASE
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
-    TEST_PATH: Suite/Enterprise/RELEASE/API.xml
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
     LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
     LAUNCH_NAME: API_K8S_RELEASE
 
