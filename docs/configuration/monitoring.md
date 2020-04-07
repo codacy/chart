@@ -32,7 +32,15 @@ Follow the steps below to configure Crow and change the default configurations:
           url: "http://codacy.example.com/monitoring"
     ```
 
-2.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
+2.  Set the `crow.crowdb.postgresqlPassword` value in your `values.yaml` file to define the password to [access the Crow PostgreSQL database](../requirements.md#preparing-postgresql-for-codacy):
+
+    ```yaml
+    crow:
+      crowdb:
+        postgresqlPassword: <--- Crow database password --->
+    ```
+
+3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
 
     ```yaml
     crow:
@@ -41,7 +49,7 @@ Follow the steps below to configure Crow and change the default configurations:
           password: <--- Crow password --->
     ```
 
-3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
+4.  Apply this configuration by performing a Helm upgrade. To do so append `--values values.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
