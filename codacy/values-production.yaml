@@ -1,6 +1,6 @@
 global:
   github: {}
-    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
     # app:
     #   name: "codacy"
@@ -8,7 +8,7 @@ global:
     #   privateKey: ""
 
   githubEnterprise: {}
-    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
     # hostname: "example.host.com"
     # port: 443
@@ -21,14 +21,14 @@ global:
     #   privateKey: ""
 
   gitlabEnterprise: {}
-    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
     # hostname: "example.host.com"
     # protocol: "https"
     # port: 443
 
   bitbucketEnterprise: {}
-    # if you set this provider configuration, you must save it on the admin/integrations ui.
+    # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
     # hostname: "example.host.com"
     # protocol: "http"
@@ -36,6 +36,7 @@ global:
     # consumerKey: ""
     # consumerPublicKey: ""
     # consumerPrivateKey: ""
+
   imagePullSecrets:
     - name: docker-credentials
   codacy:
