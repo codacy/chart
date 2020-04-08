@@ -251,6 +251,7 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 2
+      resolveDbsIps: false
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds

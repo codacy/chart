@@ -313,6 +313,7 @@ worker-manager:
       workerPass: "rabbitmq"
     workers:
       dedicatedMax: 5
+      resolveDbsIps: false
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000

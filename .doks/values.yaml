@@ -119,6 +119,7 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 20
+      resolveDbsIps: false
 
 fluentdoperator:
   enabled: true
