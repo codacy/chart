@@ -101,6 +101,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
 | `global.github.enabled`                         | Enable github                                                                                                | `nil`           |
 | `global.github.app.id`                          | App id used in Codacy to integrate with GitHub Apps                                                          | `nil`           |
+| `global.github.app.name`                        | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .              | `codacy`        |
 | `global.github.app.privateKey`                  | Private key generated after the GitHub App's creation                                                        | `nil`           |
 | `global.githubEnterprise.enabled`               | Enable githubEnterprise                                                                                      | `nil`           |
 | `global.githubEnterprise.hostname`              | Hostname of githubEnterprise instance                                                                        | `nil`           |
@@ -109,6 +110,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.githubEnterprise.isPrivateMode`         | Status of private mode on githubEnterprise instance                                                          | `nil`           |
 | `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`           |
 | `global.githubEnterprise.app.id`                | App id used in Codacy to integrate with GitHub Apps in GitHub Enterprise                                     | `nil`           |
+| `global.githubEnterprise.app.name`              | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .              | `codacy`        |
 | `global.githubEnterprise.app.privateKey`        | Private key generated after the GitHub App's creation in GitHub Enterprise                                   | `nil`           |
 | `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
 | `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |
@@ -190,7 +192,6 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.image.tag`                              | Image tag                                                                                           | from dependency                              |
 | `codacy-api.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
 | `codacy-api.config.license`                         | Codacy license for your installation                                                                | `nil`                                        |
-| `codacy-api.config.github.clientName`               | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .     | `codacy-login`                               |
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
