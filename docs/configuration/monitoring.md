@@ -23,22 +23,22 @@ The Crow tool is installed alongside Codacy when the Helm chart is deployed to t
 
 Follow the steps below to set up Crow and change the default configurations:
 
-1.  Set the `global.codacy.crow.url` value in your `values.yaml` file so that Crow correctly generates anchor links to your projects. For example:
-
-    ```yaml
-    global:
-      codacy:
-        crow:
-          url: "http://codacy.example.com/monitoring"
-    ```
-
-2.  Set the user name, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy):
+1.  Set the user name, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy):
 
     ```yaml
     crowdb:
       postgresqlUsername: <--- codacy-db-username --->
       postgresqlPassword: <--- codacy-db-password --->
       host: <--- codacy-db-host --->
+    ```
+
+2.  Set the `global.codacy.crow.url` value in your `values.yaml` file so that Crow correctly generates anchor links to your projects. For example:
+
+    ```yaml
+    global:
+      codacy:
+        crow:
+          url: "http://codacy.example.com/monitoring"
     ```
 
 3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
