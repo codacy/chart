@@ -32,12 +32,13 @@ Follow the steps below to set up Crow and change the default configurations:
           url: "http://codacy.example.com/monitoring"
     ```
 
-2.  Set the `crow.crowdb.postgresqlPassword` value in your `values.yaml` file to define the password to [access the Crow PostgreSQL database](../requirements.md#preparing-postgresql-for-codacy):
+2.  Set the user name, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy):
 
     ```yaml
-    crow:
-      crowdb:
-        postgresqlPassword: <--- Crow database password --->
+    crowdb:
+      postgresqlUsername: <--- codacy-db-username --->
+      postgresqlPassword: <--- codacy-db-password --->
+      host: <--- codacy-db-host --->
     ```
 
 3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
