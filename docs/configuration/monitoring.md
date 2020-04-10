@@ -11,9 +11,9 @@ The sections below provide details on how to set up each monitoring solution.
 
 Crow displays information about the projects that are pending analysis and the jobs currently running on Codacy.
 
-The Crow tool is installed alongside Codacy when the Helm chart is deployed to the cluster and is configured as follows by default:
+The Crow tool is installed alongside Codacy when the Helm chart is deployed to the cluster. By default, Crow is configured as follows:
 
--   Crow is available on the `/monitoring` path of your Codacy installation URL, such as `http://codacy.company.org/monitoring`
+-   Crow will be available on the `/monitoring` path of your Codacy installation URL, such as `http://codacy.company.org/monitoring`
 -   The default credentials to access Crow are:
 
     ```yaml
@@ -21,7 +21,7 @@ The Crow tool is installed alongside Codacy when the Helm chart is deployed to t
     password: C0dacy123
     ```
 
-Follow the steps below to configure Crow and change the default configurations:
+Follow the steps below to set up Crow and change the default configurations:
 
 1.  Set the `global.codacy.crow.url` value in your `values.yaml` file so that Crow correctly generates anchor links to your projects. For example:
 
