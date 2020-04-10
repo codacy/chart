@@ -16,10 +16,8 @@ The Crow tool is installed alongside Codacy when the Helm chart is deployed to t
 -   Crow will be available on the `/monitoring` path of your Codacy installation URL, such as `http://codacy.company.org/monitoring`
 -   The default credentials to access Crow are:
 
-    ```yaml
-    username: codacy
-    password: C0dacy123
-    ```
+    -   Username: `codacy`
+    -   Password: `C0dacy123`
 
 Follow the steps below to set up Crow and change the default configurations:
 
@@ -43,10 +41,7 @@ Follow the steps below to set up Crow and change the default configurations:
 
 3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
 
-    ```yaml
-    crow:
-      config:
-        passwordAuth:
+    ```yamlWhat
           password: <--- Crow password --->
     ```
 
