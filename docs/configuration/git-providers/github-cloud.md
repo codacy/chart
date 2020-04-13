@@ -25,4 +25,4 @@ After the application is created, you should copy both the `Client ID` and the `
 
 ![GitHub Application](./images/github-token-retrieval.png)
 
-After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.
+After this is done you will be able to use GitHub Cloud to add repositories and as an integration in the repository settings.
