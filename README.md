@@ -101,7 +101,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
 | `global.github.enabled`                         | Enable github                                                                                                | `nil`           |
 | `global.github.app.id`                          | App id used in Codacy to integrate with GitHub Apps                                                          | `nil`           |
-| `global.github.app.name`                        | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .              | `codacy`        |
+| `global.github.app.name`                        | The name of the GitHub app to integrate with. Only required if you use the GitHub integration.               | `nil`           |
 | `global.github.app.privateKey`                  | Private key generated after the GitHub App's creation                                                        | `nil`           |
 | `global.githubEnterprise.enabled`               | Enable githubEnterprise                                                                                      | `nil`           |
 | `global.githubEnterprise.hostname`              | Hostname of githubEnterprise instance                                                                        | `nil`           |
@@ -110,7 +110,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.githubEnterprise.isPrivateMode`         | Status of private mode on githubEnterprise instance                                                          | `nil`           |
 | `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`           |
 | `global.githubEnterprise.app.id`                | App id used in Codacy to integrate with GitHub Apps in GitHub Enterprise                                     | `nil`           |
-| `global.githubEnterprise.app.name`              | The name of the GitHub app to integrate with. Only required if you use the GitHub integration .              | `codacy`        |
+| `global.githubEnterprise.app.name`              | The name of the GitHub app to integrate with. Only required if you use the GitHub Enterprise integration.    | `nil`           |
 | `global.githubEnterprise.app.privateKey`        | Private key generated after the GitHub App's creation in GitHub Enterprise                                   | `nil`           |
 | `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
 | `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |

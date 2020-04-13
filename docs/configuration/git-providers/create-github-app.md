@@ -34,11 +34,11 @@ Navigate to your GitHub installation Settings > Developer Settings > GitHub Apps
 
 Configure the name of the created app in your configuration values on the `values.yaml` file:
 
-| Field                          | Value                                                                                     |
-| ------------------------------ | ----------------------------------------------------------------------------------------- |
-| `global.github.app.name`       | GitHub App name from above. All lowercase and replace spaces with hyphens (-).            |
-| `global.github.app.id`         | GitHub App name from above.                                                               |
-| `global.github.app.privateKey` | Downlaod GitHub App private key from above. Replace all '\n' from file and copy contents. |
+| Field                                    | Value                                                                          |
+| ---------------------------------------- | ------------------------------------------------------------------------------ |
+| `global.githubEnterprise.app.name`       | GitHub App name from above. All lowercase and replace spaces with hyphens (-). |
+| `global.githubEnterprise.app.id`         | GitHub App id from above.                                                      |
+| `global.githubEnterprise.app.privateKey` | Download GitHub App private key from above and copy contents.                  |
 
 ### Codacy UI
 
