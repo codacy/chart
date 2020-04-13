@@ -322,7 +322,7 @@ worker-manager:
 
     codacy:
       worker:
-        image: stable
+        imageVersion: stable
 
     # The resources to assign to a worker pod
     workerResources:
