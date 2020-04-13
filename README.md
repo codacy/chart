@@ -100,6 +100,8 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.host`                            | Hostname of the Postgresql server                                                                            | `nil`           |
 | `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
 | `global.github.enabled`                         | Enable github                                                                                                | `nil`           |
+| `global.github.clientId`                        | Client id generated when creating the GitHub App                                                             | `nil`           |
+| `global.github.clientSecret`                    | Client secret generated when creating the GitHub App                                                         | `nil`           |
 | `global.github.app.id`                          | App id used in Codacy to integrate with GitHub Apps                                                          | `nil`           |
 | `global.github.app.name`                        | The name of the GitHub app to integrate with. Only required if you use the GitHub integration.               | `nil`           |
 | `global.github.app.privateKey`                  | Private key generated after the GitHub App's creation                                                        | `nil`           |

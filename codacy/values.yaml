@@ -26,6 +26,8 @@ global:
   github: {}
     # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
+    # clientId: ""
+    # clientSecret: ""
     # app:
     #  id: "1234"
     #  name: "codacy"
