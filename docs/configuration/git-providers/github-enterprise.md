@@ -1,5 +1,11 @@
 # GitHub Enterprise
 
+## Create a GitHub App
+
+To integrate with GitHub we use a GitHub App.
+
+Follow the guide to [create the application on GitHub](create-github-app.md).
+
 ## `values.yaml` configuration
 
 Set your configuration values for your GitHub instance on the `values.yaml` file:
@@ -17,12 +23,6 @@ Set your configuration values for your GitHub instance on the `values.yaml` file
 | `global.githubEnterprise.app.privateKey` | See below how to generate                      |
 
 **Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
-
-## Create a GitHub App
-
-To integrate with GitHub we use a GitHub App.
-
-Follow the guide to [create the application on GitHub](create-github-app.md).
 
 ## Set credentials
 
