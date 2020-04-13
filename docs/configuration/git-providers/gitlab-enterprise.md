@@ -5,7 +5,7 @@ Set your configuration values for your GitLab instance on the `values.yaml` file
 
 ## GitLab Application
 
-To integrate with GitHub we use a GitLab Application.
+To integrate with GitLab we use a GitLab Application.
 
 Create an application pointing to your local Codacy deployment URL.
 
