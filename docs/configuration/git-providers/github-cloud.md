@@ -1,33 +1,28 @@
 # GitHub Cloud
 
-To integrate with GitHub we will use a GitHub OAuth Application.
+## `values.yaml` configuration
 
-To create the application on GitHub, visit **Settings / Developer settings / OAuth Apps / New OAuth App** and create an application pointing to your local Codacy deployment URL.
+Set your configuration values for your GitHub instance on the `values.yaml` file:
 
-![GitHub Application](images/github-application.png)
+| Field                          | Value                     |
+| ------------------------------ | ------------------------- |
+| `global.github.enabled`        | `true`                    |
+| `global.github.app.name`       | See below how to generate |
+| `global.github.app.id`         | See below how to generate |
+| `global.github.app.privateKey` | See below how to generate |
 
-You can fill all the fields with the suggested text above or use your own text except for the field `Authorization callback URL` where you must insert your local Codacy deployment URL.
+**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
 
-The URL should contain the endpoint/IP, the protocol (HTTP or HTTPS), and, if applicable, the port where it is running.
+## Create a GitHub App
 
-Correct:
+To integrate with GitHub we use a GitHub App.
 
--   <http://your.codacy.url.com>
--   <http://your.codacy.url.com:9000>
--   <http://53.43.42.12gi>
--   <http://53.43.42.12:9000>
+Follow the guide to [create the application on GitHub](create-github-app.md).
 
-Incorrect:
+## Set credentials
 
--   your.codacy.url.com
--   your.codacy.url.com:9000
--   53.43.42.12
--   53.43.42.12:9000
+After the application is created, you should copy both the `Client ID` and the `Client Secret` and paste them in the setup page on your Codacy Self-hosted.
 
-## Token retrieval
+![GitHub Application](./images/github-token-retrieval.png)
 
-After the application is created, you should copy both the `Client ID` and the `Client Secret` and paste them in the setup page of Codacy.
-
-![GitHub Application](images/github-token-retrieval.png)
-
-After this is done you will be able to use GitHub Cloud as an authentication method to add repositories and as an integration in the repository settings.
+After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.
