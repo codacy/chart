@@ -57,7 +57,7 @@ references:
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}"
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -66,7 +66,7 @@ references:
     NAMESPACE: codacy-hourly
     K8S_VERSION: 1.14
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-sandbox --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX}"
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -77,7 +77,7 @@ references:
     NUM_NODES: 5
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set codacy-api.config.github.clientName=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}"
 
   ###################################################
   #  Env variables identify each deployment channel
@@ -102,7 +102,7 @@ references:
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: k8s-releases
-    LAUNCH_DESCRIPTION: 'Automated Tests Ran by CircleCI'
+    LAUNCH_DESCRIPTION: "Automated Tests Ran by CircleCI"
     RP_ENDPOINT: https://reportportal.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
@@ -130,13 +130,13 @@ references:
 
   persist_to_workspace: &persist_to_workspace
     persist_to_workspace:
-        root: ~/workdir
-        paths:
-          - '*'
+      root: ~/workdir
+      paths:
+        - "*"
 
   attach_workspace: &attach_workspace
     attach_workspace:
-          at: ~/workdir
+      at: ~/workdir
 
   update_versions: &update_versions
     run:
@@ -147,7 +147,7 @@ references:
     run:
       name: Swap requirements files
       command: |
-          mv codacy/requirements-dev.yaml codacy/requirements.yaml
+        mv codacy/requirements-dev.yaml codacy/requirements.yaml
 
   create_cluster: &create_cluster
     steps:
@@ -207,7 +207,6 @@ references:
 ############
 
 jobs:
-
   checkout:
     docker:
       - image: codacy/ci-base:1.0.1
@@ -368,8 +367,8 @@ jobs:
     steps:
       - <<: *attach_workspace
       - slack/notify:
-          channel: '#sh_releases'
-          color: '#2EB67D'
+          channel: "#sh_releases"
+          color: "#2EB67D"
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
@@ -380,7 +379,6 @@ jobs:
 ############
 
 workflows:
-
   helm_lint:
     jobs:
       - codacy/checkout_and_version:
@@ -413,7 +411,7 @@ workflows:
       - create_sandbox_cluster:
           context: CodacyDO
           requires:
-              - helm_lint
+            - helm_lint
       - deploy_to_doks_sandbox:
           context: CodacyDO
           requires:
@@ -439,7 +437,7 @@ workflows:
       - create_dev_cluster:
           context: CodacyDO
           requires:
-              - helm_lint
+            - helm_lint
       - deploy_to_doks_dev:
           context: CodacyDO
           requires:
@@ -447,12 +445,12 @@ workflows:
 
   nightly_pipeline:
     triggers:
-       - schedule:
-           cron: "0 0 * * 1-5"
-           filters:
-             branches:
-               only:
-                 - master
+      - schedule:
+          cron: "0 0 * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
@@ -569,10 +567,10 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-           - get_changelogs
-           - test_web
-           - test_e2e
-           - test_api
+            - get_changelogs
+            - test_web
+            - test_e2e
+            - test_api
       - set_chart_version_release:
           context: CodacyDO
           requires:

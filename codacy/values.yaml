@@ -28,6 +28,7 @@ global:
     # enabled: "false"
     # app:
     #  id: "1234"
+    #  name: "codacy"
     #  privateKey: ""
 
   githubEnterprise: {}
@@ -40,6 +41,7 @@ global:
     # isPrivateMode: "true"
     # app:
     #  id: "1234"
+    #  name: "codacy"
     #  privateKey: ""
 
   gitlabEnterprise: {}
@@ -293,8 +295,6 @@ codacy-api:
     play:
       configFile: "enterprise.conf"
       logFile: logback.xml
-    github:
-      clientName: "codacy-login"
   metrics:
     serviceMonitor:
       enabled: false
