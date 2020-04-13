@@ -1,22 +1,4 @@
 global:
-  defaultdb:
-    create: true
-
-  analysisdb:
-    create: true
-
-  resultsdb:
-    create: true
-
-  metricsdb:
-    create: true
-
-  filestoredb:
-    create: true
-
-  jobsdb:
-    create: true
-
   github:
     enabled: "true"
     login: "false"
@@ -84,10 +66,11 @@ activities:
     periodSeconds: 5
     failureThreshold: 5
   activitiesdb:
-    create: true
+    create: false
     persistence:
       enabled: true
       size: 250Gi
+
 
 remote-provider-service:
   replicaCount: 1
@@ -95,7 +78,7 @@ remote-provider-service:
 hotspots-api:
   replicaCount: 1
   hotspotsdb:
-    create: true
+    create: false
     persistence:
       enabled: true
       size: 250Gi
@@ -106,7 +89,7 @@ hotspots-worker:
 listener:
   replicaCount: 1
   listenerdb:
-    create: true
+    create: false
     persistence:
       enabled: true
       size: 250Gi
@@ -140,13 +123,7 @@ crow:
   replicaCount: 1
   fullnameOverride: codacy-crow
   crowdb:
-    create: true
-    host: codacy-crowdb
-    postgresqlUsername: "codacy"
-    postgresqlDatabase: "crow"
-    postgresqlPassword: "PLEASE_CHANGE_ME"
-    service:
-      port: 5432
+    create: false
     fullnameOverride: codacy-crowdb
   config:
     play:

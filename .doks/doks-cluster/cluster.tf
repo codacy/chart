@@ -5,13 +5,25 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
 
   node_pool {
     name       = "codacy-doks-pool-${terraform.workspace}"
-    size       = var.node_type
-    node_count = var.num_nodes
+    size       = "s-2vcpu-2gb"
+    auto_scale = true
+    node_count = 1
+    min_nodes = 0
+    max_nodes = 0
   }
 
   provisioner "local-exec" {
     command = "doctl kubernetes cluster kubeconfig save ${var.cluster_name} --set-current-context"
   }
+}
+
+resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
+  cluster_id = digitalocean_kubernetes_cluster.codacy_k8s.id
+  name       = "codacy-doks-pool-${terraform.workspace}-auto-scale-pool-01"
+  size       = var.node_type
+  auto_scale = true
+  min_nodes = 2
+  max_nodes = 7
 }
 
 resource "kubernetes_namespace" "codacy" {
