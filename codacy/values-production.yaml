@@ -3,6 +3,7 @@ global:
     # if you set this provider configuration, you must save it on the admin/integrations ui.
     # enabled: "false"
     # app:
+    #   name: "codacy"
     #   id: "1234"
     #   privateKey: ""
 
@@ -15,6 +16,7 @@ global:
     # disableSSL: "false"
     # isPrivateMode: "true"
     # app:
+    #   name: "codacy"
     #   id: "1234"
     #   privateKey: ""
 
