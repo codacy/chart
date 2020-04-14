@@ -34,6 +34,9 @@ global:
     protocol: "http"
     port: 80
 
+  bitbucket:
+    enabled: "true"
+
   bitbucketEnterprise:
     enabled: "true"
     hostname: "bitbucket-server.codacy.org"
