@@ -326,22 +326,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#github-application" class="md-nav__link">
-    GitHub Application
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#token-retrieval" class="md-nav__link">
-    Token retrieval
+  <a href="#valuesyaml-configuration" class="md-nav__link">
+    values.yaml configuration
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-github-app" class="md-nav__link">
+    Create a GitHub App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-credentials" class="md-nav__link">
+    Set credentials
+  </a>
   
 </li>
       
@@ -353,6 +354,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../create-github-app/" title="Create and configure a new GitHub App for GitHub Enterprise" class="md-nav__link">
+      Create and configure a new GitHub App for GitHub Enterprise
+    </a>
   </li>
 
         
@@ -502,22 +515,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#github-application" class="md-nav__link">
-    GitHub Application
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#token-retrieval" class="md-nav__link">
-    Token retrieval
+  <a href="#valuesyaml-configuration" class="md-nav__link">
+    values.yaml configuration
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-github-app" class="md-nav__link">
+    Create a GitHub App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-credentials" class="md-nav__link">
+    Set credentials
+  </a>
   
 </li>
       
@@ -539,29 +553,59 @@
                 
                 
                 <h1 id="github-enterprise">GitHub Enterprise<a class="headerlink" href="#github-enterprise" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your GitHub instance on the <code>values.yaml</code> file.
-<strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
-<h2 id="github-application">GitHub Application<a class="headerlink" href="#github-application" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitHub we use a GitHub OAuth Application.</p>
-<p>To create the application on GitHub, visit <strong>Settings / Developer settings / OAuth Apps / New OAuth App</strong> and create an application pointing to your local Codacy deployment URL.</p>
-<p><img alt="GitHub Application" src="../images/github-application.png" /></p>
-<p>You can fill all the fields with the suggested text above or use your own text except for the field <code>Authorization callback URL</code> where you must insert your local Codacy deployment url.</p>
-<p>The URL should contain the endpoint/IP, the protocol (HTTP or HTTPS), and, if applicable, the port where it is running.</p>
-<p>Correct:</p>
-<ul>
-<li><a href="http://your.codacy.url.com">http://your.codacy.url.com</a></li>
-<li><a href="http://your.codacy.url.com:9000">http://your.codacy.url.com:9000</a></li>
-<li><a href="http://53.43.42.12gi">http://53.43.42.12gi</a></li>
-<li><a href="http://53.43.42.12:9000">http://53.43.42.12:9000</a></li>
-</ul>
-<p>Incorrect:</p>
-<ul>
-<li>your.codacy.url.com</li>
-<li>your.codacy.url.com:9000</li>
-<li>53.43.42.12</li>
-<li>53.43.42.12:9000</li>
-</ul>
-<h3 id="token-retrieval">Token retrieval<a class="headerlink" href="#token-retrieval" title="Permanent link">&para;</a></h3>
+<h2 id="valuesyaml-configuration"><code>values.yaml</code> configuration<a class="headerlink" href="#valuesyaml-configuration" title="Permanent link">&para;</a></h2>
+<p>Set your configuration values for your GitHub instance on the <code>values-production.yaml</code> file:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global.githubEnterprise.enabled</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.hostname</code></td>
+<td>Hostname of your GitHub instance</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.protocol</code></td>
+<td>Protocol of your GitHub instance</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.port</code></td>
+<td>Port of your GitHub instance</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.isPrivateMode</code></td>
+<td>Status of private mode on your GitHub instance</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.disableSSL</code></td>
+<td>Disable certificate validation</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.app.name</code></td>
+<td>See below how to generate</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.app.id</code></td>
+<td>See below how to generate</td>
+</tr>
+<tr>
+<td><code>global.githubEnterprise.app.privateKey</code></td>
+<td>See below how to generate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
+<h2 id="create-a-github-app">Create a GitHub App<a class="headerlink" href="#create-a-github-app" title="Permanent link">&para;</a></h2>
+<p>To integrate with GitHub we use a GitHub App.</p>
+<p>Follow the guide to <a href="../create-github-app/">create the application on GitHub</a>.</p>
+<h2 id="set-credentials">Set credentials<a class="headerlink" href="#set-credentials" title="Permanent link">&para;</a></h2>
 <p>After the application is created, you should copy both the <code>Client ID</code> and the <code>Client Secret</code> and paste them in the setup page on your Codacy Self-hosted.</p>
 <p><img alt="GitHub Application" src="../images/github-token-retrieval.png" /></p>
 <p>After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.</p>
@@ -601,13 +645,13 @@
           </a>
         
         
-          <a href="../gitlab-enterprise/" title="GitLab Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../create-github-app/" title="Create and configure a new GitHub App for GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                GitLab Enterprise
+                Create and configure a new GitHub App for GitHub Enterprise
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
