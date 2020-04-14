@@ -30,9 +30,9 @@ Navigate to your GitHub installation Settings > Developer Settings > GitHub Apps
 
 ## Configuring a new GitHub App
 
-### `values.yaml` configuration
+### `values-production.yaml` configuration
 
-Configure the name of the created app in your configuration values on the `values.yaml` file:
+Configure the name of the created app in your configuration values on the `values-production.yaml` file:
 
 | Field                                    | Value                                                                          |
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
