@@ -2,7 +2,7 @@
 
 ## `values.yaml` configuration
 
-Set your configuration values for your GitHub instance on the `values.yaml` file:
+Set your configuration values for your GitHub instance on the `values-production.yaml` file:
 
 | Field                          | Value                     |
 | ------------------------------ | ------------------------- |

@@ -2,7 +2,7 @@
 
 ## `values.yaml` configuration
 
-Set your configuration values for your GitHub instance on the `values.yaml` file:
+Set your configuration values for your GitHub instance on the `values-production.yaml` file:
 
 | Field                                    | Value                                          |
 | ---------------------------------------- | ---------------------------------------------- |
@@ -28,6 +28,6 @@ Follow the guide to [create the application on GitHub](create-github-app.md).
 
 After the application is created, you should copy both the `Client ID` and the `Client Secret` and paste them in the setup page on your Codacy Self-hosted.
 
-![GitHub Application](./images/github-token-retrieval.png)
+![GitHub Application](images/github-token-retrieval.png)
 
 After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.
