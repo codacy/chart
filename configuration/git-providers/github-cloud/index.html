@@ -314,13 +314,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#create-a-github-app" class="md-nav__link">
     Create a GitHub App
   </a>
@@ -328,8 +321,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#set-credentials" class="md-nav__link">
-    Set credentials
+  <a href="#valuesyaml-configuration" class="md-nav__link">
+    values.yaml configuration
   </a>
   
 </li>
@@ -515,13 +508,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#create-a-github-app" class="md-nav__link">
     Create a GitHub App
   </a>
@@ -529,8 +515,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#set-credentials" class="md-nav__link">
-    Set credentials
+  <a href="#valuesyaml-configuration" class="md-nav__link">
+    values.yaml configuration
   </a>
   
 </li>
@@ -553,8 +539,11 @@
                 
                 
                 <h1 id="github-cloud">GitHub Cloud<a class="headerlink" href="#github-cloud" title="Permanent link">&para;</a></h1>
+<h2 id="create-a-github-app">Create a GitHub App<a class="headerlink" href="#create-a-github-app" title="Permanent link">&para;</a></h2>
+<p>To integrate with GitHub we use a GitHub App.</p>
+<p>Follow the guide to <a href="../create-github-app/">create the application on GitHub</a>.</p>
 <h2 id="valuesyaml-configuration"><code>values.yaml</code> configuration<a class="headerlink" href="#valuesyaml-configuration" title="Permanent link">&para;</a></h2>
-<p>Set your configuration values for your GitHub instance on the <code>values-production.yaml</code> file:</p>
+<p>Set your configuration values for the GitHub App on the <code>values.yaml</code> file:</p>
 <table>
 <thead>
 <tr>
@@ -569,26 +558,27 @@
 </tr>
 <tr>
 <td><code>global.github.app.name</code></td>
-<td>See below how to generate</td>
+<td>See above how to generate</td>
 </tr>
 <tr>
 <td><code>global.github.app.id</code></td>
-<td>See below how to generate</td>
+<td>See above how to generate</td>
 </tr>
 <tr>
 <td><code>global.github.app.privateKey</code></td>
-<td>See below how to generate</td>
+<td>See above how to generate</td>
+</tr>
+<tr>
+<td><code>global.github.clientId</code></td>
+<td>See above how to generate</td>
+</tr>
+<tr>
+<td><code>global.github.clientSecret</code></td>
+<td>See above how to generate</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
-<h2 id="create-a-github-app">Create a GitHub App<a class="headerlink" href="#create-a-github-app" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitHub we use a GitHub App.</p>
-<p>Follow the guide to <a href="../create-github-app/">create the application on GitHub</a>.</p>
-<h2 id="set-credentials">Set credentials<a class="headerlink" href="#set-credentials" title="Permanent link">&para;</a></h2>
-<p>After the application is created, you should copy both the <code>Client ID</code> and the <code>Client Secret</code> and paste them in the setup page on your Codacy Self-hosted.</p>
-<p><img alt="GitHub Application" src="../images/github-token-retrieval.png" /></p>
-<p>After this is done you will be able to use GitHub Cloud to add repositories and as an integration in the repository settings.</p>
                 
                   
                 
