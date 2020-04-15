@@ -4,30 +4,41 @@ You must create and correctly set up a [GitHub App](https://developer.github.com
 
 To create the GitHub App:
 
-*   **If you're using GitHub Cloud**, open <https://github.com/settings/apps/new>.
+1.  **If you're using GitHub Cloud**, open <https://github.com/settings/apps/new>.
 
-*   **If you're using GitHub Enterprise**, open `https://<github hostname>/settings/apps/new`, where `<github hostname>` is the hostname of your own GitHub Enterprise instance.
+    **If you're using GitHub Enterprise**, open `https://<github hostname>/settings/apps/new`, where `<github hostname>` is the hostname of your own GitHub Enterprise instance.
 
-Then, configure the new GitHub App using the values listed on the table below, replacing `<codacy hostname>` with the hostname of your Codacy instance.
+2.  Configure the new GitHub App using the values listed on the table below, replacing `<codacy hostname>` with the hostname of your Codacy instance.
 
-| Field                                   | Value                                                  |
-| --------------------------------------- | ------------------------------------------------------ |
-| GitHub App name                         | Codacy                                                 |
-| Homepage URL                            | `https://<codacy hostname>`                            |
-| User authorization callback URL         | `https://<codacy hostname>`                            |
-| Webhook URL                             | `https://<codacy hostname>/2.0/events/gh/organization` |
-| **Repository permissions**              |                                                        |
-| Administration                          | Read & write                                           |
-| Checks                                  | Read & write                                           |
-| Issues                                  | Read & write                                           |
-| Metadata                                | Read only                                              |
-| Pull requests                           | Read & write                                           |
-| Webhooks                                | Read & write                                           |
-| Commit statuses                         | Read & write                                           |
-| **Organization permissions**            |                                                        |
-| Members                                 | Read only                                              |
-| Webhooks                                | Read & write                                           |
-| **User permissions**                    |                                                        |
-| Email addresses                         | Read only                                              |
-| Git SSH keys                            | Read & write                                           |
-| Where can this GitHub App be installed? | Any account                                            |
+    | Field                                   | Value                                                  |
+    | --------------------------------------- | ------------------------------------------------------ |
+    | GitHub App name                         | Codacy                                                 |
+    | Homepage URL                            | `https://<codacy hostname>`                            |
+    | User authorization callback URL         | `https://<codacy hostname>`                            |
+    | Webhook URL                             | `https://<codacy hostname>/2.0/events/gh/organization` |
+    | **Repository permissions**              |                                                        |
+    | Administration                          | Read & write                                           |
+    | Checks                                  | Read & write                                           |
+    | Issues                                  | Read & write                                           |
+    | Metadata                                | Read only                                              |
+    | Pull requests                           | Read & write                                           |
+    | Webhooks                                | Read & write                                           |
+    | Commit statuses                         | Read & write                                           |
+    | **Organization permissions**            |                                                        |
+    | Members                                 | Read only                                              |
+    | Webhooks                                | Read & write                                           |
+    | **User permissions**                    |                                                        |
+    | Email addresses                         | Read only                                              |
+    | Git SSH keys                            | Read & write                                           |
+    | Where can this GitHub App be installed? | Any account                                            |
+
+3. Scroll to the bottom of the page, click **Generate a private key**, and save the `.pem` file containing the private key.
+
+4.  Take note of the following information, as you'll need it to configure Codacy:
+
+    * GitHub App name 
+    * App ID
+    * Client ID
+    * Client secret
+    * Private key (contents of the `.pem` file generated in the previous step)
+ 
