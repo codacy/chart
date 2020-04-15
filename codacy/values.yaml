@@ -29,8 +29,8 @@ global:
     # clientId: ""
     # clientSecret: ""
     # app:
-    #  id: "1234"
     #  name: "codacy"
+    #  id: "1234"
     #  privateKey: ""
 
   githubEnterprise: {}
@@ -42,8 +42,8 @@ global:
     # disableSSL: "false"
     # isPrivateMode: "true"
     # app:
-    #  id: "1234"
     #  name: "codacy"
+    #  id: "1234"
     #  privateKey: ""
 
   gitlabEnterprise: {}
