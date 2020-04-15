@@ -19,17 +19,22 @@ OAuth needs a key and secret, together these are known as an OAuth consumer. You
      ![Bitbucket Consumer Key and Secret](./images/bitbucket-consumer-key-and-secret.png)
 
 ## Enable Bitbucket and set the key and the secret
-Set your configuration values for Bitbucket on the `values.yaml` file.
+Set your configuration values for Bitbucket on the `values-production.yaml` file.
 
 1. Enable Bitbucket by setting `enable` to `"true"`.
 1. Copy the key from Bitbucket and set it in the `key` field.
-1. Copy the secret from Bitbucket and set it in the `secret`field.
-
-Example:
-```yaml
-global:
-  bitbucket:
-    enabled: "true"
-    key: "12345232123"
-    secret: "54321abcxdawj4bfsdh3"
-```
+1. Copy the secret from Bitbucket and set it in the `secret`field.  
+   Example:
+   ```yaml
+   global:
+   bitbucket:
+      enabled: "true"
+      key: "12345232123"
+      secret: "54321abcxdawj4bfsdh3"
+   ```
+ 1. Apply the configuration by issuing an helm upgrade.  
+    Example:
+    ```bash
+    helm upgrade (...options used to install codacy...) \
+    --values values-production.yaml
+    ```

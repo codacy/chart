@@ -80,6 +80,7 @@ references:
     CODACY_URL: http://release.k8s.dev.codacy.org
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE} --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_RELEASE} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_RELEASE} --set global.bitbucket.key="${BITBUCKET_KEY_RELEASE}" --set global.bitbucket.secret="${BITBUCKET_SECRET_RELEASE}"
 
+
   ###################################################
   #  Env variables identify each deployment channel
   ##################################################
