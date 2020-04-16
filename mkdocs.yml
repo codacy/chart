@@ -51,6 +51,7 @@ nav:
     - configuration/git-providers/gitlab-cloud.md
     - configuration/git-providers/gitlab-enterprise.md
     - configuration/git-providers/bitbucket-server.md
+    - configuration/git-providers/create-bitbucket-server-application-link.md
     - configuration/monitoring.md
   - "Extra":
     - extra/upgrade.md
