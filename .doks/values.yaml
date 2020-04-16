@@ -42,7 +42,6 @@ global:
     hostname: "bitbucket-server.codacy.org"
     protocol: "http"
     port: 7990
-    consumerKey: "codacy-stash-link"
 
 codacy-ingress:
   create: true

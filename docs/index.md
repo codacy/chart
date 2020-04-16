@@ -130,7 +130,7 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
         -   [GitHub Enterprise](configuration/git-providers/github-enterprise.md)
         -   [GitLab Cloud](configuration/git-providers/gitlab-cloud.md)
         -   [GitLab Enterprise](configuration/git-providers/gitlab-enterprise.md)
-        -   [Bitbucket Enterprise](configuration/git-providers/bitbucket-enterprise.md)
+        -   [Bitbucket Enterprise](configuration/git-providers/bitbucket-server.md)
     -   Creating an initial organization
     -   Inviting users to Codacy
 
