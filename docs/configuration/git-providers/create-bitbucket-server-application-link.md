@@ -5,6 +5,7 @@
 ## Generating the secrets
 
 1. Create a key pair using the RSA algorithm in the PKCS#8 format by running the following commands below, making sure that you don't define a passphrase:
+1.  Create a key pair using the RSA algorithm in the PKCS#8 format by running the following command below:
 
    ```bash
    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/git-providers/generate-bitbucket-server-secrets.sh)
