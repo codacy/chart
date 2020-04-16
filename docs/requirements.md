@@ -54,8 +54,8 @@ The resources recommended on the following table are based on our experience and
 | Kubernetes<br/>Small Installation            | 1                      | 2                        | 4 vCPUs<br/>8 GB RAM     | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
 | Kubernetes<br/>Medium Installation (default) | 2                      | 4                        | 8 vCPUs<br/>16 GB RAM    | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
 | Kubernetes<br/>Big Installation              | 2+                     | 10+                      | 8+ vCPUs<br/>16+ GB RAM  | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
-| MicroK8s<br/>Minimum                         | 1 1                    | 2                        | 5.5 vCPUs<br/>9.5 GB RAM | 10 vCPUs<br/>20 GB RAM    | **6 vCPUs<br/>32 GB RAM**     |
-| MicroK8s<br/>Recommended (default)           | 2 1-2                  | 2                        | 11+ vCPUs<br/>20+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **0+ vCPUs<br/>32+ GB RAM**   |
+| MicroK8s<br/>Minimum                         | 1 1                    | 2                        | 5.5 vCPUs<br/>9.5 GB RAM | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**     |
+| MicroK8s<br/>Recommended (default)           | 2 1-2                  | 2                        | 11+ vCPUs<br/>20+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **21+ vCPUs<br/>40+ GB RAM**   |
 
 The storage requirements recommended on the following table **depend mainly on the number of repositories** that Codacy will be analyzing and should be used as a guideline to determine your installation requirements.
 
