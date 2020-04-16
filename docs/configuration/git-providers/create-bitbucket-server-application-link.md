@@ -20,19 +20,16 @@ To set up Bitbucket Server you need to create an application link on your Bitbuc
 
 ### Application Link Creation
 
-Open `<bitbucket server base url>/plugins/servlet/applinks/listApplicationLinks`, where `<bitbucket server base url>` is the base url of your own Bitbucket Server instance.
-
-Create the link, use your Codacy installation URL for this
+1. Open `<bitbucket server base url>/plugins/servlet/applinks/listApplicationLinks`, where `<bitbucket server base url>` is the base url of your own Bitbucket Server instance.
+1. Create the link, use your Codacy installation URL for this
 
 ![Stash Application Link](./images/stash-application-link.png)
 
 ### Name the link
 
-_Application Name_: You can name the application (ex: Codacy)
-
-_Application Type_: The application type is Generic Application
-
-The rest of the configuration should be left blank.
+1. _Application Name_: You can name the application (ex: Codacy)
+1. _Application Type_: The application type is Generic Application
+1. The rest of the configuration should be left blank.
 
 ![Stash Link Naming](./images/stash-link-naming.png)
 
@@ -40,13 +37,10 @@ After the link is created, click edit to add an incoming connection.
 
 ### Add incoming connection
 
-_Consumer Key_: This value should be copied from the `consumerKey` generated previously.
-
-_Consumer Name_: You can choose any name (ex: Codacy).
-
-_Public Key_: This value should be copied from the `consumerPublicKey` generated previously.
-
-The rest of the fields should be left blank.
+1. _Consumer Key_: This value should be copied from the `consumerKey` generated previously.
+1. _Consumer Name_: You can choose any name (ex: Codacy).
+1. _Public Key_: This value should be copied from the `consumerPublicKey` generated previously.
+1. The rest of the fields should be left blank.
 
 ![Stash Incoming Connection](./images/stash-incoming-connection.png)
 
