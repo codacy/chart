@@ -1,6 +1,6 @@
-# GitHub Cloud
+# GitHub Enterprise
 
-Follow the instructions below to set up the Codacy integration with GitHub Cloud:
+Follow the instructions below to set up the Codacy integration with GitHub Enterprise:
 
 1.  Follow the instructions on [creating a GitHub App](create-github-app.md).
 
