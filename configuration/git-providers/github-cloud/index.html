@@ -295,45 +295,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        GitHub Cloud
-      </label>
-    
     <a href="./" title="GitHub Cloud" class="md-nav__link md-nav__link--active">
       GitHub Cloud
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-github-app" class="md-nav__link">
-    Create a GitHub App
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -356,8 +320,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../create-github-app/" title="Create and configure a new GitHub App for GitHub Enterprise" class="md-nav__link">
-      Create and configure a new GitHub App for GitHub Enterprise
+    <a href="../create-github-app/" title="Creating a GitHub App" class="md-nav__link">
+      Creating a GitHub App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gitlab-cloud/" title="GitLab Cloud" class="md-nav__link">
+      GitLab Cloud
     </a>
   </li>
 
@@ -504,29 +480,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-github-app" class="md-nav__link">
-    Create a GitHub App
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -539,46 +492,36 @@
                 
                 
                 <h1 id="github-cloud">GitHub Cloud<a class="headerlink" href="#github-cloud" title="Permanent link">&para;</a></h1>
-<h2 id="create-a-github-app">Create a GitHub App<a class="headerlink" href="#create-a-github-app" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitHub we use a GitHub App.</p>
-<p>Follow the guide to <a href="../create-github-app/">create the application on GitHub</a>.</p>
-<h2 id="valuesyaml-configuration"><code>values.yaml</code> configuration<a class="headerlink" href="#valuesyaml-configuration" title="Permanent link">&para;</a></h2>
-<p>Set your configuration values for the GitHub App on the <code>values.yaml</code> file:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>global.github.enabled</code></td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>global.github.app.name</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.github.app.id</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.github.app.privateKey</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.github.clientId</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.github.clientSecret</code></td>
-<td>See above how to generate</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
+<p>Follow the instructions below to set up the Codacy integration with GitHub Cloud:</p>
+<ol>
+<li>
+<p>Follow the instructions on <a href="../create-github-app/">creating a GitHub App</a>.</p>
+</li>
+<li>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.github.enabled: "true"</code> and define the remaining values with the information obtained when you created the GitHub App:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Iv1.0000000000000000</span> <span class="c1"># Client ID</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
+  <span class="nt">app</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Codacy</span> <span class="c1"># GitHub App name</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">00000</span> <span class="c1"># App ID</span>
+    <span class="nt">privateKey</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
+      <span class="no">-----BEGIN RSA PRIVATE KEY-----</span>
+      <span class="no"># Private key (contents of the .pem file)</span>
+      <span class="no">-----END RSA PRIVATE KEY-----</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
+</li>
+</ol>
+<p>After this is done you will be able to use GitHub Cloud to authenticate to Codacy.</p>
                 
                   
                 

@@ -41,6 +41,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://codacy.github.io/chart/configuration/git-providers/gitlab-cloud/</loc>
+     <lastmod>2020-04-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://codacy.github.io/chart/configuration/git-providers/gitlab-enterprise/</loc>
      <lastmod>2020-04-16</lastmod>
      <changefreq>daily</changefreq>

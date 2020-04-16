@@ -307,52 +307,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        GitHub Enterprise
-      </label>
-    
     <a href="./" title="GitHub Enterprise" class="md-nav__link md-nav__link--active">
       GitHub Enterprise
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-github-app" class="md-nav__link">
-    Create a GitHub App
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#set-credentials" class="md-nav__link">
-    Set credentials
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -363,8 +320,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../create-github-app/" title="Create and configure a new GitHub App for GitHub Enterprise" class="md-nav__link">
-      Create and configure a new GitHub App for GitHub Enterprise
+    <a href="../create-github-app/" title="Creating a GitHub App" class="md-nav__link">
+      Creating a GitHub App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gitlab-cloud/" title="GitLab Cloud" class="md-nav__link">
+      GitLab Cloud
     </a>
   </li>
 
@@ -511,36 +480,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-github-app" class="md-nav__link">
-    Create a GitHub App
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valuesyaml-configuration" class="md-nav__link">
-    values.yaml configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#set-credentials" class="md-nav__link">
-    Set credentials
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -553,62 +492,43 @@
                 
                 
                 <h1 id="github-enterprise">GitHub Enterprise<a class="headerlink" href="#github-enterprise" title="Permanent link">&para;</a></h1>
-<h2 id="create-a-github-app">Create a GitHub App<a class="headerlink" href="#create-a-github-app" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitHub we use a GitHub App.</p>
-<p>Follow the guide to <a href="../create-github-app/">create the application on GitHub</a>.</p>
-<h2 id="valuesyaml-configuration"><code>values.yaml</code> configuration<a class="headerlink" href="#valuesyaml-configuration" title="Permanent link">&para;</a></h2>
-<p>Set your configuration values for your GitHub instance on the <code>values-production.yaml</code> file:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>global.githubEnterprise.enabled</code></td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.hostname</code></td>
-<td>Hostname of your GitHub instance</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.protocol</code></td>
-<td>Protocol of your GitHub instance</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.port</code></td>
-<td>Port of your GitHub instance</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.isPrivateMode</code></td>
-<td>Status of private mode on your GitHub instance</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.disableSSL</code></td>
-<td>Disable certificate validation</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.app.name</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.app.id</code></td>
-<td>See above how to generate</td>
-</tr>
-<tr>
-<td><code>global.githubEnterprise.app.privateKey</code></td>
-<td>See above how to generate</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
-<h2 id="set-credentials">Set credentials<a class="headerlink" href="#set-credentials" title="Permanent link">&para;</a></h2>
-<p>After the application is created, you should copy both the <code>Client ID</code> and the <code>Client Secret</code> and paste them in the setup page on your Codacy Self-hosted.</p>
-<p><img alt="GitHub Application" src="../images/github-token-retrieval.png" /></p>
-<p>After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.</p>
+<p>Follow the instructions below to set up the Codacy integration with GitHub Enterprise:</p>
+<ol>
+<li>
+<p>Follow the instructions on <a href="../create-github-app/">creating a GitHub App</a>.</p>
+</li>
+<li>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.githubEnterprise.enabled: "true"</code> and define the remaining values as described below and with the information obtained when you created the GitHub App:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">githubEnterprise</span><span class="p">:</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">example.host.com</span> <span class="c1"># Hostname of your GitHub Enterprise instance</span>
+  <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">443</span> <span class="c1"># Port of your GitHub Enterprise instance</span>
+  <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https</span> <span class="c1"># Protocol of your GitHub Enterprise instance</span>
+  <span class="nt">disableSSL</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># Disable certificate validation </span>
+  <span class="nt">isPrivateMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># Status of private mode on your GitHub Enterprise instance</span>
+  <span class="nt">app</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Codacy</span> <span class="c1"># GitHub App name</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">00000</span> <span class="c1"># App ID</span>
+    <span class="nt">privateKey</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
+      <span class="no">-----BEGIN RSA PRIVATE KEY-----</span>
+      <span class="no"># Private key (contents of the .pem file)</span>
+      <span class="no">-----END RSA PRIVATE KEY-----</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
+</li>
+<li>
+<p>Copy both <strong>Client ID</strong> and the <strong>Client secret</strong> and paste them in the GitHub Enterprise setup page on the Codacy onboarding. Click <strong>Test &amp; Save</strong> to apply the configuration.</p>
+<p><img alt="GitHub Enterprise configuration" src="../images/github-ui-configuration.png" /></p>
+</li>
+</ol>
+<p>After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.</p>
                 
                   
                 
@@ -645,13 +565,13 @@
           </a>
         
         
-          <a href="../create-github-app/" title="Create and configure a new GitHub App for GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../create-github-app/" title="Creating a GitHub App" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Create and configure a new GitHub App for GitHub Enterprise
+                Creating a GitHub App
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
