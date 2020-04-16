@@ -506,6 +506,8 @@
   <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https</span> <span class="c1"># Protocol of your GitHub Enterprise instance</span>
   <span class="nt">disableSSL</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># Disable certificate validation </span>
   <span class="nt">isPrivateMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># Status of private mode on your GitHub Enterprise instance</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Iv1.0000000000000000</span> <span class="c1"># Client ID</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
   <span class="nt">app</span><span class="p">:</span>
     <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Codacy</span> <span class="c1"># GitHub App name</span>
     <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">00000</span> <span class="c1"># App ID</span>
@@ -522,10 +524,6 @@
              --values values-production.yaml
 </code></pre></div>
 
-</li>
-<li>
-<p>Copy both <strong>Client ID</strong> and the <strong>Client secret</strong> and paste them in the GitHub Enterprise setup page on the Codacy onboarding. Click <strong>Test &amp; Save</strong> to apply the configuration.</p>
-<p><img alt="GitHub Enterprise configuration" src="../images/github-ui-configuration.png" /></p>
 </li>
 </ol>
 <p>After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.</p>
