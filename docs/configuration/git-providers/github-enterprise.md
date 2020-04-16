@@ -1,33 +1,37 @@
 # GitHub Enterprise
 
-## Create a GitHub App
+Follow the instructions below to set up the Codacy integration with GitHub Enterprise:
 
-To integrate with GitHub we use a GitHub App.
+1.  Follow the instructions on [creating a GitHub App](create-github-app.md).
 
-Follow the guide to [create the application on GitHub](create-github-app.md).
+2.  Edit the file `values-production.yaml`, set `global.githubEnterprise.enabled: "true"` and define the remaining values as described below and with the information obtained when you created the GitHub App:
 
-## `values.yaml` configuration
+    ```yaml
+    githubEnterprise:
+      enabled: true
+      hostname: example.host.com # Hostname of your GitHub Enterprise instance
+      port: 443 # Port of your GitHub Enterprise instance
+      protocol: https # Protocol of your GitHub Enterprise instance
+      disableSSL: false # Disable certificate validation 
+      isPrivateMode: true # Status of private mode on your GitHub Enterprise instance
+      app:
+        name: Codacy # GitHub App name
+        id: 00000 # App ID
+        privateKey: >
+          -----BEGIN RSA PRIVATE KEY-----
+          # Private key (contents of the .pem file)
+          -----END RSA PRIVATE KEY-----
+    ```
 
-Set your configuration values for your GitHub instance on the `values-production.yaml` file:
+3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-production.yaml` to the command [used to install Codacy](../../index.md#2-installing-codacy):
 
-| Field                                    | Value                                          |
-| ---------------------------------------- | ---------------------------------------------- |
-| `global.githubEnterprise.enabled`        | `true`                                         |
-| `global.githubEnterprise.hostname`       | Hostname of your GitHub instance               |
-| `global.githubEnterprise.protocol`       | Protocol of your GitHub instance               |
-| `global.githubEnterprise.port`           | Port of your GitHub instance                   |
-| `global.githubEnterprise.isPrivateMode`  | Status of private mode on your GitHub instance |
-| `global.githubEnterprise.disableSSL`     | Disable certificate validation                 |
-| `global.githubEnterprise.app.name`       | See above how to generate                      |
-| `global.githubEnterprise.app.id`         | See above how to generate                      |
-| `global.githubEnterprise.app.privateKey` | See above how to generate                      |
+    ```bash
+    helm upgrade (...options used to install Codacy...) \
+                 --values values-production.yaml
+    ```
 
-**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
+4.  Copy both **Client ID** and the **Client secret** and paste them in the GitHub Enterprise setup page on the Codacy onboarding. Click **Test & Save** to apply the configuration.
 
-## Set credentials
+    ![GitHub Enterprise configuration](images/github-ui-configuration.png)
 
-After the application is created, you should copy both the `Client ID` and the `Client Secret` and paste them in the setup page on your Codacy Self-hosted.
-
-![GitHub Application](images/github-token-retrieval.png)
-
-After this is done you will be able to use GitHub Enterprise as an authentication method to add repositories and as an integration in the repository settings.
+After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.

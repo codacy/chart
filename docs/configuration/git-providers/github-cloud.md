@@ -1,22 +1,30 @@
 # GitHub Cloud
 
-## Create a GitHub App
+Follow the instructions below to set up the Codacy integration with GitHub Cloud:
 
-To integrate with GitHub we use a GitHub App.
+1.  Follow the instructions on [creating a GitHub App](create-github-app.md).
 
-Follow the guide to [create the application on GitHub](create-github-app.md).
+2.  Edit the file `values-production.yaml`, set `global.github.enabled: "true"` and define the remaining values with the information obtained when you created the GitHub App:
 
-## `values.yaml` configuration
+    ```yaml
+    github:
+      enabled: true
+      clientId: Iv1.0000000000000000 # Client ID
+      clientSecret: a000000000000000 # Client secret
+      app:
+        name: Codacy # GitHub App name
+        id: 00000 # App ID
+        privateKey: >
+          -----BEGIN RSA PRIVATE KEY-----
+          # Private key (contents of the .pem file)
+          -----END RSA PRIVATE KEY-----
+    ```
 
-Set your configuration values for the GitHub App on the `values.yaml` file:
+3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-production.yaml` to the command [used to install Codacy](../../index.md#2-installing-codacy):
 
-| Field                          | Value                     |
-| ------------------------------ | ------------------------- |
-| `global.github.enabled`        | `true`                    |
-| `global.github.app.name`       | See above how to generate |
-| `global.github.app.id`         | See above how to generate |
-| `global.github.app.privateKey` | See above how to generate |
-| `global.github.clientId`       | See above how to generate |
-| `global.github.clientSecret`   | See above how to generate |
+    ```bash
+    helm upgrade (...options used to install Codacy...) \
+                 --values values-production.yaml
+    ```
 
-**Please note that you must go to `http://codacy.example.com/admin/integrations`, select the desired provider and `Test & Save` your configuration for it to be applied.**
+After this is done you will be able to use GitHub Cloud to authenticate to Codacy.
