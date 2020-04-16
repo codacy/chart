@@ -10,13 +10,13 @@ global:
 
   githubEnterprise: {}
     # enabled: "false"
-    # clientId: ""
-    # clientSecret: ""
     # hostname: "example.host.com"
     # port: 443
     # protocol: "https"
     # disableSSL: "false"
     # isPrivateMode: "true"
+    # clientId: ""
+    # clientSecret: ""
     # app:
     #   name: "codacy"
     #   id: "1234"
