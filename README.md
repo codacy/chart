@@ -114,6 +114,9 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.githubEnterprise.app.name`              | The name of the GitHub app to integrate with. Only required if you use the GitHub Enterprise integration.    | `nil`           |
 | `global.githubEnterprise.app.id`                | App id used in Codacy to integrate with GitHub Apps in GitHub Enterprise                                     | `nil`           |
 | `global.githubEnterprise.app.privateKey`        | Private key generated after the GitHub App's creation in GitHub Enterprise                                   | `nil`           |
+| `global.gitlab.enabled`                         | Enable gitlab                                                                                                | `nil`           |
+| `global.gitlab.clientId`                        | Client id generated when creating the GitLab App                                                             | `nil`           |
+| `global.gitlab.clientSecret`                    | Client secret generated when creating the GitLab App                                                         | `nil`           |
 | `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
 | `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |
 | `global.gitlabEnterprise.protocol`              | Protocol of gitlabEnterprise instance                                                                        | `nil`           |
