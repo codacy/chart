@@ -57,7 +57,7 @@ references:
     NUM_NODES: "5"
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.github.clientId=${GITHUB_CLIENTID_DEV} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_DEV} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.github.clientId=${GITHUB_CLIENTID_DEV} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_DEV} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV} --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_DEV} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_DEV}"
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -66,7 +66,7 @@ references:
     NAMESPACE: codacy-hourly
     K8S_VERSION: "1.14"
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.github.clientId=${GITHUB_CLIENTID_SANDBOX} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_SANDBOX} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-sandbox --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.github.clientId=${GITHUB_CLIENTID_SANDBOX} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_SANDBOX} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-sandbox --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX} --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_SANDBOX} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_SANDBOX}"
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -77,7 +77,7 @@ references:
     NUM_NODES: "5"
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}"
+    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE} --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_RELEASE} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_RELEASE}"
 
   ###################################################
   #  Env variables identify each deployment channel

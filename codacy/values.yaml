@@ -33,8 +33,9 @@ global:
     #  privateKey: ""
 
   githubEnterprise: {}
-    # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
+    # clientId: ""
+    # clientSecret: ""
     # hostname: "example.host.com"
     # port: 443
     # protocol: "https"
