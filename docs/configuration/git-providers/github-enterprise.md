@@ -9,6 +9,8 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
     ```yaml
     githubEnterprise:
       enabled: true
+      clientId: Iv1.0000000000000000 # Client ID
+      clientSecret: a000000000000000 # Client secret
       hostname: example.host.com # Hostname of your GitHub Enterprise instance
       port: 443 # Port of your GitHub Enterprise instance
       protocol: https # Protocol of your GitHub Enterprise instance
@@ -29,9 +31,5 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
     helm upgrade (...options used to install Codacy...) \
                  --values values-production.yaml
     ```
-
-4.  Copy both **Client ID** and the **Client secret** and paste them in the GitHub Enterprise setup page on the Codacy onboarding. Click **Test & Save** to apply the configuration.
-
-    ![GitHub Enterprise configuration](images/github-ui-configuration.png)
 
 After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.
