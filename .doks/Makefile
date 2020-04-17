@@ -31,8 +31,6 @@ define call_helm_install
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
-	--set global.bitbucketEnterprise.consumerPublicKey=$${BITBUCKET_ENTERPRISE_PUBLIC_KEY} \
-	--set global.bitbucketEnterprise.consumerPrivateKey=$${BITBUCKET_ENTERPRISE_PRIVATE_KEY} \
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
