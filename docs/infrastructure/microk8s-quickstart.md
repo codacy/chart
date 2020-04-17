@@ -41,24 +41,7 @@ Install MicroK8s on the machine:
 3.  Check that MicroK8s is running:
 
     ```bash
-    $ microk8s.status --wait-ready
-    microk8s is running
-    addons:
-    knative: disabled
-    jaeger: disabled
-    fluentd: disabled
-    gpu: disabled
-    cilium: disabled
-    storage: disabled
-    registry: disabled
-    rbac: disabled
-    ingress: disabled
-    dns: disabled
-    metrics-server: disabled
-    linkerd: disabled
-    prometheus: disabled
-    istio: disabled
-    dashboard: disabled
+    microk8s.status --wait-ready
     ```
 
 ## 3. Configuring MicroK8s
