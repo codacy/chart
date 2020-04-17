@@ -89,17 +89,45 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     helm init --service-account tiller
     ```
 
-6.  The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
-    # If the following command fails, you probably installed the wrong microk8s version
+    # If the following command fails, you probably installed the wrong MicroK8s version
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
     ```
 
-    After these commands return successfully we have ensured that DNS, HTTP, and NGINX Ingress are enabled and working properly inside the MicroK8s instance.
+7.  Verify that the MicroK8s configuration was successful:
+
+    ```bash
+    microk8s.status --wait-ready
+    ```
+
+    The output of the command should be the following:
+
+    ```text
+    microk8s is running
+    addons:
+    knative: disabled
+    jaeger: disabled
+    fluentd: disabled
+    gpu: disabled
+    cilium: disabled
+    storage: enabled
+    registry: disabled
+    rbac: disabled
+    ingress: enabled
+    dns: enabled
+    metrics-server: disabled
+    linkerd: disabled
+    prometheus: disabled
+    istio: disabled
+    dashboard: disabled
+    ```
+
+After these steps you have ensured that DNS, HTTP, and NGINX Ingress are enabled and working properly inside the MicroK8s instance.
 
 ## Notes on installing Codacy
 
