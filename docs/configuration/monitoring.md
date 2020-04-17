@@ -11,15 +11,9 @@ The sections below provide details on how to set up each monitoring solution.
 
 Crow displays information about the projects that are pending analysis and the jobs currently running on Codacy.
 
-The Crow tool is installed alongside Codacy when the Helm chart is deployed to the cluster. By default, Crow is configured as follows:
+Crow is installed alongside Codacy when the Helm chart is deployed to the cluster and will be available on the `/monitoring` path of your Codacy installation URL, such as `http://<codacy hostname>/monitoring`.
 
--   Crow will be available on the `/monitoring` path of your Codacy installation URL, such as `http://codacy.company.org/monitoring`
--   The default credentials to access Crow are:
-
-    -   Username: `codacy`
-    -   Password: `C0dacy123`
-
-Follow the steps below to set up Crow and change the default configurations:
+Follow the steps below to set up Crow:
 
 1.  Set the user name, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy):
 
@@ -36,7 +30,7 @@ Follow the steps below to set up Crow and change the default configurations:
     global:
       codacy:
         crow:
-          url: "http://codacy.example.com/monitoring"
+          url: "http://<codacy hostname>/monitoring"
     ```
 
 3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
@@ -54,6 +48,12 @@ Follow the steps below to set up Crow and change the default configurations:
     helm upgrade (...options used to install Codacy...) \
                  --values values.yaml
     ```
+
+After seting up crow you can access the monitoring information as follows:
+
+-   **URL:** `http://<codacy hostname>/monitoring`, where `<codacy hostname>` is the hostname of your Codacy instance
+-   **Username:** `codacy`
+-   **Password:** use the password that you defined above
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
