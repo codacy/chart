@@ -41,7 +41,10 @@ Follow the steps below to set up Crow and change the default configurations:
 
 3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
 
-    ```yamlWhat
+    ```yaml
+    crow:
+      config:
+        passwordAuth:
           password: <--- Crow password --->
     ```
 
