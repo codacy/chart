@@ -76,7 +76,13 @@ Install Codacy on an existing cluster using our Helm chart:
 6.  Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.
 
     !!! important
-        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy). To do this, uncomment the last line before running the command below.
+        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        
+        Use `wget` to download the extra file and uncomment the last line before running the `helm upgrade` command below:
+
+        ```bash
+        wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
+        ```
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
