@@ -46,30 +46,42 @@ Install MicroK8s on the machine:
 
 ## 3. Configuring MicroK8s
 
-Now that MicroK8s is running on the machine we can proceed to enabling the necessary plugins and installing the Helm client and server:
+Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing the Helm client and server:
 
-1.  Enable the following plugins on MicroK8s:
+1.  Configure MicroK8s to allow privileged containers:
 
     ```bash
     sudo mkdir -p /var/snap/microk8s/current/args
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
     microk8s.status --wait-ready
+    ```
+
+2.  Enable the following MicroK8s addons:
+
+    ```bash
     microk8s.enable dns
+    microk8s.status --wait-ready
     microk8s.enable storage
+    microk8s.status --wait-ready
     microk8s.enable ingress
     microk8s.status --wait-ready
+    ```
+
+3.  Restart MicroK8s and its services to make sure that all configurations are working:
+
+    ```bash
     microk8s.stop
     microk8s.start
     microk8s.status --wait-ready
     ```
 
-2.  Install version v2.16.3 of the Helm client:
+4.  Install version v2.16.3 of the Helm client:
 
     ```bash
     sudo snap install helm --classic --channel=2.16/stable
     ```
 
-3.  Install the Helm server:
+5.  Install the Helm server:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller
@@ -77,7 +89,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     helm init --service-account tiller
     ```
 
-4.  The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+6.  The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
