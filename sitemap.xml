@@ -51,7 +51,12 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/bitbucket-enterprise/</loc>
+     <loc>https://codacy.github.io/chart/configuration/git-providers/bitbucket-server/</loc>
+     <lastmod>2020-04-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://codacy.github.io/chart/configuration/git-providers/create-bitbucket-server-application-link/</loc>
      <lastmod>2020-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>

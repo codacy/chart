@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/bitbucket-enterprise/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/create-bitbucket-server-application-link/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Bitbucket Server - Chart</title>
+        <title>Bitbucket Server Application Link - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#bitbucket-server" tabindex="0" class="md-skip">
+      <a href="#bitbucket-server-application-link" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Bitbucket Server
+                Bitbucket Server Application Link
               
             </span>
           
@@ -345,6 +345,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../bitbucket-server/" title="Bitbucket Server" class="md-nav__link">
+      Bitbucket Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -356,11 +368,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Bitbucket Server
+        Bitbucket Server Application Link
       </label>
     
-    <a href="./" title="Bitbucket Server" class="md-nav__link md-nav__link--active">
-      Bitbucket Server
+    <a href="./" title="Bitbucket Server Application Link" class="md-nav__link md-nav__link--active">
+      Bitbucket Server Application Link
     </a>
     
       
@@ -374,7 +386,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bitbucket-server-application-link" class="md-nav__link">
+  <a href="#generating-the-secrets" class="md-nav__link">
+    Generating the secrets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
     Bitbucket Server Application Link
   </a>
   
@@ -540,7 +559,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bitbucket-server-application-link" class="md-nav__link">
+  <a href="#generating-the-secrets" class="md-nav__link">
+    Generating the secrets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
     Bitbucket Server Application Link
   </a>
   
@@ -590,45 +616,46 @@
               
                 
                 
-                <h1 id="bitbucket-server">Bitbucket Server<a class="headerlink" href="#bitbucket-server" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your Bitbucket instance on the <code>values.yaml</code> file.</p>
+                <h1 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h1>
 <p><strong>NOTE:</strong> Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:</p>
+<h2 id="generating-the-secrets">Generating the secrets<a class="headerlink" href="#generating-the-secrets" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following commands below, making sure that you don't define a passphrase:</p>
+<p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following command below:</p>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/git-providers/generate-bitbucket-server-secrets.sh<span class="o">)</span>
+</code></pre></div>
+
 </li>
 <li>
-<p><code>openssl genrsa -out mykey</code></p>
+<p>Store the keys in a safe place for usage in the next steps and as a backup.</p>
+<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
 </li>
-<li><code>openssl pkcs8 -nocrypt -in mykey -out mykeypkcs8 -topk8</code></li>
-<li>
-<p><code>openssl rsa -in mykey -pubout -out mykey.pub</code></p>
-</li>
-<li>
-<p>Copy the private key from the <code>mykeypkcs8</code> file and set it in the <code>consumerPrivateKey</code>, ignoring the first and last lines.</p>
-</li>
-<li>Copy the public key from the <code>mykey.pub</code> file and set it in the <code>consumerPublicKey</code>, ignoring the first and last lines. </li>
 </ol>
-<p><strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
-<p>Go to <code>admin/integration</code> on Codacy and set the <strong>Project Keys</strong> on the Bitbucket Server integration, these should be the keys of the projects you would like to retrieve repositories of.</p>
-<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
-<h2 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h2>
-<p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.
-You can click on here and go to the application links list.</p>
+<h2 id="bitbucket-server-application-link_1">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link_1" title="Permanent link">&para;</a></h2>
+<p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.</p>
 <h3 id="application-link-creation">Application Link Creation<a class="headerlink" href="#application-link-creation" title="Permanent link">&para;</a></h3>
-<p>Create the link, use your Codacy installation URL for this</p>
+<ol>
+<li>Open <code>&lt;bitbucket server base url&gt;/plugins/servlet/applinks/listApplicationLinks</code>, where <code>&lt;bitbucket server base url&gt;</code> is the base url of your own Bitbucket Server instance.</li>
+<li>
+<p>Create the link, use your Codacy installation URL for this.</p>
 <p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
+</li>
+</ol>
 <h3 id="name-the-link">Name the link<a class="headerlink" href="#name-the-link" title="Permanent link">&para;</a></h3>
-<p><em>Application Name</em>: You can name the application (ex: Codacy)</p>
-<p><em>Application Type</em>: The application type is Generic Application</p>
-<p>The rest of the configuration should be left blank.</p>
+<ul>
+<li><strong>Application Name:</strong> Name the application (ex: Codacy)</li>
+<li><strong>Application Type:</strong> The application type is Generic Application</li>
+<li>The rest of the configuration should be left blank.</li>
+</ul>
 <p><img alt="Stash Link Naming" src="../images/stash-link-naming.png" /></p>
-<p>After the link is created, click edit to add an incoming connection.</p>
+<p>After the link is created, click <strong>Edit</strong> to add an incoming connection.</p>
 <h3 id="add-incoming-connection">Add incoming connection<a class="headerlink" href="#add-incoming-connection" title="Permanent link">&para;</a></h3>
-<p><em>Consumer Key</em>: This value should be copied from the "Client ID" field in the Codacy setup page.</p>
-<p><em>Consumer Name</em>: You can choose any name (ex: Codacy).</p>
-<p><em>Public Key</em>: This value should be copied from the "Client Secret" field on the Codacy setup page.</p>
-<p>The rest of the fields can be left blank.</p>
+<ul>
+<li><strong>Consumer Key:</strong> This value should be copied from the <code>consumerKey</code> generated previously.</li>
+<li><strong>Consumer Name:</strong> You can choose any name (ex: Codacy).</li>
+<li><strong>Public Key:</strong> This value should be copied from the <code>consumerPublicKey</code> generated previously.</li>
+<li>The rest of the fields should be left blank.</li>
+</ul>
 <p><img alt="Stash Incoming Connection" src="../images/stash-incoming-connection.png" /></p>
 <p>After the application link is created, you will be able to add Bitbucket Server as an integration in the repository settings.</p>
                 
@@ -652,7 +679,7 @@ You can click on here and go to the application links list.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../gitlab-enterprise/" title="GitLab Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitbucket-server/" title="Bitbucket Server" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -661,7 +688,7 @@ You can click on here and go to the application links list.</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GitLab Enterprise
+                Bitbucket Server
               </span>
             </div>
           </a>
