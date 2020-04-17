@@ -48,6 +48,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
 -   Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
 -   Codacy/[Remote Provider Service](https://bitbucket.org/qamine/remote-provider-service/src/master/.helm/)
+-   Codacy/[SPA](https://github.com/codacy/codacy-spa/tree/dev/.helm/codacy-spa/)
 
 ## Configuration
 
@@ -213,6 +214,11 @@ The following parameters are specific to each Codacy component.
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |
+| `codacy-spa.replicaCount`                           | Number of replicas                                                                                  | `1`                                          |
+| `codacy-spa.image.repository`                       | Image repository                                                                                    | from dependency                              |
+| `codacy-spa.image.tag`                              | Image tag                                                                                           | from dependency                              |
+| `codacy-spa.service.type`                           | SPA service type                                                                                    | `ClusterIP`                                  |
+| `codacy-spa.service.annotations`                    | Annotations to be added to the SPA service                                                          | `{}`                                         |
 
 The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 

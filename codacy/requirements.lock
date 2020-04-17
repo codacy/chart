@@ -16,39 +16,42 @@ dependencies:
   version: 0.2.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 6.6.1
+  version: 6.11.0
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 20.0.0
+  version: 23.0.0
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.4.0
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 8.1.0
+  version: 8.8.0
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
-  version: 1.4.1
+  version: 1.4.4
 - name: hotspots-worker
   repository: https://charts.codacy.com/stable
   version: 1.4.1
 - name: listener
   repository: https://charts.codacy.com/stable
-  version: 7.12.1
+  version: 7.13.1
 - name: core
   repository: https://charts.codacy.com/stable
-  version: 3.1.0
+  version: 3.1.1
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 6.7.6
+  version: 6.9.3
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 8.14.0
+  version: 10.5.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
-  version: 9.1.0
+  version: 9.3.1
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 4.9.1
-digest: sha256:88dc0905237295146e144ee84650bba9583d6ecd24ff23ea4a99d5d960f66907
-generated: "2020-03-20T09:54:33.128772Z"
+  version: 4.9.4
+- name: codacy-spa
+  repository: https://charts.codacy.com/stable
+  version: 0.1.0
+digest: sha256:c6b19c0a9f6ffcc3730726b89e27491071b2dcab93049e70b455f843c70cb9b9
+generated: "2020-04-17T11:03:21.468254+01:00"

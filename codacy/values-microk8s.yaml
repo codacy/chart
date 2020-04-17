@@ -74,3 +74,9 @@ rabbitmq-ha:
     limits:
       cpu: 0.5
       memory: 1500Mi
+
+codacy-spa:
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 128Mi

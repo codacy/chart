@@ -370,6 +370,14 @@ worker-manager:
         cpu: 1
         memory: 3000000000 # this value needs to be set in bytes
 
+codacy-spa:
+  replicaCount: 1
+  fullnameOverride: codacy-spa
+  config:
+    codacy:
+      features:
+        passwordLogin: true
+
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
   enabled: true
