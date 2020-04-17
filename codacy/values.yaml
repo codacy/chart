@@ -53,6 +53,11 @@ global:
     # protocol: "https"
     # port: 443
 
+  bitbucket: {}
+    # enabled: "false"
+    # key: ""
+    # secret: ""
+
   bitbucketEnterprise: {}
     # If you set this provider configuration, you must save it on the admin/integrations UI.
     # enabled: "false"
