@@ -6,7 +6,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
 
 1.  Create a [new application](https://gitlab.com/profile/applications) pointing to your local Codacy deployment URL with `api`, `read user` and `read repository` scopes.
 
-    You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your domain name as well. Keep in mind this field is case sensitive.
+    You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your hostname as well. Keep in mind this field is case sensitive.
 
     ```
     https://codacy.example.com/login/GitLab
