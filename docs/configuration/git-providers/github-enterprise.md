@@ -8,7 +8,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
 
     ```yaml
     githubEnterprise:
-      enabled: true
+      enabled: "true"
       hostname: example.host.com # Hostname of your GitHub Enterprise instance
       port: 443 # Port of your GitHub Enterprise instance
       protocol: https # Protocol of your GitHub Enterprise instance
