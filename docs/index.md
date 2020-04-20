@@ -2,7 +2,7 @@
 
 This documentation guides you on how to install Codacy on Kubernetes or MicroK8s.
 
-To install Codacy you must complete these main steps:
+To install Codacy you must complete these main steps:asdasdsadas
 
 1.  [**Setting up the system requirements**](#1-setting-up-the-system-requirements)
 
