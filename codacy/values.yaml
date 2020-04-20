@@ -342,25 +342,6 @@ worker-manager:
         cpu: 1
         memory: 3000000000 # this value needs to be set in bytes
 
-crow:
-  replicaCount: 1
-  fullnameOverride: codacy-crow
-  crowdb:
-    create: false
-    host: codacy-crowdb
-    postgresqlUsername: "codacy"
-    postgresqlDatabase: "crow"
-    postgresqlPassword: "PLEASE_CHANGE_ME"
-    service:
-      port: 5432
-    fullnameOverride: codacy-crowdb
-  config:
-    play:
-      http:
-        context: "/monitoring"
-    passwordAuth:
-      password: "PLEASE_CHANGE_ME"
-
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
   enabled: true
