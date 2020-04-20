@@ -4,15 +4,15 @@ This documentation guides you on how to install Codacy on Kubernetes or MicroK8s
 
 To install Codacy you must complete these main steps:
 
-1.  [**Setting up the system requirements**](#1-setting-up-the-system-requirements)
+1.  **Setting up the system requirements**
 
     Ensure that your infrastructure meets the hardware and system requirements to run Codacy.
 
-2.  [**Installing Codacy**](#2-installing-codacy)
+2.  **Installing Codacy**
 
     Install Codacy on the cluster using our [Helm chart](https://github.com/codacy/chart/) that includes all the necessary components and dependencies.
 
-3.  [**Configuring Codacy**](#3-configuring-codacy)
+3.  **Configuring Codacy**
 
     Configure integrations with Git providers and set up monitoring.
 
