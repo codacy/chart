@@ -93,33 +93,31 @@ Install Codacy on an existing cluster using our Helm chart:
                  # --values values-microk8s.yaml
     ```
 
-7.  By now all the Codacy pods should be starting in the cluster. Run the following command **and wait for all the pods to have the status Running** to verify this:
+7.  By now all the Codacy pods except `codacy-crow` (which can be [configured later](configuration/monitoring.md#setting-up-monitoring-using-crow)) should be starting in the cluster.
+
+    Run the following command and **wait for all the pods except `codacy-crow` to have the status Running**, which can take several minutes:
 
     ```bash
     $ kubectl get pods -n codacy
-    NAME                                            READY   STATUS    RESTARTS   AGE
-    codacy-activities-6d9db9499-stk2k               1/1     Running   2          8m57s
-    codacy-activitiesdb-0                           1/1     Running   0          8m57s
-    codacy-api-f7897b965-fgn67                      1/1     Running   0          8m57s
-    codacy-api-f7897b965-kkqsx                      1/1     Running   0          8m57s
-    codacy-core-7bcf697968-85tl6                    1/1     Running   0          8m57s
-    codacy-crow-7c957d45f6-b8zp2                    1/1     Running   2          8m57s
-    codacy-crowdb-0                                 1/1     Running   0          8m57s
-    codacy-engine-549bcb69d9-cgrqf                  1/1     Running   1          8m57s
-    codacy-engine-549bcb69d9-sh5f4                  1/1     Running   1          8m57s
-    codacy-fluentdoperator-x5vr2                    2/2     Running   0          8m57s
-    codacy-hotspots-api-b7b9db896-68gxx             1/1     Running   2          8m57s
-    codacy-hotspots-worker-76bb45b4d6-8gz45         1/1     Running   3          8m57s
-    codacy-hotspotsdb-0                             1/1     Running   0          8m57s
-    codacy-listener-868b784dcf-npdfh                1/1     Running   0          8m57s
-    codacy-listenerdb-0                             1/1     Running   0          8m57s
-    codacy-minio-7cfdc7b4f4-254gz                   1/1     Running   0          8m57s
-    codacy-nfsserverprovisioner-0                   1/1     Running   0          8m57s
-    codacy-portal-774d9fc596-rwqj5                  1/1     Running   2          8m56s
-    codacy-rabbitmq-ha-0                            1/1     Running   0          8m57s
-    codacy-ragnaros-69459775b5-hmj4d                1/1     Running   3          8m57s
-    codacy-remote-provider-service-8fb8556b-rr4ws   1/1     Running   0          8m56s
-    codacy-worker-manager-656dbf8d6d-n4j7c          1/1     Running   0          8m57s
+    NAME                                             READY   STATUS             RESTARTS   AGE
+    codacy-activities-6d9db9499-qch59                1/1     Running            5          6m11s
+    codacy-api-67c8c89b57-lrh8f                      1/1     Running            0          6m10s
+    codacy-api-67c8c89b57-zn4ln                      1/1     Running            0          6m10s
+    codacy-core-5458484db9-bb2z4                     1/1     Running            0          6m11s
+    codacy-crow-65ff6df7cf-7lmgv                     0/1     CrashLoopBackOff   5          6m11s
+    codacy-engine-fc8f4cf7b-52mlb                    1/1     Running            2          6m11s
+    codacy-engine-fc8f4cf7b-8zj4f                    1/1     Running            5          6m11s
+    codacy-fluentdoperator-9pjmd                     2/2     Running            0          6m11s
+    codacy-hotspots-api-7f6b7d8cbf-g5g29             1/1     Running            4          6m10s
+    codacy-hotspots-worker-76bb45b4d6-whk62          1/1     Running            4          6m11s
+    codacy-listener-7f996cd786-dfpm6                 1/1     Running            1          6m11s
+    codacy-minio-7cfdc7b4f4-lvj8d                    1/1     Running            0          6m11s
+    codacy-nfsserverprovisioner-0                    1/1     Running            0          6m11s
+    codacy-portal-77d759786f-p6pzq                   1/1     Running            3          6m11s
+    codacy-rabbitmq-ha-0                             1/1     Running            0          6m11s
+    codacy-ragnaros-5c687cdd66-jc4zt                 1/1     Running            0          6m11s
+    codacy-remote-provider-service-bf4587dbd-zm54k   1/1     Running            0          6m11s
+    codacy-worker-manager-6ff865db45-r8v9s           1/1     Running            0          6m11s
     ```
 
 ## 3. Configuring Codacy
