@@ -27,10 +27,10 @@ Set your configuration values for Bitbucket on the `values-production.yaml` file
    Example:
    ```yaml
    global:
-   bitbucket:
-      enabled: "true"
-      key: "12345232123"
-      secret: "54321abcxdawj4bfsdh3"
+     bitbucket:
+       enabled: "true"
+       key: "12345232123"
+       secret: "54321abcxdawj4bfsdh3"
    ```
  1. Apply the configuration by issuing an helm upgrade.  
     Example:
