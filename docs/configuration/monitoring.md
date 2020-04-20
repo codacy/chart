@@ -15,38 +15,23 @@ Crow is installed alongside Codacy when the Helm chart is deployed to the cluste
 
 Follow the steps below to set up Crow:
 
-1.  Set the user name, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy):
+1.  Download the template file [`values-crow.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-crow.yaml){: target="_blank"}. You can download the template file by running:
 
-    ```yaml
-    crowdb:
-      postgresqlUsername: <--- codacy-db-username --->
-      postgresqlPassword: <--- codacy-db-password --->
-      host: <--- codacy-db-host --->
+    ```bash
+    wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-crow.yaml
     ```
 
-2.  Set the `global.codacy.crow.url` value in your `values.yaml` file so that Crow correctly generates anchor links to your projects. For example:
+2.  Use a text editor of your choice to edit the value placeholders as described in the comments:
 
-    ```yaml
-    global:
-      codacy:
-        crow:
-          url: "http://<codacy hostname>/monitoring"
-    ```
+    -   Set the correct hostname of your Codacy instance so that Crow correctly generates anchor links to your projects
+    -   Set the username, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy)
+    -   Set the password for accessing Crow
 
-3.  Set the `crow.config.passwordAuth.password` value in your `values.yaml` file to define a custom password for Crow:
-
-    ```yaml
-    crow:
-      config:
-        passwordAuth:
-          password: <--- Crow password --->
-    ```
-
-4.  Apply this configuration by performing a Helm upgrade. To do so append `--values values.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
+3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-crow.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --values values.yaml
+                 --values values-crow.yaml
     ```
 
 After seting up crow you can access the monitoring information as follows:
