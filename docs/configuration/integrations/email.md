@@ -1,8 +1,6 @@
 # Emails
 
-## SMTP Configuration
-
-Follow the instructions below to set up the Codacy integration with SMTP to send emails:
+Follow the instructions below to set up Codacy to send emails using your SMTP server:
 
 1.  Edit the file `values-production.yaml`, set `global.email.enabled: "true"` and define the remaining values with the credentials for your smtp server:
 
