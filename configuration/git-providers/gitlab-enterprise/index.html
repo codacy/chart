@@ -561,18 +561,37 @@
                 
                 
                 <h1 id="gitlab-enterprise">GitLab Enterprise<a class="headerlink" href="#gitlab-enterprise" title="Permanent link">&para;</a></h1>
-<p>Set your configuration values for your GitLab instance on the <code>values.yaml</code> file.
-<strong>Please note that you must go to <code>http://codacy.example.com/admin/integrations</code>, select the desired provider and <code>Test &amp; Save</code> your configuration for it to be applied.</strong></p>
 <h2 id="gitlab-application">GitLab Application<a class="headerlink" href="#gitlab-application" title="Permanent link">&para;</a></h2>
-<p>To integrate with GitLab we use a GitLab Application.</p>
-<p>Create an application pointing to your local Codacy deployment URL.</p>
-<p>You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your domain name as well. Keep in mind this field is case sensitive.</p>
-<p><code>https://codacy.example.com/login/GitLabEnterprise</code></p>
-<p><code>https://codacy.example.com/add/addProvider/GitLabEnterprise</code></p>
-<p><code>https://codacy.example.com/add/addService/GitLabEnterprise</code></p>
-<p><img alt="GitLab Application" src="../images/gitlab-application.png" /></p>
-<p>Then paste the application ID and secret in Codacy Self-hosted.</p>
-<p><img alt="GitLab Final Application" src="../images/gitlab-created-application.png" /></p>
+<p>Follow the instructions below to set up the Codacy integration with GitLab Cloud:</p>
+<ol>
+<li>
+<p>Create a new application in <code>&lt;gitlabEnterprise url&gt;/profile/applications</code>, where <code>&lt;gitlabEnterprise url&gt;</code> is the URL of your own GitLab Enterprise instance, pointing to your local Codacy instance URL with <code>api</code>, <code>read user</code> and <code>read repository</code> scopes.</p>
+<p>You'll need to add the following "Redirect URI", making sure to update both your protocol to use either HTTP or HTTPS and your hostname as well. Keep in mind that this field is case sensitive.</p>
+<div class="highlight"><pre><span></span><code>https://codacy.example.com/login/GitLab
+https://codacy.example.com/add/addPermissions/GitLab
+https://codacy.example.com/add/addProvider/GitLab
+https://codacy.example.com/add/addService/GitLab
+</code></pre></div>
+
+</li>
+<li>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.gitlab.enabled: "true"</code> and define the remaining values with the information obtained when you created the GitLab Application:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">gitlab</span><span class="p">:</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client ID</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
+</li>
+</ol>
+<p>After this is done you will be able to use GitLab Enterprise to authenticate to Codacy.</p>
                 
                   
                 
