@@ -67,6 +67,11 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.status --wait-ready
     ```
 
+    !!! important
+        Check the output of the commands to make sure that all the addons are enabled correctly.
+
+        If by chance any of the addons fails to be enabled, re-execute the `microk8s.enable` command for that addon.
+
 3.  Restart MicroK8s and its services to make sure that all configurations are working:
 
     ```bash
