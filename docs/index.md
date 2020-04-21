@@ -126,11 +126,11 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
 
     -   Creating an administrator account
     -   Configuring one or more of the following supported Git providers:
-        -   [GitHub Cloud](configuration/git-providers/github-cloud.md)
-        -   [GitHub Enterprise](configuration/git-providers/github-enterprise.md)
-        -   [GitLab Cloud](configuration/git-providers/gitlab-cloud.md)
-        -   [GitLab Enterprise](configuration/git-providers/gitlab-enterprise.md)
-        -   [Bitbucket Server](configuration/git-providers/bitbucket-server.md)
+        -   [GitHub Cloud](configuration/integrations/github-cloud.md)
+        -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
+        -   [GitLab Cloud](configuration/integrations/gitlab-cloud.md)
+        -   [GitLab Enterprise](configuration/integrations/gitlab-enterprise.md)
+        -   [Bitbucket Server](configuration/integrations/bitbucket-server.md)
     -   Creating an initial organization
     -   Inviting users to Codacy
 
