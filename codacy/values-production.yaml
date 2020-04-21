@@ -33,7 +33,7 @@ global:
     # enabled: "false"
     # key: ""
     # secret: ""
-    
+
   bitbucketEnterprise: {}
     # enabled: "false"
     # hostname: "example.host.com"
@@ -289,6 +289,22 @@ crow:
     requests:
       cpu: 0.1
       memory: 100Mi
+  fullnameOverride: codacy-crow
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: 5432
+    fullnameOverride: codacy-crowdb
+  config:
+    play:
+      http:
+        context: "/monitoring"
+    passwordAuth:
+      password: <--- crow-login-password --->
 rabbitmq-ha:
   replicaCount: 3
   persistentVolume:
