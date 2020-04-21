@@ -125,12 +125,14 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
 2.  Follow Codacy's onboarding process, which will guide you through the following steps:
 
     -   Creating an administrator account
-    -   Configuring one or more of the following supported Git providers:
+    -   Configuring one or more of the following supported integrations:
         -   [GitHub Cloud](configuration/integrations/github-cloud.md)
         -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
         -   [GitLab Cloud](configuration/integrations/gitlab-cloud.md)
         -   [GitLab Enterprise](configuration/integrations/gitlab-enterprise.md)
+        -   [Bitbucket Cloud](configuration/integrations/bitbucket.md)
         -   [Bitbucket Server](configuration/integrations/bitbucket-server.md)
+        -   [Email](configuration/integrations/email.md)
     -   Creating an initial organization
     -   Inviting users to Codacy
 
