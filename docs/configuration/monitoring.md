@@ -2,7 +2,7 @@
 
 Currently, we support two monitoring solutions:
 
--   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution.
+-   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 The sections below provide details on how to set up each monitoring solution.
@@ -11,34 +11,33 @@ The sections below provide details on how to set up each monitoring solution.
 
 Crow displays information about the projects that are pending analysis and the jobs currently running on Codacy.
 
-Crow is installed alongside Codacy when the Helm chart is deployed to the cluster and will be available on the `/monitoring` path of your Codacy installation URL, such as `http://<codacy hostname>/monitoring`.
-
-Follow the steps below to set up Crow:
-
-1.  Download the template file [`values-crow.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-crow.yaml){: target="_blank"}. You can download the template file by running:
-
-    ```bash
-    wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-crow.yaml
-    ```
-
-2.  Use a text editor of your choice to edit the value placeholders as described in the comments:
-
-    -   Set the correct hostname of your Codacy instance so that Crow correctly generates anchor links to your projects
-    -   Set the username, password, and hostname to access the Crow PostgreSQL database [already created here](../requirements.md#preparing-postgresql-for-codacy)
-    -   Set the password for accessing Crow
-
-3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-crow.yaml` to the command [used to install Codacy](../index.md#2-installing-codacy):
-
-    ```bash
-    helm upgrade (...options used to install Codacy...) \
-                 --values values-crow.yaml
-    ```
-
-After seting up crow you can access the monitoring information as follows:
+Crow is installed alongside Codacy when the Helm chart is deployed to the cluster. By default, you can access Crow as follows:
 
 -   **URL:** `http://<codacy hostname>/monitoring`, where `<codacy hostname>` is the hostname of your Codacy instance
 -   **Username:** `codacy`
--   **Password:** use the password that you defined above
+-   **Password:** `C0dacy123`
+
+We highly recommend that you define a custom password for Crow, if you haven't already done it when [installing Codacy](../index.md#2.-installing-codacy):
+
+1.  Edit the value of `crow.config.passwordAuth.password` in the `values-production.yaml` file that you used to install Codacy:
+
+    ```yaml
+    crow:
+      config:
+        passwordAuth:
+          password: <--- crow password --->
+    ```
+
+2.  Apply the new configuration by performing a Helm upgrade:
+
+    !!! important
+        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](../infrastructure/microk8s-quickstart.md#notes-on-installing-codacy). To do this, uncomment the last line before running the command below.
+
+    ```bash
+    helm upgrade (...options used to install Codacy...) \
+                --values values-production.yaml \
+                # --values values-microk8s.yaml
+    ```
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
