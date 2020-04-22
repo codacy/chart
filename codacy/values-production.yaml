@@ -44,6 +44,16 @@ global:
     # consumerPublicKey: ""
     # consumerPrivateKey: ""
 
+  email: {}
+    # enabled: "true"
+    # replyTo: "notifications@codacy.com"
+    # smtp:
+    #   protocol: "smtps"
+    #   hostname: "smtp.codacy.com"
+    #   username: "codacy"
+    #   password: "a-s!r0ng-pVsSwORG"
+    #   # port: 25
+
   imagePullSecrets:
     - name: docker-credentials
   codacy:
