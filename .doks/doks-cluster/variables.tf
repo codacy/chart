@@ -93,9 +93,8 @@ variable "postgres_instance_type" {
 variable "connection_pool_size" {
   description = "Number connections for each connection pool."
   type        = number
-  default     = 18
+  default     = 17
 }
-
 
 variable "connection_pool_mode" {
   description = "Connection pool mode."

@@ -251,7 +251,7 @@ jobs:
   deploy_to_doks_sandbox:
     <<: *default_doks_image
     environment:
-      <<: *release_environment
+      <<: *sandbox_environment
     <<: *deploy_to_doks_from_local_dir_with_dev_requirements
 
   deploy_to_doks_release:
