@@ -9,14 +9,14 @@ SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 
 define rotate_pod
   kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=30m &
+  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=10m &
 endef
 
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=1800 \
+	--timeout=600 \
 	-f values.yaml \
 	--namespace ${2} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
