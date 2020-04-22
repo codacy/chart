@@ -56,6 +56,8 @@ global:
     contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  crow:
+    url: <--- http://codacy.example.com/monitoring ---> # This value is important for the loopback links between analysis and crow
 
   defaultdb:
     create: false
