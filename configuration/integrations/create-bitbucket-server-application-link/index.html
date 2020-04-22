@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/github-cloud/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/create-bitbucket-server-application-link/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>GitHub Cloud - Chart</title>
+        <title>Bitbucket Server Application Link - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#github-cloud" tabindex="0" class="md-skip">
+      <a href="#bitbucket-server-application-link" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                GitHub Cloud
+                Bitbucket Server Application Link
               
             </span>
           
@@ -285,20 +285,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="GitHub Cloud" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
     </a>
-    
   </li>
 
         
@@ -378,10 +369,94 @@
           
           
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Bitbucket Server Application Link
+      </label>
+    
+    <a href="./" title="Bitbucket Server Application Link" class="md-nav__link md-nav__link--active">
+      Bitbucket Server Application Link
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-the-secrets" class="md-nav__link">
+    Generating the secrets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
+    Bitbucket Server Application Link
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-link-creation" class="md-nav__link">
+    Application Link Creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-the-link" class="md-nav__link">
+    Name the link
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-incoming-connection" class="md-nav__link">
+    Add incoming connection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
-    <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
-      Bitbucket Server Application Link
+    <a href="../email/" title="Emails" class="md-nav__link">
+      Emails
     </a>
   </li>
 
@@ -504,6 +579,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-the-secrets" class="md-nav__link">
+    Generating the secrets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
+    Bitbucket Server Application Link
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-link-creation" class="md-nav__link">
+    Application Link Creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-the-link" class="md-nav__link">
+    Name the link
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-incoming-connection" class="md-nav__link">
+    Add incoming connection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -515,37 +640,48 @@
               
                 
                 
-                <h1 id="github-cloud">GitHub Cloud<a class="headerlink" href="#github-cloud" title="Permanent link">&para;</a></h1>
-<p>Follow the instructions below to set up the Codacy integration with GitHub Cloud:</p>
+                <h1 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h1>
+<p><strong>NOTE:</strong> Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:</p>
+<h2 id="generating-the-secrets">Generating the secrets<a class="headerlink" href="#generating-the-secrets" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>Follow the instructions on <a href="../create-github-app/">creating a GitHub App</a>.</p>
-</li>
-<li>
-<p>Edit the file <code>values-production.yaml</code>, set <code>global.github.enabled: "true"</code> and define the remaining values with the information obtained when you created the GitHub App:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>
-  <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Iv1.0000000000000000</span> <span class="c1"># Client ID</span>
-  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
-  <span class="nt">app</span><span class="p">:</span>
-    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Codacy</span> <span class="c1"># GitHub App name</span>
-    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">00000</span> <span class="c1"># App ID</span>
-    <span class="nt">privateKey</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
-      <span class="no">-----BEGIN RSA PRIVATE KEY-----</span>
-      <span class="no"># Private key (contents of the .pem file)</span>
-      <span class="no">-----END RSA PRIVATE KEY-----</span>
+<p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following command below:</p>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/git-providers/generate-bitbucket-server-secrets.sh<span class="o">)</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
-<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
-             --values values-production.yaml
-</code></pre></div>
-
+<p>Store the keys in a safe place for usage in the next steps and as a backup.</p>
+<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
 </li>
 </ol>
-<p>After this is done you will be able to use GitHub Cloud to authenticate to Codacy.</p>
+<h2 id="bitbucket-server-application-link_1">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link_1" title="Permanent link">&para;</a></h2>
+<p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.</p>
+<h3 id="application-link-creation">Application Link Creation<a class="headerlink" href="#application-link-creation" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open <code>&lt;bitbucket server base url&gt;/plugins/servlet/applinks/listApplicationLinks</code>, where <code>&lt;bitbucket server base url&gt;</code> is the base url of your own Bitbucket Server instance.</li>
+<li>
+<p>Create the link, use your Codacy installation URL for this.</p>
+<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
+</li>
+</ol>
+<h3 id="name-the-link">Name the link<a class="headerlink" href="#name-the-link" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Application Name:</strong> Name the application (ex: Codacy)</li>
+<li><strong>Application Type:</strong> The application type is Generic Application</li>
+<li>The rest of the configuration should be left blank.</li>
+</ul>
+<p><img alt="Stash Link Naming" src="../images/stash-link-naming.png" /></p>
+<p>After the link is created, click <strong>Edit</strong> to add an incoming connection.</p>
+<h3 id="add-incoming-connection">Add incoming connection<a class="headerlink" href="#add-incoming-connection" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Consumer Key:</strong> This value should be copied from the <code>consumerKey</code> generated previously.</li>
+<li><strong>Consumer Name:</strong> You can choose any name (ex: Codacy).</li>
+<li><strong>Public Key:</strong> This value should be copied from the <code>consumerPublicKey</code> generated previously.</li>
+<li>The rest of the fields should be left blank.</li>
+</ul>
+<p><img alt="Stash Incoming Connection" src="../images/stash-incoming-connection.png" /></p>
+<p>After the application link is created, you will be able to add Bitbucket Server as an integration in the repository settings.</p>
                 
                   
                 
@@ -567,7 +703,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../../infrastructure/microk8s-quickstart/" title="Creating a MicroK8s cluster" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitbucket-server/" title="Bitbucket Server" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -576,19 +712,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Creating a MicroK8s cluster
+                Bitbucket Server
               </span>
             </div>
           </a>
         
         
-          <a href="../github-enterprise/" title="GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../email/" title="Emails" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                GitHub Enterprise
+                Emails
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

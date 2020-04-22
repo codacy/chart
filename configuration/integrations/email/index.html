@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/create-bitbucket-server-application-link/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/email/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Bitbucket Server Application Link - Chart</title>
+        <title>Emails - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#bitbucket-server-application-link" tabindex="0" class="md-skip">
+      <a href="#emails" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Bitbucket Server Application Link
+                Emails
               
             </span>
           
@@ -369,6 +369,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
+      Bitbucket Server Application Link
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -379,72 +391,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Bitbucket Server Application Link
-      </label>
-    
-    <a href="./" title="Bitbucket Server Application Link" class="md-nav__link md-nav__link--active">
-      Bitbucket Server Application Link
+    <a href="./" title="Emails" class="md-nav__link md-nav__link--active">
+      Emails
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#generating-the-secrets" class="md-nav__link">
-    Generating the secrets
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
-    Bitbucket Server Application Link
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#application-link-creation" class="md-nav__link">
-    Application Link Creation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#name-the-link" class="md-nav__link">
-    Name the link
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#add-incoming-connection" class="md-nav__link">
-    Add incoming connection
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -567,56 +516,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#generating-the-secrets" class="md-nav__link">
-    Generating the secrets
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bitbucket-server-application-link_1" class="md-nav__link">
-    Bitbucket Server Application Link
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#application-link-creation" class="md-nav__link">
-    Application Link Creation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#name-the-link" class="md-nav__link">
-    Name the link
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#add-incoming-connection" class="md-nav__link">
-    Add incoming connection
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -628,48 +527,32 @@
               
                 
                 
-                <h1 id="bitbucket-server-application-link">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link" title="Permanent link">&para;</a></h1>
-<p><strong>NOTE:</strong> Since Bitbucket Server uses OAuth1, you'll need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance:</p>
-<h2 id="generating-the-secrets">Generating the secrets<a class="headerlink" href="#generating-the-secrets" title="Permanent link">&para;</a></h2>
+                <h1 id="emails">Emails<a class="headerlink" href="#emails" title="Permanent link">&para;</a></h1>
+<p>Follow the instructions below to set up Codacy to send emails using your SMTP server:</p>
 <ol>
 <li>
-<p>Create a key pair using the RSA algorithm in the PKCS#8 format by running the following command below:</p>
-<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/git-providers/generate-bitbucket-server-secrets.sh<span class="o">)</span>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.email.enabled: "true"</code> and define the remaining values with the credentials for your SMTP server:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">email</span><span class="p">:</span>
+    <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+    <span class="nt">replyTo</span><span class="p">:</span> <span class="s">&quot;notifications@mycompany.com&quot;</span>
+    <span class="nt">smtp</span><span class="p">:</span>
+        <span class="nt">hostname</span><span class="p">:</span> <span class="s">&quot;smtp.mycompany.com&quot;</span>
+        <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;smtps&quot;</span> <span class="c1"># smtps | smtp</span>
+        <span class="nt">username</span><span class="p">:</span> <span class="s">&quot;my-smtp-username&quot;</span>
+        <span class="nt">password</span><span class="p">:</span> <span class="s">&quot;a-s!r0ng-pVsSwORG&quot;</span>
+        <span class="c1"># port: 25</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>Store the keys in a safe place for usage in the next steps and as a backup.</p>
-<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
 </li>
 </ol>
-<h2 id="bitbucket-server-application-link_1">Bitbucket Server Application Link<a class="headerlink" href="#bitbucket-server-application-link_1" title="Permanent link">&para;</a></h2>
-<p>To set up Bitbucket Server you need to create an application link on your Bitbucket Server installation.</p>
-<h3 id="application-link-creation">Application Link Creation<a class="headerlink" href="#application-link-creation" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Open <code>&lt;bitbucket server base url&gt;/plugins/servlet/applinks/listApplicationLinks</code>, where <code>&lt;bitbucket server base url&gt;</code> is the base url of your own Bitbucket Server instance.</li>
-<li>
-<p>Create the link, use your Codacy installation URL for this.</p>
-<p><img alt="Stash Application Link" src="../images/stash-application-link.png" /></p>
-</li>
-</ol>
-<h3 id="name-the-link">Name the link<a class="headerlink" href="#name-the-link" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Application Name:</strong> Name the application (ex: Codacy)</li>
-<li><strong>Application Type:</strong> The application type is Generic Application</li>
-<li>The rest of the configuration should be left blank.</li>
-</ul>
-<p><img alt="Stash Link Naming" src="../images/stash-link-naming.png" /></p>
-<p>After the link is created, click <strong>Edit</strong> to add an incoming connection.</p>
-<h3 id="add-incoming-connection">Add incoming connection<a class="headerlink" href="#add-incoming-connection" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Consumer Key:</strong> This value should be copied from the <code>consumerKey</code> generated previously.</li>
-<li><strong>Consumer Name:</strong> You can choose any name (ex: Codacy).</li>
-<li><strong>Public Key:</strong> This value should be copied from the <code>consumerPublicKey</code> generated previously.</li>
-<li>The rest of the fields should be left blank.</li>
-</ul>
-<p><img alt="Stash Incoming Connection" src="../images/stash-incoming-connection.png" /></p>
-<p>After the application link is created, you will be able to add Bitbucket Server as an integration in the repository settings.</p>
+<p>After this is done you will be able to receive notifications Emails during usage of the product.</p>
                 
                   
                 
@@ -691,7 +574,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../bitbucket-server/" title="Bitbucket Server" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -700,7 +583,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Bitbucket Server
+                Bitbucket Server Application Link
               </span>
             </div>
           </a>

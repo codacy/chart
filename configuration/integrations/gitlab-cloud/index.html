@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/bitbucket/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/gitlab-cloud/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Bitbucket - Chart</title>
+        <title>GitLab Cloud - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#bitbucket" tabindex="0" class="md-skip">
+      <a href="#gitlab-cloud" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Bitbucket
+                GitLab Cloud
               
             </span>
           
@@ -321,11 +321,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../gitlab-cloud/" title="GitLab Cloud" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        GitLab Cloud
+      </label>
+    
+    <a href="./" title="GitLab Cloud" class="md-nav__link md-nav__link--active">
       GitLab Cloud
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gitlab-application" class="md-nav__link">
+    GitLab Application
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -345,56 +383,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Bitbucket
-      </label>
-    
-    <a href="./" title="Bitbucket" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../bitbucket/" title="Bitbucket" class="md-nav__link">
       Bitbucket
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-consumer" class="md-nav__link">
-    Create a consumer
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enable-bitbucket-and-set-the-key-and-the-secret" class="md-nav__link">
-    Enable Bitbucket and set the key and the secret
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -418,6 +411,18 @@
   <li class="md-nav__item">
     <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
       Bitbucket Server Application Link
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../email/" title="Emails" class="md-nav__link">
+      Emails
     </a>
   </li>
 
@@ -544,15 +549,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-consumer" class="md-nav__link">
-    Create a consumer
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enable-bitbucket-and-set-the-key-and-the-secret" class="md-nav__link">
-    Enable Bitbucket and set the key and the secret
+  <a href="#gitlab-application" class="md-nav__link">
+    GitLab Application
   </a>
   
 </li>
@@ -574,45 +572,38 @@
               
                 
                 
-                <h1 id="bitbucket">Bitbucket<a class="headerlink" href="#bitbucket" title="Permanent link">&para;</a></h1>
-<p>Since Bitbucket uses OAuth, the first step is to register a consumer for Codacy on Bitbucket side.</p>
-<h2 id="create-a-consumer">Create a consumer<a class="headerlink" href="#create-a-consumer" title="Permanent link">&para;</a></h2>
-<p>OAuth needs a key and secret, together these are known as an OAuth consumer. You can create a consumer on any existing individual or team account. To create a consumer, do the following:</p>
+                <h1 id="gitlab-cloud">GitLab Cloud<a class="headerlink" href="#gitlab-cloud" title="Permanent link">&para;</a></h1>
+<h2 id="gitlab-application">GitLab Application<a class="headerlink" href="#gitlab-application" title="Permanent link">&para;</a></h2>
+<p>Follow the instructions below to set up the Codacy integration with GitLab Cloud:</p>
 <ol>
-<li>From your avatar in the bottom left, click Bitbucket settings.</li>
-<li>Click <em>"OAuth"</em> from the left navigation and click the <em>"Add consumer"</em> button.  <ol>
-<li>Set the name of the consumer (e.g. <em>"Codacy"</em>).</li>
-<li>Set the callback URL as <em>"http://<codacy_url>:<codacy_port>/login/Bitbucket?codacy_skip_ga=1"</em>.</li>
-<li>Tick the <em>"This is a private consumer"</em> checkbox:
-    <img alt="Bitbucket Consumer Configuration" src="../images/bitbucket-consumer-configuration.png" /></li>
-<li>Add the following permissions: 
- <img alt="Bitbucket Consumer Permissions" src="../images/bitbucket-consumer-permissions.png" /></li>
-<li>Click Save. 
-    The system generates a key and a secret for you.</li>
-<li>Toggle the consumer name to see the generated Key and Secret value for your consumer.
- <img alt="Bitbucket Consumer Key and Secret" src="../images/bitbucket-consumer-key-and-secret.png" /></li>
-</ol>
+<li>
+<p>Create a <a href="https://gitlab.com/profile/applications">new application</a> pointing to your local Codacy deployment URL with <code>api</code>, <code>read user</code> and <code>read repository</code> scopes.</p>
+<p>You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your hostname as well. Keep in mind this field is case sensitive.</p>
+<div class="highlight"><pre><span></span><code>https://codacy.example.com/login/GitLab
+https://codacy.example.com/add/addPermissions/GitLab
+https://codacy.example.com/add/addProvider/GitLab
+https://codacy.example.com/add/addService/GitLab
+</code></pre></div>
+
+</li>
+<li>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.gitlab.enabled: "true"</code> and define the remaining values with the information obtained when you created the GitLab Application:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">gitlab</span><span class="p">:</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client ID</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
 </li>
 </ol>
-<h2 id="enable-bitbucket-and-set-the-key-and-the-secret">Enable Bitbucket and set the key and the secret<a class="headerlink" href="#enable-bitbucket-and-set-the-key-and-the-secret" title="Permanent link">&para;</a></h2>
-<p>Set your configuration values for Bitbucket on the <code>values-production.yaml</code> file.</p>
-<ol>
-<li>Enable Bitbucket by setting <code>enable</code> to <code>"true"</code>.</li>
-<li>Copy the key from Bitbucket and set it in the <code>key</code> field.</li>
-<li>Copy the secret from Bitbucket and set it in the <code>secret</code>field.<br />
-   Example:
-   <div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
-  <span class="nt">bitbucket</span><span class="p">:</span>
-    <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-    <span class="nt">key</span><span class="p">:</span> <span class="s">&quot;12345232123&quot;</span>
-    <span class="nt">secret</span><span class="p">:</span> <span class="s">&quot;54321abcxdawj4bfsdh3&quot;</span>
-</code></pre></div></li>
-<li>Apply the configuration by issuing an helm upgrade.<br />
-    Example:
-    <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install codacy...<span class="o">)</span> <span class="se">\</span>
---values values-production.yaml
-</code></pre></div></li>
-</ol>
+<p>After this is done you will be able to use GitLab Cloud to authenticate to Codacy.</p>
                 
                   
                 
@@ -634,7 +625,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../gitlab-enterprise/" title="GitLab Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../create-github-app/" title="Creating a GitHub App" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -643,19 +634,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GitLab Enterprise
+                Creating a GitHub App
               </span>
             </div>
           </a>
         
         
-          <a href="../bitbucket-server/" title="Bitbucket Server" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../gitlab-enterprise/" title="GitLab Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Bitbucket Server
+                GitLab Enterprise
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

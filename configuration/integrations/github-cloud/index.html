@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/git-providers/create-github-app/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/github-cloud/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Creating a GitHub App - Chart</title>
+        <title>GitHub Cloud - Chart</title>
       
     
     
@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#creating-a-github-app" tabindex="0" class="md-skip">
+      <a href="#github-cloud" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -113,7 +113,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Creating a GitHub App
+                GitHub Cloud
               
             </span>
           
@@ -285,11 +285,20 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+    <a href="./" title="GitHub Cloud" class="md-nav__link md-nav__link--active">
       GitHub Cloud
     </a>
+    
   </li>
 
         
@@ -309,20 +318,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="Creating a GitHub App" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../create-github-app/" title="Creating a GitHub App" class="md-nav__link">
       Creating a GitHub App
     </a>
-    
   </li>
 
         
@@ -382,6 +382,18 @@
   <li class="md-nav__item">
     <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
       Bitbucket Server Application Link
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../email/" title="Emails" class="md-nav__link">
+      Emails
     </a>
   </li>
 
@@ -515,117 +527,37 @@
               
                 
                 
-                <h1 id="creating-a-github-app">Creating a GitHub App<a class="headerlink" href="#creating-a-github-app" title="Permanent link">&para;</a></h1>
-<p>You must create and correctly set up a <a href="https://developer.github.com/apps/about-apps/">GitHub App</a> to allow Codacy to integrate with GitHub.</p>
-<p>To create the GitHub App:</p>
+                <h1 id="github-cloud">GitHub Cloud<a class="headerlink" href="#github-cloud" title="Permanent link">&para;</a></h1>
+<p>Follow the instructions below to set up the Codacy integration with GitHub Cloud:</p>
 <ol>
 <li>
-<p><strong>If you're using GitHub Cloud</strong>, open <a href="https://github.com/settings/apps/new">https://github.com/settings/apps/new</a>.</p>
-<p><strong>If you're using GitHub Enterprise</strong>, open <code>https://&lt;github hostname&gt;/settings/apps/new</code>, where <code>&lt;github hostname&gt;</code> is the hostname of your own GitHub Enterprise instance.</p>
+<p>Follow the instructions on <a href="../create-github-app/">creating a GitHub App</a>.</p>
 </li>
 <li>
-<p>Configure the new GitHub App using the values listed on the table below, replacing <code>&lt;codacy hostname&gt;</code> with the hostname of your Codacy instance.</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub App name</td>
-<td>Codacy</td>
-</tr>
-<tr>
-<td>Homepage URL</td>
-<td><code>https://&lt;codacy hostname&gt;</code></td>
-</tr>
-<tr>
-<td>User authorization callback URL</td>
-<td><code>https://&lt;codacy hostname&gt;</code></td>
-</tr>
-<tr>
-<td>Webhook URL</td>
-<td><code>https://&lt;codacy hostname&gt;/2.0/events/gh/organization</code></td>
-</tr>
-<tr>
-<td><strong>Repository permissions</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Administration</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Checks</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Issues</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Metadata</td>
-<td>Read only</td>
-</tr>
-<tr>
-<td>Pull requests</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Webhooks</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Commit statuses</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td><strong>Organization permissions</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Members</td>
-<td>Read only</td>
-</tr>
-<tr>
-<td>Webhooks</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td><strong>User permissions</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Email addresses</td>
-<td>Read only</td>
-</tr>
-<tr>
-<td>Git SSH keys</td>
-<td>Read &amp; write</td>
-</tr>
-<tr>
-<td>Where can this GitHub App be installed?</td>
-<td>Any account</td>
-</tr>
-</tbody>
-</table>
+<p>Edit the file <code>values-production.yaml</code>, set <code>global.github.enabled: "true"</code> and define the remaining values with the information obtained when you created the GitHub App:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Iv1.0000000000000000</span> <span class="c1"># Client ID</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">a000000000000000</span> <span class="c1"># Client secret</span>
+  <span class="nt">app</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Codacy</span> <span class="c1"># GitHub App name</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">00000</span> <span class="c1"># App ID</span>
+    <span class="nt">privateKey</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
+      <span class="no">-----BEGIN RSA PRIVATE KEY-----</span>
+      <span class="no"># Private key (contents of the .pem file)</span>
+      <span class="no">-----END RSA PRIVATE KEY-----</span>
+</code></pre></div>
+
 </li>
 <li>
-<p>Scroll to the bottom of the page, click <strong>Generate a private key</strong>, and save the <code>.pem</code> file containing the private key.</p>
-</li>
-<li>
-<p>Take note of the following information, as you'll need it to configure Codacy:</p>
-<ul>
-<li>GitHub App name </li>
-<li>App ID</li>
-<li>Client ID</li>
-<li>Client secret</li>
-<li>Private key (contents of the <code>.pem</code> file generated in the previous step)</li>
-</ul>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --values values-production.yaml
+</code></pre></div>
+
 </li>
 </ol>
+<p>After this is done you will be able to use GitHub Cloud to authenticate to Codacy.</p>
                 
                   
                 
@@ -647,7 +579,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../github-enterprise/" title="GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../../infrastructure/microk8s-quickstart/" title="Creating a MicroK8s cluster" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -656,19 +588,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GitHub Enterprise
+                Creating a MicroK8s cluster
               </span>
             </div>
           </a>
         
         
-          <a href="../gitlab-cloud/" title="GitLab Cloud" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../github-enterprise/" title="GitHub Enterprise" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                GitLab Cloud
+                GitHub Enterprise
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

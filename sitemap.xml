@@ -26,42 +26,47 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/github-cloud/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/github-cloud/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/github-enterprise/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/github-enterprise/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/create-github-app/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/create-github-app/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/gitlab-cloud/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/gitlab-cloud/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/gitlab-enterprise/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/gitlab-enterprise/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/bitbucket/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/bitbucket/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/bitbucket-server/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/bitbucket-server/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/configuration/git-providers/create-bitbucket-server-application-link/</loc>
+     <loc>https://codacy.github.io/chart/configuration/integrations/create-bitbucket-server-application-link/</loc>
+     <lastmod>2020-04-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://codacy.github.io/chart/configuration/integrations/email/</loc>
      <lastmod>2020-04-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
