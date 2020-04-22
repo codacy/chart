@@ -19,10 +19,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
       app:
         name: Codacy # GitHub App name
         id: 00000 # App ID
-        privateKey: >
-          -----BEGIN RSA PRIVATE KEY-----
-          # Private key (contents of the .pem file)
-          -----END RSA PRIVATE KEY-----
+        privateKey: "-----BEGIN RSA PRIVATE KEY-----..." # Contents of the .pem file with newlines removed
     ```
 
 3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-production.yaml` to the command [used to install Codacy](../../index.md#2-installing-codacy):

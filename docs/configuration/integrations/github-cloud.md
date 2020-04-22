@@ -14,9 +14,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
       app:
         name: Codacy # GitHub App name
         id: 00000 # App ID
-        privateKey: >
-          -----BEGIN RSA PRIVATE KEY-----
-          # Private key (contents of the .pem file)
+        privateKey: "-----BEGIN RSA PRIVATE KEY-----..." # Contents of the .pem file with newlines removed
           -----END RSA PRIVATE KEY-----
     ```
 
