@@ -41,52 +41,52 @@ Install MicroK8s on the machine:
 3.  Check that MicroK8s is running:
 
     ```bash
-    $ microk8s.status --wait-ready
-    microk8s is running
-    addons:
-    knative: disabled
-    jaeger: disabled
-    fluentd: disabled
-    gpu: disabled
-    cilium: disabled
-    storage: disabled
-    registry: disabled
-    rbac: disabled
-    ingress: disabled
-    dns: disabled
-    metrics-server: disabled
-    linkerd: disabled
-    prometheus: disabled
-    istio: disabled
-    dashboard: disabled
+    microk8s.status --wait-ready
     ```
 
 ## 3. Configuring MicroK8s
 
-Now that MicroK8s is running on the machine we can proceed to enabling the necessary plugins and installing the Helm client and server:
+Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing the Helm client and server:
 
-1.  Enable the following plugins on MicroK8s:
+1.  Configure MicroK8s to allow privileged containers:
 
     ```bash
     sudo mkdir -p /var/snap/microk8s/current/args
     sudo echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
     microk8s.status --wait-ready
+    ```
+
+2.  Enable the following MicroK8s addons:
+
+    ```bash
     microk8s.enable dns
+    microk8s.status --wait-ready
     microk8s.enable storage
+    microk8s.status --wait-ready
     microk8s.enable ingress
     microk8s.status --wait-ready
+    ```
+
+    !!! important
+        Check the output of the commands to make sure that all the addons are enabled correctly.
+
+        If by chance any of the addons fails to be enabled, re-execute the `microk8s.enable` command for that addon.
+
+3.  Restart MicroK8s and its services to make sure that all configurations are working:
+
+    ```bash
     microk8s.stop
     microk8s.start
     microk8s.status --wait-ready
     ```
 
-2.  Install version v2.16.3 of the Helm client:
+4.  Install version v2.16.3 of the Helm client:
 
     ```bash
     sudo snap install helm --classic --channel=2.16/stable
     ```
 
-3.  Install the Helm server:
+5.  Install the Helm server:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller
@@ -94,17 +94,45 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     helm init --service-account tiller
     ```
 
-4.  The plugins are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
-    # If the following command fails, you probably installed the wrong microk8s version
+    # If the following command fails, you probably installed the wrong MicroK8s version
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
     ```
 
-    After these commands return successfully we have ensured that DNS, HTTP, and NGINX Ingress are enabled and working properly inside the MicroK8s instance.
+7.  Verify that the MicroK8s configuration was successful:
+
+    ```bash
+    microk8s.status --wait-ready
+    ```
+
+    The output of the command should be the following:
+
+    ```text
+    microk8s is running
+    addons:
+    knative: disabled
+    jaeger: disabled
+    fluentd: disabled
+    gpu: disabled
+    cilium: disabled
+    storage: enabled
+    registry: disabled
+    rbac: disabled
+    ingress: enabled
+    dns: enabled
+    metrics-server: disabled
+    linkerd: disabled
+    prometheus: disabled
+    istio: disabled
+    dashboard: disabled
+    ```
+
+After these steps you have ensured that DNS, HTTP, and NGINX Ingress are enabled and working properly inside the MicroK8s instance.
 
 ## Notes on installing Codacy
 
@@ -118,10 +146,4 @@ You can now follow the generic [Codacy installation instructions](../index.md#2-
     alias kubectl=microk8s.kubectl
     ```
 
--   When running the `helm upgrade` command that installs the Codacy chart you must append the file `values-microk8s.yaml` that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.
-
-    You can download the file `values-microk8s.yaml` by running:
-
-    ```bash
-    wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
-    ```
+-   When running the `helm upgrade` command that installs the Codacy chart, you will be instructed to also use the file [`values-microk8s.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml) that downsizes some component limits, making it easier to fit Codacy in the lightweight MicroK8s solution.
