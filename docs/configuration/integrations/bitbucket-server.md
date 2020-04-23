@@ -9,6 +9,7 @@ Follow the instructions below to set up the Codacy integration with Bitbucket Se
     ```yaml
     bitbucketEnterprise:
        enabled: "true"
+       login: "true" # Show login button for Bitbucket Server
        hostname: example.host.com # Hostname of your Bitbucket Server instance
        port: 443 # Port of your Bitbucket Server instance
        protocol: https # Protocol of your Bitbucket Server instance

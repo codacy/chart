@@ -9,6 +9,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
     ```yaml
     github:
       enabled: "true"
+      login: "true" # Show login button for GitHub
       clientId: Iv1.0000000000000000 # Client ID
       clientSecret: a000000000000000 # Client secret
       app:

@@ -29,6 +29,7 @@ Set your configuration values for Bitbucket on the `values-production.yaml` file
    global:
      bitbucket:
        enabled: "true"
+       login: "true" # Show login button for Bitbucket
        key: "12345232123"
        secret: "54321abcxdawj4bfsdh3"
    ```
