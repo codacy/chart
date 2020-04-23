@@ -3,13 +3,26 @@ set -e
 REQUIREMENTS_FILE="codacy/requirements.yaml"
 OLD_LOCK_FILE="codacy/requirements_old.lock"
 NEW_LOCK_FILE="codacy/requirements.lock"
+CHANGELOG_FILE="$(pwd)/changelogs/changelog.md"
+LATEST_TAG="latest"
 
-function prepareChangelogMarkdown(){
+function appendToChangelog() {
+    echo "$1" >> "$CHANGELOG_FILE"
+}
+
+function prepareEnvironment() {
+    rm -rf ./changelogs
+    mkdir changelogs
+    prepareChangelogMarkdown
+    git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
+}
+
+function prepareChangelogMarkdown() {
     changelog_conf_path=$(realpath .)/.changelogs
     export GITCHANGELOG_CONFIG_FILENAME=$changelog_conf_path/gitchangelog.rc
     markdown_template_path=$(echo "$changelog_conf_path/markdown.tpl" | sed 's/\//\\\//g')
     sed "s/##PATHMACRO##/$markdown_template_path/g" "$changelog_conf_path/gitchangelogtemplate.rc" >> "$GITCHANGELOG_CONFIG_FILENAME"
-    echo "# Codacy Chart Changelog" >> "changelogs/changelog.md"
+    appendToChangelog "# Codacy Chart Changelog"
 }
 
 function getChangelog() {
@@ -18,11 +31,11 @@ function getChangelog() {
     new_version=$3
     repository_url=$4
     cd "$project_name"
-    echo "  * $old_version -> $new_version"
+    echo "Getting changelog: $old_version -> $new_version"
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
-    echo "## $project_name($repository_url)" >> "../changelogs/changelog.md"
-    gitchangelog "$old_version" "$new_version" >> "../changelogs/changelog.md"
+    appendToChangelog "## $project_name($repository_url)"
+    appendToChangelog "$(gitchangelog \"$old_version\" \"$new_version\")"
     cd ..
     rm -rf "./$project_name"
 }
@@ -32,7 +45,7 @@ function cloneRepository() {
     old_version=$2
     new_version=$3
     repository_url=$4
-    echo "[OK] checking out: $project_name($repository_url)"
+    echo "Checking out: $project_name($repository_url)"
     git clone "$repository_url" "$project_name" --quiet
 }
 
@@ -46,40 +59,21 @@ function getOldDependencyVersion(){
     echo "$old_version"
 }
 
-function getDependencies() {
-    echo "$(yq r \"$1\" dependencies -j | jq -r \".[].name\")"
-}
-
-function getDependencyVersion() {
-    echo "$(yq r \"$1\" dependencies -j | jq -r \".[] | select(.name==$2).version\")"
-}
-
-function getDependencyRepoUrl() {
-    echo "$(yq r \"$1\" dependencies -j | jq -r \".[] | select(.name==$2).git\")"
-}
-
-rm -rf ./changelogs
-mkdir changelogs
-prepareChangelogMarkdown
-
-LATEST_TAG="stable"
-git cat-file blob "$LATEST_TAG":"$NEW_LOCK_FILE" > "$OLD_LOCK_FILE"
-DEPENDENCIES=$(getDependencies $NEW_LOCK_FILE)
-
-for key in $DEPENDENCIES
+prepareEnvironment
+dependencies=$(yq r "$NEW_LOCK_FILE" dependencies -j | jq -r ".[].name")
+for key in $dependencies
 do
-    repository_url="$(getDependencyRepoUrl \"$REQUIREMENTS_FILE\" \"$key\")"
-    old_version="$(getOldDependencyVersion \"$key\" \"$repository_url\")"
-    new_version="$(getDependencyVersion \"$NEW_LOCK_FILE\" \"$key\")"
+    old_version=$(yq r $OLD_LOCK_FILE dependencies -j | jq -r ".[] | select(.name==\"$key\").version")
+    new_version=$(yq r $NEW_LOCK_FILE dependencies -j | jq -r ".[] | select(.name==\"$key\").version")
+    repository_url=$(yq r $REQUIREMENTS_FILE dependencies -j | jq -r ".[] | select(.name==\"$key\").git")
 
     if [ "$old_version" != "$new_version" ] && [ "$repository_url" != "null" ];
         then
             cloneRepository "$key" "$old_version" "$new_version" "$repository_url"
             getChangelog "$key" "$old_version" "$new_version" "$repository_url"
         else
-            echo "[Skipped] $key:"
-            [ "$repository_url" == "null" ] && echo "  * has no repository url."
-            [ "$old_version" == "$new_version" ] && echo "  * $old_version is the same as $new_version"
+            [ "$repository_url" == "null" ] && echo "Skipped $key: has no repository url."
+            [ "$old_version" == "$new_version" ] && echo "Skipped $key: $old_version is the same as $new_version"
     fi
 done
 
