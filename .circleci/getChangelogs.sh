@@ -58,8 +58,9 @@ function handleNewDependency() {
     appendToChangelog "" # add blank line in changelog.md
 }
 
-
+echo "Getting changelogs..."
 prepareEnvironment
+echo "Resolving dependencies..."
 dependencies=$(yq r "$NEW_LOCK_FILE" dependencies -j | jq -r ".[].name")
 for dependency in $dependencies
 do
