@@ -34,7 +34,7 @@ global:
     # enabled: "false"
     # key: ""
     # secret: ""
-    
+
   bitbucketEnterprise: {}
     # enabled: "false"
     # hostname: "example.host.com"
@@ -67,6 +67,8 @@ global:
     contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
+  crow:
+    url: <--- http://codacy.example.com/monitoring ---> # This value is important for the loopback links between the Analysis System and Crow
 
   defaultdb:
     create: false
@@ -300,6 +302,22 @@ crow:
     requests:
       cpu: 0.1
       memory: 100Mi
+  fullnameOverride: codacy-crow
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: 5432
+    fullnameOverride: codacy-crowdb
+  config:
+    play:
+      http:
+        context: "/monitoring"
+    passwordAuth:
+      password: <--- crow-login-password --->
 rabbitmq-ha:
   replicaCount: 3
   persistentVolume:
