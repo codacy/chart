@@ -1,6 +1,7 @@
 global:
   github: {}
     # enabled: "false"
+    # login: "false"
     # clientId: ""
     # clientSecret: ""
     # app:
@@ -10,6 +11,7 @@ global:
 
   githubEnterprise: {}
     # enabled: "false"
+    # login: "false"
     # hostname: "example.host.com"
     # port: 443
     # protocol: "https"
@@ -24,6 +26,7 @@ global:
 
   gitlabEnterprise: {}
     # enabled: "false"
+    # login: "false"
     # clientId: ""
     # clientSecret: ""
     # hostname: "example.host.com"
@@ -32,11 +35,13 @@ global:
 
   bitbucket: {}
     # enabled: "false"
+    # login: "false"
     # key: ""
     # secret: ""
 
   bitbucketEnterprise: {}
     # enabled: "false"
+    # login: "false"
     # hostname: "example.host.com"
     # protocol: "http"
     # port: 7990

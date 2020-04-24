@@ -20,6 +20,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
     ```yaml
     gitlab:
       enabled: "true"
+      login: "true" # Show login button for GitLab
       clientId: a000000000000000 # Client ID
       clientSecret: a000000000000000 # Client secret
     ```

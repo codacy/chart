@@ -99,37 +99,43 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.jobsdb.postgresqlPassword`              | Hostname of the Postgresql server                                                                            | `nil`           |
 | `global.jobsdb.host`                            | Hostname of the Postgresql server                                                                            | `nil`           |
 | `global.jobsdb.service.port`                    | Port of the Postgresql server                                                                                | `5432`          |
-| `global.github.enabled`                         | Enable github                                                                                                | `nil`           |
+| `global.github.enabled`                         | Enable GitHub                                                                                                | `nil`           |
+| `global.github.login`                           | Show login for GitHub                                                                                        | `nil`           |
 | `global.github.app.name`                        | The name of the GitHub app to integrate with. Only required if you use the GitHub integration.               | `nil`           |
 | `global.github.app.id`                          | App id used in Codacy to integrate with GitHub Apps                                                          | `nil`           |
 | `global.github.app.privateKey`                  | Private key generated after the GitHub App's creation                                                        | `nil`           |
 | `global.github.clientId`                        | Client id generated when creating the GitHub App                                                             | `nil`           |
 | `global.github.clientSecret`                    | Client secret generated when creating the GitHub App                                                         | `nil`           |
-| `global.githubEnterprise.enabled`               | Enable githubEnterprise                                                                                      | `nil`           |
-| `global.githubEnterprise.hostname`              | Hostname of githubEnterprise instance                                                                        | `nil`           |
-| `global.githubEnterprise.protocol`              | Protocol of githubEnterprise instance                                                                        | `nil`           |
-| `global.githubEnterprise.port`                  | Port of githubEnterprise instance                                                                            | `nil`           |
-| `global.githubEnterprise.isPrivateMode`         | Status of private mode on githubEnterprise instance                                                          | `nil`           |
-| `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with githubEnterprise instance                                 | `nil`           |
+| `global.githubEnterprise.enabled`               | Enable GitHub Enterprise                                                                                     | `nil`           |
+| `global.githubEnterprise.login`                 | Show login for GitHub Enterprise                                                                             | `nil`           |
+| `global.githubEnterprise.hostname`              | Hostname of GitHub Enterprise instance                                                                       | `nil`           |
+| `global.githubEnterprise.protocol`              | Protocol of GitHub Enterprise instance                                                                       | `nil`           |
+| `global.githubEnterprise.port`                  | Port of GitHub Enterprise instance                                                                           | `nil`           |
+| `global.githubEnterprise.isPrivateMode`         | Status of private mode on GitHub Enterprise instance                                                         | `nil`           |
+| `global.githubEnterprise.disableSSL`            | Disable certificate validation on interaction with GitHub Enterprise instance                                | `nil`           |
 | `global.githubEnterprise.app.name`              | The name of the GitHub app to integrate with. Only required if you use the GitHub Enterprise integration.    | `nil`           |
 | `global.githubEnterprise.app.id`                | App id used in Codacy to integrate with GitHub Apps in GitHub Enterprise                                     | `nil`           |
 | `global.githubEnterprise.app.privateKey`        | Private key generated after the GitHub App's creation in GitHub Enterprise                                   | `nil`           |
-| `global.gitlab.enabled`                         | Enable gitlab                                                                                                | `nil`           |
+| `global.gitlab.enabled`                         | Enable GitLab                                                                                                | `nil`           |
+| `global.gitlab.login`                           | Show login for GitLab                                                                                        | `nil`           |
 | `global.gitlab.clientId`                        | Client id generated when creating the GitLab App                                                             | `nil`           |
 | `global.gitlab.clientSecret`                    | Client secret generated when creating the GitLab App                                                         | `nil`           |
-| `global.gitlabEnterprise.enabled`               | Enable gitlabEnterprise                                                                                      | `nil`           |
-| `global.gitlabEnterprise.hostname`              | Hostname of gitlabEnterprise instance                                                                        | `nil`           |
-| `global.gitlabEnterprise.protocol`              | Protocol of gitlabEnterprise instance                                                                        | `nil`           |
-| `global.gitlabEnterprise.port`                  | Port of gitlabEnterprise instance                                                                            | `nil`           |
+| `global.gitlabEnterprise.enabled`               | Enable GitLab Enterprise                                                                                     | `nil`           |
+| `global.gitlabEnterprise.login`                 | Show login for GitLab Enterprise                                                                             | `nil`           |
+| `global.gitlabEnterprise.hostname`              | Hostname of GitLab Enterprise instance                                                                       | `nil`           |
+| `global.gitlabEnterprise.protocol`              | Protocol of GitLab Enterprise instance                                                                       | `nil`           |
+| `global.gitlabEnterprise.port`                  | Port of GitLab Enterprise instance                                                                           | `nil`           |
 | `global.bitbucket.enabled`                      | Enable Bitbucket                                                                                             | `nil`           |
+| `global.bitbucket.login`                        | Show login for Bitbucket                                                                                     | `nil`           |
 | `global.bitbucket.key`                          | Bitbucket key used for OAuth                                                                                 | `nil`           |
 | `global.bitbucket.secret`                       | Bitbucket secret used for OAuth                                                                              | `nil`           |
-| `global.bitbucketEnterprise.enabled`            | Enable bitbucketEnterprise                                                                                   | `nil`           |
-| `global.bitbucketEnterprise.hostname`           | Hostname of bitbucketEnterprise instance                                                                     | `nil`           |
-| `global.bitbucketEnterprise.protocol`           | Protocol of bitbucketEnterprise instance                                                                     | `nil`           |
-| `global.bitbucketEnterprise.port`               | Port of bitbucketEnterprise instance                                                                         | `nil`           |
-| `global.bitbucketEnterprise.consumerKey`        | Codacy app name to be identified on bitbucketEnterprise instance                                             | `nil`           |
-| `global.bitbucketEnterprise.consumerPublicKey`  | Public key to be set on bitbucketEnterprise instance                                                         | `nil`           |
+| `global.bitbucketEnterprise.enabled`            | Enable Bitbucket Enterprise                                                                                  | `nil`           |
+| `global.bitbucketEnterprise.login`              | Show login for Bitbucket Enterprise                                                                          | `nil`           |
+| `global.bitbucketEnterprise.hostname`           | Hostname of Bitbucket Enterprise instance                                                                    | `nil`           |
+| `global.bitbucketEnterprise.protocol`           | Protocol of Bitbucket Enterprise instance                                                                    | `nil`           |
+| `global.bitbucketEnterprise.port`               | Port of Bitbucket Enterprise instance                                                                        | `nil`           |
+| `global.bitbucketEnterprise.consumerKey`        | Codacy app name to be identified on Bitbucket Enterprise instance                                            | `nil`           |
+| `global.bitbucketEnterprise.consumerPublicKey`  | Public key to be set on Bitbucket Enterprise instance                                                        | `nil`           |
 | `global.bitbucketEnterprise.consumerPrivateKey` | Private key to sign requests made to the bitbucketEnteprise instance                                         | `nil`           |
 | `global.features.cloneSubmodules`               | Enable sharing of configuration files for the analysis tools placed on git submodules                        | `false`         |
 
