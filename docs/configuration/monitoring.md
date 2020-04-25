@@ -17,7 +17,7 @@ Crow is installed alongside Codacy when the Helm chart is deployed to the cluste
 -   **Username:** `codacy`
 -   **Password:** `C0dacy123`
 
-We highly recommend that you define a custom password for Crow, if you haven't already done it when [installing Codacy](../index.md#2.-installing-codacy):
+We highly recommend that you define a custom password for Crow, if you haven't already done it when installing Codacy:
 
 1.  Edit the value of `crow.config.passwordAuth.password` in the `values-production.yaml` file that you used to install Codacy:
 
@@ -28,15 +28,17 @@ We highly recommend that you define a custom password for Crow, if you haven't a
           password: <--- crow password --->
     ```
 
-2.  Apply the new configuration by performing a Helm upgrade:
+2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
 
     !!! important
-        **If you are using MicroK8s** don't forget to use the file `values-microk8s.yaml` together with the file `values-production.yaml` as [described here](../infrastructure/microk8s-quickstart.md#notes-on-installing-codacy). To do this, uncomment the last line before running the command below.
+        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        
+        To do this, uncomment the last line before running the `helm upgrade` command below.
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                --values values-production.yaml \
-                # --values values-microk8s.yaml
+                 --values values-production.yaml \
+                 # --values values-microk8s.yaml
     ```
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
@@ -122,9 +124,9 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
           enabled: true
     ```
 
-2.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-monitoring.yaml --recreate-pods` to the command [used to install Codacy](../index.md#2-installing-codacy):
+2.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-monitoring.yaml --recreate-pods` to the command [used to install Codacy](../index.md#helm-upgrade):
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                --values values-monitoring.yaml --recreate-pods
+                 --values values-monitoring.yaml --recreate-pods
     ```
