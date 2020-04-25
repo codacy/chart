@@ -45,14 +45,15 @@ nav:
     - infrastructure/aks-quickstart.md
     - infrastructure/microk8s-quickstart.md
   - "Configuring Codacy":
-    - configuration/integrations/github-cloud.md
-    - configuration/integrations/github-enterprise.md
-    - configuration/integrations/github-app-create.md
-    - configuration/integrations/gitlab-cloud.md
-    - configuration/integrations/gitlab-enterprise.md
-    - configuration/integrations/bitbucket-cloud.md
-    - configuration/integrations/bitbucket-server.md
-    - configuration/integrations/email.md
+    - "Integrations":
+      - configuration/integrations/github-cloud.md
+      - configuration/integrations/github-enterprise.md
+      - configuration/integrations/github-app-create.md
+      - configuration/integrations/gitlab-cloud.md
+      - configuration/integrations/gitlab-enterprise.md
+      - configuration/integrations/bitbucket-cloud.md
+      - configuration/integrations/bitbucket-server.md
+      - configuration/integrations/email.md
     - configuration/monitoring.md
   - "Extra":
     - extra/upgrade.md
