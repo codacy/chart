@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up the Codacy integration with GitHub Enterprise:
 
-1.  Follow the instructions on [creating a GitHub App](create-github-app.md).
+1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 
 2.  Edit the file `values-production.yaml`, set `global.githubEnterprise.enabled: "true"` and define the remaining values as described below and with the information obtained when you created the GitHub App:
 

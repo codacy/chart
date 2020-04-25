@@ -1,4 +1,4 @@
-# Bitbucket
+# Bitbucket Cloud
 
 Since Bitbucket uses OAuth, the first step is to register a consumer for Codacy on Bitbucket side.
 

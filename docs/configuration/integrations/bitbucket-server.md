@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up the Codacy integration with Bitbucket Server:
 
-1.  Follow the instructions on [creating a Bitbucket Server application link](create-bitbucket-server-application-link.md).
+1.  Follow the instructions on [creating a Bitbucket Server application link](bitbucket-applink-create.md).
 
 2.  Edit the file `values-production.yaml`, set `global.githubEnterprise.enabled: "true"` and define the remaining values as described below and with the information obtained when you created the GitHub App:
 

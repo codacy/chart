@@ -136,7 +136,7 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
         -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
         -   [GitLab Cloud](configuration/integrations/gitlab-cloud.md)
         -   [GitLab Enterprise](configuration/integrations/gitlab-enterprise.md)
-        -   [Bitbucket Cloud](configuration/integrations/bitbucket.md)
+        -   [Bitbucket Cloud](configuration/integrations/bitbucket-cloud.md)
         -   [Bitbucket Server](configuration/integrations/bitbucket-server.md)
         -   [Email](configuration/integrations/email.md)
     -   Creating an initial organization

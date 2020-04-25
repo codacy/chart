@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up the Codacy integration with GitHub Cloud:
 
-1.  Follow the instructions on [creating a GitHub App](create-github-app.md).
+1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 
 2.  Edit the file `values-production.yaml`, set `global.github.enabled: "true"` and define the remaining values with the information obtained when you created the GitHub App:
 
