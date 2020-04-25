@@ -37,8 +37,8 @@ global:
     # enabled: "false"
     # login: "false"
     # hostname: "example.host.com"
-    # port: 443
     # protocol: "https"
+    # port: 443
     # disableSSL: "false"
     # isPrivateMode: "true"
     # clientId: ""
@@ -57,11 +57,11 @@ global:
   gitlabEnterprise: {}
     # enabled: "false"
     # login: "false"
-    # clientId: ""
-    # clientSecret: ""
     # hostname: "example.host.com"
     # protocol: "https"
     # port: 443
+    # clientId: ""
+    # clientSecret: ""
 
   bitbucket: {}
     # enabled: "false"

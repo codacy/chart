@@ -13,8 +13,8 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
       enabled: "true"
       login: "true" # Show login button for GitHub Enterprise
       hostname: example.host.com # Hostname of your GitHub Enterprise instance
-      port: 443 # Port of your GitHub Enterprise instance
       protocol: https # Protocol of your GitHub Enterprise instance
+      port: 443 # Port of your GitHub Enterprise instance
       disableSSL: false # Disable certificate validation 
       isPrivateMode: true # Status of private mode on your GitHub Enterprise instance
       clientId: Iv1.0000000000000000 # Client ID
