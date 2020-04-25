@@ -55,12 +55,12 @@ After creating the Bitbucket Server application link, you must configure it on C
     bitbucketEnterprise:
        enabled: "true"
        login: "true" # Show login button for Bitbucket Server
-       hostname: example.host.com # Hostname of your Bitbucket Server instance
-       protocol: https # Protocol of your Bitbucket Server instance
+       hostname: "example.host.com" # Hostname of your Bitbucket Server instance
+       protocol: "https" # Protocol of your Bitbucket Server instance
        port: 443 # Port of your Bitbucket Server instance
-       consumerKey: # Generated when creating the Bitbucket Server application link
-       consumerPublicKey: # Generated when creating the Bitbucket Server application link
-       consumerPrivateKey: # Generated when creating the Bitbucket Server application link
+       consumerKey: "a000000000000" # Generated when creating the Bitbucket Server application link
+       consumerPublicKey: "a000000000000" # Generated when creating the Bitbucket Server application link
+       consumerPrivateKey: "a000000000000" # Generated when creating the Bitbucket Server application link
     ```
 
 3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
