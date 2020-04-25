@@ -52,7 +52,6 @@ nav:
     - configuration/integrations/gitlab-enterprise.md
     - configuration/integrations/bitbucket-cloud.md
     - configuration/integrations/bitbucket-server.md
-    - configuration/integrations/bitbucket-applink-create.md
     - configuration/integrations/email.md
     - configuration/monitoring.md
   - "Extra":
