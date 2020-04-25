@@ -33,6 +33,4 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
                  # --values values-microk8s.yaml
     ```
 
-
-
 After this is done you will be able to use GitHub Cloud to authenticate to Codacy.

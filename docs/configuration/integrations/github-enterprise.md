@@ -17,11 +17,11 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
       port: 443 # Port of your GitHub Enterprise instance
       disableSSL: false # Disable certificate validation 
       isPrivateMode: true # Status of private mode on your GitHub Enterprise instance
-      clientId: Iv1.0000000000000000 # Client ID
-      clientSecret: a000000000000000 # Client secret
+      clientId: Iv1.0000000000000000 # GitHub App Client ID
+      clientSecret: a000000000000000 # GitHub App Client secret
       app:
         name: Codacy # GitHub App name
-        id: 00000 # App ID
+        id: 00000 # GitHub App ID
         privateKey: "-----BEGIN RSA PRIVATE KEY-----..." # Contents of the .pem file with newlines removed
     ```
 
