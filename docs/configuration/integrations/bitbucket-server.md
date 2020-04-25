@@ -27,7 +27,7 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
     -   **Application Name:** Name of the application. For example, `Codacy`.
     -   **Application Type:** Select `Generic Application`.
 
-    The rest of the configuration should be left blank.
+    The remaining fields should be left blank.
 
     ![Bitbucket Server application link naming](images/bitbucket-server-link-naming.png)
 
@@ -39,7 +39,7 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
     -   **Consumer Name:** Name of the consumer. For example, `Codacy`.
     -   **Public Key:** Enter the `consumerPublicKey` generated previously.
 
-    The rest of the fields should be left blank.
+    The remaining fields should be left blank.
 
     ![Bitbucket Server incomming authentication](images/bitbucket-server-incoming-authentication.png)
 
