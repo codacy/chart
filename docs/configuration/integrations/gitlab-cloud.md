@@ -12,16 +12,18 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
 
         ```text
         https://<codacy hostname>/login/GitLab
-        https://<codacy hostname>/add/addPermissions/GitLab
         https://<codacy hostname>/add/addProvider/GitLab
         https://<codacy hostname>/add/addService/GitLab
+        https://<codacy hostname>/add/addPermissions/GitLab
         ```
 
     -   **Scopes:** Enable the scopes:
     
         - `api`
-        - `read user`
-        - `read repository`
+        - `read_user`
+        - `read_repository`
+
+    ![GitLab Cloud application](images/gitlab-cloud-application.png)
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
