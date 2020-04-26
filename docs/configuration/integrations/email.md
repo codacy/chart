@@ -31,4 +31,7 @@ Follow the instructions below to set up Codacy to send emails using your SMTP se
                  # --values values-microk8s.yaml
     ```
 
-After this is done you will be able to receive notification Emails from Codacy.
+After this is done you will be able to:
+
+-   Invite new users via email
+-   Receive commit and pull request email notifications
