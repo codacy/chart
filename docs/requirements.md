@@ -11,12 +11,26 @@ The next sections describe in detail how to set up these prerequisites.
 
 The cluster running Codacy must satisfy the following requirements:
 
--   The infrastructure hosting the cluster must be provisioned with the hardware requirements described below
+-   The infrastructure hosting the cluster must be provisioned with the hardware and networking requirements described below
 -   The orchestration platform managing the cluster must be one of:
     -   [Kubernetes](https://kubernetes.io/) **version 1.14.\*** or **1.15.\***
     -   [MicroK8s](https://microk8s.io/) **version 1.15**
 -   Tiller, the server part of [Helm](https://v2.helm.sh/) **version 2.16**, must be installed in the cluster
 -   The [NGINX Ingress controller](https://github.com/kubernetes/ingress-nginx) must be installed and correctly set up in the cluster
+
+### Cluster networking requirements
+
+The cluster must be configured to accept and establish connections on the following ports:
+
+|          | Service      | Protocol/Port | Notes                                                        |
+| -------- | ------------ | ------------- | ------------------------------------------------------------ |
+| Inbound  | SSH          | TCP/22        | Optional, to access the infrastructure remotely.             |
+| Inbound  | HTTP         | TCP/80        |                                                              |
+| Inbound  | HTTPS        | TCP/443       |                                                              |
+| Outbound | PostgreSQL   | TCP/5432      | Connection to the PostgreSQL DBMS                            |
+| Outbound | SMTP         | TCP/25        | Connection to your SMTP server                               |
+| Outbound | SMTPS        | TCP/465       | Connection to your SMTP server over TLS/SSL                  |
+| Outbound | Git provider | \*            | Connection to the ports required by your remote Git provider |
 
 ### Cluster hardware requirements
 
@@ -49,12 +63,12 @@ The resources recommended on the following table are based on our experience and
 !!! important
     For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.
 
-| Installation type                            | Replicas per component | Max. concurrent analysis | Platform resources       | Analysis resources        | **~ Total resources**         |
-| -------------------------------------------- | ---------------------- | ------------------------ | ------------------------ | ------------------------- | ----------------------------- |
-| Kubernetes<br/>Small Installation            | 1                      | 2                        | 4 vCPUs<br/>8 GB RAM     | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
-| Kubernetes<br/>Medium Installation (default) | 2                      | 4                        | 8 vCPUs<br/>16 GB RAM    | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
-| Kubernetes<br/>Big Installation              | 2+                     | 10+                      | 8+ vCPUs<br/>16+ GB RAM  | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
-| MicroK8s<br/>Minimum                         | 1                      | 2                        | 5.5 vCPUs<br/>9.5 GB RAM | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
+| Installation type                            | Replicas per component | Max. concurrent analysis | Platform resources          | Analysis resources        | **~ Total resources**         |
+| -------------------------------------------- | ---------------------- | ------------------------ | --------------------------- | ------------------------- | ----------------------------- |
+| Kubernetes<br/>Small Installation            | 1                      | 2                        | 4 vCPUs<br/>8 GB RAM        | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
+| Kubernetes<br/>Medium Installation (default) | 2                      | 4                        | 8 vCPUs<br/>16 GB RAM       | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
+| Kubernetes<br/>Big Installation              | 2+                     | 10+                      | 8+ vCPUs<br/>16+ GB RAM     | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
+| MicroK8s<br/>Minimum                         | 1                      | 2                        | 5.5 vCPUs<br/>9.5 GB RAM    | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
 | MicroK8s<br/>Recommended (default)           | 1+                     | 2                        | 9.5+ vCPUs<br/>17.5+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **21+ vCPUs<br/>40+ GB RAM**  |
 
 The storage requirements recommended on the following table **depend mainly on the number of repositories** that Codacy will be analyzing and should be used as a guideline to determine your installation requirements.
