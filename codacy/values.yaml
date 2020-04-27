@@ -83,11 +83,11 @@ global:
     # enabled: "false"
     # replyTo: "notifications@codacy.com"
     # smtp:
-    #   protocol: "smtps"
+    #   protocol: "smtp"
     #   hostname: "smtp.example.com"
-    #   username: ""
-    #   password: ""
-    #   port: ""
+    #   # username: ""
+    #   # password: ""
+    #   # port: 25
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`

@@ -59,11 +59,11 @@ global:
     # enabled: "false"
     # replyTo: "notifications@codacy.com" # Reply-to field on sent emails
     # smtp:
-    #   protocol: "smtps" # SMTP protocol to use, either smtps or smtp
+    #   protocol: "smtp" # SMTP protocol to use, either smtps or smtp
     #   hostname: "smtp.example.com" # Hostname of your SMTP server
-    #   username: "" # Optional username to authenticate on your SMTP server
-    #   password: "" # Optional password to authenticate on your SMTP server
-    #   port: "" # Optional port of your SMTP server, the default is 25
+    #   # username: "" # Optional username to authenticate on your SMTP server
+    #   # password: "" # Optional password to authenticate on your SMTP server
+    #   # port: 25 # Optional port of your SMTP server, the default is 25
 
   imagePullSecrets:
     - name: docker-credentials
