@@ -33,11 +33,10 @@ You will need to know the following:
 The following command lets you extract a given database into a dump file:
 
 ```bash
-PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean --inserts -Fc $db > /tmp/$db.dump
+PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean -Fc $db > /tmp/$db.dump
 ```
 
 This will dump the file with the `.dump` extension into the `/tmp` folder.
-We recommend using the `--inserts` parameter as this will avoid issues with fields where their value is an empty string.
 
 [For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/10/app-pgdump.html)
 
@@ -48,6 +47,8 @@ To restore a database, you can run a `pg_restore` command to consume the dump fi
 ```bash
 PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -p $DEST_HOSTPORT -U $DB_USER -j 8 -d $db -n public --clean $db.dump
 ```
+
+With the custom format from `pg_dump` (by using `-Fc`) we can now invoke `pg_restore` with multiple parallel jobs. This should make the restoration of the databases quicker, depending on which value you provide for the number of parallel jobs to execute. We provide a value of 8 parallel jobs in the example above (`-j 8`).
 
 *NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called `jobs` created there)*
 
@@ -68,7 +69,7 @@ DB_PASSWORD=$6
 declare -a dbs=(accounts analysis filestore jobs metrics results)
 for db in ${dbs[@]}
 do
-  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean --inserts -Fc $db > /tmp/$db.dump
+  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean -Fc $db > /tmp/$db.dump
   PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -p $DEST_HOSTPORT -U $DB_USER -d $db -n public --clean $db.dump
 done
 ```

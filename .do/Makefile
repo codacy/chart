@@ -18,8 +18,8 @@ define call_helm_install
 	helm upgrade --install ${1} ${3} \
 	--atomic \
 	--timeout=600 \
+	-f ../codacy/values-production.yaml \
 	-f values.yaml \
-	-f doks-cluster/values_dbs_${6}.yaml \
 	--namespace ${2} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \

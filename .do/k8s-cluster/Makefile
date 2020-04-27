@@ -61,5 +61,3 @@ destroy_cluster: setup_vars create_terraformrc set_cluster_context
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
-
-

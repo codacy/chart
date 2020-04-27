@@ -48,11 +48,6 @@ codacy-api:
   service:
     type: ClusterIP
 
-postgres:
-  persistence:
-    enabled: true
-    size: 1000Gi
-
 portal:
   replicaCount: 1
 
@@ -65,23 +60,12 @@ activities:
     initialDelaySeconds: 10
     periodSeconds: 5
     failureThreshold: 5
-  activitiesdb:
-    create: false
-    persistence:
-      enabled: true
-      size: 250Gi
-
 
 remote-provider-service:
   replicaCount: 1
 
 hotspots-api:
   replicaCount: 1
-  hotspotsdb:
-    create: false
-    persistence:
-      enabled: true
-      size: 250Gi
 
 hotspots-worker:
   replicaCount: 1
@@ -90,14 +74,9 @@ listener:
   replicaCount: 1
   listenerdb:
     create: false
-    persistence:
-      enabled: true
-      size: 250Gi
-
   persistence:
     claim:
       size: 140Gi
-
   nfsserverprovisioner:
     enabled: true
     persistence:
@@ -122,9 +101,6 @@ fluentdoperator:
 crow:
   replicaCount: 1
   fullnameOverride: codacy-crow
-  crowdb:
-    create: false
-    fullnameOverride: codacy-crowdb
   config:
     play:
       http:

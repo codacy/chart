@@ -14,12 +14,6 @@ variable "node_type" {
   default     = "s-4vcpu-8gb"
 }
 
-variable "num_nodes" {
-  description = "Number of nodes used."
-  type        = number
-  default     = 4
-}
-
 variable "admin_name" {
   description = "Name of the admin account (don't change this without having a good reason)"
   type        = string
@@ -61,43 +55,4 @@ variable "cluster_name" {
   description = "The cluster name"
   type = string
   default = "default"
-}
-
-######################
-# databases
-######################
-
-variable "postgres_version" {
-  description = "The postgres version to be used."
-  type = string
-  default = "10"
-}
-
-variable "postgres_default_admin" {
-  description = "The default admin user on digital ocean postgres."
-  type = string
-  default = "doadmin"
-}
-
-variable "db_names" {
-    type = list(string)
-    default = ["accounts", "analysis", "results", "metrics", "filestore", "jobs", "crow", "activities", "hotspots", "listener"]
-}
-
-variable "postgres_instance_type" {
-  description = "The instance type for the postgres clusters."
-  type = string
-  default = "db-s-4vcpu-8gb"
-}
-
-variable "connection_pool_size" {
-  description = "Number connections for each connection pool."
-  type        = number
-  default     = 17
-}
-
-variable "connection_pool_mode" {
-  description = "Connection pool mode."
-  type        = string
-  default     = "transaction"
 }

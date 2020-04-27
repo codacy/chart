@@ -94,7 +94,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   analysisdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -102,7 +102,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   resultsdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -110,7 +110,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   metricsdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -118,7 +118,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   filestoredb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -126,7 +126,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   jobsdb:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
@@ -134,7 +134,7 @@ global:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
 
 codacy-ingress:
   create: true
@@ -189,7 +189,7 @@ activities:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
 
 remote-provider-service:
   replicaCount: 2
@@ -216,7 +216,7 @@ hotspots-api:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
 hotspots-worker:
   replicaCount: 2
   resources:
@@ -244,7 +244,7 @@ listener:
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
   persistence:
     claim:
       size: 140Gi
@@ -324,10 +324,10 @@ crow:
     create: false
     host: <--- codacy-db-host --->
     postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: crow
+    postgresqlDatabase: crow # You need to create the DB manually
     postgresqlPassword: <--- codacy-db-password --->
     service:
-      port: 5432
+      port: <--- codacy-db-port --->
     fullnameOverride: codacy-crowdb
   config:
     play:
