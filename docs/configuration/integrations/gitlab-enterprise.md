@@ -1,6 +1,6 @@
 # GitLab Enterprise
 
-## GitLab Application
+## Setup
 
 Follow the instructions below to set up the Codacy integration with GitLab Cloud:
 
@@ -9,10 +9,10 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
     You'll need to add the following "Redirect URI", making sure to update both your protocol to use either HTTP or HTTPS and your hostname as well. Keep in mind that this field is case sensitive.
 
     ```
-    https://codacy.example.com/login/GitLab
-    https://codacy.example.com/add/addPermissions/GitLab
-    https://codacy.example.com/add/addProvider/GitLab
-    https://codacy.example.com/add/addService/GitLab
+    https://codacy.example.com/login/GitLabEnterprise
+    https://codacy.example.com/add/addPermissions/GitLabEnterprise
+    https://codacy.example.com/add/addProvider/GitLabEnterprise
+    https://codacy.example.com/add/addService/GitLabEnterprise
     ```
 
 2.  Edit the file `values-production.yaml`, set `global.gitlab.enabled: "true"` and define the remaining values with the information obtained when you created the GitLab Application:
@@ -33,3 +33,17 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
     ```
 
 After this is done you will be able to use GitLab Enterprise to authenticate to Codacy.
+
+## Troubleshooting
+
+- During an authentication procedure, if you got stuck on the provider and this message is shown
+  ![Invalid redirect URI](./gitlab-invalid-redirect-uri.png)
+  It means you have not introduced correctly, the redirect uris when creating the application in GitLabEnterprise
+  - Make sure all the urls have the correct Codacy protocol (http or http)
+  - Make sure all the urls have the full path with the correct case (it is case sensitive)
+  - If you still could not find the problem:
+    - Get from the browser address bar the query parameter named `redirect_uri` (e.g.: `https%3A%2F%codacy.example.com%2Flogin%2FGitLabEnterprise`)
+    - Decode the value (e.g.: [urldecoder.com](https://www.urldecoder.org/)) (e.g.: `https://codacy.example.com/login/GitLabEnterprise`)
+    - Check if the value matches one of the configured ones in the application in GitLabEnterprise
+    - You you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
+      with all the previous information so they can help you

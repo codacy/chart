@@ -1,6 +1,6 @@
 # GitLab Cloud
 
-## GitLab Application
+## Setup
 
 Follow the instructions below to set up the Codacy integration with GitLab Cloud:
 
@@ -33,3 +33,17 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
     ```
 
 After this is done you will be able to use GitLab Cloud to authenticate to Codacy.
+
+## Troubleshooting
+
+- During an authentication procedure, if you got stuck on the provider and this message is shown
+  ![Invalid redirect URI](./gitlab-invalid-redirect-uri.png)
+  It means you have not introduced correctly, the redirect uris when creating the application in GitLab.com
+  - Make sure all the urls have the correct Codacy protocol (http or http)
+  - Make sure all the urls have the full path with the correct case (it is case sensitive)
+  - If you still could not find the problem:
+    - Get from the browser address bar the query parameter named `redirect_uri` (e.g.: `https%3A%2F%codacy.example.com%2Flogin%2FGitLab`)
+    - Decode the value (e.g.: [urldecoder.com](https://www.urldecoder.org/)) (e.g.: `https://codacy.example.com/login/GitLab`)
+    - Check if the value matches one of the configured ones in the application in GitLab.com
+    - You you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
+      with all the previous information so they can help you
