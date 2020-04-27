@@ -8,13 +8,13 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
 
     -   **Name:** Name of the application. For example, `Codacy`.
 
-    -   **Redirect URI:** Copy the URLs below, updating the HTTP protocol and hostname to the correct values of your Codacy instance. This field is case sensitive.
+    -   **Redirect URI:** Copy the URLs below, replacing the HTTP protocol and hostname with the correct values for your Codacy instance. This field is case sensitive.
 
         ```text
-        https://<codacy hostname>/login/GitLabEnterprise
-        https://<codacy hostname>/add/addProvider/GitLabEnterprise
-        https://<codacy hostname>/add/addService/GitLabEnterprise
-        https://<codacy hostname>/add/addPermissions/GitLabEnterprise
+        https://codacy.example.com/login/GitLabEnterprise
+        https://codacy.example.com/add/addProvider/GitLabEnterprise
+        https://codacy.example.com/add/addService/GitLabEnterprise
+        https://codacy.example.com/add/addPermissions/GitLabEnterprise
         ```
 
     -   **Scopes:** Enable the scopes:
@@ -36,11 +36,11 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
     gitlabEnterprise:
       enabled: "true"
       login: "true" # Show login button for GitLab Enterprise
-      hostname: "example.host.com" # Hostname of your GitLab Enterprise instance
+      hostname: "gitlab.example.com" # Hostname of your GitLab Enterprise instance
       protocol: "https" # Protocol of your GitLab Enterprise instance
       port: 443 # Port of your GitLab Enterprise instance
-      clientId: a000000000000000 # Application ID
-      clientSecret: a000000000000000 # Secret
+      clientId: "" # Application ID
+      clientSecret: "" # Secret
     ```
 
 6.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):

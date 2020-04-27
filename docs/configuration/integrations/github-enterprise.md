@@ -12,17 +12,17 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
     githubEnterprise:
       enabled: "true"
       login: "true" # Show login button for GitHub Enterprise
-      hostname: example.host.com # Hostname of your GitHub Enterprise instance
-      protocol: https # Protocol of your GitHub Enterprise instance
+      hostname: "github.example.com" # Hostname of your GitHub Enterprise instance
+      protocol: "https" # Protocol of your GitHub Enterprise instance
       port: 443 # Port of your GitHub Enterprise instance
-      disableSSL: false # Disable certificate validation 
-      isPrivateMode: true # Status of private mode on your GitHub Enterprise instance
-      clientId: Iv1.0000000000000000 # GitHub App Client ID
-      clientSecret: a000000000000000 # GitHub App Client secret
+      disableSSL: "false" # Disable certificate validation
+      isPrivateMode: "true" # Status of private mode on your GitHub Enterprise instance
+      clientId: "" # GitHub App Client ID
+      clientSecret: "" # GitHub App Client secret
       app:
-        name: Codacy # GitHub App name
-        id: 00000 # GitHub App ID
-        privateKey: "-----BEGIN RSA PRIVATE KEY-----..." # Contents of the .pem file with newlines removed
+        name: "codacy" # GitHub App name
+        id: "1234" # GitHub App ID
+        privateKey: "" # Contents of the .pem file without newlines
     ```
 
 4.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):

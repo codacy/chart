@@ -29,14 +29,14 @@ global:
     # clientId: ""
     # clientSecret: ""
     # app:
-    #  name: "codacy"
-    #  id: "1234"
-    #  privateKey: ""
+    #   name: "codacy"
+    #   id: "1234"
+    #   privateKey: ""
 
   githubEnterprise: {}
     # enabled: "false"
     # login: "false"
-    # hostname: "example.host.com"
+    # hostname: "github.example.com"
     # protocol: "https"
     # port: 443
     # disableSSL: "false"
@@ -44,9 +44,9 @@ global:
     # clientId: ""
     # clientSecret: ""
     # app:
-    #  name: "codacy"
-    #  id: "1234"
-    #  privateKey: ""
+    #   name: "codacy"
+    #   id: "1234"
+    #   privateKey: ""
 
   gitlab: {}
     # enabled: "false"
@@ -57,7 +57,7 @@ global:
   gitlabEnterprise: {}
     # enabled: "false"
     # login: "false"
-    # hostname: "example.host.com"
+    # hostname: "gitlab.example.com"
     # protocol: "https"
     # port: 443
     # clientId: ""
@@ -72,7 +72,7 @@ global:
   bitbucketEnterprise: {}
     # enabled: "false"
     # login: "false"
-    # hostname: "example.host.com"
+    # hostname: "bitbucket.example.com"
     # protocol: "http"
     # port: 7990
     # consumerKey: ""
@@ -83,11 +83,11 @@ global:
     # enabled: "false"
     # replyTo: "notifications@codacy.com"
     # smtp:
-    #   protocol: "smtps" # smtps | smtp
-    #   hostname: "smtp.codacy.com"
-    #   username: "codacy"
-    #   password: "a-s!r0ng-pVsSwORG"
-    #   # port: 25
+    #   protocol: "smtps"
+    #   hostname: "smtp.example.com"
+    #   username: ""
+    #   password: ""
+    #   port: ""
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`

@@ -16,10 +16,10 @@ You can create a consumer on any existing individual or team account. To create 
 
     - **Name:** Name of the OAuth consumer. For example, `Codacy`.
 
-    - **Callback URL:** Copy the URL below, updating the HTTP protocol, hostname, and port to the correct values of your Codacy instance.
+    - **Callback URL:** Copy the URL below, replacing the HTTP protocol and hostname with the correct values for your Codacy instance.
     
         ```
-        http://<codacy hostname>:<codacy port>/login/Bitbucket?codacy_skip_ga=1
+        https://codacy.example.com/login/Bitbucket?codacy_skip_ga=1
         ```
 
     - **This is a private consumer:** Enable the check box.
@@ -35,6 +35,7 @@ You can create a consumer on any existing individual or team account. To create 
         - **Webhooks:** Read and write
 
     ![Bitbucket consumer configuration](images/bitbucket-consumer-configuration.png)
+
     ![Bitbucket consumer permissions](images/bitbucket-consumer-permissions.png)
 
 4. Click Save, and then click the name of the new OAuth consumer to take note of the generated key and secret.
@@ -53,9 +54,9 @@ After creating the OAuth consumer on Bitbucket Cloud, you must configure it on C
    global:
      bitbucket:
        enabled: "true"
-       login: "true" # Show login button for Bitbucket
-       key: "10000000000" # OAuth consumer key
-       secret: "a0000000000000000000" # OAuth consumer secret
+       login: "true" # Show login button for Bitbucket Cloud
+       key: "" # OAuth consumer key
+       secret: "" # OAuth consumer secret
    ```
 
 3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):

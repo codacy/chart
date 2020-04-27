@@ -11,13 +11,13 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
     ```yaml
     github:
       enabled: "true"
-      login: "true" # Show login button for GitHub
-      clientId: Iv1.0000000000000000 # Client ID
-      clientSecret: a000000000000000 # Client secret
+      login: "true" # Show login button for GitHub Cloud
+      clientId: "" # Client ID
+      clientSecret: "" # Client secret
       app:
-        name: Codacy # GitHub App name
-        id: 00000 # App ID
-        privateKey: "-----BEGIN RSA PRIVATE KEY-----..." # Contents of the .pem file with newlines removed
+        name: "codacy" # GitHub App name
+        id: "1234" # App ID
+        privateKey: "" # Contents of the .pem file without newlines
     ```
 
 4.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):

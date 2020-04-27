@@ -11,11 +11,11 @@ Follow the instructions below to set up Codacy to send emails using your SMTP se
       enabled: "true"
       replyTo: "notifications@mycompany.com" # Reply-to field on sent emails
       smtp:
-        hostname: "smtp.mycompany.com" # Hostname of your SMTP server
         protocol: "smtps" # SMTP protocol to use, either smtps or smtp
-        username: "my-smtp-username" # Username to authenticate on your SMTP server
-        password: "a-s!r0ng-pVsSwORG" # Password to authenticate on your SMTP server
-        port: 465 # Port of your SMTP server
+        hostname: "smtp.example.com" # Hostname of your SMTP server
+        username: "" # Optional username to authenticate on your SMTP server
+        password: "" # Optional password to authenticate on your SMTP server
+        port: "" # Optional port of your SMTP server, the default is 25
     ```
 
 3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):

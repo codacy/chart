@@ -8,13 +8,13 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
 
     -   **Name:** Name of the application. For example, `Codacy`.
 
-    -   **Redirect URI:** Copy the URLs below, updating the HTTP protocol and hostname to the correct values of your Codacy instance. This field is case sensitive.
+    -   **Redirect URI:** Copy the URLs below, replacing the HTTP protocol and hostname with the correct values for your Codacy instance. This field is case sensitive.
 
         ```text
-        https://<codacy hostname>/login/GitLab
-        https://<codacy hostname>/add/addProvider/GitLab
-        https://<codacy hostname>/add/addService/GitLab
-        https://<codacy hostname>/add/addPermissions/GitLab
+        https://codacy.example.com/login/GitLab
+        https://codacy.example.com/add/addProvider/GitLab
+        https://codacy.example.com/add/addService/GitLab
+        https://codacy.example.com/add/addPermissions/GitLab
         ```
 
     -   **Scopes:** Enable the scopes:
@@ -34,9 +34,9 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
     ```yaml
     gitlab:
       enabled: "true"
-      login: "true" # Show login button for GitLab
-      clientId: a000000000000000 # Application ID
-      clientSecret: a000000000000000 # Secret
+      login: "true" # Show login button for GitLab Cloud
+      clientId: "" # Application ID
+      clientSecret: "" # Secret
     ```
 
 6.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
