@@ -1,35 +1,55 @@
 # GitLab Cloud
 
-## GitLab Application
-
 Follow the instructions below to set up the Codacy integration with GitLab Cloud:
 
-1.  Create a [new application](https://gitlab.com/profile/applications) pointing to your local Codacy deployment URL with `api`, `read user` and `read repository` scopes.
+1.  Open <https://gitlab.com/profile/applications>.
 
-    You'll need to add the following 'Redirect URI'. Make sure to update your protocol to use either http or https and your hostname as well. Keep in mind this field is case sensitive.
+2.  Fill in the fields to register your Codacy instance on GitLab:
 
-    ```
-    https://codacy.example.com/login/GitLab
-    https://codacy.example.com/add/addPermissions/GitLab
-    https://codacy.example.com/add/addProvider/GitLab
-    https://codacy.example.com/add/addService/GitLab
-    ```
+    -   **Name:** Name of the application. For example, `Codacy`.
 
-2.  Edit the file `values-production.yaml`, set `global.gitlab.enabled: "true"` and define the remaining values with the information obtained when you created the GitLab Application:
+    -   **Redirect URI:** Copy the URLs below, replacing the HTTP protocol and hostname with the correct values for your Codacy instance. This field is case sensitive.
+
+        ```text
+        https://codacy.example.com/login/GitLab
+        https://codacy.example.com/add/addProvider/GitLab
+        https://codacy.example.com/add/addService/GitLab
+        https://codacy.example.com/add/addPermissions/GitLab
+        ```
+
+    -   **Scopes:** Enable the scopes:
+    
+        - `api`
+        - `read_user`
+        - `read_repository`
+
+    ![GitLab Cloud application](images/gitlab-cloud-application.png)
+
+3.  Click **Save application** and take note of the generated Application Id and Secret.
+
+4.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+
+5.  Set `global.gitlab.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitLab application:
 
     ```yaml
     gitlab:
       enabled: "true"
-      login: "true" # Show login button for GitLab
-      clientId: a000000000000000 # Client ID
-      clientSecret: a000000000000000 # Client secret
+      login: "true" # Show login button for GitLab Cloud
+      clientId: "" # Application ID
+      clientSecret: "" # Secret
     ```
 
-3.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-production.yaml` to the command [used to install Codacy](../../index.md#2-installing-codacy):
+6.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
+
+    !!! important
+        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        
+        To do this, uncomment the last line before running the `helm upgrade` command below.
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --values values-production.yaml
+                 --values values-production.yaml \
+                 # --values values-microk8s.yaml
     ```
 
 After this is done you will be able to use GitLab Cloud to authenticate to Codacy.
