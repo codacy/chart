@@ -31,3 +31,16 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
     ```
 
 After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.
+
+## Troubleshooting
+
+- During an authentication procedure, if you got stuck on the provider and this message is shown
+  - ![Invalid client id](./github-invalid-client-id.png)
+    It means you have not introduced the client id when configuring GitHubEnterprise on Codacy.
+    - Make sure the value matches the one in your GitHubEnterprise application
+    - If you still could not find the problem:
+        - Extract the parameter `client_id`, from the browser address bar in GitHubEnterprise where the error appears (e.g.: `Iv1.0000000000000000`)
+        - Check if the application id on GitHubEnterprise matches this value
+- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
+  with all the previous information so they can help you
+
