@@ -24,6 +24,8 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
         - `read_repository`
         - `openid`
 
+    ![GitLab Enterprise application](images/gitlab-enterprise-application.png)
+
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
 4.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
