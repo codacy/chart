@@ -11,10 +11,10 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
     -   **Redirect URI:** Copy the URLs below, updating the HTTP protocol and hostname to the correct values of your Codacy instance. This field is case sensitive.
 
         ```text
-        https://<codacy hostname>/login/GitLab
-        https://<codacy hostname>/add/addProvider/GitLab
-        https://<codacy hostname>/add/addService/GitLab
-        https://<codacy hostname>/add/addPermissions/GitLab
+        https://<codacy hostname>/login/GitLabEnterprise
+        https://<codacy hostname>/add/addProvider/GitLabEnterprise
+        https://<codacy hostname>/add/addService/GitLabEnterprise
+        https://<codacy hostname>/add/addPermissions/GitLabEnterprise
         ```
 
     -   **Scopes:** Enable the scopes:
@@ -22,6 +22,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
         - `api`
         - `read_user`
         - `read_repository`
+        - `openid`
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
@@ -32,7 +33,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
     ```yaml
     gitlabEnterprise:
       enabled: "true"
-      login: "true" # Show login button for GitLab
+      login: "true" # Show login button for GitLab Enterprise
       hostname: "example.host.com" # Hostname of your GitLab Enterprise instance
       protocol: "https" # Protocol of your GitLab Enterprise instance
       port: 443 # Port of your GitLab Enterprise instance
