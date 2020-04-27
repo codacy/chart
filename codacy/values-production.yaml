@@ -24,6 +24,12 @@ global:
     #   id: "1234"
     #   privateKey: ""
 
+  gitlab: {}
+    # enabled: "false"
+    # login: "false"
+    # clientId: ""
+    # clientSecret: ""
+
   gitlabEnterprise: {}
     # enabled: "false"
     # login: "false"
