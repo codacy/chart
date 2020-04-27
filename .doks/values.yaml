@@ -29,6 +29,10 @@ global:
     protocol: "https"
     disableSSL: "true"
     isPrivateMode: "true"
+    
+  gitlab:
+    enabled: "true"
+    login: "false"
 
   gitlabEnterprise:
     enabled: "true"
