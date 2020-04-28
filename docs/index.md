@@ -73,7 +73,7 @@ Install Codacy on an existing cluster using our Helm chart:
     !!! important
         **If you are using MicroK8s** you must map the hostname to the public IP address of the machine running MicroK8s.
 
-6.  Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.
+6.  <span id="helm-upgrade">Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.</span>
 
     !!! important
         **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
@@ -136,7 +136,7 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
         -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
         -   [GitLab Cloud](configuration/integrations/gitlab-cloud.md)
         -   [GitLab Enterprise](configuration/integrations/gitlab-enterprise.md)
-        -   [Bitbucket Cloud](configuration/integrations/bitbucket.md)
+        -   [Bitbucket Cloud](configuration/integrations/bitbucket-cloud.md)
         -   [Bitbucket Server](configuration/integrations/bitbucket-server.md)
         -   [Email](configuration/integrations/email.md)
     -   Creating an initial organization
