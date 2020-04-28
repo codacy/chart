@@ -285,6 +285,27 @@
           
           
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Integrations
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Integrations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
     <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
@@ -311,7 +332,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../create-github-app/" title="Creating a GitHub App" class="md-nav__link">
+    <a href="../github-app-create/" title="Creating a GitHub App" class="md-nav__link">
       Creating a GitHub App
     </a>
   </li>
@@ -347,8 +368,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../bitbucket/" title="Bitbucket" class="md-nav__link">
-      Bitbucket
+    <a href="../bitbucket-cloud/" title="Bitbucket Cloud" class="md-nav__link">
+      Bitbucket Cloud
     </a>
   </li>
 
@@ -367,22 +388,46 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Bitbucket Server
+      </label>
+    
     <a href="./" title="Bitbucket Server" class="md-nav__link md-nav__link--active">
       Bitbucket Server
     </a>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
-      Bitbucket Server Application Link
-    </a>
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bitbucket-server-application-link" class="md-nav__link">
+    Create a Bitbucket Server application link
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-bitbucket-server-on-codacy" class="md-nav__link">
+    Configure Bitbucket Server on Codacy
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -395,6 +440,11 @@
     <a href="../email/" title="Emails" class="md-nav__link">
       Emails
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
         
@@ -516,6 +566,29 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bitbucket-server-application-link" class="md-nav__link">
+    Create a Bitbucket Server application link
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-bitbucket-server-on-codacy" class="md-nav__link">
+    Configure Bitbucket Server on Codacy
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -528,29 +601,78 @@
                 
                 
                 <h1 id="bitbucket-server">Bitbucket Server<a class="headerlink" href="#bitbucket-server" title="Permanent link">&para;</a></h1>
-<p>Follow the instructions below to set up the Codacy integration with Bitbucket Server:</p>
+<p>Follow the instructions below to set up the Codacy integration with Bitbucket Server.</p>
+<h2 id="create-a-bitbucket-server-application-link">Create a Bitbucket Server application link<a class="headerlink" href="#create-a-bitbucket-server-application-link" title="Permanent link">&para;</a></h2>
+<p>To integrate Codacy with Bitbucket Server, you must create an application link on your Bitbucket Server instance:</p>
 <ol>
 <li>
-<p>Follow the instructions on <a href="../create-bitbucket-server-application-link/">creating a Bitbucket Server application link</a>.</p>
+<p>Since Bitbucket Server uses OAuth1, you need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance.</p>
+<p>Create a key pair using the RSA algorithm in the PKCS#8 format by executing the command:</p>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/integrations/generate-bitbucket-server-secrets.sh<span class="o">)</span>
+</code></pre></div>
+
+<p>Store the keys in a safe place for usage in the next steps and as a backup.</p>
 </li>
 <li>
-<p>Edit the file <code>values-production.yaml</code>, set <code>global.githubEnterprise.enabled: "true"</code> and define the remaining values as described below and with the information obtained when you created the GitHub App:</p>
+<p>Open <code>&lt;bitbucket server url&gt;/plugins/servlet/applinks/listApplicationLinks</code>, where <code>&lt;bitbucket server url&gt;</code> is the URL of your Bitbucket Server instance.</p>
+</li>
+<li>
+<p>Create a new application link with the URL of your Codacy instance.</p>
+<p><img alt="Bitbucket Server application link" src="../images/bitbucket-server-application-link.png" /></p>
+</li>
+<li>
+<p>Fill in the fields:</p>
+<ul>
+<li><strong>Application Name:</strong> Name of the application. For example, <code>Codacy</code>.</li>
+<li><strong>Application Type:</strong> Select <code>Generic Application</code>.</li>
+</ul>
+<p>The remaining fields should be left blank.</p>
+<p><img alt="Bitbucket Server application link naming" src="../images/bitbucket-server-link-naming.png" /></p>
+</li>
+<li>
+<p>After creating the link, click <strong>Edit</strong> to add an incoming authentication.</p>
+</li>
+<li>
+<p>Fill in the fields of the incomming authentication:</p>
+<ul>
+<li><strong>Consumer Key:</strong> Enter the <code>consumerKey</code> generated previously.</li>
+<li><strong>Consumer Name:</strong> Name of the consumer. For example, <code>Codacy</code>.</li>
+<li><strong>Public Key:</strong> Enter the <code>consumerPublicKey</code> generated previously.</li>
+</ul>
+<p>The remaining fields should be left blank.</p>
+<p><img alt="Bitbucket Server incomming authentication" src="../images/bitbucket-server-incoming-authentication.png" /></p>
+</li>
+</ol>
+<h2 id="configure-bitbucket-server-on-codacy">Configure Bitbucket Server on Codacy<a class="headerlink" href="#configure-bitbucket-server-on-codacy" title="Permanent link">&para;</a></h2>
+<p>After creating the Bitbucket Server application link, you must configure it on Codacy:</p>
+<ol>
+<li>
+<p>Edit the file <code>values-production.yaml</code> that you used to <a href="../../..#helm-upgrade">install Codacy</a>.</p>
+</li>
+<li>
+<p>Set <code>global.bitbucketEnterprise.enabled: "true"</code> and define the remaining values as described below and with the information obtained when you created the Bitbucket Server application link:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">bitbucketEnterprise</span><span class="p">:</span>
    <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
    <span class="nt">login</span><span class="p">:</span> <span class="s">&quot;true&quot;</span> <span class="c1"># Show login button for Bitbucket Server</span>
-   <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">example.host.com</span> <span class="c1"># Hostname of your Bitbucket Server instance</span>
-   <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">443</span> <span class="c1"># Port of your Bitbucket Server instance</span>
-   <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https</span> <span class="c1"># Protocol of your Bitbucket Server instance</span>
-   <span class="nt">consumerKey</span><span class="p">:</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
-   <span class="nt">consumerPublicKey</span><span class="p">:</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
-   <span class="nt">consumerPrivateKey</span><span class="p">:</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
+   <span class="nt">hostname</span><span class="p">:</span> <span class="s">&quot;bitbucket.example.com&quot;</span> <span class="c1"># Hostname of your Bitbucket Server instance</span>
+   <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;https&quot;</span> <span class="c1"># Protocol of your Bitbucket Server instance</span>
+   <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7990</span> <span class="c1"># Port of your Bitbucket Server instance</span>
+   <span class="nt">consumerKey</span><span class="p">:</span> <span class="s">&quot;&quot;</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
+   <span class="nt">consumerPublicKey</span><span class="p">:</span> <span class="s">&quot;&quot;</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
+   <span class="nt">consumerPrivateKey</span><span class="p">:</span> <span class="s">&quot;&quot;</span> <span class="c1"># Generated when creating the Bitbucket Server application link</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<p>Apply the new configuration by performing a Helm upgrade. To do so execute the command <a href="../../..#helm-upgrade">used to install Codacy</a>:</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>If you are using MicroK8s</strong> you must use the file <code>values-microk8s.yaml</code> together with the file <code>values-production.yaml</code>.</p>
+<p>To do this, uncomment the last line before running the <code>helm upgrade</code> command below.</p>
+</div>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
-             --values values-production.yaml
+             --values values-production.yaml <span class="se">\</span>
+             <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
 </li>
@@ -577,7 +699,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../bitbucket/" title="Bitbucket" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitbucket-cloud/" title="Bitbucket Cloud" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -586,19 +708,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Bitbucket
+                Bitbucket Cloud
               </span>
             </div>
           </a>
         
         
-          <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../email/" title="Emails" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Bitbucket Server Application Link
+                Emails
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

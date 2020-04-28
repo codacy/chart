@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/create-github-app/">
+        <link rel="canonical" href="https://codacy.github.io/chart/configuration/integrations/github-app-create/">
       
       
       
@@ -285,6 +285,27 @@
           
           
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Integrations
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Integrations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
     <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
@@ -356,8 +377,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../bitbucket/" title="Bitbucket" class="md-nav__link">
-      Bitbucket
+    <a href="../bitbucket-cloud/" title="Bitbucket Cloud" class="md-nav__link">
+      Bitbucket Cloud
     </a>
   </li>
 
@@ -380,21 +401,14 @@
 
 
   <li class="md-nav__item">
-    <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
-      Bitbucket Server Application Link
+    <a href="../email/" title="Emails" class="md-nav__link">
+      Emails
     </a>
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../email/" title="Emails" class="md-nav__link">
-      Emails
-    </a>
+      </ul>
+    </nav>
   </li>
 
         
@@ -533,10 +547,10 @@
 <ol>
 <li>
 <p><strong>If you're using GitHub Cloud</strong>, open <a href="https://github.com/settings/apps/new">https://github.com/settings/apps/new</a>.</p>
-<p><strong>If you're using GitHub Enterprise</strong>, open <code>https://&lt;github hostname&gt;/settings/apps/new</code>, where <code>&lt;github hostname&gt;</code> is the hostname of your own GitHub Enterprise instance.</p>
+<p><strong>If you're using GitHub Enterprise</strong>, open <code>https://github.example.com/settings/apps/new</code>, replacing the HTTP protocol and hostname with the correct values for your GitHub Enterprise instance.</p>
 </li>
 <li>
-<p>Configure the new GitHub App using the values listed on the table below, replacing <code>&lt;codacy hostname&gt;</code> with the hostname of your Codacy instance.</p>
+<p>Configure the new GitHub App using the values listed on the table below, replacing <code>https://codacy.example.com</code> with the correct base URL of your Codacy instance.</p>
 <table>
 <thead>
 <tr>
@@ -551,15 +565,15 @@
 </tr>
 <tr>
 <td>Homepage URL</td>
-<td><code>https://&lt;codacy hostname&gt;</code></td>
+<td><code>https://codacy.example.com</code></td>
 </tr>
 <tr>
 <td>User authorization callback URL</td>
-<td><code>https://&lt;codacy hostname&gt;</code></td>
+<td><code>https://codacy.example.com</code></td>
 </tr>
 <tr>
 <td>Webhook URL</td>
-<td><code>https://&lt;codacy hostname&gt;/2.0/events/gh/organization</code></td>
+<td><code>https://codacy.example.com/2.0/events/gh/organization</code></td>
 </tr>
 <tr>
 <td><strong>Repository permissions</strong></td>

@@ -286,6 +286,25 @@
           
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Integrations
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Integrations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../integrations/github-cloud/" title="GitHub Cloud" class="md-nav__link">
       GitHub Cloud
@@ -311,7 +330,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../integrations/create-github-app/" title="Creating a GitHub App" class="md-nav__link">
+    <a href="../integrations/github-app-create/" title="Creating a GitHub App" class="md-nav__link">
       Creating a GitHub App
     </a>
   </li>
@@ -347,8 +366,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../integrations/bitbucket/" title="Bitbucket" class="md-nav__link">
-      Bitbucket
+    <a href="../integrations/bitbucket-cloud/" title="Bitbucket Cloud" class="md-nav__link">
+      Bitbucket Cloud
     </a>
   </li>
 
@@ -371,21 +390,14 @@
 
 
   <li class="md-nav__item">
-    <a href="../integrations/create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
-      Bitbucket Server Application Link
+    <a href="../integrations/email/" title="Emails" class="md-nav__link">
+      Emails
     </a>
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../integrations/email/" title="Emails" class="md-nav__link">
-      Emails
-    </a>
+      </ul>
+    </nav>
   </li>
 
         
@@ -683,7 +695,7 @@
 <li><strong>Username:</strong> <code>codacy</code></li>
 <li><strong>Password:</strong> <code>C0dacy123</code></li>
 </ul>
-<p>We highly recommend that you define a custom password for Crow, if you haven't already done it when <a href="../..#2.-installing-codacy">installing Codacy</a>:</p>
+<p>We highly recommend that you define a custom password for Crow, if you haven't already done it when installing Codacy:</p>
 <ol>
 <li>
 <p>Edit the value of <code>crow.config.passwordAuth.password</code> in the <code>values-production.yaml</code> file that you used to install Codacy:</p>
@@ -695,14 +707,15 @@
 
 </li>
 <li>
-<p>Apply the new configuration by performing a Helm upgrade:</p>
+<p>Apply the new configuration by performing a Helm upgrade. To do so execute the command <a href="../..#helm-upgrade">used to install Codacy</a>:</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p><strong>If you are using MicroK8s</strong> don't forget to use the file <code>values-microk8s.yaml</code> together with the file <code>values-production.yaml</code> as <a href="../../infrastructure/microk8s-quickstart/#notes-on-installing-codacy">described here</a>. To do this, uncomment the last line before running the command below.</p>
+<p><strong>If you are using MicroK8s</strong> you must use the file <code>values-microk8s.yaml</code> together with the file <code>values-production.yaml</code>.</p>
+<p>To do this, uncomment the last line before running the <code>helm upgrade</code> command below.</p>
 </div>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
-            --values values-production.yaml <span class="se">\</span>
-            <span class="c1"># --values values-microk8s.yaml</span>
+             --values values-production.yaml <span class="se">\</span>
+             <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
 </li>
@@ -776,9 +789,9 @@ helm upgrade --install --atomic loki loki/loki --version <span class="m">0</span
 
 </li>
 <li>
-<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-monitoring.yaml --recreate-pods</code> to the command <a href="../..#2-installing-codacy">used to install Codacy</a>:</p>
+<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-monitoring.yaml --recreate-pods</code> to the command <a href="../..#helm-upgrade">used to install Codacy</a>:</p>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
-            --values values-monitoring.yaml --recreate-pods
+             --values values-monitoring.yaml --recreate-pods
 </code></pre></div>
 
 </li>

@@ -285,6 +285,27 @@
           
           
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Integrations
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Integrations
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
     <a href="../github-cloud/" title="GitHub Cloud" class="md-nav__link">
@@ -311,7 +332,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../create-github-app/" title="Creating a GitHub App" class="md-nav__link">
+    <a href="../github-app-create/" title="Creating a GitHub App" class="md-nav__link">
       Creating a GitHub App
     </a>
   </li>
@@ -347,8 +368,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../bitbucket/" title="Bitbucket" class="md-nav__link">
-      Bitbucket
+    <a href="../bitbucket-cloud/" title="Bitbucket Cloud" class="md-nav__link">
+      Bitbucket Cloud
     </a>
   </li>
 
@@ -361,18 +382,6 @@
   <li class="md-nav__item">
     <a href="../bitbucket-server/" title="Bitbucket Server" class="md-nav__link">
       Bitbucket Server
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-nav__link">
-      Bitbucket Server Application Link
     </a>
   </li>
 
@@ -395,6 +404,11 @@
       Emails
     </a>
     
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
         
@@ -531,28 +545,41 @@
 <p>Follow the instructions below to set up Codacy to send emails using your SMTP server:</p>
 <ol>
 <li>
-<p>Edit the file <code>values-production.yaml</code>, set <code>global.email.enabled: "true"</code> and define the remaining values with the credentials for your SMTP server:</p>
+<p>Edit the file <code>values-production.yaml</code> that you used to <a href="../../..#helm-upgrade">install Codacy</a>.</p>
+</li>
+<li>
+<p>Set <code>global.email.enabled: "true"</code> and define the remaining values with the credentials for your SMTP server:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">email</span><span class="p">:</span>
-    <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-    <span class="nt">replyTo</span><span class="p">:</span> <span class="s">&quot;notifications@mycompany.com&quot;</span>
-    <span class="nt">smtp</span><span class="p">:</span>
-        <span class="nt">hostname</span><span class="p">:</span> <span class="s">&quot;smtp.mycompany.com&quot;</span>
-        <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;smtps&quot;</span> <span class="c1"># smtps | smtp</span>
-        <span class="nt">username</span><span class="p">:</span> <span class="s">&quot;my-smtp-username&quot;</span>
-        <span class="nt">password</span><span class="p">:</span> <span class="s">&quot;a-s!r0ng-pVsSwORG&quot;</span>
-        <span class="c1"># port: 25</span>
+  <span class="nt">enabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">replyTo</span><span class="p">:</span> <span class="s">&quot;notifications@mycompany.com&quot;</span> <span class="c1"># Reply-to field on sent emails</span>
+  <span class="nt">smtp</span><span class="p">:</span>
+    <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;smtp&quot;</span> <span class="c1"># SMTP protocol to use, either smtps or smtp</span>
+    <span class="nt">hostname</span><span class="p">:</span> <span class="s">&quot;smtp.example.com&quot;</span> <span class="c1"># Hostname of your SMTP server</span>
+    <span class="c1"># username: &quot;&quot; # Optional username to authenticate on your SMTP server</span>
+    <span class="c1"># password: &quot;&quot; # Optional password to authenticate on your SMTP server</span>
+    <span class="c1"># port: 25 # Optional port of your SMTP server, the default is 25</span>
 </code></pre></div>
 
 </li>
 <li>
-<p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-production.yaml</code> to the command <a href="../../..#2-installing-codacy">used to install Codacy</a>:</p>
+<p>Apply the new configuration by performing a Helm upgrade. To do so execute the command <a href="../../..#helm-upgrade">used to install Codacy</a>:</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>If you are using MicroK8s</strong> you must use the file <code>values-microk8s.yaml</code> together with the file <code>values-production.yaml</code>.</p>
+<p>To do this, uncomment the last line before running the <code>helm upgrade</code> command below.</p>
+</div>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
-             --values values-production.yaml
+             --values values-production.yaml <span class="se">\</span>
+             <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
 
 </li>
 </ol>
-<p>After this is done you will be able to receive notifications Emails during usage of the product.</p>
+<p>After this is done you will be able to:</p>
+<ul>
+<li>Invite new users via email</li>
+<li>Receive commit and pull request email notifications</li>
+</ul>
                 
                   
                 
@@ -574,7 +601,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../create-bitbucket-server-application-link/" title="Bitbucket Server Application Link" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitbucket-server/" title="Bitbucket Server" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -583,7 +610,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Bitbucket Server Application Link
+                Bitbucket Server
               </span>
             </div>
           </a>
