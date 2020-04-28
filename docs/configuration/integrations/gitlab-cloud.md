@@ -1,6 +1,10 @@
 # GitLab Cloud
 
-Follow the instructions below to set up the Codacy integration with GitLab Cloud:
+Follow the instructions below to set up the Codacy integration with GitLab Cloud.
+
+## Create a GitLab application
+
+To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
 1.  Open <https://gitlab.com/profile/applications>.
 
@@ -19,17 +23,21 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
 
     -   **Scopes:** Enable the scopes:
     
-        - `api`
-        - `read_user`
-        - `read_repository`
+        -   `api`
+        -   `read_user`
+        -   `read_repository`
 
     ![GitLab Cloud application](images/gitlab-cloud-application.png)
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
-4.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+## Configure GitLab Cloud on Codacy
 
-5.  Set `global.gitlab.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitLab application:
+After creating the GitLab application, you must configure it on Codacy:
+
+1.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+
+2.  Set `global.gitlab.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitLab application:
 
     ```yaml
     gitlab:
@@ -39,7 +47,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Cloud
       clientSecret: "" # Secret
     ```
 
-6.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
+3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
 
     !!! important
         **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
