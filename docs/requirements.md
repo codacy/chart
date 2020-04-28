@@ -22,15 +22,16 @@ The cluster running Codacy must satisfy the following requirements:
 
 The cluster must be configured to accept and establish connections on the following ports:
 
-|          | Service      | Protocol/Port | Notes                                                        |
-| -------- | ------------ | ------------- | ------------------------------------------------------------ |
-| Inbound  | SSH          | TCP/22        | Optional, to access the infrastructure remotely.             |
-| Inbound  | HTTP         | TCP/80        |                                                              |
-| Inbound  | HTTPS        | TCP/443       |                                                              |
-| Outbound | PostgreSQL   | TCP/5432      | Connection to the PostgreSQL DBMS                            |
-| Outbound | SMTP         | TCP/25        | Connection to your SMTP server                               |
-| Outbound | SMTPS        | TCP/465       | Connection to your SMTP server over TLS/SSL                  |
-| Outbound | Git provider | \*            | Connection to the ports required by your remote Git provider |
+|          | Service      | Protocol/Port | Notes                                                              |
+| -------- | ------------ | ------------- | ------------------------------------------------------------------ |
+| Inbound  | SSH          | TCP/22        | **MicroK8s only**, to access the infrastructure remotely.          |
+| Inbound  | HTTP         | TCP/80        |                                                                    |
+| Inbound  | HTTPS        | TCP/443       |                                                                    |
+| Outbound | PostgreSQL   | TCP/5432      | Connection to the PostgreSQL DBMS                                  |
+| Outbound | SMTP         | TCP/25        | Connection to your SMTP server                                     |
+| Outbound | SMTPS        | TCP/465       | Connection to your SMTP server over TLS/SSL                        |
+| Outbound | Docker Hub   | \*            | Connection to Docker Hub to download the required container images |
+| Outbound | Git provider | \*            | Connection to the ports required by your remote Git provider       |
 
 ### Cluster hardware requirements
 
