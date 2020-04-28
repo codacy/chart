@@ -352,9 +352,45 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        GitLab Cloud
+      </label>
+    
     <a href="./" title="GitLab Cloud" class="md-nav__link md-nav__link--active">
       GitLab Cloud
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -530,6 +566,29 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -542,6 +601,7 @@
                 
                 
                 <h1 id="gitlab-cloud">GitLab Cloud<a class="headerlink" href="#gitlab-cloud" title="Permanent link">&para;</a></h1>
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
 <p>Follow the instructions below to set up the Codacy integration with GitLab Cloud:</p>
 <ol>
 <li>
@@ -604,6 +664,34 @@ https://codacy.example.com/add/addPermissions/GitLab
 </li>
 </ol>
 <p>After this is done you will be able to use GitLab Cloud to authenticate to Codacy.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<ul>
+<li>During an authentication procedure, if you got stuck on the provider and this message is shown</li>
+<li><img alt="Invalid redirect URI" src="../gitlab-invalid-redirect-uri.png" />
+    It means you have not introduced correctly, the redirect uris when creating the application in GitLab.com<ul>
+<li>Make sure all the urls have the correct Codacy protocol (http or http)</li>
+<li>Make sure all the urls have the full path with the correct case (it is case sensitive)</li>
+<li>If you still could not find the problem:<ul>
+<li>Extract the parameter <code>redirect_uri</code>, from the browser address bar in GitLabEnterprise where the error appears (e.g.: <code>https%3A%2F%codacy.example.com%2Flogin%2FGitLabEnterprise</code>)</li>
+<li>Decode the value (e.g.: <a href="https://www.urldecoder.org/">urldecoder.com</a>) (e.g.: <code>https://codacy.example.com/login/GitLab</code>)</li>
+<li>Check if the value matches one of the configured ones in the application in GitLab.com</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img alt="Invalid application id" src="../gitlab-invalid-application-id.png" />
+    It means you have not introduced the application id when configuring GitLab.com on Codacy.<ul>
+<li>Make sure the value matches the one in your GitLab.com application</li>
+<li>If you still could not find the problem:<ul>
+<li>Extract the parameter <code>client_id</code>, from the browser address bar in GitLab.com where the error appears (e.g.: <code>cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd</code>)</li>
+<li>Check if the application id on GitLab.com matches this value</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If you do not understand why they are different, contact <a href="mailto:support@codacy.com">support@codacy.com</a>
+  with all the previous information so they can help you</li>
+</ul>
                 
                   
                 
