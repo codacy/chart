@@ -1,6 +1,8 @@
-# Troubleshooting
+# Troubleshooting Git providers
 
-If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com) with all the previous information so they can help you.
+The sections below include information to help you troubleshoot issues that you may come across while configuring the Codacy integration with your Git provider.
+
+If the information provided on this page is not enough to solve your issue, contact [support@codacy.com](mailto:support@codacy.com) with all the information that you were able to collect while following the troubleshooting instructions so we can help you.
 
 ## GitHub Cloud and GitHub Enterprise authentication
 
