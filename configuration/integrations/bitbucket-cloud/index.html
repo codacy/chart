@@ -408,6 +408,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
       
       
       
@@ -583,6 +590,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
       
       
       
@@ -682,6 +696,22 @@
 </li>
 </ol>
 <p>After this is done you will be able to use Bitbucket Cloud to authenticate to Codacy.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<ul>
+<li>During an authentication procedure, if you got stuck on the provider and this message is shown</li>
+<li><img alt="Invalid client id" src="../bitbucket-invalid-client-id.png" />
+    It means you have not introduced the client id when configuring Bitbucket.com on Codacy.<ul>
+<li>Make sure the value matches the one in your Bitbucket.com application</li>
+<li>If you still could not find the problem:<ul>
+<li>Extract the parameter <code>client_id</code>, from the browser address bar in Bitbucket.com where the error appears (e.g.: <code>r8QJDkkxj8unYfg4Bd</code>)</li>
+<li>Check if the application id on Bitbucket.com matches this value</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If you do not understand why they are different, contact <a href="mailto:support@codacy.com">support@codacy.com</a>
+  with all the previous information so they can help you</li>
+</ul>
                 
                   
                 
