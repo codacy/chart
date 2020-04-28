@@ -1,5 +1,7 @@
 # Troubleshooting
 
+If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com) with all the previous information so they can help you.
+
 ## GitHub Cloud
 
 - During an authentication procedure, if you got stuck on the provider and this message is shown
@@ -9,8 +11,6 @@
     - If you still could not find the problem:
         - Extract the parameter `client_id`, from the browser address bar in GitHub.com where the error appears (e.g.: `Iv1.0000000000000000`)
         - Check if the application id on GitHub.com matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
 
 ## GitHub Enterprise
 
@@ -21,8 +21,6 @@
     - If you still could not find the problem:
         - Extract the parameter `client_id`, from the browser address bar in GitHubEnterprise where the error appears (e.g.: `Iv1.0000000000000000`)
         - Check if the application id on GitHubEnterprise matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
 
 ## GitLab Cloud
 
@@ -41,8 +39,6 @@
     - If you still could not find the problem:
         - Extract the parameter `client_id`, from the browser address bar in GitLab.com where the error appears (e.g.: `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
         - Check if the application id on GitLab.com matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
 
 ## GitLab Enterprise
 
@@ -61,8 +57,6 @@
     - If you still could not find the problem:
         - Extract the parameter `client_id`, from the browser address bar in GitLabEnterprise where the error appears (e.g.: `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
         - Check if the application id on GitLabEnterprise matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
 
 ## Bitbucket Cloud
 
@@ -73,5 +67,3 @@
     - If you still could not find the problem:
         - Extract the parameter `client_id`, from the browser address bar in Bitbucket.com where the error appears (e.g.: `r8QJDkkxj8unYfg4Bd`)
         - Check if the application id on Bitbucket.com matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
