@@ -2,68 +2,78 @@
 
 If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com) with all the previous information so they can help you.
 
-## GitHub Cloud
+## GitHub Cloud and GitHub Enterprise authentication
 
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid client id](images/github-invalid-client-id.png)
-    It means you have not introduced the client id when configuring GitHub.com on Codacy.
-    - Make sure the value matches the one in your GitHub.com application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in GitHub.com where the error appears (e.g.: `Iv1.0000000000000000`)
-        - Check if the application id on GitHub.com matches this value
+While trying to authenticate Codacy on GitHub you get the following error message:
 
-## GitHub Enterprise
+![Invalid client id](images/github-invalid-client-id.png)
 
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid client id](images/github-invalid-client-id.png)
-    It means you have not introduced the client id when configuring GitHubEnterprise on Codacy.
-    - Make sure the value matches the one in your GitHubEnterprise application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in GitHubEnterprise where the error appears (e.g.: `Iv1.0000000000000000`)
-        - Check if the application id on GitHubEnterprise matches this value
+This means that there is a mismatch in the Client ID that Codacy is using to authenticate on GitHub.
 
-## GitLab Cloud
+**To solve this issue:**
 
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid redirect URI](images/gitlab-invalid-redirect-uri.png)
-    It means you have not introduced correctly, the redirect uris when creating the application in GitLab.com
-    - Make sure all the urls have the correct Codacy protocol (http or http)
-    - Make sure all the urls have the full path with the correct case (it is case sensitive)
-    - If you still could not find the problem:
-        - Extract the parameter `redirect_uri`, from the browser address bar in GitLabEnterprise where the error appears (e.g.: `https%3A%2F%codacy.example.com%2Flogin%2FGitLabEnterprise`)
-        - Decode the value (e.g.: [urldecoder.com](https://www.urldecoder.org/)) (e.g.: `https://codacy.example.com/login/GitLab`)
-        - Check if the value matches one of the configured ones in the application in GitLab.com
-  - ![Invalid application id](images/gitlab-invalid-application-id.png)
-    It means you have not introduced the application id when configuring GitLab.com on Codacy.
-    - Make sure the value matches the one in your GitLab.com application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in GitLab.com where the error appears (e.g.: `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
-        - Check if the application id on GitLab.com matches this value
+1.  Make sure that the value of `clientId` in your `values-production.yaml` is the same as the Client ID of the [GitHub App that you created](github-app-create.md)
+2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [GitHub Cloud](github-cloud.md) or [GitHub Enterprise](github-enterprise.md)
 
-## GitLab Enterprise
+If the error persists:
 
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid redirect URI](images/gitlab-invalid-redirect-uri.png)
-    It means you have not introduced correctly, the redirect uris when creating the application in GitLabEnterprise
-    - Make sure all the urls have the correct Codacy protocol (http or http)
-    - Make sure all the urls have the full path with the correct case (it is case sensitive)
-    - If you still could not find the problem:
-        - Extract the parameter `redirect_uri`, from the browser address bar in GitLabEnterprise where the error appears (e.g.: `https%3A%2F%codacy.example.com%2Flogin%2FGitLabEnterprise`)
-        - Decode the value (e.g.: [urldecoder.com](https://www.urldecoder.org/)) (e.g.: `https://codacy.example.com/login/GitLabEnterprise`)
-        - Check if the value matches one of the configured ones in the application in GitLabEnterprise
-  - ![Invalid application id](images/gitlab-invalid-application-id.png)
-    It means you have not introduced the application id when configuring GitLabEnterprise on Codacy.
-    - Make sure the value matches the one in your GitLabEnterprise application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in GitLabEnterprise where the error appears (e.g.: `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
-        - Check if the application id on GitLabEnterprise matches this value
+1.  Take note of the parameter `client_id` in the URL of the GitHub error page (for example, `Iv1.0000000000000000`)
+2.  Check if the value of the parameter matches the value of the Client ID
 
-## Bitbucket Cloud
+## GitLab Cloud and GitLab Enterprise authentication
 
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid client id](images/bitbucket-invalid-client-id.png)
-    It means you have not introduced the client id when configuring Bitbucket.com on Codacy.
-    - Make sure the value matches the one in your Bitbucket.com application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in Bitbucket.com where the error appears (e.g.: `r8QJDkkxj8unYfg4Bd`)
-        - Check if the application id on Bitbucket.com matches this value
+### Invalid redirect URI
+
+While trying to authenticate Codacy on GitLab you get the following error message:
+
+![Invalid redirect URI](images/gitlab-invalid-redirect-uri.png)
+
+This means that the redirect URIs are not correct in the GitLab application that Codacy is using to authenticate on GitLab.
+
+**To solve this issue:**
+
+1.  Open the GitLab application that you created on [GitLab Cloud](gitlab-cloud.md#create-a-gitlab-application) or [GitLab Enterprise](gitlab-enterprise.md#create-a-gitlab-application)
+2.  Make sure that all the redirect URIs have the correct Codacy protocol, either `http://` or `https://`
+3.  Make sure that all the redirect URIs have the full path with the correct case, since the field is case-sensitive
+
+If the error persists:
+
+1.  Take note of the parameter `redirect_uri` in the URL of the GitLab error page (for example, `https%3A%2F%codacy.example.com%2Flogin%2FGitLab` or `https%3A%2F%codacy.example.com%2Flogin%2FGitLabEnterprise`)
+2.  Decode the value of the parameter using a tool such as [urldecoder.com](https://www.urldecoder.org/) (for example, `https://codacy.example.com/login/GitLab` or `https://codacy.example.com/login/GitLabEnterprise`)
+3.  Check if the decoded value matches one of the redirect URIs in the GitLab application
+
+### Invalid Application ID
+
+While trying to authenticate Codacy on GitLab you get the following error message:
+
+![Invalid application id](images/gitlab-invalid-application-id.png)
+
+This means that there is a mismatch in the Application ID that Codacy is using to authenticate on GitLab.
+
+**To solve this issue:**
+
+1.  Make sure that the value of `clientId` in your `values-production.yaml` is the same as the Application ID of the [GitLab Cloud](gitlab-cloud.md#create-a-gitlab-application) or [GitLab Enterprise](gitlab-enterprise.md#create-a-gitlab-application) application that you created
+2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [GitLab Cloud](gitlab-cloud.md#configure-gitLab-cloud-on-codacy) or [GitLab Enterprise](gitlab-enterprise.md#configure-gitLab-cloud-on-codacy)
+
+If the error persists:
+
+1.  Take note of the parameter `client_id` in the URL of the GitLab error page (for example, `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
+2.  Check if the value of the parameter matches the value of the Application ID
+
+## Bitbucket Cloud authentication
+
+While trying to authenticate Codacy on Bitbucket Cloud you get the following error message:
+
+![Invalid client_id](images/bitbucket-invalid-client-id.png)
+
+This means that there is a mismatch in the `client_id` that Codacy is using to authenticate on Bitbucket Cloud.
+
+**To solve this issue:**
+
+1.  Make sure that the value of `key` in your `values-production.yaml` is the same as the Key of the [Bitbucket OAuth consumer that you created](bitbucket-cloud.md#create-an-oauth-consumer)
+2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [Bitbucket Cloud](bitbucket-cloud.md#configure-bitbucket-cloud-on-codacy)
+
+If the error persists:
+
+1.  Take note of the parameter `client_id` in the URL of the Bitbucket Cloud error page (for example, `r8QJDkkxj8unYfg4Bd`)
+2.  Check if the value of the parameter matches the value of the Client ID
