@@ -25,8 +25,8 @@ The cluster must be configured to accept and establish connections on the follow
 |          | Service      | Protocol/Port | Notes                                                              |
 | -------- | ------------ | ------------- | ------------------------------------------------------------------ |
 | Inbound  | SSH          | TCP/22        | **MicroK8s only**, to access the infrastructure remotely.          |
-| Inbound  | HTTP         | TCP/80        |                                                                    |
-| Inbound  | HTTPS        | TCP/443       |                                                                    |
+| Inbound  | HTTP         | TCP/80        | Allow access to the Codacy website and API endpoints               |
+| Inbound  | HTTPS        | TCP/443       | Allow access to the Codacy website and API endpoints               |
 | Outbound | PostgreSQL   | TCP/5432      | Connection to the PostgreSQL DBMS                                  |
 | Outbound | SMTP         | TCP/25        | Connection to your SMTP server                                     |
 | Outbound | SMTPS        | TCP/465       | Connection to your SMTP server over TLS/SSL                        |
