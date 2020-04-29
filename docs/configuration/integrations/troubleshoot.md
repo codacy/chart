@@ -17,7 +17,7 @@ This might mean that there is a mismatch in the Client ID that Codacy is using t
 To solve this issue:
 
 1.  Make sure that the value of `clientId` in your `values-production.yaml` file is the same as the Client ID of the [GitHub App that you created](github-app-create.md)
-2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [GitHub Cloud](github-cloud.md) or [GitHub Enterprise](github-enterprise.md)
+2.  If the values were different, update your configuration and re-execute the `helm upgrade` command as described for [GitHub Cloud](github-cloud.md) or [GitHub Enterprise](github-enterprise.md)
 
 If the error persists:
 
@@ -57,7 +57,7 @@ This might mean that there is a mismatch in the Application ID that Codacy is us
 To solve this issue:
 
 1.  Make sure that the value of `clientId` in your `values-production.yaml` file is the same as the Application ID of the [GitLab Cloud](gitlab-cloud.md#create-application) or [GitLab Enterprise](gitlab-enterprise.md#create-application) application that you created
-2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [GitLab Cloud](gitlab-cloud.md#configure) or [GitLab Enterprise](gitlab-enterprise.md#configure)
+2.  If the values were different, update your configuration and re-execute the `helm upgrade` command as described for [GitLab Cloud](gitlab-cloud.md#configure) or [GitLab Enterprise](gitlab-enterprise.md#configure)
 
 If the error persists:
 
@@ -77,7 +77,7 @@ This might mean that there is a mismatch in the OAuth consumer Client ID that Co
 To solve this issue:
 
 1.  Make sure that the value of `key` in your `values-production.yaml` file is the same as the Key of the [Bitbucket OAuth consumer that you created](bitbucket-cloud.md#create-oauth)
-2.  If the values were different, you need to re-execute the `helm upgrade` command as described for [Bitbucket Cloud](bitbucket-cloud.md#configure)
+2.  If the values were different, update your configuration and re-execute the `helm upgrade` command as described for [Bitbucket Cloud](bitbucket-cloud.md#configure)
 
 If the error persists:
 
