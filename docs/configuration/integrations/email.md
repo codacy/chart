@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up Codacy to send emails using your SMTP server:
 
-1.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
 2.  Set `global.email.enabled: "true"` and define the remaining values with the credentials for your SMTP server:
 
@@ -27,6 +27,7 @@ Follow the instructions below to set up Codacy to send emails using your SMTP se
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

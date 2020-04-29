@@ -46,7 +46,7 @@ You can create a consumer on any existing individual or team account. To create 
 
 After creating the OAuth consumer on Bitbucket Cloud, you must configure it on Codacy:
 
-1.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
 2.  Set `global.bitbucket.enabled: "true"` and define the remaining values as described below using the information obtained when you created the OAuth consumer:
 
@@ -68,6 +68,7 @@ After creating the OAuth consumer on Bitbucket Cloud, you must configure it on C
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

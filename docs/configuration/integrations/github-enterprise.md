@@ -4,7 +4,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
 
 1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 
-2.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+2.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
 3.  Set `global.githubEnterprise.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitHub App:
 
@@ -34,6 +34,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

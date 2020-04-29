@@ -36,7 +36,7 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
 
 After creating the GitLab application, you must configure it on Codacy:
 
-1.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
 2.  Set `global.gitlabEnterprise.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitLab application:
 
@@ -60,6 +60,7 @@ After creating the GitLab application, you must configure it on Codacy:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

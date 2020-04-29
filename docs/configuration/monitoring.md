@@ -37,6 +37,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
