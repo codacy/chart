@@ -73,3 +73,5 @@ After creating the OAuth consumer on Bitbucket Cloud, you must configure it on C
     ```
 
 After this is done you will be able to use Bitbucket Cloud to authenticate to Codacy.
+
+If you are having issues setting up this integration, be sure to check out our [troubleshooting guide](troubleshoot.md#bitbucket-cloud) for more help.

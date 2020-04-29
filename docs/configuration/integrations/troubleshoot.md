@@ -1,10 +1,10 @@
-# Troubleshooting Git providers
+# Troubleshooting
 
 The sections below include information to help you troubleshoot issues that you may come across while configuring the Codacy integration with your Git provider.
 
 If the information provided on this page is not enough to solve your issue, contact [support@codacy.com](mailto:support@codacy.com) with all the information that you were able to collect while following the troubleshooting instructions so we can help you.
 
-## GitHub Cloud and GitHub Enterprise authentication
+## GitHub Cloud and GitHub Enterprise authentication {id="github"}
 
 While trying to authenticate Codacy on GitHub you get the following error message:
 
@@ -22,7 +22,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitHub error page (for example, `Iv1.0000000000000000`)
 2.  Check if the value of the parameter matches the value of the Client ID
 
-## GitLab Cloud and GitLab Enterprise authentication
+## GitLab Cloud and GitLab Enterprise authentication {id="gitlab"}
 
 ### Invalid redirect URI
 
@@ -62,7 +62,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitLab error page (for example, `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
 2.  Check if the value of the parameter matches the value of the Application ID
 
-## Bitbucket Cloud authentication
+## Bitbucket Cloud authentication {id="bitbucket-cloud"}
 
 While trying to authenticate Codacy on Bitbucket Cloud you get the following error message:
 
