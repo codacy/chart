@@ -12,7 +12,7 @@ While trying to authenticate on GitHub you get the following error message:
 
 ![Invalid client id](images/github-invalid-client-id.png)
 
-This means that there is a mismatch in the Client ID that Codacy is using to authenticate on GitHub.
+This might mean that there is a mismatch in the Client ID that Codacy is using to authenticate on GitHub.
 
 To solve this issue:
 
@@ -32,7 +32,7 @@ While trying to authenticate on GitLab you get the following error message:
 
 ![Invalid redirect URI](images/gitlab-invalid-redirect-uri.png)
 
-This means that the redirect URIs are not correct in the GitLab application that Codacy is using to authenticate on GitLab.
+This might mean that the redirect URIs are not correct in the GitLab application that Codacy is using to authenticate on GitLab.
 
 To solve this issue:
 
@@ -52,7 +52,7 @@ While trying to authenticate on GitLab you get the following error message:
 
 ![Invalid application id](images/gitlab-invalid-application-id.png)
 
-This means that there is a mismatch in the Application ID that Codacy is using to authenticate on GitLab.
+This might mean that there is a mismatch in the Application ID that Codacy is using to authenticate on GitLab.
 
 To solve this issue:
 
@@ -72,7 +72,7 @@ While trying to authenticate on Bitbucket Cloud you get the following error mess
 
 ![Invalid client_id](images/bitbucket-invalid-client-id.png)
 
-This means that there is a mismatch in the OAuth consumer Client ID that Codacy is using to authenticate on Bitbucket Cloud.
+This might mean that there is a mismatch in the OAuth consumer Client ID that Codacy is using to authenticate on Bitbucket Cloud.
 
 To solve this issue:
 
