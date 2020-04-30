@@ -62,7 +62,7 @@ Install Codacy on an existing cluster using our Helm chart:
         --namespace codacy
     ```
 
-4.  Download the template file [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){: target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:
+4.  Download the template file [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:
 
     ```bash
     wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml

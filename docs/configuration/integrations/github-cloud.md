@@ -4,7 +4,7 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
 
 1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 
-2.  Edit the file `values-production.yaml` that you used to [install Codacy](../../index.md#helm-upgrade).
+2.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
 3.  Set `global.github.enabled: "true"` and define the remaining values as described below using the information obtained when you created the GitHub App:
 
@@ -29,20 +29,11 @@ Follow the instructions below to set up the Codacy integration with GitHub Cloud
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
 
 After this is done you will be able to use GitHub Cloud to authenticate to Codacy.
 
-## Troubleshooting
-
-- During an authentication procedure, if you got stuck on the provider and this message is shown
-  - ![Invalid client id](./github-invalid-client-id.png)
-    It means you have not introduced the client id when configuring GitHub.com on Codacy.
-    - Make sure the value matches the one in your GitHub.com application
-    - If you still could not find the problem:
-        - Extract the parameter `client_id`, from the browser address bar in GitHub.com where the error appears (e.g.: `Iv1.0000000000000000`)
-        - Check if the application id on GitHub.com matches this value
-- If you do not understand why they are different, contact [support@codacy.com](mailto:support@codacy.com)
-  with all the previous information so they can help you
+If you are having issues setting up this integration, be sure to check out our [troubleshooting guide](troubleshoot.md#github) for more help.
