@@ -3,7 +3,7 @@
 # create admin service account
 resource "kubernetes_service_account" "admin" {
   metadata {
-    name      = var.k8s_admin_name
+    name = var.k8s_admin_name
     namespace = "kube-system"
   }
 
@@ -16,14 +16,14 @@ resource "kubernetes_cluster_role_binding" "admin" {
   }
 
   subject {
-    kind      = "ServiceAccount"
-    name      = var.k8s_admin_name
+    kind = "ServiceAccount"
+    name = var.k8s_admin_name
     namespace = "kube-system"
   }
 
   role_ref {
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
+    kind = "ClusterRole"
+    name = "cluster-admin"
     api_group = "rbac.authorization.k8s.io"
   }
 }
@@ -31,7 +31,7 @@ resource "kubernetes_cluster_role_binding" "admin" {
 # create service account for tiller
 resource "kubernetes_service_account" "tiller" {
   metadata {
-    name      = "tiller"
+    name = "tiller"
     namespace = "kube-system"
   }
 
@@ -44,14 +44,14 @@ resource "kubernetes_cluster_role_binding" "tiller" {
   }
 
   subject {
-    kind      = "ServiceAccount"
-    name      = "tiller"
+    kind = "ServiceAccount"
+    name = "tiller"
     namespace = "kube-system"
   }
 
   role_ref {
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
+    kind = "ClusterRole"
+    name = "cluster-admin"
     api_group = "rbac.authorization.k8s.io"
   }
 }

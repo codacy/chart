@@ -28,7 +28,7 @@ data "template_file" "cert_manager_crds" {
 ### helm
 data "helm_repository" "stable" {
   name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
+  url = "https://kubernetes-charts.storage.googleapis.com"
 }
 
 data "helm_repository" "jetstack" {
