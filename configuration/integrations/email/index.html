@@ -407,6 +407,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../troubleshoot/" title="Troubleshooting" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -545,7 +557,7 @@
 <p>Follow the instructions below to set up Codacy to send emails using your SMTP server:</p>
 <ol>
 <li>
-<p>Edit the file <code>values-production.yaml</code> that you used to <a href="../../..#helm-upgrade">install Codacy</a>.</p>
+<p>Edit the file <code>values-production.yaml</code> that you <a href="../../..#helm-upgrade">used to install Codacy</a>.</p>
 </li>
 <li>
 <p>Set <code>global.email.enabled: "true"</code> and define the remaining values with the credentials for your SMTP server:</p>
@@ -569,6 +581,7 @@
 <p>To do this, uncomment the last line before running the <code>helm upgrade</code> command below.</p>
 </div>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --recreate-pods
              --values values-production.yaml <span class="se">\</span>
              <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
@@ -616,13 +629,13 @@
           </a>
         
         
-          <a href="../../monitoring/" title="Monitoring" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../troubleshoot/" title="Troubleshooting" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Monitoring
+                Troubleshooting
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

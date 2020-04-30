@@ -443,6 +443,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../troubleshoot/" title="Troubleshooting" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -647,7 +659,7 @@
 <p>After creating the Bitbucket Server application link, you must configure it on Codacy:</p>
 <ol>
 <li>
-<p>Edit the file <code>values-production.yaml</code> that you used to <a href="../../..#helm-upgrade">install Codacy</a>.</p>
+<p>Edit the file <code>values-production.yaml</code> that you <a href="../../..#helm-upgrade">used to install Codacy</a>.</p>
 </li>
 <li>
 <p>Set <code>global.bitbucketEnterprise.enabled: "true"</code> and define the remaining values as described below and with the information obtained when you created the Bitbucket Server application link:</p>
@@ -671,6 +683,7 @@
 <p>To do this, uncomment the last line before running the <code>helm upgrade</code> command below.</p>
 </div>
 <div class="highlight"><pre><span></span><code>helm upgrade <span class="o">(</span>...options used to install Codacy...<span class="o">)</span> <span class="se">\</span>
+             --recreate-pods
              --values values-production.yaml <span class="se">\</span>
              <span class="c1"># --values values-microk8s.yaml</span>
 </code></pre></div>
