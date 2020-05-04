@@ -55,6 +55,8 @@ nav:
       - configuration/integrations/bitbucket-server.md
       - configuration/integrations/email.md
       - configuration/integrations/troubleshoot.md
+    - "Secrets":
+      - configuration/secrets/troubleshoot.md
     - configuration/monitoring.md
   - "Extra":
     - extra/upgrade.md
