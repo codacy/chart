@@ -85,7 +85,7 @@ if [ $? -ne 0 ]; then
     exit 5
 fi
 
-read -p "Is '$KUBE_CTX' the correct kubernetes cluster for log extraction? ([yes]/no)" ANSWER
+read -p "Is '$KUBE_CTX' the correct kubernetes cluster for log extraction? (yes/[no]): " ANSWER
 if [[ ! "$ANSWER" =~ ^y(es)?$ ]]; then
     echo "Please configure correctly your current kubernetes cluster"
     exit 6

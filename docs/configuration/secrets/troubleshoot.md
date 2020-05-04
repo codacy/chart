@@ -14,14 +14,15 @@ the secret on the database and the one in your configuration file are different.
 
 1. Get the tail of the logs on the api service
 
-    a. Setup access to the cluster
+    a. Get logs and filter by the prefix of the message
 
-    b. Get logs and filter by the prefix of the message
+        ```bash
+        bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/secrets/extract-codacy-secrets.sh) \
+            -n <namespace>
+        ```
 
-        ```sh
-        kubectl -n codacy logs deployment/codacy-api | grep -i "Your database is using key"
-        ```
-        ```
+        You can also download the script [extract-codacy-secrets.sh](extract-codacy-secrets.sh) to run it manually.
+
 2. Copy the value and update it in your values yaml file
 
 3. Restart the application with the new configuration
