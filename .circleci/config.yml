@@ -413,7 +413,7 @@ workflows:
       - create_sandbox_cluster:
           context: CodacyDO
           requires:
-              - helm_lint
+            - helm_lint
       - deploy_to_doks_sandbox:
           context: CodacyDO
           requires:

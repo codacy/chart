@@ -23,7 +23,7 @@ setup_vars:
 	@echo "region = \"$(K8S_CLUSTER_REGION)\"" >> $(VARS_FILE)
 	@echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\"" >> $(VARS_FILE)
 	@echo "postgres_instance_type = \"$(INSTANCE_TYPE)\"" >> $(VARS_FILE)
-	@echo "environments = [\"$(ENVIRONMENT)\"]" >> $(VARS_FILE)
+	@echo "environment = \"$(ENVIRONMENT)\"" >> $(VARS_FILE)
 
 .PHONY: start_cluster
 start_cluster: initialize_terrafom terraform_logistics replace_db_values
@@ -45,10 +45,10 @@ terraform_logistics:
 
 .PHONY: replace_db_values
 replace_db_values:
-	$(eval host=$(shell cat terraform_outputs.json | jq -r '.db_cluster_hosts.value[] | .host | select(contains("$(ENVIRONMENT)"))'))
-	$(eval port=$(shell cat terraform_outputs.json | jq -r '.db_cluster_hosts.value[] | select(.host | contains("$(ENVIRONMENT)")) | .port'))
-	$(eval username=$(shell cat terraform_outputs.json | jq -r '.db_cluster_usernames.value[] | select(.environment=="$(ENVIRONMENT)") | .username'))
-	$(eval password=$(shell cat terraform_outputs.json | jq -r '.db_cluster_passwords.value[] | select(.environment=="$(ENVIRONMENT)") | .password'))
+	$(eval host=$(shell cat terraform_outputs.json | jq -r '.db_cluster_host | .value'))
+	$(eval port=$(shell cat terraform_outputs.json | jq -r '.db_cluster_port | .value'))
+	$(eval username=$(shell cat terraform_outputs.json | jq -r '.db_cluster_username | .value'))
+	$(eval password=$(shell cat terraform_outputs.json | jq -r '.db_cluster_password | .value'))
 
 	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../../codacy/values-production.yaml
 	@sed -i "s/postgresqlDatabase: activities/postgresqlDatabase: \"activities?sslmode=require\"/g; s/postgresqlDatabase: hotspots/postgresqlDatabase: \"hotspots?sslmode=require\"/g; s/postgresqlDatabase: crow/postgresqlDatabase: \"crow?sslmode=require\"/g" ../../codacy/values-production.yaml

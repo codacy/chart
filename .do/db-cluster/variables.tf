@@ -30,9 +30,9 @@ variable "postgres_default_admin" {
   default = "doadmin"
 }
 
-variable "environments" {
-    type = list(string)
-    default = ["sandbox"]
+variable "environment" {
+    type = string
+    default = "sandbox"
 }
 
 variable "db_names" {
