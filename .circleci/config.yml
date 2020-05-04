@@ -53,8 +53,7 @@ references:
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy
     NAMESPACE: codacy
-    K8S_VERSION: "1.14"
-    NUM_NODES: "5"
+    ENVIRONMENT: dev
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.github.clientId=${GITHUB_CLIENTID_DEV} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_DEV} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_DEV} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_DEV} --set global.bitbucket.key="${BITBUCKET_KEY_DEV}" --set global.bitbucket.secret="${BITBUCKET_SECRET_DEV}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_DEV}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_DEV}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_DEV}" --set global.gitlab.clientId="${GITLAB_CLIENTID_DEV}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_DEV}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_DEV}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_DEV}"
@@ -64,7 +63,7 @@ references:
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-hourly
     NAMESPACE: codacy-hourly
-    K8S_VERSION: "1.14"
+    ENVIRONMENT: sandbox
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.github.clientId=${GITHUB_CLIENTID_SANDBOX} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_SANDBOX} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-sandbox --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_SANDBOX} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_SANDBOX} --set global.bitbucket.key="${BITBUCKET_KEY_SANDBOX}" --set global.bitbucket.secret="${BITBUCKET_SECRET_SANDBOX}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_SANDBOX}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_SANDBOX}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_SANDBOX}" --set global.gitlab.clientId="${GITLAB_CLIENTID_SANDBOX}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_SANDBOX}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_SANDBOX}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_SANDBOX}"
 
@@ -73,8 +72,7 @@ references:
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
-    K8S_VERSION: "1.15"
-    NUM_NODES: "5"
+    ENVIRONMENT: release
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_RELEASE} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_RELEASE} --set global.bitbucket.key="${BITBUCKET_KEY_RELEASE}" --set global.bitbucket.secret="${BITBUCKET_SECRET_RELEASE}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_RELEASE}" --set global.gitlab.clientId="${GITLAB_CLIENTID_RELEASE}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_RELEASE}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_RELEASE}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_RELEASE}"
@@ -153,9 +151,13 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - run:
-          name: "Create Cluster"
-          command: make -C ./.doks/doks-cluster start_cluster
+      - deploy:
+          name: "Create K8S Cluster"
+          command: make -C ./.do/k8s-cluster start_cluster
+      - deploy:
+          name: "Create DB Cluster"
+          command: make -C ./.do/db-cluster start_cluster
+      - <<: *persist_to_workspace
 
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
     steps:
@@ -165,7 +167,7 @@ references:
       - <<: *update_versions
       - deploy:
           name: Install Codacy
-          command: make -e -C .doks/ deploy_to_doks_from_local_dir
+          command: make -e -C .do/ deploy_to_doks_from_local_dir
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
@@ -173,7 +175,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -e -C .doks/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
 
   helm_push: &helm_push
     steps:

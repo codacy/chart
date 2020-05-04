@@ -1,3 +1,7 @@
+######################
+# k8s cluster
+######################
+
 variable "k8s_version" {
   description = "Kubernetes version. See available versions with `doctl kubernetes options versions`"
   type        = string
@@ -8,12 +12,6 @@ variable "node_type" {
   description = "Node type used. See available types with `doctl compute size list`"
   type        = string
   default     = "s-4vcpu-8gb"
-}
-
-variable "num_nodes" {
-  description = "Number of nodes used."
-  type        = number
-  default     = 4
 }
 
 variable "admin_name" {

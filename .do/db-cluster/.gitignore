@@ -1,0 +1,4 @@
+.terraform
+terraformrc
+deploy.tfvars
+terraform_outputs.json

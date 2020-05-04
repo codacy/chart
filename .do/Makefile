@@ -6,6 +6,7 @@ DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1
 WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
 HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
+ENVIRONMENT?=dev
 
 define rotate_pod
   kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
@@ -17,6 +18,7 @@ define call_helm_install
 	helm upgrade --install ${1} ${3} \
 	--atomic \
 	--timeout=600 \
+	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
@@ -44,11 +46,11 @@ setup_helm_repos:
 
 .PHONY: helm_install_from_local_dir
 helm_install_from_local_dir: update_ingress_values
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_chart_museum
 helm_install_from_chart_museum: update_ingress_values
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: update_dependencies
 update_dependencies:

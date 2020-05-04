@@ -33,10 +33,10 @@ You will need to know the following:
 The following command lets you extract a given database into a dump file:
 
 ```bash
-PGPASSWORD=$DB_PASSWORD pg_dump -h $HOSTNAME -U $DB_USER -d $DB -F t -f /tmp/$DB.sql.tar
+PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean -Fc $db > /tmp/$db.dump
 ```
 
-This will dump the file with the `.sql.tar` extension into the `/tmp` folder.
+This will dump the file with the `.dump` extension into the `/tmp` folder.
 
 [For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/10/app-pgdump.html)
 
@@ -45,8 +45,10 @@ This will dump the file with the `.sql.tar` extension into the `/tmp` folder.
 To restore a database, you can run a `pg_restore` command to consume the dump file and replicate the data onto Postgres:
 
 ```bash
-PGPASSWORD=$DB_PASSWORD pg_restore -h $HOSTNAME -U $DB_USER -d $DB -F t /tmp/$DB.sql.tar --clean --if-exists --create
+PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -p $DEST_HOSTPORT -U $DB_USER -j 8 -d $db -n public --clean $db.dump
 ```
+
+With the custom format from `pg_dump` (by using `-Fc`) we can now invoke `pg_restore` with multiple parallel jobs. This should make the restoration of the databases quicker, depending on which value you provide for the number of parallel jobs to execute. We provide a value of 8 parallel jobs in the example above (`-j 8`).
 
 *NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called `jobs` created there)*
 
@@ -58,20 +60,22 @@ Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, and that you want to m
 
 ```bash
 SRC_HOSTNAME=$1
-DEST_HOSTNAME=$2
-DB_USER=$3
-DB_PASSWORD=$4
+SRC_HOSTPORT=$2
+DEST_HOSTNAME=$3
+DEST_HOSTPORT=$4
+DB_USER=$5
+DB_PASSWORD=$6
 
 declare -a dbs=(accounts analysis filestore jobs metrics results)
 for db in ${dbs[@]}
 do
-  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -U $DB_USER -d $db -F t -f /tmp/$db.sql.tar
-  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -U $DB_USER -d $db -F t /tmp/$db.sql.tar --clean --if-exists --create
+  PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean -Fc $db > /tmp/$db.dump
+  PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -p $DEST_HOSTPORT -U $DB_USER -d $db -n public --clean $db.dump
 done
 ```
 
 You could simply invoke it with:
 
 ```bash
-migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com postgres–instance1.eu-west-1.rds.amazonaws.com super_user secret_password
+migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com 25060 postgres–instance1.eu-west-1.rds.amazonaws.com 25060 super_user secret_password
 ```
