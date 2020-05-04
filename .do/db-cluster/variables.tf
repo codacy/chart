@@ -32,7 +32,7 @@ variable "postgres_default_admin" {
 
 variable "environments" {
     type = list(string)
-    default = ["dev", "sandbox", "release"]
+    default = ["sandbox"]
 }
 
 variable "db_names" {

@@ -3,11 +3,11 @@ TF_RC ?= ./terraformrc
 TF_EXTRA_OPTS ?= TF_IN_AUTOMATION=1 AWS_SDK_LOAD_CONFIG=1 TF_CLI_CONFIG_FILE=$(TF_RC)
 TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
-WORKSPACE ?= postgres
+WORKSPACE_PREFIX ?= postgres
 VARS_FILE ?= deploy.tfvars
 # variables
 K8S_CLUSTER_REGION ?= fra1
-K8S_CLUSTER_ID ?= c446a902-e081-4f90-847a-8f34ea35e828
+K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json | jq -r '.cluster_id.value')
 INSTANCE_TYPE ?= db-s-6vcpu-16gb
 ENVIRONMENT ?= dev
 
@@ -23,6 +23,7 @@ setup_vars:
 	@echo "region = \"$(K8S_CLUSTER_REGION)\"" >> $(VARS_FILE)
 	@echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\"" >> $(VARS_FILE)
 	@echo "postgres_instance_type = \"$(INSTANCE_TYPE)\"" >> $(VARS_FILE)
+	@echo "environments = [\"$(ENVIRONMENT)\"]" >> $(VARS_FILE)
 
 .PHONY: start_cluster
 start_cluster: initialize_terrafom terraform_logistics replace_db_values
@@ -35,7 +36,7 @@ destroy_cluster: initialize_terrafom
 .PHONY: initialize_terrafom
 initialize_terrafom: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
-	$(TF) workspace select $(WORKSPACE)
+	$(TF) workspace select $(WORKSPACE_PREFIX)-$(ENVIRONMENT)
 
 .PHONY: terraform_logistics
 terraform_logistics:

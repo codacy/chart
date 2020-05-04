@@ -42,6 +42,7 @@ provision_cluster: setup_vars create_terraformrc
 	echo '1' | $(TF) init -input=false -reconfigure
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+	$(TF) output -json > terraform_outputs.json
 
 .PHONY: set_cluster_context
 set_cluster_context:
