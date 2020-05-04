@@ -12,7 +12,7 @@ the secret on the database and the one in your configuration file are different.
 
 ### Steps
 
-1. Get the tail of the logs on the api service
+1. Get the latest logs from the API service
 
     a. Get logs and filter by the prefix of the message
 
