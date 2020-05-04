@@ -29,7 +29,7 @@ global:
     protocol: "https"
     disableSSL: "true"
     isPrivateMode: "true"
-    
+
   gitlab:
     enabled: "true"
     login: "false"
@@ -58,6 +58,8 @@ codacy-ingress:
     hostname:
       app: <codacy-app.dns.internal>
       api: <codacy-api.dns.internal>
+    spa:
+      serviceName: codacy-spa # this will be moved to the ingress default configs when the spa is released
 
 codacy-api:
   replicaCount: 2
@@ -152,3 +154,4 @@ crow:
         context: "/monitoring"
     passwordAuth:
       password: "PLEASE_CHANGE_ME"
+

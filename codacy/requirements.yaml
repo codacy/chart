@@ -90,3 +90,8 @@ dependencies:
   version: ">=4.4.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/crow.git
+
+- name: codacy-spa
+  version: ">=0.2.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy/codacy-spa.git
