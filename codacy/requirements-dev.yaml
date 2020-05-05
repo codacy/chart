@@ -77,7 +77,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: ">=8.14.0-0"
+  version: "11.7.0-fixreadsendgridonlywhenenabledrel394publish.028a3b911"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-website.git
 

@@ -482,6 +482,15 @@ workflows:
           requires:
             - helm_lint
       - codacy/microk8s_install:
+          name: install_k8s-1.16_helm-3.2
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.15/stable"
+          helm_version: "v3.2.0"
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+      - codacy/microk8s_install:
           name: install_k8s-1.16_helm-2.16
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
@@ -528,6 +537,7 @@ workflows:
             - install_k8s-1.14_helm-2.16
             - install_k8s-1.15_helm-2.16
             - install_k8s-1.16_helm-2.16
+            - install_k8s-1.16_helm-3.2
 
   release_pipeline:
     jobs:
