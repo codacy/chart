@@ -5,3 +5,9 @@ variable "project_tag" {
   type = string
   default = "codacy"
 }
+
+variable "custom_tags" {
+  description = "Map of custom tags to apply to every resource"
+  type = map(string)
+  default = null
+}

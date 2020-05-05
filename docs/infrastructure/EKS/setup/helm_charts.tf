@@ -1,5 +1,5 @@
 resource "helm_release" "dashboard" {
-  name  = "kubernetes-dashboard"
+  name = "kubernetes-dashboard"
   chart = "stable/kubernetes-dashboard"
   repository = data.helm_repository.stable.name
   namespace = var.k8s_system_namespace

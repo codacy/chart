@@ -7,13 +7,8 @@ resource "aws_eks_cluster" "main" {
   role_arn = aws_iam_role.eks_master.arn
 
   vpc_config {
-    security_group_ids = [
-      aws_security_group.eks_master.id
-    ]
-    subnet_ids = [
-      aws_subnet.private1.id,
-      aws_subnet.private2.id
-    ]
+    security_group_ids = [ aws_security_group.eks_master.id ]
+    subnet_ids = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : [var.subnet1_id, var.subnet2_id]
   }
 
   # for more info see: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
@@ -31,13 +26,15 @@ resource "aws_eks_cluster" "main" {
     aws_security_group.eks_master
   ]
 
+  tags = var.custom_tags
+
 }
 
 ### security group
 resource "aws_security_group" "eks_master" {
   name = "${var.project_slug}-cluster-master"
   description = "${var.project_name} master SG"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.create_network_stack ? aws_vpc.main[0].id : var.vpc_id
 
   egress {
     from_port   = 0
@@ -46,15 +43,17 @@ resource "aws_security_group" "eks_master" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.project_name} cluster master"
-  }
+  tags = merge(
+    map("Name", "${var.project_name} cluster master"),
+    var.custom_tags
+  )
 }
 
 ### cluster masters role
 resource "aws_iam_role" "eks_master" {
   name = "${var.project_slug}-master-role"
   assume_role_policy = data.aws_iam_policy_document.eks_master.json
+  tags = var.custom_tags
 }
 
 data "aws_iam_policy_document" "eks_master" {
@@ -81,4 +80,5 @@ resource "aws_iam_role_policy_attachment" "eks_cluster" {
 resource "aws_cloudwatch_log_group" "eks" {
   name = "/aws/eks/${var.project_slug}/cluster"
   retention_in_days = 7
+  tags = var.custom_tags
 }

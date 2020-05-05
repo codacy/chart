@@ -7,10 +7,7 @@ resource "aws_autoscaling_group" "workers" {
   min_size= var.k8s_worker_min
   max_size= var.k8s_worker_max
   desired_capacity = var.k8s_worker_desired
-  vpc_zone_identifier  = [
-    aws_subnet.private1.id,
-    aws_subnet.private2.id
-  ]
+  vpc_zone_identifier = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : [var.subnet1_id, var.subnet2_id]
 
   tag {
     key = "Name"
@@ -26,6 +23,16 @@ resource "aws_autoscaling_group" "workers" {
     key = "k8s.io/cluster-autoscaler/enabled"
     value = "owned"
     propagate_at_launch = false
+  }
+
+  dynamic "tag" {
+    for_each = var.custom_tags
+
+    content {
+      key = tag.key
+      value = tag.value
+      propagate_at_launch = true
+    }
   }
 
   lifecycle {
@@ -84,6 +91,7 @@ resource "aws_iam_instance_profile" "eks_worker" {
 resource "aws_iam_role" "eks_worker" {
   name = "${var.project_slug}-worker-role"
   assume_role_policy = data.aws_iam_policy_document.eks_worker.json
+  tags = var.custom_tags
 }
 
 data "aws_iam_policy_document" "eks_worker" {
@@ -120,18 +128,21 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 resource "aws_security_group" "eks_worker" {
   name = "${var.project_slug}-cluster-worker"
   description = "${var.project_name} worker SG"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.create_network_stack ? aws_vpc.main[0].id : var.vpc_id
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = map(
-    "Name", "${var.project_slug}-worker-sg",
-    "kubernetes.io/cluster/${var.project_slug}-cluster", "owned",
+  tags = merge(
+    map(
+      "Name", "${var.project_slug}-worker-sg",
+      "kubernetes.io/cluster/${var.project_slug}-cluster","owned"
+    ),
+    var.custom_tags
   )
 }
 

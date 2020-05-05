@@ -18,6 +18,8 @@ resource "aws_s3_bucket" "state" {
     prevent_destroy = true
   }
   ###########################
+
+  tags = var.custom_tags
 }
 
 resource "aws_dynamodb_table" "lock" {
@@ -36,6 +38,8 @@ resource "aws_dynamodb_table" "lock" {
     prevent_destroy = true
   }
   ###########################
+
+  tags = var.custom_tags
 }
 
 resource "random_string" "rand" {

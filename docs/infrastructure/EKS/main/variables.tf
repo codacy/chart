@@ -13,6 +13,12 @@ variable "project_slug" {
   default = "codacy"
 }
 
+variable "custom_tags" {
+  description = "Map of custom tags to apply to every resource"
+  type = map(string)
+  default = null
+}
+
 ### kubernetes
 variable "k8s_version" {
   description = "Kubernetes version to use in the cluster"
@@ -57,6 +63,13 @@ variable "k8s_worker_desired" {
 }
 
 ### network
+variable "create_network_stack" {
+  description = "If true then create the network stack (set to false to use preexisting VPC / networks)"
+  type = bool
+  default = true
+}
+
+### create everything
 variable "vpc_cidr" {
   description = "CIDR of the VPC wich house the EKS cluster"
   type = string
@@ -94,6 +107,25 @@ variable "create_vpc_endpoints" {
   default = false
 }
 
+### use existing vpc and subnets (create_network_stack == false)
+variable "vpc_id" {
+  description = "ID of the vpc where to deploy (only used if create_network_stack == false)"
+  type = string
+  default = null
+}
+
+variable "subnet1_id" {
+  description = "ID of subnet 1 (only used if create_network_stack == false)"
+  type = string
+  default = null
+}
+
+variable "subnet2_id" {
+  description = "ID of subnet 2 (only used if create_network_stack == false)"
+  type = string
+  default = null
+}
+
 ### general
 variable "ssm_prefix" {
   description = "Prefix used for the SSM parameters"
@@ -102,7 +134,7 @@ variable "ssm_prefix" {
 }
 
 variable "enable_ssm" {
-  description = "If true then add systems manager policy to nodes"
+  description = "If true then add systems manager policy to nodes (this allows remote access for authorized users)"
   type = bool
-  default = true
+  default = false
 }
