@@ -71,6 +71,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://codacy.github.io/chart/configuration/secrets/troubleshoot/</loc>
+     <lastmod>2020-05-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://codacy.github.io/chart/configuration/monitoring/</loc>
      <lastmod>2020-05-05</lastmod>
      <changefreq>daily</changefreq>
