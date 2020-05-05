@@ -453,13 +453,13 @@ workflows:
             - create_dev_cluster
 
   nightly_pipeline:
-    triggers:
-      - schedule:
-          cron: "0 0 * * 1-5"
-          filters:
-            branches:
-              only:
-                - master
+    # triggers:
+    #   - schedule:
+    #       cron: "0 0 * * 1-5"
+    #       filters:
+    #         branches:
+    #           only:
+    #             - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
