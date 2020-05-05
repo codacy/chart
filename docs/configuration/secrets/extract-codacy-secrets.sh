@@ -2,8 +2,9 @@
 
 usage()
 {
+    echo "Retrieves secrets used to encrypt sensitive data on the database from the Codacy logs."
     echo "Usage: $0 -n <NAMESPACE>"
-    echo "Example: '$0 -n codacy' would retrieve secrets from the logs from the 'codacy' namespace of the kubernetes cluster"
+    echo "Example: '$0 -n codacy' retrieves secrets from Codacy running on the cluster namespace 'codacy'"
     exit 3
 }
 
@@ -27,8 +28,8 @@ echo "Checking if kubectl is installed..."
 KUBECTL=$(which kubectl || which microk8s.kubectl)
 if [ $? -ne 0 ]; then
     echo "kubectl not installed"
-    echo "Please install kubectl version specified in Codacy's documentation (see here - https://codacy.github.io/chart/install/) or the version used when installing your cluster"
-    echo "To install kubectl see https://kubernetes.io/docs/tasks/tools/install-kubectl/ (or https://microk8s.io/docs/ if you are running a microk8s kubernetes cluster)"
+    echo "Please install the kubectl version specified in Codacy's documentation (https://codacy.github.io/chart/install/) or the version used when installing your cluster"
+    echo "To install kubectl see https://kubernetes.io/docs/tasks/tools/install-kubectl/, or https://microk8s.io/docs/ if you are running a MicroK8s kubernetes cluster"
     exit 4
 fi
 
@@ -42,7 +43,7 @@ fi
 
 read -p "Is '$KUBE_CTX' the correct kubernetes cluster for log extraction? (yes/[no]): " ANSWER
 if [[ ! "$ANSWER" =~ ^y(es)?$ ]]; then
-    echo "Please configure correctly your current kubernetes cluster"
+    echo "Configure your kubernetes cluster context to access the cluster where Codacy is running"
     exit 6
 fi
 
@@ -55,7 +56,7 @@ if [ $? -ne 0 ]; then
 fi
 
 DEPLOYMENT_LOGS_COMMAND="$KUBECTL -n $NAMESPACE logs deployment/codacy-api"
-SECRET_MESSAGES=$($DEPLOYMENT_LOGS_COMMAND | grep -i "Your database is using key")
+SECRET_MESSAGES=$($DEPLOYMENT_LOGS_COMMAND | grep -i "Sensitive data on the database will be encrypted using the secret")
 if [ $? -ne 0 ]; then
     echo "Failed to get the logs for the 'codacy-api' deployment, for namespace $NAMESPACE"
     echo "You can try running the command by hand ('$DEPLOYMENT_LOGS_COMMAND') or contacting support@codacy.com"

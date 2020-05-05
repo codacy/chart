@@ -6,26 +6,27 @@ If the information provided on this page is not enough to solve your issue, cont
 
 ## Lost/Changed initially generated secrets
 
-While trying to open Codacy,
-you were shown an error message stating that,
-the secret on the database and the one in your configuration file are different.
+When you open the Codacy UI, an error message states that the secret on the database and the one in your configuration file are different.
 
 ### Steps
 
-1. Get the latest logs from the API service
+1. Obtain the correct key used to encrypt sensitive data in the database from the Codacy logs.
 
-    a. Get logs and filter by the prefix of the message
+    ```bash
+    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/secrets/extract-codacy-secrets.sh) \
+        -n <namespace>
+    ```
 
-        ```bash
-        bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/secrets/extract-codacy-secrets.sh) \
-            -n <namespace>
-        ```
+    You can also download the script [extract-codacy-secrets.sh](extract-codacy-secrets.sh) to run it manually.
 
-        You can also download the script [extract-codacy-secrets.sh](extract-codacy-secrets.sh) to run it manually.
+2. Copy the value of the key and update your `values-production.yaml` file with this value.
 
-2. Copy the value and update it in your values yaml file
+3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
 
-3. Restart the application with the new configuration
+    !!! important
+        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+
+        To do this, uncomment the last line before running the `helm upgrade` command below.
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
