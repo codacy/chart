@@ -291,7 +291,7 @@ for this purpose.
 3.  Change the `requirements-dev.yaml` to use your custom versions.
 4.  `git push` of your branch
 5.  Follow the circleci pipeline and use kubectl to see if your installation was successful
-6.  Go to <http://sandobx.k8s.dev.codacy.org/> and test it out
+6.  Go to <http://sandbox.k8s.dev.codacy.org/> and test it out
 
 ## Add a new component
 
