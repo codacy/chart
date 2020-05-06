@@ -35,7 +35,7 @@ setup_vars:
 	@echo "main_namespace = \"$(NAMESPACE)\"">> $(VARS_FILE)
 
 .PHONY: start_cluster
-start_cluster: set_cluster_context provision_cluster install_nginx
+start_cluster: provision_cluster set_cluster_context install_nginx
 
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc
