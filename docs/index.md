@@ -143,3 +143,5 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Inviting users to Codacy
 
 3.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
+
+If you run into any issues while configuring Codacy, be sure to [check our troubleshooting guide](troubleshoot/troubleshoot.md) for more help.
