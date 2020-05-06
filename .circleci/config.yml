@@ -60,7 +60,7 @@ references:
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster
-    DO_TF_WORKSPACE: dev
+    DO_TF_WORKSPACE: sandbox
     RELEASE_NAME: codacy-sandbox
     NAMESPACE: codacy-sandbox
     ENVIRONMENT: sandbox
