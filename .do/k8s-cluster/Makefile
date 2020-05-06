@@ -35,7 +35,7 @@ setup_vars:
 	@echo "main_namespace = \"$(NAMESPACE)\"">> $(VARS_FILE)
 
 .PHONY: start_cluster
-start_cluster: set_cluster_context provision_cluster helm_init_upgrade install_nginx
+start_cluster: set_cluster_context provision_cluster install_nginx
 
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc
@@ -47,10 +47,6 @@ provision_cluster: setup_vars create_terraformrc
 .PHONY: set_cluster_context
 set_cluster_context:
 	echo '1' | doctl kubernetes cluster kubeconfig save ${DOKS_CLUSTER_NAME} --set-current-context
-
-.PHONY: helm_init_upgrade
-helm_init_upgrade:
-	helm init --upgrade
 
 .PHONY: install_nginx
 install_nginx:
