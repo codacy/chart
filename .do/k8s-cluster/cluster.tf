@@ -30,7 +30,7 @@ resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
 
 resource "kubernetes_namespace" "codacy-sandbox" {
   metadata {
-    name = var.sandbox_namespace
+    name = "codacy-sandbox"
   }
 }
 
@@ -40,7 +40,7 @@ resource "kubernetes_secret" "docker_credentials" {
   metadata {
     name = "docker-credentials"
     # Depends on the namespace on the block
-    namespace = var.sandbox_namespace
+    namespace = "codacy-sandbox"
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"

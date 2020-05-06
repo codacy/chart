@@ -20,12 +20,6 @@ variable "admin_name" {
   default     = "do-admin"
 }
 
-variable "sandbox_namespace" {
-  description = "Name of the namespace where apps (e.g. codacy) will be deployed"
-  type        = string
-  default     = "codacy-sandbox"
-}
-
 variable "docker_username" {
   description = "Username for docker registry secret"
   type        = string

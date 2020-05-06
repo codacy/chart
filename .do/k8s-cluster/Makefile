@@ -3,7 +3,6 @@ TF_RC ?= ./terraformrc
 TF_EXTRA_OPTS ?= TF_IN_AUTOMATION=1 AWS_SDK_LOAD_CONFIG=1 TF_CLI_CONFIG_FILE=$(TF_RC)
 TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
-NAMESPACE ?= codacy
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 1.17.1
@@ -32,7 +31,6 @@ setup_vars:
 	@echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
 	@echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
 	@echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
-	@echo "main_namespace = \"$(NAMESPACE)\"">> $(VARS_FILE)
 
 .PHONY: start_cluster
 start_cluster: provision_cluster set_cluster_context install_nginx
