@@ -165,6 +165,11 @@ references:
       - <<: *doctl_authenticate
       - <<: *swap_requirement_files
       - <<: *update_versions
+      - run:
+          name: Set dev branch version using unix timestamp
+          command: |
+            echo "$(date +%s.%3N)-$(cat .version)-dev-$(git rev-parse --short HEAD)" > .version
+            ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
       - deploy:
           name: Install Codacy
           command: make -e -C .do/ deploy_to_doks_from_local_dir
