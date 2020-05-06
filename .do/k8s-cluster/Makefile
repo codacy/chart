@@ -33,7 +33,7 @@ setup_vars:
 	@echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
 .PHONY: start_cluster
-start_cluster: provision_cluster set_cluster_context install_nginx
+start_cluster: set_cluster_context provision_cluster install_nginx
 
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc
