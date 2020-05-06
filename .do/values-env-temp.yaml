@@ -1,0 +1,34 @@
+# environment specific values
+global:
+  github:
+    app:
+      name: ${GITHUB_APP_NAME}
+      id: "${GITHUB_APP_ID}"
+      privateKey: "${GITHUB_PRIVATE_KEY}"
+    clientId: ${GITHUB_CLIENTID}
+    clientSecret: ${GITHUB_CLIENTSECRET}
+
+  githubEnterprise:
+    app:
+      name: ${GITHUB_ENTERPRISE_APP_NAME}
+      id: "${GITHUB_ENTERPRISE_APP_ID}"
+      privateKey: "${GITHUB_ENTERPRISE_PRIVATE_KEY}"
+    clientId: ${GITHUB_ENTERPRISE_CLIENTID}
+    clientSecret: ${GITHUB_ENTERPRISE_CLIENTSECRET}
+
+  bitbucket:
+    key: "${BITBUCKET_KEY}"
+    secret: "${BITBUCKET_SECRET}"
+
+  bitbucketEnterprise:
+    consumerKey: "${BITBUCKET_ENTERPRISE_CONSUMER_KEY}"
+    consumerPublicKey: "${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY}"
+    consumerPrivateKey: "${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY}"
+
+  gitlab:
+    clientId: "${GITLAB_CLIENTID}"
+    clientSecret: "${GITLAB_CLIENTSECRET}"
+
+  gitlabEnterprise:
+    clientId: "${GITLABENTERPRISE_CLIENTID}"
+    clientSecret: "${GITLABENTERPRISE_CLIENTSECRET}"

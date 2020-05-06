@@ -47,6 +47,15 @@ references:
 
   ##################################################################################
   #  Environment variables that differentiate for each environment/installation
+  #
+  #  To add environment specific helm values:
+  #    1. Add the prototype to `.do/values-env-temp.yaml`
+  #       Here this must be the common, root name (say, SOMEVAR)
+  #
+  #    2. Create the variables in this project's settings on CircleCI.
+  #       A suffix with the environment name must be appended to the variable name
+  #       (say, SOMEVAR_DEV, SOMEVAR_SANDBOX, SOMEVAR_RELEASE)
+  #
   ##################################################################################
   dev_environment: &dev_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -56,7 +65,8 @@ references:
     ENVIRONMENT: dev
     HELM_REPOSITORY: codacy-unstable
     CODACY_URL: http://dev.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.github.clientId=${GITHUB_CLIENTID_DEV} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_DEV} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_DEV} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_DEV} --set global.bitbucket.key="${BITBUCKET_KEY_DEV}" --set global.bitbucket.secret="${BITBUCKET_SECRET_DEV}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_DEV}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_DEV}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_DEV}" --set global.gitlab.clientId="${GITLAB_CLIENTID_DEV}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_DEV}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_DEV}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_DEV}"
+    GITHUB_APP_NAME_DEV: "codacy-k8s-selfhosted-dev"
+    GITHUB_ENTERPRISE_APP_NAME_DEV: "codacy-k8s-selfhosted-dev"
 
   sandbox_environment: &sandbox_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -65,7 +75,8 @@ references:
     NAMESPACE: codacy-hourly
     ENVIRONMENT: sandbox
     CODACY_URL: http://sandbox.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-sandbox --set global.github.app.id="${GITHUB_APP_ID_SANDBOX}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_SANDBOX}" --set global.github.clientId=${GITHUB_CLIENTID_SANDBOX} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_SANDBOX} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-sandbox --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_SANDBOX}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_SANDBOX}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_SANDBOX} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_SANDBOX} --set global.bitbucket.key="${BITBUCKET_KEY_SANDBOX}" --set global.bitbucket.secret="${BITBUCKET_SECRET_SANDBOX}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_SANDBOX}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_SANDBOX}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_SANDBOX}" --set global.gitlab.clientId="${GITLAB_CLIENTID_SANDBOX}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_SANDBOX}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_SANDBOX}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_SANDBOX}"
+    GITHUB_APP_NAME_SANDBOX: "codacy-k8s-selfhosted-sandbox"
+    GITHUB_ENTERPRISE_APP_NAME_SANDBOX: "codacy-k8s-selfhosted-sandbox"
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
@@ -75,7 +86,8 @@ references:
     ENVIRONMENT: release
     HELM_REPOSITORY: codacy-incubator
     CODACY_URL: http://release.k8s.dev.codacy.org
-    HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhost-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_RELEASE} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_RELEASE} --set global.bitbucket.key="${BITBUCKET_KEY_RELEASE}" --set global.bitbucket.secret="${BITBUCKET_SECRET_RELEASE}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_RELEASE}" --set global.gitlab.clientId="${GITLAB_CLIENTID_RELEASE}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_RELEASE}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_RELEASE}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_RELEASE}"
+    GITHUB_APP_NAME_RELEASE: "codacy-k8s-selfhost-release"
+    GITHUB_ENTERPRISE_APP_NAME_RELEASE: "codacy-k8s-selfhost-release"
 
   ###################################################
   #  Env variables identify each deployment channel
@@ -171,17 +183,29 @@ references:
             echo "$(date +%s)-$(cat .version)-dev-$(git rev-parse --short HEAD)" > .version
             cat .version
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
+      - run:
+          name: Set environment specific helm values
+          command: |
+            # DELETE ME: this is a temporary fix because breaking changes were added to ci-do so we can't add gettext
+            apk add -U gettext
+            ./.circleci/setupEnvironmentVars.sh .do/values-env-temp.yaml > ./.do/values-env.yaml
       - deploy:
           name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_local_dir
+          command: make -e -C .do/ deploy_to_doks_from_local_dir HELM_INSTALL_EXTRA_FLAGS="-f values-env.yaml"
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
+      - run:
+          name: Set environment specific helm values
+          command: |
+            # DELETE ME: this is a temporary fix because breaking changes were added to ci-do so we can't add gettext
+            apk add -U gettext
+            ./.circleci/setupEnvironmentVars.sh .do/values-env-temp.yaml > ./.do/values-env.yaml
       - deploy:
           name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)  HELM_INSTALL_EXTRA_FLAGS="-f values-env.yaml"
 
   helm_push: &helm_push
     steps:
