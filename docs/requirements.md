@@ -93,6 +93,15 @@ Codacy requires a database server to persist data that must satisfy the followin
 !!! important
     Google, the developer of Kubernetes, [doesn't recommend running database servers on your cluster](https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider). As such, consider using a managed solution like Amazon RDS or Google Cloud SQL, or running the PostgreSQL server on a dedicated virtual machine.
 
+    We recommend that you use a managed solution to reduce maintenance and configuration costs of the PostgreSQL server. The main cloud providers all have this service that you can use, for example:
+
+    -   [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/resources/) or [Amazon Aurora PostgreSQL-Compatible Edition](https://aws.amazon.com/rds/aurora/postgresql-features/)
+    -   [Azure Database for PostgreSQL](https://docs.microsoft.com/en-us/azure/postgresql/)
+    -   [Google Cloud SQL for PostgreSQL](https://cloud.google.com/sql/docs/postgres)
+    -   [Digital Ocean Managed Databases](https://www.digitalocean.com/products/managed-databases-postgresql/)
+
+
+
 ### PostgreSQL hardware requirements
 
 The following are the minimum specifications recommended for provisioning the PostgreSQL server:
