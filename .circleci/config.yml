@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:0.6.0
+      - image: codacy/ci-do:1.6.0
     working_directory: ~/workdir/
 
   helm_values: &helm_values
@@ -453,13 +453,13 @@ workflows:
             - create_dev_cluster
 
   nightly_pipeline:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 0 * * 1-5"
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 0 * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
@@ -481,15 +481,6 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - codacy/microk8s_install:
-          name: install_k8s-1.16_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.15/stable"
-          helm_version: "v3.2.0"
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
       - codacy/microk8s_install:
           name: install_k8s-1.16_helm-2.16
           helm_repo: "https://charts.codacy.com/unstable"
@@ -537,7 +528,6 @@ workflows:
             - install_k8s-1.14_helm-2.16
             - install_k8s-1.15_helm-2.16
             - install_k8s-1.16_helm-2.16
-            - install_k8s-1.16_helm-3.2
 
   release_pipeline:
     jobs:
