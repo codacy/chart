@@ -40,7 +40,7 @@ resource "kubernetes_secret" "docker_credentials" {
   metadata {
     name = "docker-credentials"
     # Depends on the namespace on the block
-    namespace = kubernetes_namespace.codacy-sandbox.name
+    namespace = var.sandbox_namespace
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
