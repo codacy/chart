@@ -66,37 +66,42 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://codacy.github.io/chart/configuration/integrations/troubleshoot/</loc>
+     <lastmod>2020-05-06</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://codacy.github.io/chart/configuration/secrets/troubleshoot/</loc>
+     <lastmod>2020-05-06</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://codacy.github.io/chart/configuration/monitoring/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/maintenance/upgrade/</loc>
+     <loc>https://codacy.github.io/chart/extra/upgrade/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/maintenance/uninstall/</loc>
+     <loc>https://codacy.github.io/chart/extra/uninstall/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/maintenance/database/</loc>
+     <loc>https://codacy.github.io/chart/extra/database/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/troubleshoot/troubleshoot/</loc>
+     <loc>https://codacy.github.io/chart/extra/k8s-cheatsheet/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://codacy.github.io/chart/troubleshoot/logs-collect/</loc>
-     <lastmod>2020-05-06</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://codacy.github.io/chart/troubleshoot/k8s-cheatsheet/</loc>
+     <loc>https://codacy.github.io/chart/extra/logs-collect/</loc>
      <lastmod>2020-05-06</lastmod>
      <changefreq>daily</changefreq>
     </url>

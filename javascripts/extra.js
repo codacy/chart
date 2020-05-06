@@ -1,7 +1,6 @@
-// Uncomment to automatically expand all parents in the sidebar tree
-// document.addEventListener("DOMContentLoaded", function() {
-//  load_navpane();
-// });
+document.addEventListener("DOMContentLoaded", function() {
+  load_navpane();
+});
 
 function load_navpane() {
   var width = window.innerWidth;
