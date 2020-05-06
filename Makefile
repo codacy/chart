@@ -14,10 +14,6 @@ update_worker_version:
 
 .PHONY: helm_dep_up
 helm_dep_up:
-	# we explicitly delete the lock file since there is an issue with helm 2.15
-	# where if the .lock digest hasn't changed, the versions will not be updated.
-	# https://github.com/helm/helm/issues/2731
-	rm codacy/requirements.lock
 	helm dependency update codacy/
 	ls -l codacy/charts/
 
