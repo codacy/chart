@@ -6,7 +6,7 @@ dependencies:
   alias: minio
 
 - name: rabbitmq-ha
-  version: 1.27.2
+  version: 1.44.3
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
