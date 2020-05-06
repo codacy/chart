@@ -13,7 +13,7 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
   }
 
   provisioner "local-exec" {
-    command = "doctl kubernetes cluster kubeconfig save ${var.cluster_name} --set-current-context"
+    command = "echo Cluster created successfuly!"
   }
 }
 
@@ -26,9 +26,18 @@ resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
   max_nodes = 7
 }
 
+resource "null_resource" "set_context" {
+    depends_on = [digitalocean_kubernetes_cluster.codacy_k8s, digitalocean_kubernetes_node_pool.auto-scale-pool-01]
+
+    provisioner "local-exec" {
+      command = "doctl kubernetes cluster kubeconfig save ${var.cluster_name} --set-current-context"
+    }
+}
+
 ######## Namespace block ########
 
 resource "kubernetes_namespace" "codacy-sandbox" {
+  depends_on = [null_resource.set_context]
   metadata {
     name = "codacy-sandbox"
   }
@@ -53,6 +62,7 @@ resource "kubernetes_secret" "docker_credentials" {
 
 
 resource "kubernetes_secret" "do_token" {
+  depends_on = [kubernetes_namespace.codacy-sandbox]
   metadata {
     name = "digitalocean"
     namespace = "kube-system"
