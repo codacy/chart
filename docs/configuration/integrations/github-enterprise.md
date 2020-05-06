@@ -40,5 +40,3 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
     ```
 
 After this is done you will be able to use GitHub Enterprise to authenticate to Codacy.
-
-If you are having issues setting up this integration, be sure to check out our [troubleshooting guide](troubleshoot.md#github) for more help.
