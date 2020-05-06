@@ -55,11 +55,11 @@ nav:
       - configuration/integrations/bitbucket-server.md
       - configuration/integrations/email.md
     - configuration/monitoring.md
+  - "Maintenance and operations":
+    - maintenance/upgrade.md
+    - maintenance/uninstall.md
+    - maintenance/database.md
   - "Troubleshooting":
     - troubleshoot/troubleshoot.md
     - troubleshoot/logs-collect.md
     - troubleshoot/k8s-cheatsheet.md
-  - "Extra":
-    - extra/upgrade.md
-    - extra/uninstall.md
-    - extra/database.md
