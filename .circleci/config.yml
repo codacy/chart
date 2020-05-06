@@ -189,6 +189,7 @@ references:
           name: Push to charts museum
           command: |
             make setup_helm_repos
+            if [ -f requirements.lock ] ; then rm -v requirements.lock; fi
             helm dep build ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
@@ -478,8 +479,8 @@ workflows:
           name: install_k8s-1.16_helm-2.16
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.15/stable"
-          helm_version: "v2.16.3"
+          microk8s_channel: "1.16/stable"
+          helm_version: "v2.16.7"
           <<: *helm_values
           requires:
             - helm_push_unstable
@@ -488,7 +489,7 @@ workflows:
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.15/stable"
-          helm_version: "v2.16.3"
+          helm_version: "v2.16.7"
           <<: *helm_values
           requires:
             - helm_push_unstable
@@ -497,7 +498,7 @@ workflows:
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.14/stable"
-          helm_version: "v2.16.3"
+          helm_version: "v2.16.7"
           <<: *helm_values
           requires:
             - helm_push_unstable
@@ -506,7 +507,7 @@ workflows:
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.13/stable"
-          helm_version: "v2.16.3"
+          helm_version: "v2.16.7"
           <<: *helm_values
           requires:
             - helm_push_unstable
