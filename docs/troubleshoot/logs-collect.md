@@ -5,14 +5,14 @@ To help troubleshoot issues, obtain the logs from your Codacy instance and send 
 1.  Download the logs of the last 7 days as an archive file with the name `codacy_logs_<timestamp>.zip` by running the following command locally, replacing `<namespace>` with the namespace in which Codacy was installed:
 
     ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh) \
+    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-logs.sh) \
         -n <namespace>
     ```
 
     To reduce the size of the compressed archive file, you should retrieve logs for a smaller number of days by replacing `<days>` with a number between 1 and 7:
 
     ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/extra/extract-codacy-logs.sh) \
+    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-logs.sh) \
         -n <namespace> -d <days>
     ```
 

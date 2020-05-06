@@ -54,13 +54,12 @@ nav:
       - configuration/integrations/bitbucket-cloud.md
       - configuration/integrations/bitbucket-server.md
       - configuration/integrations/email.md
-      - configuration/integrations/troubleshoot.md
-    - "Secrets":
-      - configuration/secrets/troubleshoot.md
     - configuration/monitoring.md
+  - "Troubleshooting":
+    - troubleshoot/troubleshoot.md
+    - troubleshoot/logs-collect.md
+    - troubleshoot/k8s-cheatsheet.md
   - "Extra":
     - extra/upgrade.md
     - extra/uninstall.md
     - extra/database.md
-    - extra/k8s-cheatsheet.md
-    - extra/logs-collect.md
