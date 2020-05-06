@@ -59,7 +59,7 @@ references:
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhosted-dev --set global.github.app.id="${GITHUB_APP_ID_DEV}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_DEV}" --set global.github.clientId=${GITHUB_CLIENTID_DEV} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_DEV} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-dev --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_DEV}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_DEV}" --set global.githubEnterprise.clientId=${GITHUB_ENTERPRISE_CLIENTID_DEV} --set global.githubEnterprise.clientSecret=${GITHUB_ENTERPRISE_CLIENTSECRET_DEV} --set global.bitbucket.key="${BITBUCKET_KEY_DEV}" --set global.bitbucket.secret="${BITBUCKET_SECRET_DEV}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_DEV}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_DEV}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_DEV}" --set global.gitlab.clientId="${GITLAB_CLIENTID_DEV}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_DEV}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_DEV}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_DEV}"
 
   sandbox_environment: &sandbox_environment
-    DOKS_CLUSTER_NAME: codacy-doks-cluster-dev
+    DOKS_CLUSTER_NAME: codacy-doks-cluster
     DO_TF_WORKSPACE: dev
     RELEASE_NAME: codacy-sandbox
     NAMESPACE: codacy-sandbox
