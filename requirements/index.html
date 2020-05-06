@@ -981,6 +981,13 @@
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Google, the developer of Kubernetes, <a href="https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider">doesn't recommend running database servers on your cluster</a>. As such, consider using a managed solution like Amazon RDS or Google Cloud SQL, or running the PostgreSQL server on a dedicated virtual machine.</p>
+<p>We recommend that you use a managed solution to reduce maintenance and configuration costs of the PostgreSQL server. The main cloud providers all have this service that you can use, for example:</p>
+<ul>
+<li><a href="https://aws.amazon.com/rds/postgresql/resources/">Amazon RDS for PostgreSQL</a> or <a href="https://aws.amazon.com/rds/aurora/postgresql-features/">Amazon Aurora PostgreSQL-Compatible Edition</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/postgresql/">Azure Database for PostgreSQL</a></li>
+<li><a href="https://cloud.google.com/sql/docs/postgres">Google Cloud SQL for PostgreSQL</a></li>
+<li><a href="https://www.digitalocean.com/products/managed-databases-postgresql/">Digital Ocean Managed Databases</a></li>
+</ul>
 </div>
 <h3 id="postgresql-hardware-requirements">PostgreSQL hardware requirements<a class="headerlink" href="#postgresql-hardware-requirements" title="Permanent link">&para;</a></h3>
 <p>The following are the minimum specifications recommended for provisioning the PostgreSQL server:</p>
