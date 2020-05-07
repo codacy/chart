@@ -393,6 +393,9 @@ fluentdoperator:
 ## These values are ignored if 'create: false' in the global variables
 
 rabbitmq-ha:
+  prometheus:
+    operator:
+      enabled: false
   fullnameOverride: codacy-rabbitmq-ha
   rabbitmqUsername: "rabbitmq"
   rabbitmqPassword: "rabbitmq"
