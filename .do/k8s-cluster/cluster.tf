@@ -36,13 +36,10 @@ resource "kubernetes_namespace" "namespaces" {
 
 resource "kubernetes_secret" "docker_credentials" {
   for_each = var.namespace_names
-
-  # Depends on the namespace on the block
   depends_on = [kubernetes_namespace.namespaces]
 
   metadata {
     name = "docker-credentials"
-    # Depends on the namespace on the block
     namespace = each.value
   }
   data = {
