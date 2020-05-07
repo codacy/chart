@@ -396,6 +396,9 @@ rabbitmq-ha:
   fullnameOverride: codacy-rabbitmq-ha
   rabbitmqUsername: "rabbitmq"
   rabbitmqPassword: "rabbitmq"
+  prometheus:
+    operator:
+      enabled: false
 
 postgres:
   fullnameOverride: codacy-postgres
