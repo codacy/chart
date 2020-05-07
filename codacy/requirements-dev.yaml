@@ -52,7 +52,7 @@ dependencies:
   git: git@bitbucket.org:qamine/remote-provider-service.git
 
 - name: hotspots-api
-  version: ">=1.4.1-0"
+  version: "1.4.2-SNAPSHOT.4cb0ca4"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/hotspots-api.git
 
