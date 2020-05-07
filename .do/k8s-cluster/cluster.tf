@@ -26,21 +26,24 @@ resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
   max_nodes = 7
 }
 
-######## Namespace block ########
+resource "kubernetes_namespace" "namespaces" {
+  for_each = var.namespace_names
 
-resource "kubernetes_namespace" "codacy-sandbox" {
   metadata {
-    name = "codacy-sandbox"
+    name = each.value
   }
 }
 
 resource "kubernetes_secret" "docker_credentials" {
+  for_each = var.namespace_names
+
   # Depends on the namespace on the block
-  depends_on = [kubernetes_namespace.codacy-sandbox]
+  depends_on = [kubernetes_namespace.namespaces]
+
   metadata {
     name = "docker-credentials"
     # Depends on the namespace on the block
-    namespace = "codacy-sandbox"
+    namespace = each.value
   }
   data = {
     ".dockerconfigjson" = "{\"auths\": {\"https://index.docker.io/v1/\": {\"auth\": \"${base64encode("${var.docker_username}:${var.docker_password}")}\"}}}"
@@ -48,9 +51,6 @@ resource "kubernetes_secret" "docker_credentials" {
 
   type = "kubernetes.io/dockerconfigjson"
 }
-
-###################
-
 
 resource "kubernetes_secret" "do_token" {
   metadata {

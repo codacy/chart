@@ -50,3 +50,9 @@ variable "cluster_name" {
   type = string
   default = "default"
 }
+
+variable "namespace_names" {
+  description = "Namespaces for Codacy deployments"
+  type = list(string)
+  default = ["codacy-dev", "codacy-sandbox", "codacy-release"]
+}

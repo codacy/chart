@@ -77,12 +77,12 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: "11.7.0-fixreadsendgridonlywhenenabledrel394publish.028a3b911"
+  version: ">=11.11.0"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-website.git
 
 - name: worker-manager
-  version: ">=9.1.0-0"
+  version: ">=9.3.2"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/worker-manager.git
 
