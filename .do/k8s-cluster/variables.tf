@@ -20,12 +20,6 @@ variable "admin_name" {
   default     = "do-admin"
 }
 
-variable "main_namespace" {
-  description = "Name of the namespace where apps (e.g. codacy) will be deployed"
-  type        = string
-  default     = "codacy"
-}
-
 variable "docker_username" {
   description = "Username for docker registry secret"
   type        = string
@@ -55,4 +49,9 @@ variable "cluster_name" {
   description = "The cluster name"
   type = string
   default = "default"
+}
+
+variable "namespace_names" {
+  description = "Namespaces for Codacy deployments"
+  default = {0: "codacy-dev", 1: "codacy-sandbox", 2: "codacy-release"}
 }
