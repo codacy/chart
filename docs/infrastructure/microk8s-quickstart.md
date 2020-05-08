@@ -4,10 +4,7 @@
 
 Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
 
-As part of this process, the Helm client (`helm`) and the Helm server (`tiller`) will be installed on the MicroK8s instance:
-
--   `helm` is the command-line client responsible for resolving the configuration of the chart to be installed and issuing the correct install commands onto the Helm server.
--   `tiller` is the in-cluster server responsible for receiving the install commands issued by the Helm client and managing the lifecycle of the components that have been installed.
+As part of this process, Helm will be installed on the MicroK8s instance.
 
 ## 1. Prepare your environment
 
@@ -46,7 +43,7 @@ Install MicroK8s on the machine:
 
 ## 3. Configuring MicroK8s
 
-Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing the Helm client and server:
+Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing Helm:
 
 1.  Configure MicroK8s to allow privileged containers:
 
@@ -80,18 +77,10 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.status --wait-ready
     ```
 
-4.  Install version v3.2.0 of the Helm client:
+4.  Install Helm vervsion 3.2.0:
 
     ```bash
     sudo snap install helm --classic --channel=3.2/stable
-    ```
-
-    \[Legacy for Helm v2\] Install the Helm server:
-
-    ```bash
-    microk8s.kubectl create serviceaccount --namespace kube-system tiller
-    microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-    helm init --service-account tiller
     ```
 
 5.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
@@ -101,7 +90,6 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
     # If the following command fails, you probably installed the wrong MicroK8s version
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
-    microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
     ```
 
 6.  Verify that the MicroK8s configuration was successful:
