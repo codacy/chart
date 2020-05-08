@@ -80,13 +80,13 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.status --wait-ready
     ```
 
-4.  Install version v2.16.3 of the Helm client:
+4.  Install version v3.2.0 of the Helm client:
 
     ```bash
-    sudo snap install helm --classic --channel=2.16/stable
+    sudo snap install helm --classic --channel=3.2/stable
     ```
 
-5.  Install the Helm server:
+    \[Legacy for Helm v2\] Install the Helm server:
 
     ```bash
     microk8s.kubectl create serviceaccount --namespace kube-system tiller
@@ -94,7 +94,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     helm init --service-account tiller
     ```
 
-6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+5.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
@@ -104,7 +104,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.kubectl -n kube-system wait --for=condition=Ready pod -l name=tiller
     ```
 
-7.  Verify that the MicroK8s configuration was successful:
+6.  Verify that the MicroK8s configuration was successful:
 
     ```bash
     microk8s.status --wait-ready

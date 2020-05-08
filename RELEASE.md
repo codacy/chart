@@ -6,7 +6,7 @@ Please make sure you have these tools installed before starting this process:
 
 -   git
 -   [ytool](https://github.com/codacy/ytool)
--   [helm 2.x](https://v2.helm.sh/docs/using_helm/#installing-helm)
+-   [helm >=3.x](https://helm.sh/docs/intro/install/)
 
 ## Prepare a new release
 
@@ -74,9 +74,9 @@ Please make sure you have these tools installed before starting this process:
 
     -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
 
-    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/8aa6640db54f8cf3ac4f07b70647d66a0ec49739/docs/getting-started.md#run-the-tests). 
+    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/8aa6640db54f8cf3ac4f07b70647d66a0ec49739/docs/getting-started.md#run-the-tests).
 
-    -   Validate the Results from the Regression tests. 
+    -   Validate the Results from the Regression tests.
 
 -   [ ] 9.  Manual Approval
 
