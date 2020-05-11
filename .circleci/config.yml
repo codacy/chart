@@ -244,7 +244,7 @@ jobs:
   create_release_cluster:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
+      <<: *release_environment
     <<: *create_cluster
 
   deploy_to_doks_dev:
@@ -594,10 +594,14 @@ workflows:
           force: true
           requires:
             - helm_push_incubator
-      - deploy_to_doks_release:
+      - create_release_cluster:
           context: CodacyDO
           requires:
             - tag_version_incubator
+      - deploy_to_doks_release:
+          context: CodacyDO
+          requires:
+            - create_release_cluster
       - get_changelogs:
           context: CodacyDO
           requires:
