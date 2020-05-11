@@ -665,11 +665,7 @@
                 <h1 id="creating-a-microk8s-cluster">Creating a MicroK8s cluster<a class="headerlink" href="#creating-a-microk8s-cluster" title="Permanent link">&para;</a></h1>
 <p><a href="https://microk8s.io/">MicroK8s</a> is a lightweight, fully conformant, single-package Kubernetes developed by Canonical. The project is <a href="https://github.com/ubuntu/microk8s">publicly available on GitHub</a>.</p>
 <p>Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.</p>
-<p>As part of this process, the Helm client (<code>helm</code>) and the Helm server (<code>tiller</code>) will be installed on the MicroK8s instance:</p>
-<ul>
-<li><code>helm</code> is the command-line client responsible for resolving the configuration of the chart to be installed and issuing the correct install commands onto the Helm server.</li>
-<li><code>tiller</code> is the in-cluster server responsible for receiving the install commands issued by the Helm client and managing the lifecycle of the components that have been installed.</li>
-</ul>
+<p>As part of this process, Helm will be installed on the MicroK8s instance.</p>
 <h2 id="1-prepare-your-environment">1. Prepare your environment<a class="headerlink" href="#1-prepare-your-environment" title="Permanent link">&para;</a></h2>
 <p>Prepare your environment to set up the MicroK8s instance.</p>
 <p>You will need a machine running <a href="https://ubuntu.com/download/server">Ubuntu Server 18.04 LTS</a> that:</p>
@@ -703,7 +699,7 @@ sudo su - <span class="nv">$USER</span>
 </li>
 </ol>
 <h2 id="3-configuring-microk8s">3. Configuring MicroK8s<a class="headerlink" href="#3-configuring-microk8s" title="Permanent link">&para;</a></h2>
-<p>Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing the Helm client and server:</p>
+<p>Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing Helm:</p>
 <ol>
 <li>
 <p>Configure MicroK8s to allow privileged containers:</p>
@@ -738,16 +734,8 @@ microk8s.status --wait-ready
 
 </li>
 <li>
-<p>Install version v2.16.3 of the Helm client:</p>
-<div class="highlight"><pre><span></span><code>sudo snap install helm --classic --channel<span class="o">=</span><span class="m">2</span>.16/stable
-</code></pre></div>
-
-</li>
-<li>
-<p>Install the Helm server:</p>
-<div class="highlight"><pre><span></span><code>microk8s.kubectl create serviceaccount --namespace kube-system tiller
-microk8s.kubectl create clusterrolebinding tiller-cluster-rule --clusterrole<span class="o">=</span>cluster-admin --serviceaccount<span class="o">=</span>kube-system:tiller
-helm init --service-account tiller
+<p>Install Helm vervsion 3.2.0:</p>
+<div class="highlight"><pre><span></span><code>sudo snap install helm --classic --channel<span class="o">=</span><span class="m">3</span>.2/stable
 </code></pre></div>
 
 </li>
@@ -757,7 +745,6 @@ helm init --service-account tiller
 microk8s.kubectl <span class="nb">wait</span> -n kube-system --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l k8s-app<span class="o">=</span>hostpath-provisioner
 <span class="c1"># If the following command fails, you probably installed the wrong MicroK8s version</span>
 microk8s.kubectl <span class="nb">wait</span> -n default --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l <span class="nv">name</span><span class="o">=</span>nginx-ingress-microk8s
-microk8s.kubectl -n kube-system <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready pod -l <span class="nv">name</span><span class="o">=</span>tiller
 </code></pre></div>
 
 </li>
