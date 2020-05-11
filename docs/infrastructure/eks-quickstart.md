@@ -11,6 +11,7 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) version >= 2.0.0
     -   [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1
     -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
+    -   [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version >= 1.14
 
 2.  Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
@@ -32,6 +33,8 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   **backend**: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking
     -   **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
     -   **setup**: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster
+
+    In order to deploy (and eventually destroy) this infrastructure you need to have administration privileges on AWS. The minimum privileges required are listed in the [policy file provided with this documentation](https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json).
 
 ## 2. Set up the Terraform state storage backend
 
