@@ -77,19 +77,19 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.status --wait-ready
     ```
 
-    Once that is done, export your kubeconfig so that helm knows on which cluster to install the charts:
+4.  Export your kubeconfig so that Helm knows on which cluster to install the charts:
 
     ```bash
     microk8s.config > ~/.kube/config
     ```
 
-4.  Install Helm vervsion 3.2.0:
+5.  Install Helm vervsion 3.2.0:
 
     ```bash
     sudo snap install helm --classic --channel=3.2/stable
     ```
 
-5.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
@@ -98,7 +98,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
-6.  Verify that the MicroK8s configuration was successful:
+7.  Verify that the MicroK8s configuration was successful:
 
     ```bash
     microk8s.status --wait-ready
