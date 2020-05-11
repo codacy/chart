@@ -732,6 +732,10 @@ microk8s.start
 microk8s.status --wait-ready
 </code></pre></div>
 
+<p>Once that is done, export your kubeconfig so that helm knows on which cluster to install the charts:</p>
+<div class="highlight"><pre><span></span><code>microk8s.config &gt; ~/.kube/config
+</code></pre></div>
+
 </li>
 <li>
 <p>Install Helm vervsion 3.2.0:</p>
