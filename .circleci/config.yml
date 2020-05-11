@@ -225,7 +225,7 @@ jobs:
       - run:
           name: setup version from git tag
           command: |
-            git tag --sort creatordate | grep -v "RC" | tail -n -1 > .version
+            git tag --sort creatordate | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" | tail -n -1 > .version
             echo $(cat .version)
       - <<: *persist_to_workspace
 
