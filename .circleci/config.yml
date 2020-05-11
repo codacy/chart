@@ -139,7 +139,7 @@ references:
   update_versions: &update_versions
     run:
       name: "Get latest chart versions"
-      command: make update_dependencies update_worker_version
+      command: make update_dependencies
 
   swap_requirement_files: &swap_requirement_files
     run:
