@@ -14,6 +14,7 @@ function prepareEnvironment() {
     mkdir changelogs
     prepareChangelogMarkdown
     git cat-file blob "latest":"codacy/requirements.lock" > "$OLD_LOCK_FILE"
+    make -C ../ helm_dep_up
 }
 
 function prepareChangelogMarkdown() {
