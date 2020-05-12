@@ -41,7 +41,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:2.15.0
+      - image: codacy/qa-automation-test-runner:2.15.2
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -590,17 +590,10 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - codacy/tag_version:
-          name: tag_version_incubator
-          context: CodacyDO
-          version: incubator
-          force: true
-          requires:
-            - helm_push_incubator
       - create_release_cluster:
           context: CodacyDO
           requires:
-            - tag_version_incubator
+            - helm_lint
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
