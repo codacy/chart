@@ -590,17 +590,10 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - codacy/tag_version:
-          name: tag_version_incubator
-          context: CodacyDO
-          version: incubator
-          force: true
-          requires:
-            - helm_push_incubator
       - create_release_cluster:
           context: CodacyDO
           requires:
-            - tag_version_incubator
+            - helm_lint
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
