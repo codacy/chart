@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@4.0.2
+  codacy: codacy/base@4.0.3
   slack: circleci/slack@3.4.2
 
 references:
@@ -23,6 +23,9 @@ references:
           contentsSecret: "TEST_STRING"
           uuidSecret: "TEST_STRING"
         cacheSecret: "TEST_STRING"
+        codacy:
+          crow:
+            url: "http://localhost:9000"
       listener:
         persistence:
           claim:
@@ -38,7 +41,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:2.8.2
+      - image: codacy/qa-automation-test-runner:2.15.0
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
