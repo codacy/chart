@@ -23,6 +23,9 @@ references:
           contentsSecret: "TEST_STRING"
           uuidSecret: "TEST_STRING"
         cacheSecret: "TEST_STRING"
+        codacy:
+          crow:
+            url: "http://localhost:9000"
       listener:
         persistence:
           claim:
