@@ -15,7 +15,6 @@ The cluster running Codacy must satisfy the following requirements:
 -   The orchestration platform managing the cluster must be one of:
     -   [Kubernetes](https://kubernetes.io/) **version 1.14.\*** or **1.15.\***
     -   [MicroK8s](https://microk8s.io/) **version 1.15**
--   Tiller, the server part of [Helm](https://v2.helm.sh/) **version 2.16**, must be installed in the cluster
 -   The [NGINX Ingress controller](https://github.com/kubernetes/ingress-nginx) must be installed and correctly set up in the cluster
 
 ### Cluster networking requirements
