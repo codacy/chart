@@ -35,7 +35,7 @@ function getChangelog() {
     git fetch --all --quiet
     git checkout tags/"$old_version" --quiet
     appendToChangelog "## $project_name([$repository_url]())"
-    changeset="$(gitchangelog $old_version $new_version)"
+    changeset="$(gitchangelog $old_version..$new_version) || true"
     appendToChangelog "$changeset"
     cd ..
     rm -rf "./$project_name"
