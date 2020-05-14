@@ -276,7 +276,6 @@ codacy-spa:
       memory: 128Mi
 
 rabbitmq-ha:
-  replicaCount: 3
   persistentVolume:
     enabled: true
     size: 8Gi

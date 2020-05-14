@@ -394,6 +394,7 @@ fluentdoperator:
 
 rabbitmq-ha:
   fullnameOverride: codacy-rabbitmq-ha
+  replicaCount: 1
   rabbitmqUsername: "rabbitmq"
   rabbitmqPassword: "rabbitmq"
   prometheus:
