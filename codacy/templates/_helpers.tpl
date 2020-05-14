@@ -40,6 +40,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 helm.sh/chart: {{ include "codacy.chart" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | trunc 63 | quote }}
 {{- end }}
 {{- end -}}
