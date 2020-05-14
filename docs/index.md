@@ -43,7 +43,7 @@ Install Codacy on an existing cluster using our Helm chart:
         !!! important
             **If you are using MicroK8s** you don't need to install kubectl because you will execute all `kubectl` commands as `microk8s.kubectl` commands instead. To simplify this, [check how to create an alias](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy) for `kubectl`.
 
-    -   [Helm client](https://v2.helm.sh/docs/using_helm/#installing-helm) version 2.16.3
+    -   [Helm](https://helm.sh/docs/intro/install/) version 3.2
 
 2.  Create a cluster namespace called `codacy` that will group all resources related to Codacy.
 
@@ -77,7 +77,7 @@ Install Codacy on an existing cluster using our Helm chart:
 
     !!! important
         **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
-        
+
         Use `wget` to download the extra file and uncomment the last line before running the `helm upgrade` command below:
 
         ```bash
