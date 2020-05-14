@@ -1,0 +1,40 @@
+{{ if .Values.fluentdoperator.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-fluentd-lifecycle-policy-creator"
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        {{- include "codacy.labels" . | indent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: fluentd-lifecycle-policy-creator
+        image: "mesosphere/aws-cli:1.14.5"
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            value: "{{ .Values.global.minio.accessKey }}"
+          - name: AWS_SECRET_ACCESS_KEY
+            value: "{{ .Values.global.minio.secretKey }}"
+        command: ["aws"]
+        args:
+          - s3api
+          - put-bucket-lifecycle-configuration
+          - --bucket
+          - {{ .Values.fluentdoperator.bucketName }}
+          - --endpoint-url
+          - http://{{ .Values.global.minio.location }}:{{ .Values.global.minio.port }}
+          - --lifecycle-configuration
+          - '{"Rules":[{"Expiration":{"Days": {{ .Values.fluentdoperator.expirationDays }} },"ID":"Delete old logs","Status":"Enabled"}]}'
+{{ end }}

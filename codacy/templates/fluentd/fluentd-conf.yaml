@@ -54,10 +54,12 @@ data:
       path ${container_name}/${pod_name}/%Y-%m-%d
       s3_object_key_format %{path}_%{index}.%{file_extension}
 
-      <bucket_lifecycle_rule>
-        id retention-policy
-        expiration_days {{ .Values.fluentdoperator.expirationDays }}
-      </bucket_lifecycle_rule>
+      # Does not work (possibly due to a minio incompatiblity)
+      # As a workaround we are using a helm hook to create the lifecycle policy
+      # <bucket_lifecycle_rule>
+      #   id retention-policy
+      #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
+      # </bucket_lifecycle_rule>
 
       store_as json
       <format>
