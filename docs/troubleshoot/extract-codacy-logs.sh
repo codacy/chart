@@ -24,7 +24,7 @@ date_days_ago() {
 
 cleanup()
 {
-    echo "Log files compression failed, exiting..."
+    echo "Cleaning temporary files, exiting..."
     if [ -d "$LOGS_DIR" ]; then
         rm -r $LOGS_DIR &>/dev/null
     fi
