@@ -8,8 +8,8 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
     size       = "s-2vcpu-2gb"
     auto_scale = true
     node_count = 1
-    min_nodes = 0
-    max_nodes = 0
+    min_nodes  = 0
+    max_nodes  = 0
   }
 
   provisioner "local-exec" {
@@ -17,13 +17,13 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
   }
 }
 
-resource "digitalocean_kubernetes_node_pool" "auto-scale-pool-01" {
+resource "digitalocean_kubernetes_node_pool" "auto-scale-pool" {
   cluster_id = digitalocean_kubernetes_cluster.codacy_k8s.id
-  name       = "codacy-doks-pool-auto-scale-pool-01"
+  name       = "codacy-doks-pool-auto-scale-pool"
   size       = var.node_type
   auto_scale = true
-  min_nodes = 2
-  max_nodes = 7
+  min_nodes  = 2
+  max_nodes  = 7
 }
 
 resource "kubernetes_namespace" "namespaces" {
@@ -35,11 +35,11 @@ resource "kubernetes_namespace" "namespaces" {
 }
 
 resource "kubernetes_secret" "docker_credentials" {
-  for_each = var.namespace_names
+  for_each   = var.namespace_names
   depends_on = [kubernetes_namespace.namespaces]
 
   metadata {
-    name = "docker-credentials"
+    name      = "docker-credentials"
     namespace = each.value
   }
   data = {
@@ -51,7 +51,7 @@ resource "kubernetes_secret" "docker_credentials" {
 
 resource "kubernetes_secret" "do_token" {
   metadata {
-    name = "digitalocean"
+    name      = "digitalocean"
     namespace = "kube-system"
   }
   data = {
