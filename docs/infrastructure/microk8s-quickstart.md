@@ -83,10 +83,13 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.config > ~/.kube/config
     ```
 
-5.  Install Helm vervsion 3.2.0:
+5.  Install Helm version 3.2.1:
 
     ```bash
-    sudo snap install helm --classic --channel=3.2/stable
+    curl -L "https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz" | tar -zxf - &&
+    mv linux-amd64/helm /usr/local/bin/helm &&
+    chmod +x /usr/local/bin/helm &&
+    rm -r linux-amd64
     ```
 
 6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
