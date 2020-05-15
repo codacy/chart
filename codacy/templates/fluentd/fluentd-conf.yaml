@@ -48,7 +48,15 @@ data:
       s3_endpoint http://{{ .Values.global.minio.location }}:9000
       s3_bucket {{ .Values.fluentdoperator.bucketName }}
       force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
-      auto_create_bucket true
+
+      # HACK: Do not check s3 connection and bucket existence
+      #       If reloader fails by any means it will not propagate config to fluentd
+      #       Combined with `retry_forever` in the `buffer` should allow retries
+      check_apikey_on_start false
+      # Cannot be enabled if `check_bucket` is false
+      # auto_create_bucket true
+      # Cannot be disabled for `auto_create_bucket` to work
+      check_bucket false
 
       # Output location configuration
       path ${container_name}/${pod_name}/%Y-%m-%d
@@ -82,6 +90,9 @@ data:
         timekey_use_utc true
         flush_interval 60s
         flush_mode interval
+        # HACK: Retry writting the logs forever to recover from network issues
+        #       This helps when minio/s3 is only available after fluentd starts
+        retry_forever true
       </buffer>
     </match>
 {{ end }}
