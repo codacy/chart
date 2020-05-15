@@ -87,8 +87,8 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
 
     ```bash
     curl -L "https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz" | tar -zxf - &&
-    mv linux-amd64/helm /usr/local/bin/helm &&
-    chmod +x /usr/local/bin/helm &&
+    sudo mv linux-amd64/helm /usr/local/bin/helm &&
+    sudo chmod +x /usr/local/bin/helm &&
     rm -r linux-amd64
     ```
 
