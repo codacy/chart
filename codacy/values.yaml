@@ -445,6 +445,9 @@ minio:
   - name: "commit-diff"
     policy: "public"
     purge: "false"
+  - name: "logs"
+    policy: "public"
+    purge: "false"
   defaultBucket:
     enabled: false
 
