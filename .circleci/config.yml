@@ -72,7 +72,7 @@ references:
 
   release_environment: &release_environment
     DOKS_CLUSTER_NAME: codacy-release-doks-cluster
-    DO_TF_WORKSPACE: infrastructure
+    DO_TF_WORKSPACE: infrastructure-release
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
     ENVIRONMENT: release
