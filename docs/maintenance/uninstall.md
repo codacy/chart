@@ -4,7 +4,7 @@ To ensure a clean removal you should uninstall Codacy before destroying the clus
 To do so run:
 
 ```bash
-helm del --purge codacy
+helm -n codacy uninstall codacy
 kubectl -n codacy delete --all pod &
 kubectl -n codacy delete --all pvc &
 kubectl -n codacy delete --all pv  &
