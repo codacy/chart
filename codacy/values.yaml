@@ -2,6 +2,7 @@ global:
   codacy:
     url: "http://localhost:9000"
     backendUrl: "http://localhost:9000"
+    environment: "production"
     api:
       url: "codacy-api"
     portal:
