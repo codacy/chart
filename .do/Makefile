@@ -77,3 +77,30 @@ remove_codacy: set_cluster_context
 	kubectl delete pvc -n ${NAMESPACE} $(shell kubectl get pvc -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --ignore-not-found=true
 	kubectl delete jobs -n ${NAMESPACE} $(shell kubectl get jobs -n ${NAMESPACE} -o jsonpath='{.items[*].metadata.name}') --force --ignore-not-found=true --all=true
 	kubectl delete secret -n ${NAMESPACE} docker-credentials
+
+.PHONY: deploy_monitoring
+deploy_monitoring: set_cluster_context
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"
+
+	helm repo add loki https://grafana.github.io/loki/charts
+	-kubectl create namespace monitoring
+
+	helm upgrade --install --atomic --timeout 600s loki loki/loki \
+	  --version 0.28.1 --namespace monitoring --values ../codacy/values-loki.yaml
+
+	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
+	  --version 0.22.2 --namespace monitoring --values ../codacy/values-promtail.yaml
+
+	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
+	  --version 8.13.8 --namespace monitoring --values ../codacy/values-prometheus-operator.yaml \
+	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
+	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
+
+	kubectl rollout restart deployment -n monitoring $(shell kubectl get deployments -n monitoring -o jsonpath='{..metadata.name}')
+	kubectl rollout restart statefulset -n monitoring $(shell kubectl get statefulsets -n monitoring -o jsonpath='{..metadata.name}')
+	kubectl rollout restart daemonset -n monitoring $(shell kubectl get daemonsets -n monitoring -o jsonpath='{..metadata.name}')
