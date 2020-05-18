@@ -21,7 +21,7 @@ helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --time
 ## Clean the namespace
 
 ```bash
-helm del --purge codacy
+helm -n codacy uninstall codacy
 kubectl -n codacy delete --all pod &
 kubectl -n codacy delete --all pvc &
 kubectl -n codacy delete --all pv  &
