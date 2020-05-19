@@ -4,16 +4,16 @@
 
 Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
 
-As part of this process, Helm will be installed on the MicroK8s instance.
-
 ## 1. Prepare your environment
 
 Prepare your environment to set up the MicroK8s instance.
 
-You will need a machine running [Ubuntu Server 18.04 LTS](https://ubuntu.com/download/server) that:
+-   You will need a machine running [Ubuntu Server 18.04 LTS](https://ubuntu.com/download/server) that:
 
--   Is correctly provisioned with the resources described for MicroK8s in the [system requirements](../requirements.md#kubernetes-or-microK8s-cluster-setup)
--   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup)
+    -   Is correctly provisioned with the resources described for MicroK8s in the [system requirements](../requirements.md#kubernetes-or-microK8s-cluster-setup)
+    -   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup)
+
+-   Make sure that you have [Helm](https://helm.sh/docs/intro/install/) version 3.2.1 installed.
 
 The next steps assume that you are starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.
 
@@ -43,7 +43,7 @@ Install MicroK8s on the machine:
 
 ## 3. Configuring MicroK8s
 
-Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons and installing Helm:
+Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons:
 
 1.  Configure MicroK8s to allow privileged containers:
 
@@ -83,15 +83,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.config > ~/.kube/config
     ```
 
-5.  Install Helm version 3.2.1:
-
-    ```bash
-    curl -L "https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz" | tar -zxf - linux-amd64/helm && \
-    sudo chmod +x ./helm && \
-    sudo mv ./helm /usr/local/bin/helm
-    ```
-
-6.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
+5.  The addons are now enabled and the MicroK8s instance bootstrapped. However, we must wait for some MicroK8s pods to be ready, as failing to do so can result in the pods entering a `CrashLoopBackoff` state:
 
     ```bash
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
@@ -100,7 +92,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
-7.  Verify that the MicroK8s configuration was successful:
+6.  Verify that the MicroK8s configuration was successful:
 
     ```bash
     microk8s.status --wait-ready
