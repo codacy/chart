@@ -63,3 +63,4 @@ nav:
     - troubleshoot/troubleshoot.md
     - troubleshoot/logs-collect.md
     - troubleshoot/k8s-cheatsheet.md
+  - release-notes.md
