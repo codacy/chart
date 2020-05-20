@@ -6,7 +6,6 @@ This is the initial release for Codacy Self-hosted running on Kubernetes.
 
 ### Product enhancements
 
--   Added support for Helm 3, maintaining backward compatibility with Helm 2. (CY-1606)
 -   Streamlined the configuration of Git providers and improved the onboarding flow that guides the user while performing the initial Codacy setup. (CY-468)
 
 ### Bug fixes
