@@ -385,9 +385,16 @@ fluentdoperator:
   defaultConfigmap: codacy-fluentd-config
   bucketName: logs
   expirationDays: 7
+  # https://github.com/vmware/kube-fluentd-operator/issues/119#issuecomment-630760826
+  interval: 60
   rbac:
     create: true
   useReleaseNamespaceOnly: true
+  # Doesn't work:
+  # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
+  fluentd:
+    extraEnv:
+      FLUENTD_SYSTEMD_CONF: disable
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
