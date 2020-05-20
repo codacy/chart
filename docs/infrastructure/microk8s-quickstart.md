@@ -89,7 +89,7 @@ Now that MicroK8s is running on the machine we can proceed to enabling the neces
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=kube-dns
     microk8s.kubectl wait -n kube-system --for=condition=Ready pod -l k8s-app=hostpath-provisioner
     # If the following command fails, you probably installed the wrong MicroK8s version
-    microk8s.kubectl wait -n default --for=condition=Ready pod -l name=nginx-ingress-microk8s
+    microk8s.kubectl wait --all-namespaces --for=condition=Ready pod -l name=nginx-ingress-microk8s
     ```
 
 6.  Verify that the MicroK8s configuration was successful:
