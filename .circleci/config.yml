@@ -165,6 +165,9 @@ references:
       - deploy:
           name: "Create DB Cluster"
           command: make -C ./.do/db-cluster start_cluster
+      - deploy:
+          name: "Deploy monitoring"
+          command: make -C ./.do deploy_monitoring
       - <<: *persist_to_workspace
 
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
@@ -305,7 +308,7 @@ jobs:
       <<: *qa_environment_release
       <<: *qa_selfhosted_api_testpath
     <<: *qa_job
-  
+
   test_apiv3:
     <<: *qa_automation_image
     environment:

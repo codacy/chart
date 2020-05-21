@@ -32,7 +32,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
     !!! important
         **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
-        
+
         To do this, uncomment the last line before running the `helm upgrade` command below.
 
     ```bash
@@ -60,12 +60,12 @@ Add the custom resources required for installing this bundle in your cluster:
     **If you are using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.36/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml"
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"
+kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"
 ```
 
 ### 2. Installing Loki
@@ -74,8 +74,11 @@ Obtain the configuration file for Loki, [`values-loki.yaml`](https://raw.githubu
 
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
-helm upgrade --install --atomic loki loki/loki --version 0.17.0 \
-             --recreate-pods --namespace codacy --values values-loki.yaml
+
+kubectl create namespace monitoring
+
+helm upgrade --install --atomic --timeout 600s loki loki/loki \
+  --version 0.28.1 --namespace monitoring --values values-loki.yaml
 ```
 
 ### 3. Installing Promtail
@@ -85,22 +88,23 @@ Promtail is an agent that ships the contents of local logs to a Loki instance.
 Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-promtail.yaml), and install it by running the command below.
 
 ```bash
-helm upgrade --install --atomic promtail loki/promtail --version 0.13.0 \
-             --recreate-pods --namespace codacy --values promtail-values.yaml
+helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
+  --version 0.22.2 --namespace monitoring --values values-promtail.yaml
+
 ```
 
 ### 4. Installing Prometheus and Grafana
 
 Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-prometheus-operator.yaml). Then:
 
-1.  Edit the Grafana password for the `admin` user in the `values-prometheus-operator.yaml` file.
+1.  Edit the Grafana password for the `admin` user and the hostname for grafana in the `values-prometheus-operator.yaml` file.
 
 2.  Install the bundle on your cluster by running the command below.
 
-    ```bash
-    helm upgrade --install --atomic monitoring stable/prometheus-operator --version 6.9.3 \
-                 --recreate-pods --namespace codacy --values values-prometheus-operator.yaml
-    ```
+```bash
+helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
+  --version 8.13.8 --namespace monitoring --values values-prometheus-operator.yaml
+```
 
 Follow the [Kubernetes documentation](https://v1-15.docs.kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that is now running on your cluster, using the method that best suits your use case.
 
@@ -121,6 +125,12 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
       metrics:
         serviceMonitor:
           enabled: true
+    worker-manager:
+      grafana:
+        grafana_dashboards:
+          enabled: true
+    listener:
+      grafana:
         grafana_dashboards:
           enabled: true
     ```

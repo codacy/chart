@@ -1,6 +1,11 @@
 grafana:
   enabled: true
-  adminPassword: <--- admin user password --->
+  #adminPassword: <--- admin user password --->
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  #  hosts: <--- grafana url --->
   sidecar:
     dashboards:
       searchNamespace: ALL
@@ -9,7 +14,7 @@ grafana:
   additionalDataSources:
     - name: Loki
       type: loki
-      url: http://loki:3100/
+      url: http://loki:3100
       version: 1
       orgId: 1
       access: proxy
@@ -19,7 +24,7 @@ grafana:
          tlsSkipVerify: true
     - name: Prometheus
       type: prometheus
-      url: http://prometheus-prometheus-oper-prometheus:9090/
+      url: http://monitoring-prometheus-oper-prometheus:9090
       version: 1
       orgId: 1
       access: proxy
@@ -34,8 +39,15 @@ prometheusOperator:
     enabled: false
   admissionWebhooks:
     enabled: false
+    patch:
+      enabled: false
+    tlsProxy:
+      enabled: false
 
 prometheus:
+  ingressPerReplica:
+    tlsSecretPerReplica:
+      enabled: false
   thanos:
     service:
       enabled: false
@@ -43,6 +55,6 @@ prometheus:
     sessionAffinity: "ClientIP"
   prometheusSpec:
     replicas: 1
-    serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorNamespaceSelector: {}
+    ruleNamespaceSelector:
+      any: true
     walCompression: true

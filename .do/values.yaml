@@ -47,6 +47,11 @@ codacy-api:
   replicaCount: 2
   service:
     type: ClusterIP
+  metrics:
+    serviceMonitor:
+      enabled: true
+    grafana_dashboards:
+      enabled: true
 
 portal:
   replicaCount: 1
@@ -82,18 +87,27 @@ listener:
     persistence:
       enabled: true
       size: 200Gi
+  grafana:
+    grafana_dashboards:
+      enabled: true
 
 core:
   replicaCount: 1
 
 engine:
   replicaCount: 1
+  metrics:
+    serviceMonitor:
+      enabled: true
 
 worker-manager:
   replicaCount: 1
   config:
     workers:
       dedicatedMax: 20
+  grafana:
+    grafana_dashboards:
+      enabled: true
 
 fluentdoperator:
   enabled: true
