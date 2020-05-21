@@ -22,8 +22,8 @@ resource "digitalocean_kubernetes_node_pool" "auto-scale-pool" {
   name       = "codacy-doks-pool-auto-scale-pool"
   size       = var.node_type
   auto_scale = true
-  min_nodes  = 2
-  max_nodes  = 7
+  min_nodes  = var.nodes_min
+  max_nodes  = var.nodes_max
 }
 
 resource "kubernetes_namespace" "namespaces" {

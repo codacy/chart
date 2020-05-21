@@ -14,6 +14,18 @@ variable "node_type" {
   default     = "s-4vcpu-8gb"
 }
 
+variable "nodes_min" {
+  description = "Minimum number of nodes to use in the cluster node pool"
+  type        = number
+  default     = 2
+}
+
+variable "nodes_max" {
+  description = "Maximum number of nodes to use in the cluster node pool"
+  type        = number
+  default     = 5
+}
+
 variable "admin_name" {
   description = "Name of the admin account (don't change this without having a good reason)"
   type        = string
