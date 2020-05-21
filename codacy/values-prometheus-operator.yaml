@@ -55,6 +55,5 @@ prometheus:
     sessionAffinity: "ClientIP"
   prometheusSpec:
     replicas: 1
-    ruleNamespaceSelector:
-      any: true
+    serviceMonitorSelectorNilUsesHelmValues: false
     walCompression: true
