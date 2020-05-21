@@ -23,7 +23,7 @@ Please make sure you have these tools installed before starting this process:
     With the following pattern: `release-x.x.x`. Example:
 
     ```bash
-    $ git checkout -b 'release-6.0.0'
+    git checkout -b 'release-6.0.0'
     ```
 
 -   [ ] 4.  Update Dependencies
@@ -33,7 +33,7 @@ Please make sure you have these tools installed before starting this process:
     Run the following command:
 
     ```bash
-    $ make update_dependencies
+    make update_dependencies
     ```
 
     This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
@@ -43,7 +43,7 @@ Please make sure you have these tools installed before starting this process:
     Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch. Example:
 
     ```bash
-    $ git commit -m 'release: prepare 6.0.0'
+    git commit -m 'release: prepare 6.0.0'
     ```
 
 -   [ ] 6.  Tag with RC
@@ -51,7 +51,7 @@ Please make sure you have these tools installed before starting this process:
     Make sure you tag the commit with a release candidate \[RC]  version.
 
     ```bash
-    $ git tag '6.0.0-RC-0'
+    git tag '6.0.0-RC-0'
     ```
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
@@ -59,12 +59,32 @@ Please make sure you have these tools installed before starting this process:
 -   [ ] 7.  Push
 
     ```bash
-    $ git push --tag && git push --set-upstream origin 'release-6.0.0'
+    git push --tag && git push --set-upstream origin 'release-6.0.0'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
 
     Your chart will be deployed to [the release environment described in this table](./README.md)
+
+-   [ ] 7.1.  Cherry-pick fixes
+
+    At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
+
+    You can cherry-pick the required changes with:
+
+    ```bash
+    git cherry-pick <commit-hash>
+    ```
+
+    Ensure the cherry-pick commit is free from any conflicts.
+
+-   [ ] 7.2.  Push new Release Candidate tag
+
+    Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
+
+    ```bash
+    git tag '6.0.0-RC-<n>' && git push --tag
+    ```
 
 -   [ ] 8.  Test
 
@@ -78,7 +98,17 @@ Please make sure you have these tools installed before starting this process:
 
     -   Validate the Results from the Regression tests.
 
--   [ ] 9.  Manual Approval
+-   [ ] 9.  Approval by stakeholders
+
+    Involve both the QA and Solutions Engineers stakeholders in the release process.
+
+    Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
+
+    At this point, it may be relevant to test a fresh installation of the release candidate as well as an upgraded installation.
+
+    Should all of these stakeholders be happy with the go-ahead of the release, proceed to the next step.
+
+-   [ ] 10.  Manual Approval
 
     Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
 
@@ -89,7 +119,7 @@ Please make sure you have these tools installed before starting this process:
 -   [ ] 1.  Checkout the correct branch on this project
 
     ```bash
-    $ git checkout 'release-6.0.1'
+    git checkout 'release-6.0.1'
     ```
 
 -   [ ] 2.  Freeze a specific component
