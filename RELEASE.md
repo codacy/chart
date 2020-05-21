@@ -66,6 +66,27 @@ Please make sure you have these tools installed before starting this process:
 
     Your chart will be deployed to [the release environment described in this table](./README.md)
 
+-   [ ] 7.1.  Cherry-pick fixes
+
+    At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
+
+    You can cherry-pick the required changes with:
+
+    ```bash
+    $ git cherry-pick <commit-hash>
+    ```
+
+    Ensure the cherry-pick commit is free from any conflicts.
+
+-   [ ] 7.2.  Push new Release Candidate tag
+
+    Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
+
+    ```bash
+    $ git tag '6.0.0-RC-<n>'
+    $ git push --tag
+    ```
+
 -   [ ] 8.  Test
 
     -   Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
@@ -78,7 +99,15 @@ Please make sure you have these tools installed before starting this process:
 
     -   Validate the Results from the Regression tests.
 
--   [ ] 9.  Manual Approval
+-   [ ] 9.  Approval by stakeholders
+
+    Involve both the QA and Solutions Engineers stakeholders in the release process.
+
+    Remind them that this release candidate is available in the [release environment](./README.md#Development).
+
+    Should all of these stakeholders be happy with the go-ahead of the release, proceed to the next step.
+
+-   [ ] 10.  Manual Approval
 
     Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
 
