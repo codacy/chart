@@ -12,8 +12,8 @@ dependencies:
   alias: rabbitmq-ha
 
 - name: postgresql
-  version: 4.2.2
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 8.6.4
+  repository: https://charts.bitnami.com/bitnami
   alias: postgres
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb.create,
     global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
