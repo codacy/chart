@@ -41,7 +41,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:2.15.3
+      - image: codacy/qa-automation-test-runner:2.18.0
       - image: selenium/standalone-chrome:3.141.0
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -120,6 +120,11 @@ references:
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
     LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
     LAUNCH_NAME: API_K8S_RELEASE
+
+  qa_selfhosted_apiv3_testpath: &qa_selfhosted_apiv3_testpath
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/APIV3.xml
+    LAUNCH_TAG: CIRCLECI;APIV3;SELFHOSTED;RELEASE
+    LAUNCH_NAME: APIV3_K8S_RELEASE
 
   #########################################
   #  Anchors for steps
@@ -299,6 +304,13 @@ jobs:
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_api_testpath
+    <<: *qa_job
+  
+  test_apiv3:
+    <<: *qa_automation_image
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_apiv3_testpath
     <<: *qa_job
 
   set_chart_version_nightly:
@@ -614,6 +626,10 @@ workflows:
           context: CodacyDO
           requires:
             - deploy_to_doks_release
+      - test_apiv3:
+          context: CodacyDO
+          requires:
+            - deploy_to_doks_release
       - manual_qa_hold:
           type: approval
           context: CodacyDO
@@ -622,6 +638,7 @@ workflows:
             - test_web
             - test_e2e
             - test_api
+            - test_apiv3
       - set_chart_version_release:
           context: CodacyDO
           requires:
