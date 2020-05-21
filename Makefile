@@ -1,5 +1,6 @@
 .PHONY: setup_helm_repos
 setup_helm_repos:
+	helm repo add bitnami https://charts.bitnami.com/bitnami
 	helm repo add stable https://kubernetes-charts.storage.googleapis.com
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
