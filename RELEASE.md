@@ -64,7 +64,7 @@ Please make sure you have these tools installed before starting this process:
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
 
-    Your chart will be deployed to [the release environment described in this table](./README.md)
+    Your chart will be deployed to [the release environment described in this table](./README.md#development-installations)
 
 -   [ ] 7.1.  Cherry-pick fixes
 
