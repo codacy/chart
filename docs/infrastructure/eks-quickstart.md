@@ -34,7 +34,7 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
     -   **setup**: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster
 
-    In order to deploy (and eventually destroy) this infrastructure you need to have administration privileges on AWS. The minimum privileges required are listed in the [policy file provided with this documentation](https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json).
+    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
 
 ## 2. Set up the Terraform state storage backend
 
