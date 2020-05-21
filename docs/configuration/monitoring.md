@@ -118,13 +118,13 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
     codacy-api:
       metrics:
         serviceMonitor:
-          enabled: true
+          enabled: false
         grafana_dashboards:
           enabled: true
     engine:
       metrics:
         serviceMonitor:
-          enabled: true
+          enabled: false
     worker-manager:
       grafana:
         grafana_dashboards:
