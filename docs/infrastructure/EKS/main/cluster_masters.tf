@@ -31,18 +31,6 @@ resource "aws_eks_cluster" "main" {
 }
 
 # Get an authentication token to communicate with an EKS cluster, using the "kubernetes" provider.
-data "aws_eks_cluster_auth" "eks_cluster_auth" {
-  name = "${aws_eks_cluster.main.name}"
-}
-
-provider "kubernetes" {
-  host                   = "${aws_eks_cluster.main.endpoint}"
-  cluster_ca_certificate = "${base64decode(aws_eks_cluster.main.certificate_authority.0.data)}"
-  token                  = "${data.aws_eks_cluster_auth.eks_cluster_auth.token}"
-  load_config_file       = false
-  version                = "~> 1.5"
-}
-
 resource "kubernetes_config_map" "aws_auth" {
   metadata {
     name      = "aws-auth"
