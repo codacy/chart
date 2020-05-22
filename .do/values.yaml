@@ -1,7 +1,7 @@
 global:
   github:
     enabled: "true"
-    login: "false"
+    login: "true"
 
   githubEnterprise:
     enabled: "true"
@@ -14,7 +14,7 @@ global:
 
   gitlab:
     enabled: "true"
-    login: "false"
+    login: "true"
 
   gitlabEnterprise:
     enabled: "true"
@@ -25,7 +25,7 @@ global:
 
   bitbucket:
     enabled: "true"
-    login: "false"
+    login: "true"
 
   bitbucketEnterprise:
     enabled: "true"
