@@ -94,8 +94,6 @@ Create a cluster that includes all the required network and node setup:
     kubectl get pods -A
     ```
 
-    You'll notice that nothing is scheduled. That's because we haven't yet allowed the worker nodes to join the cluster (see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more details). We'll do that on the next section.
-
 ## Uninstalling the Amazon EKS cluster
 
 !!! warning
