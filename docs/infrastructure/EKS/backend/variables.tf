@@ -9,5 +9,5 @@ variable "project_tag" {
 variable "custom_tags" {
   description = "Map of custom tags to apply to every resource"
   type        = map(string)
-  default     = null
+  default     = {}
 }

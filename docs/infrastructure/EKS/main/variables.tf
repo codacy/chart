@@ -16,7 +16,7 @@ variable "project_slug" {
 variable "custom_tags" {
   description = "Map of custom tags to apply to every resource"
   type        = map(string)
-  default     = null
+  default     = {}
 }
 
 ### kubernetes
