@@ -3,7 +3,7 @@
 # this allows worker nodes to join the cluster. See https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 resource "kubernetes_config_map" "aws_auth" {
   metadata {
-    name = "aws-auth"
+    name      = "aws-auth"
     namespace = "kube-system"
   }
 

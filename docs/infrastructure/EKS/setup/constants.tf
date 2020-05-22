@@ -16,7 +16,7 @@ data "aws_iam_role" "worker" {
 data "kubernetes_secret" "admin_secret" {
   metadata {
     namespace = var.k8s_system_namespace
-    name = kubernetes_service_account.admin.default_secret_name
+    name      = kubernetes_service_account.admin.default_secret_name
   }
 }
 
@@ -28,10 +28,10 @@ data "template_file" "cert_manager_crds" {
 ### helm
 data "helm_repository" "stable" {
   name = "stable"
-  url = "https://kubernetes-charts.storage.googleapis.com"
+  url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
 data "helm_repository" "jetstack" {
   name = "jetstack"
-  url = "https://charts.jetstack.io"
+  url  = "https://charts.jetstack.io"
 }

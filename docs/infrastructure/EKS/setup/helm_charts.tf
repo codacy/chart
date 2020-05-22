@@ -1,8 +1,8 @@
 resource "helm_release" "dashboard" {
-  name = "kubernetes-dashboard"
-  chart = "stable/kubernetes-dashboard"
+  name       = "kubernetes-dashboard"
+  chart      = "stable/kubernetes-dashboard"
   repository = data.helm_repository.stable.name
-  namespace = var.k8s_system_namespace
+  namespace  = var.k8s_system_namespace
 
   values = [
     <<-YAML
@@ -27,11 +27,11 @@ resource "helm_release" "dashboard" {
 }
 
 resource "helm_release" "nginx_ingress" {
-  name = "nginx-ingress"
-  chart = "stable/nginx-ingress"
-  version = "1.17.1"
+  name       = "nginx-ingress"
+  chart      = "stable/nginx-ingress"
+  version    = "1.17.1"
   repository = data.helm_repository.jetstack.name
-  namespace = var.k8s_system_namespace
+  namespace  = var.k8s_system_namespace
 
   values = [
     <<-YAML
@@ -50,11 +50,11 @@ resource "helm_release" "nginx_ingress" {
 
 
 resource "helm_release" "cert_manager" {
-  name = "cert-manager"
-  chart = "cert-manager"
-  version = "v0.9.1"
+  name       = "cert-manager"
+  chart      = "cert-manager"
+  version    = "v0.9.1"
   repository = data.helm_repository.jetstack.name
-  namespace = var.k8s_system_namespace
+  namespace  = var.k8s_system_namespace
 
   values = [
     <<-YAML
