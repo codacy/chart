@@ -1,11 +1,15 @@
 # Monitoring
 
+<!---
+FIXME: Commented out to prevent issues while service monitors are not compatible with helm3
+
 Currently, we support two monitoring solutions:
 
 -   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 The sections below provide details on how to set up each monitoring solution.
+--->
 
 ## Setting up monitoring using Crow
 
@@ -41,6 +45,9 @@ We highly recommend that you define a custom password for Crow, if you haven't a
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
+
+<!---
+FIXME: service dashboards are currently not compatible with helm3.
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
@@ -118,13 +125,13 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
     codacy-api:
       metrics:
         serviceMonitor:
-          enabled: false
+          enabled: true
         grafana_dashboards:
           enabled: true
     engine:
       metrics:
         serviceMonitor:
-          enabled: false
+          enabled: true
     worker-manager:
       grafana:
         grafana_dashboards:
@@ -141,3 +148,4 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
     helm upgrade (...options used to install Codacy...) \
                  --values values-monitoring.yaml --recreate-pods
     ```
+--->
