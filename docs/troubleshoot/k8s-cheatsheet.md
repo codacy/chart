@@ -18,43 +18,50 @@ helm dep build ./chart/codacy
 helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
 ```
 
-## Debug
+## Debugging 
 
 !!! important
     Always check the pods and deployment versions in the namespace
-    To make sure you are not debugging an issue in a version that is not the one you would expect
+    to make sure you are not debugging an issue in a version that is not the one you would expect
 
 ### Events
 
-Events are a great way to understand what is going on under the hood in kubernetes.
+Events are a great way to understand what is going on under the hood in a Kubernetes cluster.
 By looking at them you can see if probes are failing, and other important signals from your cluster.
 
-- Get events for the whole namespace
+Get events for the whole namespace:
+
 ```bash
 kubectl -n codacy get events --sort-by=.metadata.creationTimestamp
 ```
-- Get error events
+
+Get error events:
+
 ```bash
 kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selector type=Error
 ```
-- Get warning events
+
+Get warning events:
+
 ```bash
 kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selector type=Warning
 ```
-- Get events for a pod
+
+Get events from a specific pod:
+
 ```bash
 kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selector involvedObject.name=<POD-NAME>
 ```
 
 ## Helm
 
-Check all the previous releases in your namespace
+Check all the previous releases in your namespace:
 
 ```bash
 helm -n codacy history codacy
 ```
 
-Rollback to a specific revision
+Rollback to a specific revision:
 
 ```bash
 helm -n codacy rollback codacy <REVISION>
