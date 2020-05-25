@@ -5,10 +5,10 @@ global:
 
   githubEnterprise:
     enabled: "true"
-    login: "true"
+    login: "truaaaae"
     hostname: "github.dev.codacy.org"
     port: 443
-    protocol: "https"
+    protocol: "htpp"
     disableSSL: "true"
     isPrivateMode: "true"
 
@@ -18,13 +18,13 @@ global:
 
   gitlabEnterprise:
     enabled: "true"
-    login: "true"
+    login: "false"
     hostname: "gitlab.dev.codacy.org"
     protocol: "http"
     port: 80
 
   bitbucket:
-    enabled: "true"
+    enabled: "false"
     login: "true"
 
   bitbucketEnterprise:
