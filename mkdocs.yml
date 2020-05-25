@@ -42,7 +42,6 @@ nav:
   - requirements.md
   - "Setting up Kubernetes":
     - infrastructure/eks-quickstart.md
-    - infrastructure/aks-quickstart.md
     - infrastructure/microk8s-quickstart.md
   - "Configuring Codacy":
     - "Integrations":
