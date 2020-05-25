@@ -94,6 +94,13 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 20
+<<<<<<< HEAD
+=======
+      inactivityTimeout: 30
+  grafana:
+    grafana_dashboards:
+      enabled: true
+>>>>>>> ee6ae77... feature: Add worker inactivity timeout CY-1780
 
 fluentdoperator:
   enabled: true

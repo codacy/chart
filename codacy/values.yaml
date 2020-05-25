@@ -342,6 +342,7 @@ worker-manager:
       workerPass: "rabbitmq"
     workers:
       dedicatedMax: 5
+      inactivityTimeout: 30
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000

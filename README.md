@@ -211,6 +211,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
 | `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
 | `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `2`                                          |
+| `worker-manager.config.workers.inactivityTimeout`   | Inactivity timeout for a worker                                                                     | `30`                                         |
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |

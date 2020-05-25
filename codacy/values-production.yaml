@@ -15,7 +15,7 @@ global:
     contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-  
+
 
   defaultdb:
     create: false
@@ -286,6 +286,7 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 2
+      inactivityTimeout: 20
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
