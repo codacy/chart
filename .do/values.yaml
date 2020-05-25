@@ -94,13 +94,17 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 20
-<<<<<<< HEAD
-=======
       inactivityTimeout: 30
+      workers:   
+        analysis:
+          maxFileSizeBytes: 150000
+          # These values are in seconds
+          pluginTimeout:
+            min: 300
+            max: 900
   grafana:
     grafana_dashboards:
       enabled: true
->>>>>>> ee6ae77... feature: Add worker inactivity timeout CY-1780
 
 fluentdoperator:
   enabled: true
