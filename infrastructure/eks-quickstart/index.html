@@ -673,6 +673,7 @@
 <li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> version &gt;= 2.0.0</li>
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html">AWS CLI</a> version 1</li>
 <li><a href="https://learn.hashicorp.com/terraform/getting-started/install.html">Terraform</a> version &gt;= 0.12</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">Kubectl</a> version &gt;= 1.14</li>
 </ul>
 </li>
 <li>
@@ -693,6 +694,7 @@
 <li><strong>backend</strong>: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking</li>
 <li><strong>main</strong>: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster</li>
 </ul>
+<p>You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file <a href="https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json">aws-terraform-minimum-admin-policy.json</a> lists the minimum privileges that are required.</p>
 </li>
 </ol>
 <h2 id="2-set-up-the-terraform-state-storage-backend">2. Set up the Terraform state storage backend<a class="headerlink" href="#2-set-up-the-terraform-state-storage-backend" title="Permanent link">&para;</a></h2>
