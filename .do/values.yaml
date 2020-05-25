@@ -34,6 +34,15 @@ global:
     protocol: "http"
     port: 7990
 
+  config:
+    workers:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+
 codacy-ingress:
   create: true
   ingress:
