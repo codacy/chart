@@ -105,6 +105,7 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 20
+      inactivityTimeout: 30
   grafana:
     grafana_dashboards:
       enabled: true
