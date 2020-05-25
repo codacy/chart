@@ -16,7 +16,6 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
 
         ```text
         https://codacy.example.com/login/GitLabEnterprise
-        https://codacy.example.com/add/addProvider/GitLabEnterprise
         https://codacy.example.com/add/addService/GitLabEnterprise
         https://codacy.example.com/add/addPermissions/GitLabEnterprise
         ```
