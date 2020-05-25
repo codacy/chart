@@ -26,7 +26,7 @@ helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --time
 
 ### Events
 
-Events are a great way to understant what is going on under the hood in kubernetes.
+Events are a great way to understand what is going on under the hood in kubernetes.
 By looking at them you can see if probes are failing, and other important signals from your cluster.
 
 - Get events for the whole namespace
@@ -43,7 +43,7 @@ kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selec
 ```
 - Get events for a pod
 ```bash
-kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selector involvedObject.name=<pod-name>
+kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selector involvedObject.name=<POD-NAME>
 ```
 
 ## Helm
@@ -51,13 +51,13 @@ kubectl -n codacy get events --sort-by=.metadata.creationTimestamp --field-selec
 Check all the previous releases in your namespace
 
 ```bash
-helm -n codacy history
+helm -n codacy history codacy
 ```
 
-Rollback to a specific release
+Rollback to a specific revision
 
 ```bash
-helm -n codacy rollback 6
+helm -n codacy rollback codacy <REVISION>
 ```
 
 ## Clean the namespace
