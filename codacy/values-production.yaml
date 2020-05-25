@@ -15,7 +15,7 @@ global:
     contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-  
+
 
   defaultdb:
     create: false
@@ -131,6 +131,15 @@ global:
     #   # username: "" # Optional username to authenticate on your SMTP server
     #   # password: "" # Optional password to authenticate on your SMTP server
     #   # port: 25 # Optional port of your SMTP server, the default is 25
+
+  config:
+    workers:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
 
 codacy-ingress:
   create: true
@@ -286,6 +295,7 @@ worker-manager:
   config:
     workers:
       dedicatedMax: 2
+      inactivityTimeout: 20
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds

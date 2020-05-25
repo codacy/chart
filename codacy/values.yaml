@@ -194,6 +194,15 @@ global:
     #If you use git submodules to share configuration files for the tools you will need to enable this feature so codacy can detect these files on the submodules
     cloneSubmodules: false
 
+  config:
+    workers:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+
 portal:
   replicaCount: 1
   fullnameOverride: codacy-portal
@@ -342,6 +351,7 @@ worker-manager:
       workerPass: "rabbitmq"
     workers:
       dedicatedMax: 5
+      inactivityTimeout: 30
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000
