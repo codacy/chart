@@ -569,6 +569,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm" class="md-nav__link">
+    Helm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#clean-the-namespace" class="md-nav__link">
     Clean the namespace
   </a>
@@ -740,6 +767,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm" class="md-nav__link">
+    Helm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#clean-the-namespace" class="md-nav__link">
     Clean the namespace
   </a>
@@ -876,6 +930,40 @@ helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --time
 <div class="highlight"><pre><span></span><code><span class="o">(</span><span class="nb">cd</span> chart<span class="p">;</span> sudo git fetch --all --prune --tags<span class="p">;</span> sudo git reset --hard origin/&lt;YOUR-BRANCH&gt;<span class="p">;</span><span class="o">)</span>
 helm dep build ./chart/codacy
 helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout<span class="o">=</span><span class="m">300</span> --values ./&lt;YOUR-VALUES-FILE&gt;
+</code></pre></div>
+
+<h2 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Always check the pods and deployment versions in the namespace
+to make sure you are not debugging an issue in a version that is not the one you would expect</p>
+</div>
+<h3 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h3>
+<p>Events are a great way to understand what is going on under the hood in a Kubernetes cluster.
+By looking at them you can see if probes are failing, and other important signals from your cluster.</p>
+<p>Get events for the whole namespace:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n codacy get events --sort-by<span class="o">=</span>.metadata.creationTimestamp
+</code></pre></div>
+
+<p>Get error events:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n codacy get events --sort-by<span class="o">=</span>.metadata.creationTimestamp --field-selector <span class="nv">type</span><span class="o">=</span>Error
+</code></pre></div>
+
+<p>Get warning events:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n codacy get events --sort-by<span class="o">=</span>.metadata.creationTimestamp --field-selector <span class="nv">type</span><span class="o">=</span>Warning
+</code></pre></div>
+
+<p>Get events from a specific pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n codacy get events --sort-by<span class="o">=</span>.metadata.creationTimestamp --field-selector involvedObject.name<span class="o">=</span>&lt;POD-NAME&gt;
+</code></pre></div>
+
+<h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
+<p>Check all the previous releases in your namespace:</p>
+<div class="highlight"><pre><span></span><code>helm -n codacy <span class="nb">history</span> codacy
+</code></pre></div>
+
+<p>Rollback to a specific revision:</p>
+<div class="highlight"><pre><span></span><code>helm -n codacy rollback codacy &lt;REVISION&gt;
 </code></pre></div>
 
 <h2 id="clean-the-namespace">Clean the namespace<a class="headerlink" href="#clean-the-namespace" title="Permanent link">&para;</a></h2>
