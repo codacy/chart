@@ -275,13 +275,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-set-up-the-cluster-to-run-codacy" class="md-nav__link">
-    4. Set up the cluster to run Codacy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#uninstalling-the-amazon-eks-cluster" class="md-nav__link">
     Uninstalling the Amazon EKS cluster
   </a>
@@ -646,13 +639,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-set-up-the-cluster-to-run-codacy" class="md-nav__link">
-    4. Set up the cluster to run Codacy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#uninstalling-the-amazon-eks-cluster" class="md-nav__link">
     Uninstalling the Amazon EKS cluster
   </a>
@@ -706,7 +692,6 @@
 <ul>
 <li><strong>backend</strong>: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking</li>
 <li><strong>main</strong>: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster</li>
-<li><strong>setup</strong>: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster</li>
 </ul>
 </li>
 </ol>
@@ -726,7 +711,7 @@ terraform init <span class="o">&amp;&amp;</span> terraform apply
 <p>Take note of the value of <code>state_bucket_name</code> in the output of the command.</p>
 </li>
 <li>
-<p>Edit the <code>main/config.tf</code> and <code>setup/config.tf</code> files and follow the instructions included in the comments to set the name of the Amazon S3 bucket created above and enable the use of the backend in those infrastructure stacks.</p>
+<p>Edit the <code>main/config.tf</code> file and follow the instructions included in the comments to set the name of the Amazon S3 bucket created above and enable the use of the backend in those infrastructure stacks.</p>
 </li>
 </ol>
 <h2 id="3-create-a-vanilla-amazon-eks-cluster">3. Create a vanilla Amazon EKS cluster<a class="headerlink" href="#3-create-a-vanilla-amazon-eks-cluster" title="Permanent link">&para;</a></h2>
@@ -765,53 +750,16 @@ someting_else = true
 <div class="highlight"><pre><span></span><code>kubectl get pods -A
 </code></pre></div>
 
-<p>You'll notice that nothing is scheduled. That's because we haven't yet allowed the worker nodes to join the cluster (see the <a href="https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html">EKS docs</a> for more details). We'll do that on the next section.</p>
-</li>
-</ol>
-<h2 id="4-set-up-the-cluster-to-run-codacy">4. Set up the cluster to run Codacy<a class="headerlink" href="#4-set-up-the-cluster-to-run-codacy" title="Permanent link">&para;</a></h2>
-<p>Some additional setup is necessary to run Codacy on the newly created cluster, such as allowing workers to join the cluster and installing the following Helm charts:</p>
-<ul>
-<li><a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Kubernetes Dashboard</a></li>
-<li><a href="https://github.com/helm/charts/tree/master/stable/nginx-ingress">nginx-ingress</a></li>
-<li><a href="https://github.com/jetstack/cert-manager">cert-manager</a></li>
-</ul>
-<p>Set up the cluster to run Codacy:</p>
-<ol>
-<li>
-<p>Initialize Terraform and deploy the infrastructure described in the <code>setup/</code> directory, then follow Terraform's instructions:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ../setup/
-terraform init <span class="o">&amp;&amp;</span> terraform apply
-</code></pre></div>
-
-</li>
-<li>
-<p>Connect to the Kubernetes Dashboard:</p>
-<div class="highlight"><pre><span></span><code>kubectl proxy
-</code></pre></div>
-
-<p>Open the following URL on a browser and select <code>token</code>:</p>
-<p><a href="http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy">http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy</a></p>
-<p>Run the following command to obtain the admin token required to connect to the Kubernetes Dashboard:</p>
-<div class="highlight"><pre><span></span><code>terraform output admin_token
-</code></pre></div>
-
 </li>
 </ol>
 <h2 id="uninstalling-the-amazon-eks-cluster">Uninstalling the Amazon EKS cluster<a class="headerlink" href="#uninstalling-the-amazon-eks-cluster" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you proceed beyond this point you'll permanently delete and break things.</p>
 </div>
+<p>If you proceed beyond this point you'll permanently delete and break things.</p>
 <ol>
 <li>
-<p>Clean up your cluster back to a vanilla state by removing the setup required to install Codacy.</p>
-<p>Run the following command in the <code>setup/</code> folder:</p>
-<div class="highlight"><pre><span></span><code>terraform destroy
-</code></pre></div>
-
-</li>
-<li>
-<p>After removing the stacks and setup above, you may now delete the Kubernetes cluster.</p>
+<p>Delete the Kubernetes cluster.</p>
 <p>Run the following command in the <code>main/</code> directory:</p>
 <div class="highlight"><pre><span></span><code>terraform destroy
 </code></pre></div>
