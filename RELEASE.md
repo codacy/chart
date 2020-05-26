@@ -90,8 +90,6 @@ Please make sure you have these tools installed before starting this process:
 
 Involve both the QA and Solutions Engineers stakeholders in the release process.
 
-
-
     -  Sync with the release manager to identify critical areas of the product affected by the release.
 
     -   Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
