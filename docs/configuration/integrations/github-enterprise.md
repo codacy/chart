@@ -34,7 +34,6 @@ Follow the instructions below to set up the Codacy integration with GitHub Enter
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
