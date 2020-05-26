@@ -642,10 +642,15 @@ workflows:
             - test_e2e
             - test_api
             - test_apiv3
-      - set_chart_version_release:
+      - manual_solutions_eng_hold:
+          type: approval
           context: CodacyDO
           requires:
             - manual_qa_hold
+      - set_chart_version_release:
+          context: CodacyDO
+          requires:
+            - manual_solutions_eng_hold
       - codacy/tag_version:
           name: tag_version
           context: CodacyDO
