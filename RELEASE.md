@@ -113,19 +113,29 @@ Please make sure you have these tools installed before starting this process:
     -   Inform the release manager "#enterprise-releases" on the progress/findings of the testing on the release.
 
 
--   [ ] 10.  Approval by stakeholders
+-   [ ] 10.  Approval by QA
 
+<<<<<<< HEAD
     Involve both the QA and Solutions Engineers stakeholders in the release approval.
+=======
+    Involve the QA stakeholders in the release process.
+>>>>>>> docs: add manual step for sol. engineers and cherry-picking while patching
 
     Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
 
-    At this point, it may be relevant to test a fresh installation of the release candidate as well as an upgraded installation.
+    Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
 
-    Should all of these stakeholders be happy with the go-ahead of the release, proceed to the next step.
+-   [ ] 11.  Approval by Solutions Engineers
 
--   [ ] 11.  Manual Approval
+    Involve the Solutions Engineers stakeholders in the release process.
 
-    Click on Manual Approval on CircleCI to promote the RC to the [stable](https://charts.codacy.com/incubator/api/charts) channel.
+    Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
+
+    At this point it may be relevant to test a fresh installation of the release candidate as well as an upgraded installation.
+
+    Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for the Solutions Engineers in the CircleCI workflow of your release branch.
+    
+    After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
     If all is good give a public OK to the release.
     The final version will be `6.0.0`.
@@ -141,6 +151,8 @@ Please make sure you have these tools installed before starting this process:
 -   [ ] 2.  Freeze a specific component
 
     Update the `requirements.yaml` file to use the patched version of a given component.
+
+    If you need any changes that are already merged to the master branch, you can cherry-pick them as described on step 7.2 of the previous section.
 
 -   [ ] 3.  Follow up with a normal release
 
