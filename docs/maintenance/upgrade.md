@@ -1,26 +1,21 @@
 # Upgrading Codacy
 
-**NOTE:**
-You can retrieve your previous `--set` arguments cleanly, with
-`helm get values <release name>`. If you direct this into a file
-(`helm get values <release name> > codacy.yaml`), you can safely pass this
-file via `-f`, like `helm upgrade codacy codacy/codacy -f codacy.yaml`.
-This safely replaces the behavior of `--reuse-values`
+To upgrade Codacy to the latest stable version:
 
-The following are the steps to upgrade Codacy to a newer version:
-
-1. Extract your previous `--set` arguments with:
+1.  Store all your currently defined configuration values in a file:
 
     ```bash
-    helm get values codacy > codacy.yaml
+    helm get values codacy \
+                    --output yaml \
+                    --namespace codacy > codacy.yaml
     ```
 
-2. Decide on all the values you need to set.
+2.  Review the values stored in the file `codacy.yaml`, making any changes if necessary.
 
-3. Perform the upgrade, with all `--set` arguments extracted in step 2:
+3.  Perform the upgrade, setting the values stored in the file:
 
     ```bash
-    helm upgrade codacy codacy/codacy \
-      -f codacy.yaml \
-      --set ...
+    helm upgrade codacy codacy-stable/codacy \
+                 --namespace codacy \
+                 --values codacy.yaml
     ```
