@@ -10,7 +10,7 @@ Please make sure you have these tools installed before starting this process:
 
 ## Prepare a new release
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in #engineering in our slack (tag engineers)
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in #engineering in our slack (tag engineers) and get a status from each squad on any changes that may be on the master branch of components that may be dealbreakers for the release.
 
 -   [ ] 2.  Clone this project on master branch
 
@@ -115,11 +115,7 @@ Please make sure you have these tools installed before starting this process:
 
 -   [ ] 10.  Approval by QA
 
-<<<<<<< HEAD
-    Involve both the QA and Solutions Engineers stakeholders in the release approval.
-=======
     Involve the QA stakeholders in the release process.
->>>>>>> docs: add manual step for sol. engineers and cherry-picking while patching
 
     Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
 
