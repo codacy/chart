@@ -88,25 +88,40 @@ Please make sure you have these tools installed before starting this process:
 
 -   [ ] 8.  Test
 
+    Involve both the QA and Solutions Engineers stakeholders in the release process.
+
+    -   Sync with the release manager to identify critical areas of the product affected by the release.
+
     -   Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
 
-    -   Do [exploratory tests](https://handbook.dev.codacy.org/product/engineering/QA/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should.
-
-    -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
-
-    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests).
+    -   Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests), case some tests fail involve QA and Eng team to help debug the problem.
 
     -   Validate the Results from the Regression tests.
 
+    -   Do [exploratory tests](https://handbook.dev.codacy.org/product/engineering/QA/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should,  raise bugs or concerns if any. give feedback with the identified bugs that are blocking the release with the stakeholders
+
+    -   No known blockers bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
+
+    -   If necessary address different stakeholders and ask for help testing the new release.
+
+    -   Sync with solution engineers to do acceptance testing, a clean installation on this phase is recommended.
+
+    -   If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
+
+    -   Inform the release manager "#enterprise-releases" on the progress/findings of the testing on the release.
+
+
 -   [ ] 9.  Approval by stakeholders
 
-    Involve both the QA and Solutions Engineers stakeholders in the release process.
+    Involve both the QA and Solutions Engineers stakeholders in the release approval.
 
     Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
 
     At this point, it may be relevant to test a fresh installation of the release candidate as well as an upgraded installation.
 
     Should all of these stakeholders be happy with the go-ahead of the release, proceed to the next step.
+
+    If all is good give a public OK to the release.
 
 -   [ ] 10.  Manual Approval
 
