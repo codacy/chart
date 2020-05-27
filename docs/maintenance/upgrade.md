@@ -6,13 +6,13 @@ To upgrade Codacy to the latest stable version:
 
     ```bash
     helm get values codacy \
-                    --output yaml \
-                    --namespace codacy > codacy.yaml
+                    --namespace codacy \
+                    --output yaml > codacy.yaml
     ```
 
 2.  Review the values stored in the file `codacy.yaml`, making any changes if necessary.
 
-3.  Perform the upgrade, setting the values stored in the file:
+3.  Perform the upgrade using the values stored in the file:
 
     ```bash
     helm upgrade codacy codacy-stable/codacy \
