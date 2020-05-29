@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@4.0.3
+  codacy: codacy/base@4.1.6
   slack: circleci/slack@3.4.2
 
 references:
@@ -16,23 +16,54 @@ references:
         imagePullSecrets:
           - name: docker-credentials
         play:
-          cryptoSecret: "TEST_STRING"
+          cryptoSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         akka:
-          sessionSecret: "TEST_STRING"
+          sessionSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         filestore:
-          contentsSecret: "TEST_STRING"
-          uuidSecret: "TEST_STRING"
-        cacheSecret: "TEST_STRING"
+          contentsSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
+          uuidSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
+        cacheSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         codacy:
           crow:
             url: "http://localhost:9000"
+
+        defaultdb:
+          create: true
+        analysisdb:
+          create: true
+        resultsdb:
+          create: true
+        metricsdb:
+          create: true
+        filestoredb:
+          create: true
+        jobsdb:
+          create: true
+
+      activities:
+        activitiesdb:
+          create: true
+
+      hotspots-api:
+        hotspotsdb:
+          create: true
+
       listener:
+        listenerdb:
+          create: true
         persistence:
           claim:
             size: 8Gi
         nfsserverprovisioner:
           persistence:
             size: 10Gi
+
+      crow:
+        crowdb:
+          create: true
+          host: codacy-crowdb
+          fullnameOverride: codacy-crowdb
+
       minio:
         persistence:
           size: 10Gi
@@ -421,6 +452,23 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - codacy/microk8s_install:
+          name: install_k8s-1.16_helm-3.2
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.16/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
 
   deploy_chart_to_sandbox_cluster:
     jobs:
@@ -496,39 +544,45 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
+
       - codacy/microk8s_install:
-          name: install_k8s-1.16_helm-2.16
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.16/stable"
-          helm_version: "v2.16.7"
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
-      - codacy/microk8s_install:
-          name: install_k8s-1.15_helm-2.16
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.15/stable"
-          helm_version: "v2.16.7"
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
-      - codacy/microk8s_install:
-          name: install_k8s-1.14_helm-2.16
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.14/stable"
-          helm_version: "v2.16.7"
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
-      - codacy/microk8s_install:
-          name: install_k8s-1.13_helm-2.16
+          name: install_k8s-1.13_helm-3.2
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.13/stable"
-          helm_version: "v2.16.7"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+
+      - codacy/microk8s_install:
+          name: install_k8s-1.14_helm-3.2
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.14/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_unstable
+
+      - codacy/microk8s_install:
+          name: install_k8s-1.15_helm-3.2
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.15/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
           <<: *helm_values
           requires:
             - helm_push_unstable
@@ -538,53 +592,56 @@ workflows:
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.16/stable"
-          helm_version: "v3.2.0"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
           <<: *helm_values
           requires:
             - helm_push_unstable
+
       - codacy/microk8s_install:
-          name: install_k8s-1.15_helm-3.2
+          name: install_k8s-1.17_helm-3.2
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.15/stable"
-          helm_version: "v3.2.0"
+          microk8s_channel: "1.17/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
           <<: *helm_values
           requires:
             - helm_push_unstable
+
       - codacy/microk8s_install:
-          name: install_k8s-1.14_helm-3.2
+          name: install_k8s-1.18_helm-3.2
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.14/stable"
-          helm_version: "v3.2.0"
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
-      - codacy/microk8s_install:
-          name: install_k8s-1.13_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.13/stable"
-          helm_version: "v3.2.0"
+          microk8s_channel: "1.18/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 900
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
           <<: *helm_values
           requires:
             - helm_push_unstable
 
       - codacy/helm_promote:
-          name: promote_chart_to_stable
+          name: promote_chart_to_nightly
           context: CodacyHelm
           chart_name: codacy
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - install_k8s-1.13_helm-2.16
-            - install_k8s-1.14_helm-2.16
-            - install_k8s-1.15_helm-2.16
-            - install_k8s-1.16_helm-2.16
             - install_k8s-1.13_helm-3.2
             - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
+            - install_k8s-1.17_helm-3.2
+            - install_k8s-1.18_helm-3.2
 
   release_pipeline:
     jobs:
