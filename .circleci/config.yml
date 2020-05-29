@@ -361,7 +361,7 @@ jobs:
           name: Set cluster
           command: |
             sudo pip install -r requirements.pip
-            mkdocs gh-deploy -m "[ci skip] Updated documentation."
+            mike deploy -u $(cat .version) latest -m "[ci skip] Updated documentation."
 
   get_changelogs:
     <<: *default_doks_image
@@ -453,9 +453,6 @@ workflows:
             branches:
               only:
                 - master
-      - upload_docs:
-          requires:
-            - codacy/checkout_and_version
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
@@ -672,6 +669,9 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
+      - upload_docs:
+          requires:
+            - tag_version_latest
       - slack_notify_release:
           context: CodacyDO
           requires:
