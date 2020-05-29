@@ -85,7 +85,8 @@ resource "kubernetes_config_map" "aws_auth" {
     YAML
   }
   depends_on = [
-    aws_eks_cluster.main
+    aws_eks_cluster.main,
+    aws_autoscaling_group.workers
   ]
 }
 
