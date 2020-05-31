@@ -3,7 +3,7 @@ controller:
   publishService:
     enabled: true
   service:
-    # use this annotation if you want private load-balancers on  aws
+    # Use this annotation if you want private load balancers on AWS
     #annotations:
     #  service.beta.kubernetes.io/aws-load-balancer-internal: "true"
     clusterIP: "-"
