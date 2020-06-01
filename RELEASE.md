@@ -117,7 +117,7 @@ Please make sure you have these tools installed before starting this process:
     -   [ ] 9.11.  Inform the release manager "#enterprise-releases" on the progress/findings of the testing on the release.
 
 
--   [ ] 10.  Approval by QA:
+-   [ ] 10.  Approval by QA
 
     Involve the QA stakeholders in the release process.
 
@@ -125,7 +125,7 @@ Please make sure you have these tools installed before starting this process:
 
     Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
 
--   [ ] 11.  Approval by Solutions Engineers:
+-   [ ] 11.  Approval by Solutions Engineers
 
     Involve the Solutions Engineers stakeholders in the release process.
 
@@ -139,7 +139,7 @@ Please make sure you have these tools installed before starting this process:
     
     After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
--   [ ] 12.  If all is good give a public OK to the release:
+-   [ ] 12.  If all is good give a public OK to the release
     
     -   [ ] 12.1.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
     
