@@ -1,4 +1,4 @@
-## For guidance on how to setup tls please refer to the documentation on https://codacy.github.io/chart
+## For guidance on how to set up TLS please refer to the documentation on https://codacy.github.io/chart
 
 codacy-ingress:
   create: true
