@@ -15,6 +15,7 @@ global:
       url: "codacy-engine"
     listener:
       url: "codacy-listener"
+      port: 80
     activities:
       url: "codacy-activities"
     core:
@@ -23,6 +24,7 @@ global:
       url: "codacy-remote-provider-service"
     workerManager:
       url: "codacy-worker-manager"
+      port: 80
 
   github: {}
     # enabled: "false"
