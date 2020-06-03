@@ -54,7 +54,7 @@ nav:
           - configuration/integrations/bitbucket-cloud.md
           - configuration/integrations/bitbucket-server.md
           - configuration/integrations/email.md
-      - configuration/tls-ingress-aws.md
+      - configuration/tls-ingress.md
       - configuration/monitoring.md
   - "Maintenance and operations":
       - maintenance/upgrade.md

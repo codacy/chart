@@ -141,7 +141,7 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Creating an initial organization
     -   Inviting users to Codacy
 
-3.  If you are using Amazon EKS as your Kubernetes infrastructure and you wish to set up HTTPS for Codacy, follow our [configuration instructions](configuration/tls-ingress-aws.md).
+3.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
 
 4.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
 
