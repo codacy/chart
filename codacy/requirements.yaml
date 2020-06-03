@@ -64,7 +64,7 @@ dependencies:
 - name: listener
   version: ">=7.11.0"
   repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/repository-listener.git
+  git: git@github.com:codacy/repository-listener.git
 
 - name: core
   version: ">=3.0.0"
