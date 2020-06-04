@@ -101,7 +101,7 @@ Please make sure you have these tools installed before starting this process:
     -   [ ] 9.3.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests), case some tests fail involve QA and Eng team to help debug the problem.
 
     -   [ ] 9.4.  Validate the Results from the Regression tests.
-    
+
     -   [ ] 9.5.  Test the CLI, Client Side Tools, and Coverage Reporter
 
     -   [ ] 9.6.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should,  raise bugs or concerns if any. give feedback with the identified bugs that are blocking the release with the stakeholders
@@ -117,7 +117,7 @@ Please make sure you have these tools installed before starting this process:
     -   [ ] 9.11.  Inform the release manager "#enterprise-releases" on the progress/findings of the testing on the release.
 
 
--   [ ] 10.  Approval by QA
+-   [ ] 10. Approval by QA
 
     Involve the QA stakeholders in the release process.
 
@@ -125,26 +125,26 @@ Please make sure you have these tools installed before starting this process:
 
     Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
 
--   [ ] 11.  Approval by Solutions Engineers
+-   [ ] 11. Approval by Solutions Engineers
 
     Involve the Solutions Engineers stakeholders in the release process.
 
     Inform them that this release candidate is available for testing in the [release environment](./README.md#Development). At this point the Solutions Architects should:
 
     -   [ ] 11.1.  Perform a fresh installation of the release candidate
-    
+
     -   [ ] 11.2.  Perform an upgrade on an existing installation
 
     -   [ ] 11.3.  Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval   step for the Solutions Engineers in the CircleCI workflow of your release branch.
-    
+
     After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
--   [ ] 12.  If all is good give a public OK to the release
-    
+-   [ ] 12. If all is good give a public OK to the release
+
     -   [ ] 12.1.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
-    
+
     -   [ ] 12.2.  Inform all stakeholders the release is finished 
-    
+
     The final version will be `6.0.0`.
 
 ## Patch
