@@ -97,9 +97,9 @@ Create a cluster that includes all the required network and node setup:
     kubectl get pods -A
     ```
 
-## 4. Prepare to Setup the Ingress Controller
+## 4. Prepare to set up the Ingress Controller
 
-Start by performing the following steps:
+Prepare your infrastructure for the Ingress Controller setup, which is performed later during the installation process:
 
 1.  Make sure that your network resources are correctly tagged, and create the following required tags if they are missing:
 
