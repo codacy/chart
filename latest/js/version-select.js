@@ -1,12 +1,5 @@
 window.addEventListener("DOMContentLoaded", function () {
-  // This is a bit hacky. Figure out the base URL from a known CSS file the
-  // template refers to...
-  var ex = new RegExp("/?assets/fonts/material-icons.css$");
-  var sheet = document.querySelector('link[href$="material-icons.css"]');
-
-  var REL_BASE_URL = sheet.getAttribute("href").replace(ex, "");
-  var ABS_BASE_URL = sheet.href.replace(ex, "");
-  var CURRENT_VERSION = ABS_BASE_URL.split("/").pop();
+  var VERSION = window.location.pathname.split("/")[1];
 
   function makeSelect(options, selected) {
     var select = document.createElement("select");
@@ -14,7 +7,12 @@ window.addEventListener("DOMContentLoaded", function () {
     select.classList.add("select-text");
 
     options.forEach(function (i) {
-      var option = new Option(i.text, i.value, undefined, i.value === selected);
+      var option = new Option(
+        i.text,
+        "/" + i.value,
+        undefined,
+        i.value === selected
+      );
       select.add(option);
     });
 
@@ -22,24 +20,25 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", REL_BASE_URL + "/../versions.json");
+  // Obtain JSON listing all available versions
+  xhr.open("GET", window.location.origin + "/versions.json");
   xhr.onload = function () {
     var versions = JSON.parse(this.responseText);
 
-    var realVersion = versions.find(function (i) {
-      return (
-        i.version === CURRENT_VERSION || i.aliases.includes(CURRENT_VERSION)
-      );
-    }).version;
+    // Identify which is the current version
+    var currentVersion = versions.find(function (i) {
+      return i.version === VERSION || i.aliases.includes(VERSION);
+    });
 
     var select = makeSelect(
       versions.map(function (i) {
         return { text: i.title, value: i.version };
       }),
-      realVersion
+      currentVersion
     );
+
     select.addEventListener("change", function (event) {
-      window.location.href = REL_BASE_URL + "/../" + this.value;
+      window.location.href = window.location.origin + this.value;
     });
 
     var container = document.createElement("div");
@@ -61,3 +60,4 @@ window.addEventListener("DOMContentLoaded", function () {
   };
   xhr.send();
 });
+
