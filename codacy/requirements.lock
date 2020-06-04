@@ -43,7 +43,7 @@ dependencies:
   version: 6.16.0
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 12.2.0
+  version: 12.2.1-shhotfixconfig.2.c75472b10
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 9.5.1
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.5.0
-digest: sha256:7618573d81a976e997c26f549790cf23cf5ca423eae6c99d0bd4f810c4fbfeef
-generated: "2020-06-03T16:34:56.01095826+01:00"
+digest: sha256:53c8281f17a1838f79a7ac0ec9a533b482b39867713ac6976bcf2c706528216a
+generated: "2020-06-04T16:25:50.992975262+01:00"

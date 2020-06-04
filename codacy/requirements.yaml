@@ -77,7 +77,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-api
-  version: "12.2.0"
+  version: "12.2.1-shhotfixconfig.2.c75472b10"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
 
