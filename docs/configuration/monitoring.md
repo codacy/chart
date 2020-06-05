@@ -41,7 +41,6 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
@@ -142,10 +141,10 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
           enabled: true
     ```
 
-2.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-monitoring.yaml --recreate-pods` to the command [used to install Codacy](../index.md#helm-upgrade):
+2.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-monitoring.yaml` to the command [used to install Codacy](../index.md#helm-upgrade):
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --values values-monitoring.yaml --recreate-pods
+                 --values values-monitoring.yaml
     ```
 --->

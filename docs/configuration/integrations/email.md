@@ -27,7 +27,6 @@ Follow the instructions below to set up Codacy to send emails using your SMTP se
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
