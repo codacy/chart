@@ -74,7 +74,7 @@ The Release Manager must create a release candidate branch:
     git commit -m 'release: prepare 6.0.0'
     ```
 
--   [ ] 6. Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
+-   [ ] 6.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
 
     For example:
 
