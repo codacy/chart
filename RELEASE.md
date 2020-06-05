@@ -1,36 +1,60 @@
 # Release Process
 
-## Requirements
+This documentation guides you on how to release a new version of the Codacy Chart.
 
-Please make sure you have these tools installed before starting this process:
+The release process consists of the following stages:
 
--   git
--   [ytool](https://github.com/codacy/ytool)
--   [helm >=3.x](https://helm.sh/docs/intro/install/)
+1.  **Deciding to release a new version**
 
-## Prepare a new release
+    Decide that we're ready to release a new version of the Codacy Chart and elect who will be the Release Manager.
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in #engineering in our slack (tag engineers) and get a status from each squad on any changes that may be on the master branch of components that may be dealbreakers for the release
+2.  **Preparing the release for testing**
 
--   [ ] 2.  Confirm with every squad if the release can go-ahead
+    The Release Manager creates a release candidate branch that will be used to test the new release.
 
--   [ ] 3.  Clone this project on master branch
+3.  **Testing and stabilizing the release**
 
--   [ ] 4.  Decide the new version
+    The Release Manager involves the QA team and relevant stakeholders in testing the new release, and applies fixes for bugs that are detected.
+
+4.  **Launching the new release**
+
+    The Release Manager releases and announces the new version.
+
+The next sections include detailed instructions on how to complete each step of the release process. Make sure that you complete each step before advancing to the next one.
+
+## 1. Deciding to release a new version
+
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in #engineering in our slack (tag engineers) and get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release.
+
+-   [ ] 2.  Confirm with every squad if the release can go ahead.
+
+-   [ ] 3.  Decide the new version number.
 
     Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
-    We try to follow the [semver](https://semver.org/) specification.
+    We follow the [semver](https://semver.org/) specification.
 
--   [ ] 4.  Create a new branch
+## 2. Preparing the release for testing
 
-    With the following pattern: `release-x.x.x`. Example:
+The Release Manager must create a release candidate branch:
+
+-   [ ] 1.  Make sure that you have the following tools installed:
+
+    -   git
+    -   [ytool](https://github.com/codacy/ytool)
+    -   [helm >=3.x](https://helm.sh/docs/intro/install/)
+
+-   [ ] 2.  Clone this project on master branch
+
+-   [ ] 3.  Create a new branch with the pattern `release-x.x.x`, where `x.x.x` is the new version number
+
+    For example:
 
     ```bash
     git checkout -b 'release-6.0.0'
     ```
 
--   [ ] 5.  Update Dependencies
+-   [ ] 4.  Update Dependencies
 
     Let's assume that `requirements.yaml` file should have the correct dynamic versions configured.
 
@@ -42,17 +66,17 @@ Please make sure you have these tools installed before starting this process:
 
     This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
 
--   [ ] 6.  Commit
+-   [ ] 5.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
 
-    Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch. Example:
+    For example:
 
     ```bash
     git commit -m 'release: prepare 6.0.0'
     ```
 
--   [ ] 7.  Tag with RC
+-   [ ] 6. Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
 
-    Make sure you tag the commit with a release candidate \[RC]  version.
+    For example:
 
     ```bash
     git tag '6.0.0-RC-0'
@@ -60,7 +84,7 @@ Please make sure you have these tools installed before starting this process:
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
 
--   [ ] 8.  Push
+-   [ ] 7.  Push the commit
 
     ```bash
     git push --tag && git push --set-upstream origin 'release-6.0.0'
@@ -70,7 +94,7 @@ Please make sure you have these tools installed before starting this process:
 
     Your chart will be deployed to [the release environment described in this table](./README.md#development-installations)
 
-    -   [ ] 8.1.  Cherry-pick fixes
+    -   [ ] 7.1.  Cherry-pick fixes
 
     At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
 
@@ -82,7 +106,7 @@ Please make sure you have these tools installed before starting this process:
 
     Ensure the cherry-pick commit is free from any conflicts.
 
-    -   [ ] 8.2.  Push new Release Candidate tag
+    -   [ ] 7.2.  Push new Release Candidate tag
 
     Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
@@ -90,34 +114,33 @@ Please make sure you have these tools installed before starting this process:
     git tag '6.0.0-RC-<n>' && git push --tag
     ```
 
--   [ ] 9.  Test
+## 3. Testing and stabilizing the release
 
-    Involve both the QA and Solutions Engineers stakeholders in the release process.
+The Release Manager must involve the QA team and relevant stakeholders in testing the new release candidate.
 
-    -   [ ] 9.1.  Sync with the release manager to identify critical areas of the product affected by the release.
+Then, the QA team and the stakeholders test the new release:
 
-    -   [ ] 9.2.  Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
+-   [ ] 1.  Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
 
-    -   [ ] 9.3.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests), case some tests fail involve QA and Eng team to help debug the problem.
+-   [ ] 2.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests), case some tests fail involve QA and Eng team to help debug the problem.
 
-    -   [ ] 9.4.  Validate the Results from the Regression tests.
+-   [ ] 3.  Validate the Results from the Regression tests.
 
-    -   [ ] 9.5.  Test the CLI, Client Side Tools, and Coverage Reporter
+-   [ ] 4.  Test the CLI, Client Side Tools, and Coverage Reporter
 
-    -   [ ] 9.6.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should,  raise bugs or concerns if any. give feedback with the identified bugs that are blocking the release with the stakeholders
+-   [ ] 5.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should,  raise bugs or concerns if any. give feedback with the identified bugs that are blocking the release with the stakeholders
 
-    -   [ ] 9.7.  No known blockers bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
+-   [ ] 6.  No known blockers bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
 
-    -   [ ] 9.8.  If necessary address different stakeholders and ask for help testing the new release.
+-   [ ] 7.  If necessary address different stakeholders and ask for help testing the new release.
 
-    -   [ ] 9.9.  Sync with solution engineers to do acceptance testing, a clean installation on this phase is recommended.
+-   [ ] 8.  Sync with solution engineers to do acceptance testing, a clean installation on this phase is recommended.
 
-    -   [ ] 9.10.  If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
+-   [ ] 9.  If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
 
-    -   [ ] 9.11.  Inform the release manager "#enterprise-releases" on the progress/findings of the testing on the release.
+-   [ ] 10. Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
 
-
--   [ ] 10. Approval by QA
+-   [ ] 11. Approval by QA
 
     Involve the QA stakeholders in the release process.
 
@@ -125,27 +148,33 @@ Please make sure you have these tools installed before starting this process:
 
     Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
 
--   [ ] 11. Approval by Solutions Engineers
+-   [ ] 12. Approval by Solutions Engineers
 
     Involve the Solutions Engineers stakeholders in the release process.
 
     Inform them that this release candidate is available for testing in the [release environment](./README.md#Development). At this point the Solutions Architects should:
 
-    -   [ ] 11.1.  Perform a fresh installation of the release candidate
+    -   [ ] 12.1.  Perform a fresh installation of the release candidate
 
-    -   [ ] 11.2.  Perform an upgrade on an existing installation
+    -   [ ] 12.2.  Perform an upgrade on an existing installation
 
-    -   [ ] 11.3.  Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval   step for the Solutions Engineers in the CircleCI workflow of your release branch.
+    -   [ ] 12.3.  Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for the Solutions Engineers in the CircleCI workflow of your release branch.
 
     After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
--   [ ] 12. If all is good give a public OK to the release
+## 4. Launching the new release
 
-    -   [ ] 12.1.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
+The Release Manager must ensure that we have a stable release candidate and that both the QA team and relevant stakeholders have approved the release.
 
-    -   [ ] 12.2.  Inform all stakeholders the release is finished 
+Then, the Release Manager releases and announces the new version:
 
-    The final version will be `6.0.0`.
+-   [ ] 1.  If all is good give a public OK to the release
+
+-   [ ] 2.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
+
+-   [ ] 3.  Inform all stakeholders the release is finished 
+
+The final version will be `6.0.0`.
 
 ## Patch
 
