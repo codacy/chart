@@ -26,71 +26,71 @@ global:
       url: "codacy-worker-manager"
       port: 80
 
-  github: {}
-    # enabled: "false"
-    # login: "false"
-    # clientId: ""
-    # clientSecret: ""
-    # app:
-    #   name: "codacy"
-    #   id: "1234"
-    #   privateKey: ""
+  # github:
+  #   enabled: "false"
+  #   login: "false"
+  #   clientId: ""
+  #   clientSecret: ""
+  #   app:
+  #     name: "codacy"
+  #     id: "1234"
+  #     privateKey: ""
 
-  githubEnterprise: {}
-    # enabled: "false"
-    # login: "false"
-    # hostname: "github.example.com"
-    # protocol: "https"
-    # port: 443
-    # disableSSL: "false"
-    # isPrivateMode: "true"
-    # clientId: ""
-    # clientSecret: ""
-    # app:
-    #   name: "codacy"
-    #   id: "1234"
-    #   privateKey: ""
+  # githubEnterprise:
+  #   enabled: "false"
+  #   login: "false"
+  #   hostname: "github.example.com"
+  #   protocol: "https"
+  #   port: 443
+  #   disableSSL: "false"
+  #   isPrivateMode: "true"
+  #   clientId: ""
+  #   clientSecret: ""
+  #   app:
+  #     name: "codacy"
+  #     id: "1234"
+  #     privateKey: ""
 
-  gitlab: {}
-    # enabled: "false"
-    # login: "false"
-    # clientId: ""
-    # clientSecret: ""
+  # gitlab:
+  #   enabled: "false"
+  #   login: "false"
+  #   clientId: ""
+  #   clientSecret: ""
 
-  gitlabEnterprise: {}
-    # enabled: "false"
-    # login: "false"
-    # hostname: "gitlab.example.com"
-    # protocol: "https"
-    # port: 443
-    # clientId: ""
-    # clientSecret: ""
+  # gitlabEnterprise:
+  #   enabled: "false"
+  #   login: "false"
+  #   hostname: "gitlab.example.com"
+  #   protocol: "https"
+  #   port: 443
+  #   clientId: ""
+  #   clientSecret: ""
 
-  bitbucket: {}
-    # enabled: "false"
-    # login: "false"
-    # key: ""
-    # secret: ""
+  # bitbucket:
+  #   enabled: "false"
+  #   login: "false"
+  #   key: ""
+  #   secret: ""
 
-  bitbucketEnterprise: {}
-    # enabled: "false"
-    # login: "false"
-    # hostname: "bitbucket.example.com"
-    # protocol: "http"
-    # port: 7990
-    # consumerKey: ""
-    # consumerPublicKey: ""
-    # consumerPrivateKey: ""
+  # bitbucketEnterprise:
+  #   enabled: "false"
+  #   login: "false"
+  #   hostname: "bitbucket.example.com"
+  #   protocol: "http"
+  #   port: 7990
+  #   consumerKey: ""
+  #   consumerPublicKey: ""
+  #   consumerPrivateKey: ""
 
-  email: {}
-    # enabled: "false"
-    # replyTo: "notifications@codacy.com"
-    # smtp:
-    #   protocol: "smtp"
-    #   hostname: "smtp.example.com"
-    #   # username: ""
-    #   # password: ""
-    #   # port: 25
+  # email:
+  #   enabled: "false"
+  #   replyTo: "notifications@codacy.com"
+  #   smtp:
+  #     protocol: "smtp"
+  #     hostname: "smtp.example.com"
+  #     # username: ""
+  #     # password: ""
+  #     # port: 25
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
