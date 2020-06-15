@@ -27,7 +27,7 @@ global:
       port: 80
 
   github:
-  enabled: "false"
+  enabled: "true"
   login: "false"
   #   clientId: ""
   #   clientSecret: ""
