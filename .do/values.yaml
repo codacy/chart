@@ -58,7 +58,7 @@ codacy-api:
     type: ClusterIP
   metrics:
     serviceMonitor:
-      enabled: false
+      enabled: true
     grafana_dashboards:
       enabled: true
 
@@ -77,6 +77,9 @@ activities:
 
 remote-provider-service:
   replicaCount: 1
+  metrics:
+    serviceMonitor:
+      enabled: true
 
 hotspots-api:
   replicaCount: 1
@@ -107,7 +110,7 @@ engine:
   replicaCount: 1
   metrics:
     serviceMonitor:
-      enabled: false
+      enabled: true
 
 worker-manager:
   replicaCount: 1
