@@ -1,0 +1,173 @@
+global:
+  imagePullSecrets:
+    - name: docker-credentials
+  codacy:
+    url: 'https://k8s.agapito.codacy.org'
+    backendUrl: 'https://k8s.agapito.codacy.org'
+    crow:
+      url: 'https://k8s.agapito.codacy.org/monitoring'
+  play:
+    cryptoSecret: "2Zn4KJqHweFUjD6zEjwZcgBXNQFbQ7cl6Om74y3Kyygcuev3AV8RQ1hwl3Q3oY3pCCdOjDKbeh9kxVUzSEehvzo8VTMgCVNpwTHxCmxdcVYUVXsBtslsfoijsDzIwL2QV1wCdWzVpvQNlNroSpOipbCcq6LiZRVM8Ou7I"
+  akka:
+    sessionSecret: "2Zn4KJqHweFUjD6zEjwZcgBXNQFbQ7cl6Om74y3Kyygcuev3AV8RQ1hwl3Q3oY3pCCdOjDKbeh9kxVUzSEehvzo8VTMgCVNpwTHxCmxdcVYUVXsBtslsfoijsDzIwL2QV1wCdWzVpvQNlNroSpOipbCcq6LiZRVM8Ou7I"
+  filestore:
+    contentsSecret: "2Zn4KJqHweFUjD6zEjwZcgBXNQFbQ7cl6Om74y3Kyygcuev3AV8RQ1hwl3Q3oY3pCCdOjDKbeh9kxVUzSEehvzo8VTMgCVNpwTHxCmxdcVYUVXsBtslsfoijsDzIwL2QV1wCdWzVpvQNlNroSpOipbCcq6LiZRVM8Ou7I"
+    uuidSecret: "2Zn4KJqHweFUjD6zEjwZcgBXNQFbQ7cl6Om74y3Kyygcuev3AV8RQ1hwl3Q3oY3pCCdOjDKbeh9kxVUzSEehvzo8VTMgCVNpwTHxCmxdcVYUVXsBtslsfoijsDzIwL2QV1wCdWzVpvQNlNroSpOipbCcq6LiZRVM8Ou7I"
+  cacheSecret: "2Zn4KJqHweFUjD6zEjwZcgBXNQFbQ7cl6Om74y3Kyygcuev3AV8RQ1hwl3Q3oY3pCCdOjDKbeh9kxVUzSEehvzo8VTMgCVNpwTHxCmxdcVYUVXsBtslsfoijsDzIwL2QV1wCdWzVpvQNlNroSpOipbCcq6LiZRVM8Ou7I"
+
+  defaultdb:
+    create: true
+  analysisdb:
+    create: true
+  resultsdb:
+    create: true
+  metricsdb:
+    create: true
+  filestoredb:
+    create: true
+  jobsdb:
+    create: true
+
+  githubEnterprise:
+    enabled: "true"
+    hostname: "github.dev.codacy.org"
+    port: 443
+    protocol: "https"
+    disableSSL: "true"
+    isPrivateMode: "true"
+    clientId: "Iv1.983619f65246b503"
+    clientSecret: "6adc1b000c999872a6b2c6f8f66052f0b45113db"
+    app:
+      name: k8s-microk8s-https-test-agapito
+      id: "2"
+      privateKey: "MIIEpQIBAAKCAQEAvApnUjRVa9M64jdEtavg84e4D0/1LAPeOCOw36DmIrOO+Jg4ru2QV5jRD2e9Hs6yDRLlUFMyJPgq6phMcmbk97QhRBg2T85PH3jmfkHIPFlFzqrxZftIIhR59IpvdZEwZAYUpEUappF8NU17xexI0QFDbnq1w6zNy7Z8BPMwXOyBmmyq2fXtPrzkreLfQa2lwgBDOiqtFCbnXWIhQhvyJNH5XZDxF+ViiwAf5zXRMATmes0K9nD11Kl48Jg0rqh1cSOTGHyrt4tfkppX1Lva/3a+C6lZymCe6yYyOKyx+QRvr4ZeoVe1662NuETyEKfl1kuJGdo4jDYNGIQZun61cwIDAQABAoIBAH04xGN23GfIq87XlVcSFeS3Pbhcu91K2iIyimfx4y+6uXwNCrpbE6Nx7c6/e67XYLTaH4FlVeBOr224bDhHEzVtbDXHleuBbSl9PqlXrzuZC6a8KbOLKhcf4bMauWzmef4yGm7mYgAIpFlutv0wA7HDkJ8y8nZTTlzZsi8tr8hAxmazVvdcyJ7STioaCTMCM73fu7NaNSjk2RHt8tscXOI/robPgub9Etw78T5TSe/btWPzTgG9k3tLitADfsaMr1GTWo7hCe13UcuhJLf6ip96wl/AvUMCWMMo67tGOr5gssdheR7u13xT2femUJ0QjnzAY57Jwv/bglL5M23qmcECgYEA7ILDGrXGQEsJvdtiJ1fplTpyL9wMpB/Y0mZ54Z2iKpj32neX22D451MT7ZasHCiW8fLVILRMLaNSv3gGga4CeHLh/Rnt8xeC0G0Ttiv23yukE/IXhqq1SYhSXGvBSAt6xXs4m+gijM9T7NYo34TGnidZB8bgU7BqOGloY3CNuJMCgYEAy4knpltWdE74wUiIYho7f8MB99/PZTjsPDCyXGnsGPuuAWn/5wyj9TCG7VBdXD/pwzy2WoLtgGt8bdccpKAQ0oeBaR6sy9Ciw1Ks1U6C4na1FY7QZpQ6+dkAUOMBI/gWcso1QCAfdewMoe+m7m85hYBAJfOwtTyRGIHTxxf1e6ECgYEA4+zohXckRZWLH9Kqduv8CXo3zPOtowWl+K4VS16Uh6S/R2T1jc+YT6X6kH8iAkkDnsu8pTXcLCc3eZn7+0Fs1BMywq4YaKsBwEc+NdOMqGnwR+CI15jv+JtNdA/MRtf5SxOC7Iz7ruOnJ5kD7tSQbJ3S6PG6Ai0DULYUibBQg80CgYEAvaWxnS9UEhGXdTlpYseAkx4YEmenLnDopXjWaIeFpw2zZ7vl5tp/VzH9Nth/9TnUTcefPhzqwZLloM8j8Dz5D8GVEmazqUFgt1CsnCCIkgz70/d7NWl+vli1E6lA4cwC1riU/4gu6EimyKityVM3rK4Al5xGFck2hThLJSKs6KECgYEAzNvEPaDsHDOxs1epqV4zebKt31pgkuA+WIpDadHmX2MvsxinwoQK0EJoBk95jC+wOCSi7Ko7NbfNIb20YyaBd9Y12cSOLRiuBVctNqhbbZPMJgBumaCZ53/ejCHi/+k7KaVyJakeQjSerxWxVjNoQfe/qZZUYtc0nC15H7yrX+c="
+
+
+  config:
+    workers:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+
+
+codacy-ingress:
+  create: true
+  ingress:
+    hostname:
+      app: k8s.agapito.codacy.org
+      api: k8s.agapito.codacy.org
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+
+## Uncomment these annotations and the `tls:` block to use TLS
+## For guidance on how to set up TLS please refer to the documentation on https://codacy.github.io/chart
+#
+#      kubernetes.io/tls-acme: "true"
+#      cert-manager.io/issuer: letsencrypt-codacy
+#    tls:
+#      secretName: codacy-tls
+#      hosts:
+#        - host: 'k8s.agapito.codacy.org'
+#          paths:
+#            - /
+
+#codacy-ingress:
+#  create: true
+#  ingress:
+#    annotations:
+#      kubernetes.io/ingress.class: nginx
+#      kubernetes.io/tls-acme: "true"
+#      cert-manager.io/issuer: letsencrypt-codacy
+#    hostname:
+#      app: 'k8s.agapito.codacy.org'
+#      api: 'k8s.agapito.codacy.org'
+#    tls:
+#      secretName: k8s-tls
+#      hosts:
+#      - host: 'k8s.agapito.codacy.org'
+#        paths:
+#          - /
+
+
+activities:
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 3
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    failureThreshold: 5
+  activitiesdb:
+    create: true
+
+hotspots-api:
+  hotspotsdb:
+    create: true
+
+
+listener:
+  listenerdb:
+    create: true
+  persistence:
+    claim:
+      size: 20Gi
+  nfsserverprovisioner:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 10Gi
+crow:
+  replicaCount: 1
+  fullnameOverride: codacy-crow
+  crowdb:
+    create: true
+    host: codacy-crowdb
+    postgresqlUsername: codacy
+    postgresqlDatabase: crow # You need to create the DB manually
+    postgresqlPassword: codacy
+    service:
+      port: 5432
+    fullnameOverride: codacy-crowdb
+  config:
+    play:
+      http:
+        context: "/monitoring"
+    passwordAuth:
+      password: forthewatch
+
+
+codacy-spa:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 250m
+      memory: 128Mi
+
+rabbitmq-ha:
+  replicaCount: 1
+  persistentVolume:
+    enabled: true
+    size: 8Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1200Mi
+    requests:
+      cpu: 0.2
+      memory: 200Mi
+  serviceAccount:
+    create: false
+    name: default
+
+minio:
+  persistence:
+    enabled: true
+    size: 10Gi
+

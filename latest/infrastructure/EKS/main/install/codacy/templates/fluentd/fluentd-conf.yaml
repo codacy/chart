@@ -1,0 +1,98 @@
+{{ if .Values.fluentdoperator.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.fluentdoperator.defaultConfigmap }}
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+  fluent.conf: |
+
+    # Drop tools logs
+    <match $labels(app=codacy-plugin)>
+      @type null
+    </match>
+
+    # Remove unneeded fields from the logs
+    <filter **>
+      @type record_modifier
+      <record>
+        for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record.delete("container_info"); record.delete("docker")}
+      </record>
+      # This removes the fields defined in `for_remove` from the logs
+      remove_keys for_remove
+    </filter>
+
+    # Move nested records to toplevel to be used as buffer key
+    <filter **>
+      @type record_modifier
+      <record>
+        pod_name ${record["kubernetes"]["pod_name"]}
+      </record>
+      <record>
+        container_name ${record["kubernetes"]["container_name"]}
+      </record>
+    </filter>
+
+    # Output to S3
+    <match **>
+      # Docs: https://github.com/fluent/fluent-plugin-s3
+      @type s3
+      @log_level info
+
+      # Credentials
+      aws_key_id {{ .Values.global.minio.accessKey }}
+      aws_sec_key {{ .Values.global.minio.secretKey }}
+
+      # Bucket configuration
+      s3_endpoint http://{{ .Values.global.minio.location }}:9000
+      s3_bucket {{ .Values.fluentdoperator.bucketName }}
+      force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
+
+      # HACK: Do not check s3 connection and bucket existence
+      #       If reloader fails by any means it will not propagate config to fluentd
+      #       Combined with `retry_forever` in the `buffer` should allow retries
+      check_apikey_on_start false
+      # Cannot be enabled if `check_bucket` is false
+      # auto_create_bucket true
+      # Cannot be disabled for `auto_create_bucket` to work
+      check_bucket false
+
+      # Output location configuration
+      path ${container_name}/${pod_name}/%Y-%m-%d
+      s3_object_key_format %{path}_%{index}.%{file_extension}
+
+      # Does not work (possibly due to a minio incompatiblity)
+      # As a workaround we are using a helm hook to create the lifecycle policy
+      # <bucket_lifecycle_rule>
+      #   id retention-policy
+      #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
+      # </bucket_lifecycle_rule>
+
+      store_as json
+      <format>
+        @type json
+      </format>
+
+      # Check https://docs.fluentd.org/plugin-development/api-plugin-output
+      # This plugin only implemens [async buffered mode](https://docs.fluentd.org/plugin-development/api-plugin-output#async-buffered-mode)
+      # With the current state this config means every time it writes to s3 it will [create a new file](https://github.com/fluent/fluent-plugin-s3/blob/50e4dc930ac8a5e5434382ad1365c58b9357221c/lib/fluent/plugin/out_s3.rb#L351),
+      #   not respecting the `timekey`. The only way to not have infinite files is to have a "reasonable" `timekey`.
+      #   Independently of how reasonable the `timekey` is, it might create problems when users report issues, since the actions they make in the UI might take at least `timekey` to be relfected in the log files.
+      # TLDR:
+      #   - `timekey_wait` seems to only add a wait before writting to the existing `timekey`
+      #   - `timekey` and `flush_interval` in the explained conditions above seem to have the exact same behaviour, the lower one will decide the partitioning
+      <buffer time,container_name,pod_name>
+        @type file
+        path /var/log/fluentd-buffers/s3.buffer
+        timekey 60s
+        timekey_wait 0s
+        timekey_use_utc true
+        flush_interval 60s
+        flush_mode interval
+        # HACK: Retry writting the logs forever to recover from network issues
+        #       This helps when minio/s3 is only available after fluentd starts
+        retry_forever true
+      </buffer>
+    </match>
+{{ end }}
