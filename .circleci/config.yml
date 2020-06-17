@@ -395,6 +395,7 @@ jobs:
           command: |
             sudo pip install -r requirements.pip
             mike deploy -u $(cat .version) latest -m "[ci skip] Updated documentation" -p
+            mike set-default latest
 
   get_changelogs:
     <<: *default_doks_image
