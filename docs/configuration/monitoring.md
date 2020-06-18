@@ -1,15 +1,11 @@
 # Monitoring
 
-<!---
-FIXME: Commented out to prevent issues while service monitors are not compatible with helm3
-
 Currently, we support two monitoring solutions:
 
 -   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 The sections below provide details on how to set up each monitoring solution.
---->
 
 ## Setting up monitoring using Crow
 
@@ -44,9 +40,6 @@ We highly recommend that you define a custom password for Crow, if you haven't a
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
-
-<!---
-FIXME: service dashboards are currently not compatible with helm3.
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
@@ -139,6 +132,10 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
       grafana:
         grafana_dashboards:
           enabled: true
+    remote-provider-service:
+      metrics:
+        serviceMonitor:
+          enabled: true
     ```
 
 2.  Apply this configuration by performing a Helm upgrade. To do so append `--values values-monitoring.yaml` to the command [used to install Codacy](../index.md#helm-upgrade):
@@ -147,4 +144,3 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
     helm upgrade (...options used to install Codacy...) \
                  --values values-monitoring.yaml
     ```
---->
