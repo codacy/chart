@@ -131,6 +131,7 @@ references:
   ########################################################
 
   qa_environment_release: &qa_environment_release
+    AWS_PROFILE: production
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: k8s-releases
@@ -138,21 +139,25 @@ references:
     RP_ENDPOINT: https://reportportal.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
+    AWS_PROFILE: production
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
     LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     LAUNCH_NAME: WEB_K8S_RELEASE
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
+    AWS_PROFILE: production
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/E2E.xml
     LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
     LAUNCH_NAME: E2E_K8S_RELEASE
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
+    AWS_PROFILE: production
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
     LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
     LAUNCH_NAME: API_K8S_RELEASE
 
   qa_selfhosted_apiv3_testpath: &qa_selfhosted_apiv3_testpath
+    AWS_PROFILE: production
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/APIV3.xml
     LAUNCH_TAG: CIRCLECI;APIV3;SELFHOSTED;RELEASE
     LAUNCH_NAME: APIV3_K8S_RELEASE
@@ -756,23 +761,23 @@ workflows:
             - helm_push_incubator
 
       - get_changelogs:
-          context: CodacyDO
+          context: CodacyAWS
           requires:
             - deploy_to_doks_release
       - test_web:
-          context: CodacyDO
+          context: CodacyAWS
           requires:
             - deploy_to_doks_release
       - test_e2e:
-          context: CodacyDO
+          context: CodacyAWS
           requires:
             - deploy_to_doks_release
       - test_api:
-          context: CodacyDO
+          context: CodacyAWS
           requires:
             - deploy_to_doks_release
       - test_apiv3:
-          context: CodacyDO
+          context: CodacyAWS
           requires:
             - deploy_to_doks_release
 
