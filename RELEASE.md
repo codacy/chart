@@ -85,7 +85,7 @@ Please make sure you have these tools installed before starting this process:
     Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
     ```bash
-    git tag '6.0.0-RC-<n>' && git push --tag
+    git tag '6.0.0-RC-<n>' && git push --force-with-lease --tag
     ```
 
 -   [ ] 9.  Test
