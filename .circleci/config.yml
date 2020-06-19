@@ -672,7 +672,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.13_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.13/stable"
           helm_version: "v3.2.1"
@@ -686,7 +686,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.14_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.14/stable"
           helm_version: "v3.2.1"
@@ -700,7 +700,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.15_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.15/stable"
           helm_version: "v3.2.1"
@@ -714,7 +714,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.16_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.16/stable"
           helm_version: "v3.2.1"
@@ -728,7 +728,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.17_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.17/stable"
           helm_version: "v3.2.1"
@@ -742,7 +742,7 @@ workflows:
 
       - codacy/microk8s_install:
           name: install_k8s-1.18_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
+          helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.18/stable"
           helm_version: "v3.2.1"
