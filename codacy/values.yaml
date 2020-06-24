@@ -426,6 +426,7 @@ fluentdoperator:
 ## These values are ignored if 'create: false' in the global variables
 
 rabbitmq-ha:
+  rabbitmqErlangCookie: "PLEASE_CHANGE_ME_TO_A_RANDOM_STR" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
   fullnameOverride: codacy-rabbitmq-ha
   rabbitmqUsername: "rabbitmq"
   rabbitmqPassword: "rabbitmq"
