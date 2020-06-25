@@ -56,8 +56,8 @@ engine:
 codacy-tools:
   resources:
     limits:
-      cpu: 0.5
-      memory: 1Gi
+      cpu: 200m
+      memory: 512MiB
 
 worker-manager:
   replicaCount: 1

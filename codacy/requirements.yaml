@@ -77,7 +77,7 @@ dependencies:
   git: git@bitbucket.org:qamine/codacy-worker.git
 
 - name: codacy-tools
-  version: ">=6.3.0"
+  version: ">=0.1.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-tools.git
 
