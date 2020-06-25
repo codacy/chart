@@ -11,6 +11,8 @@ global:
       url: "codacy-hotspots-api"
     engine:
       url: "codacy-engine"
+    tools:
+      url: "codacy-tools"
     engineApi:
       url: "codacy-engine"
     listener:
@@ -305,6 +307,17 @@ engine:
     play:
       configFile: 'enterprise-engine.conf'
       logFile: 'logback.xml'
+  metrics:
+    serviceMonitor:
+      enabled: false
+    grafana_dashboards:
+      enabled: false
+
+codacy-tools:
+  replicaCount: 1
+  fullnameOverride: codacy-tools
+  config:
+    environment: enterprise
   metrics:
     serviceMonitor:
       enabled: false

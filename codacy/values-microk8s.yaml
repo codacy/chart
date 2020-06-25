@@ -53,6 +53,12 @@ engine:
       cpu: 1
       memory: 2Gi
 
+codacy-tools:
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 1Gi
+
 worker-manager:
   replicaCount: 1
   resources:
