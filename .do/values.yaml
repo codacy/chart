@@ -112,6 +112,9 @@ engine:
     serviceMonitor:
       enabled: true
 
+codacy-tools:
+  replicaCount: 1
+
 worker-manager:
   replicaCount: 1
   config:
