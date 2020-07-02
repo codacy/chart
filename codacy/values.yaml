@@ -318,6 +318,9 @@ codacy-tools:
   fullnameOverride: codacy-tools
   config:
     environment: enterprise
+    metrics:
+      kamon:
+        enabled: "false"
   metrics:
     serviceMonitor:
       enabled: false
