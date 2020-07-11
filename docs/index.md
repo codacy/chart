@@ -129,7 +129,6 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
 
 2.  Follow Codacy's onboarding process, which will guide you through the following steps:
 
-    -   Creating an administrator account
     -   Configuring one or more of the following supported integrations:
         -   [GitHub Cloud](configuration/integrations/github-cloud.md)
         -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
