@@ -1,12 +1,15 @@
 global:
-
+  # Contact our support to get the docker secrets
   imagePullSecrets:
     - name: docker-credentials
+
   codacy:
     url: <--- http://codacy.example.com ---> # This value is important for VCS configuration and badges to work
     backendUrl: <--- http://codacy.example.com ---> # This value is important for VCS configuration and badges to work
     crow:
       url: <--- http://codacy.example.com/monitoring ---> # This value is important for the loopback links between the Analysis System and Crow
+    license: <-- contact our support to get a license -->
+
   play:
     cryptoSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   akka:
@@ -16,6 +19,24 @@ global:
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
 
+  crow:
+    config:
+      passwordAuth:
+        enable: true
+        username: <--- crow-username --->
+        password: <--- crow-password --->
+
+  workers:
+    config:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+      # Toleration and nodeSelector for worker/tool pods
+      tolerations: []
+      nodeSelector: {}
 
   defaultdb:
     create: false
@@ -61,6 +82,38 @@ global:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: jobs # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  activitiesdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: activities # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  hotspotsdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: hotspots # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: <--- codacy-db-port --->
+  listenerdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: listener # You need to create the DB manually
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:
@@ -132,15 +185,6 @@ global:
   #     # password: "" # Optional password to authenticate on your SMTP server
   #     # port: 25 # Optional port of your SMTP server, the default is 25
 
-  config:
-    workers:
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        pluginTimeout:
-          min: 300
-          max: 900
-
 codacy-ingress:
   create: true
   ingress:
@@ -199,14 +243,6 @@ activities:
     requests:
       cpu: 100m
       memory: 200Mi
-  activitiesdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: activities # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
 
 remote-provider-service:
   replicaCount: 2
@@ -226,14 +262,7 @@ hotspots-api:
     requests:
       cpu: 100m
       memory: 200Mi
-  hotspotsdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: hotspots # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
+
 hotspots-worker:
   replicaCount: 2
   resources:
@@ -253,15 +282,6 @@ listener:
     requests:
       cpu: 200m
       memory: 1000Mi
-
-  listenerdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: listener # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
   persistence:
     claim:
       size: 140Gi
@@ -314,15 +334,6 @@ worker-manager:
       cpu: 200m
       memory: 200Mi
   config:
-    workers:
-      dedicatedMax: 2
-      inactivityTimeout: 20
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        pluginTimeout:
-          min: 300
-          max: 900
     workerResources:
       limits:
         cpu: 1
@@ -346,22 +357,6 @@ crow:
     requests:
       cpu: 0.1
       memory: 100Mi
-  fullnameOverride: codacy-crow
-  crowdb:
-    create: false
-    host: <--- codacy-db-host --->
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: crow # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    service:
-      port: <--- codacy-db-port --->
-    fullnameOverride: codacy-crowdb
-  config:
-    play:
-      http:
-        context: "/monitoring"
-    passwordAuth:
-      password: <--- crow-login-password --->
 
 codacy-spa:
   replicaCount: 2

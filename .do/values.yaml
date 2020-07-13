@@ -131,7 +131,6 @@ fluentdoperator:
 
 crow:
   replicaCount: 1
-  fullnameOverride: codacy-crow
   config:
     play:
       http:
