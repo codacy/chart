@@ -86,7 +86,7 @@ dependencies:
   condition: engine.create
 
 - name: codacy-tools
-  version: ">=0.1.0"
+  version: ">=0.4.1"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-tools.git
   condition: codacy-tools.create
