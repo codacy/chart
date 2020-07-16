@@ -6,7 +6,7 @@ Follow the instructions below to set up the Codacy integration with GitLab Enter
 
 To integrate Codacy with GitLab Enterprise, you must create a GitLab application:
 
-1.  Open `<gitlab enterprise url>/profile/applications`, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
+1.  Open `<gitlab enterprise url>/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 
@@ -65,26 +65,27 @@ After creating the GitLab application, you must configure it on Codacy:
 
 After this is done you will be able to use GitLab Enterprise to authenticate to Codacy.
 
-## System Hooks
+## Detect changes to repositories and organizations
 
-In order to detect changes on the repositories (renames, deletes and visibility changes) and on the organizations (renames, deletes and access removed), 
-you need to configure a System Hook on your GitLab Enterprise instance:
+Optionally, Codacy can automatically detect the following changes to repositories and organizations on your GitLab Enterprise instance:
 
-1. Login into your GitLab Enterprise instance as an admin, and then on the "Admin Area" click on "System Hooks".
+-   **For repositories:** renames, deletes, and visibility changes
+-   **For organizations:** renames, deletes, and access removed
 
+To do this, you must configure a [System Hook](https://docs.gitlab.com/ee/system_hooks/system_hooks.html) on your GitLab Enterprise instance to notify Codacy of the changes:
 
-2. Fill in the fields to create the System Hook:
+1.  Open `<gitlab enterprise url>/admin/hooks` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
 
-    -   **URL:** The URL of your codacy instance with the path `/2.0/events/gle/organization`. Example: `http://your-codacy-instance.com/2.0/events/gle/organization`
+2.  Fill in the fields to create the System Hook:
 
-    -   **Secret Token:** Copy the `clientSecret` you configured previously on the file `values-production.yaml` (or `values-microk8s.yaml`, if you're using microk8s) that you [used to install Codacy](../../index.md#helm-upgrade).
+    -   **URL:** The URL of your Codacy instance with the path `/2.0/events/gle/organization`. For example, `http://codacy.example.com/2.0/events/gle/organization`
 
-    -   **Trigger:** Enable the trigger:
-    
-        -   `Repository update events`
+    -   **Secret Token:** Copy the Application Secret from the GitLab application that you created previously, or from the value of `clientSecret` in the file `values-production.yaml` that you used to install Codacy.
+
+    -   **Trigger:** Enable the trigger `Repository update events`
     
     -   **SSL verification:** Enable the SSL verification.
 
-    ![GitLab Enterprise application](images/gitlab-enterprise-system-hook.png)
+    ![GitLab Enterprise System Hook](images/gitlab-enterprise-system-hook.png)
 
-3. Click on "Save Changes" to save the System Hook.
+3.  Click **Save Changes** to save the System Hook.
