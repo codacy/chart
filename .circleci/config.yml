@@ -220,6 +220,23 @@ references:
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
       - deploy:
           name: Install Codacy
+          command: make -e -C .do/ deploy_to_doks_infrastructure
+
+
+  deploy_to_doks_from_local_dir_with_sandbox_requirements: &deploy_to_doks_from_local_dir_with_sandbox_requirements
+    steps:
+      - <<: *attach_workspace
+      - <<: *doctl_authenticate
+      - <<: *swap_requirement_files
+      - <<: *update_versions
+      - run:
+          name: Set dev branch version using unix timestamp
+          command: |
+            echo "$(date +%s)-$(cat .version)-dev-$(git rev-parse --short HEAD)" > .version
+            cat .version
+            ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
+      - deploy:
+          name: Install Codacy
           command: make -e -C .do/ deploy_to_doks_from_local_dir
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
@@ -304,7 +321,7 @@ jobs:
     <<: *default_doks_image
     environment:
       <<: *sandbox_environment
-    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
+    <<: *deploy_to_doks_from_local_dir_with_sandbox_requirements
 
   deploy_to_doks_release:
     <<: *default_doks_image
