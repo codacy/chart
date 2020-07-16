@@ -64,3 +64,27 @@ After creating the GitLab application, you must configure it on Codacy:
     ```
 
 After this is done you will be able to use GitLab Enterprise to authenticate to Codacy.
+
+## System Hooks
+
+In order to detect changes on the repositories (renames, deletes and visibility changes) and on the organizations (renames, deletes and access removed), 
+you need to configure a System Hook on your GitLab Enterprise instance:
+
+1. Login into your GitLab Enterprise instance as an admin, and then on the "Admin Area" click on "System Hooks".
+
+
+2. Fill in the fields to create the System Hook:
+
+    -   **URL:** The URL of your codacy instance with the path `/2.0/events/gle/organization`. Example: `http://your-codacy-instance.com/2.0/events/gle/organization`
+
+    -   **Secret Token:** Copy the `clientSecret` you configured previously on the file `values-production.yaml` (or `values-microk8s.yaml`, if you're using microk8s) that you [used to install Codacy](../../index.md#helm-upgrade).
+
+    -   **Trigger:** Enable the trigger:
+    
+        -   `Repository update events`
+    
+    -   **SSL verification:** Enable the SSL verification.
+
+    ![GitLab Enterprise application](images/gitlab-enterprise-system-hook.png)
+
+3. Click on "Save Changes" to save the System Hook.

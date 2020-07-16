@@ -126,6 +126,8 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.gitlabEnterprise.hostname`                 | Hostname of GitLab Enterprise instance                                                                       | `nil`           |
 | `global.gitlabEnterprise.protocol`                 | Protocol of GitLab Enterprise instance                                                                       | `nil`           |
 | `global.gitlabEnterprise.port`                     | Port of GitLab Enterprise instance                                                                           | `nil`           |
+| `global.gitlabEnterprise.clientId`                 | Client id generated when creating the GitLab App                                                             | `nil`           |
+| `global.gitlabEnterprise.clientSecret`             | Client secret generated when creating the GitLab App                                                         | `nil`           |
 | `global.bitbucket.enabled`                         | Enable Bitbucket                                                                                             | `nil`           |
 | `global.bitbucket.login`                           | Show login for Bitbucket                                                                                     | `nil`           |
 | `global.bitbucket.key`                             | Bitbucket key used for OAuth                                                                                 | `nil`           |
