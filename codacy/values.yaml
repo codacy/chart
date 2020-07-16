@@ -208,6 +208,7 @@ global:
           max: 900
 
 portal:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-portal
   config:
@@ -216,6 +217,7 @@ portal:
       logFile: logback.xml
 
 activities:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-activities
   readinessProbe:
@@ -236,10 +238,12 @@ activities:
     fullnameOverride: codacy-activitiesdb
 
 remote-provider-service:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-remote-provider-service
 
 hotspots-api:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-hotspots-api
   hotspotsdb:
@@ -253,10 +257,12 @@ hotspots-api:
     fullnameOverride: codacy-hotspotsdb
 
 hotspots-worker:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-hotspots-worker
 
 listener:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-listener
   config:
@@ -292,6 +298,7 @@ listener:
     fullnameOverride: codacy-listenerdb
 
 core:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-core
   config:
@@ -300,6 +307,7 @@ core:
       logFile: logback.xml
 
 engine:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-engine
   config:
@@ -314,6 +322,7 @@ engine:
       enabled: false
 
 codacy-tools:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-tools
   config:
@@ -340,6 +349,7 @@ codacy-ingress:
         path: /monitoring
 
 codacy-api:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-api
   config:
@@ -355,6 +365,7 @@ codacy-api:
       enabled: false
 
 worker-manager:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-worker-manager
   config:
@@ -397,6 +408,7 @@ worker-manager:
         memory: 3000000000 # this value needs to be set in bytes
 
 codacy-spa:
+  create: true
   replicaCount: 1
   fullnameOverride: codacy-spa
   config:
@@ -420,6 +432,9 @@ fluentdoperator:
   fluentd:
     extraEnv:
       FLUENTD_SYSTEMD_CONF: disable
+
+crow:
+  create: true
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
@@ -485,6 +500,7 @@ minio:
     enabled: false
 
 ragnaros:
+  create: true
   fullnameOverride: codacy-ragnaros
   config:
     play:
