@@ -127,6 +127,7 @@ worker-manager:
 
 fluentdoperator:
   enabled: true
+  expirationDays: 15
 
 crow:
   replicaCount: 1
