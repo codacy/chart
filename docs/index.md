@@ -127,7 +127,9 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
 
 1.  Use a browser to navigate to the Codacy hostname previously configured on the file `values-production.yaml`.
 
-2.  Follow Codacy's onboarding process, which will guide you through the following steps:
+2.  Log in using your Git provider account. This automatically creates a Codacy administrator account with your credentials.
+
+3.  Follow Codacy's onboarding process, which will guide you through the following steps:
 
     -   Configuring one or more of the following supported integrations:
         -   [GitHub Cloud](configuration/integrations/github-cloud.md)
@@ -140,8 +142,8 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Creating an initial organization
     -   Inviting users to Codacy
 
-3.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
+4.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
 
-4.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
+5.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
 
 If you run into any issues while configuring Codacy, be sure to [check our troubleshooting guide](troubleshoot/troubleshoot.md) for more help.
