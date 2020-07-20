@@ -1,15 +1,4 @@
 global:
-
-  rabbitmq:
-    create: true
-    rabbitmqUsername: rabbitmq
-    rabbitmqPassword: rabbitmq
-    rabbitmqvHost: "/"
-    host: codacy-rabbitmq-ha
-    port: 5671
-    ssl: false
-    timeout: 15s
-
   github:
     enabled: "true"
     login: "true"
