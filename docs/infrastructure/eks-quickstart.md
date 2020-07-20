@@ -2,6 +2,11 @@
 
 Follow the instructions below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
+![codacy eks quicksart](images/codacy-chart-eks-quickstart.jpg)
+
+The image above is a non-exhaustive overview of what you can expect to have
+deployed in your AWS account by using this quickstart.
+
 ## 1. Prepare your environment
 
 Prepare your environment to set up the Amazon EKS cluster:
