@@ -172,6 +172,10 @@ codacy-api:
     requests:
       cpu: 500m
       memory: 500Mi
+## By default, Codacy includes a temporary license for a limited number of users.
+## Uncomment these annotations to enter a production license provided by a Codacy representative.
+#  config:
+#    license: <--- insert your Codacy license here --->
 
 portal:
   replicaCount: 2
