@@ -39,6 +39,7 @@ markdown_extensions:
 nav:
   - index.md
   - requirements.md
+  - releasenotes.md
   - "Setting up Kubernetes":
       - infrastructure/eks-quickstart.md
       - infrastructure/microk8s-quickstart.md
