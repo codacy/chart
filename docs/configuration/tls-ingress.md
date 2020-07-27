@@ -1,6 +1,6 @@
 # HTTPS using LetsEncrypt
 
-This documentation guides you on how to set up HTTPS for Codacy using (LetsEncript)[https://letsencrypt.org]
+This documentation guides you on how to set up HTTPS for Codacy using [Let's Encrypt](https://letsencrypt.org).
 
 For this, we will use:
 
