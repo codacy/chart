@@ -57,6 +57,7 @@ nav:
       - configuration/tls-ingress.md
       - configuration/monitoring.md
   - "Maintenance and operations":
+      - maintenance/license.md
       - maintenance/upgrade.md
       - maintenance/uninstall.md
       - maintenance/database.md
