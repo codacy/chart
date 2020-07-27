@@ -356,3 +356,9 @@ minio:
     purge: "false"
   defaultBucket:
     enabled: false
+
+worker-manager:
+  config:
+    codacy:
+      worker:
+        imageVersion: stable
