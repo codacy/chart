@@ -39,30 +39,22 @@ references:
           create: true
         jobsdb:
           create: true
-
-      activities:
+        crowdb:
+          create: true
         activitiesdb:
           create: true
-
-      hotspots-api:
         hotspotsdb:
+          create: true
+        listenerdb:
           create: true
 
       listener:
-        listenerdb:
-          create: true
         persistence:
           claim:
             size: 8Gi
         nfsserverprovisioner:
           persistence:
             size: 10Gi
-
-      crow:
-        crowdb:
-          create: true
-          host: codacy-crowdb
-          fullnameOverride: codacy-crowdb
 
       minio:
         persistence:
