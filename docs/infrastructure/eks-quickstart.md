@@ -129,11 +129,12 @@ Install the NGINX Ingress Controller:
 
 1.  Download the configuration file [`values-nginx.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-nginx.yaml) for the NGINX Ingress Controller.
 
-    If you wish to use a private load balancer edit the file and enable the required annotation where indicated.
+    If you wish to use a private load balancer or restrict the IP range for the provisioned load balancer edit the file and enable the required annotation and/or the corresponding setting where indicated.
 
 2.  Install the NGINX Ingress Controller:
 
     ```bash
+    kubectl create namespace codacy
     helm upgrade --install --namespace codacy --version 1.39.0 codacy-nginx-ingress stable/nginx-ingress -f values-nginx.yaml
     ```
 
