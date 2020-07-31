@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@4.1.6
+  codacy: codacy/base@dev:4.3.3-microk8slogsonfail.1.2fb9828
   slack: circleci/slack@3.4.2
 
 references:
@@ -512,17 +512,14 @@ workflows:
             - create_dev_cluster
 
   nightly_pipeline:
-    triggers:
-      - schedule:
-          cron: "0 0 * * 1-5"
-          filters:
-            branches:
-              only:
-                - master
     jobs:
       - codacy/checkout_and_version:
           dev_branch: "master"
           release_branch: "releases"
+          filters:
+            branches:
+              only:
+                - fix-microk8s
       - set_chart_version_nightly:
           context: CodacyDO
           requires:
