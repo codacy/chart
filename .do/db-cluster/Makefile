@@ -52,3 +52,6 @@ replace_db_values:
 
 	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../../codacy/values-production.yaml
 	@sed -i "s/postgresqlDatabase: activities/postgresqlDatabase: \"activities?sslmode=require\"/g; s/postgresqlDatabase: hotspots/postgresqlDatabase: \"hotspots?sslmode=require\"/g; s/postgresqlDatabase: crow/postgresqlDatabase: \"crow?sslmode=require\"/g" ../../codacy/values-production.yaml
+	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../values.yaml
+	@sed -i "s/postgresqlDatabase: activities/postgresqlDatabase: \"activities?sslmode=require\"/g; s/postgresqlDatabase: hotspots/postgresqlDatabase: \"hotspots?sslmode=require\"/g; s/postgresqlDatabase: crow/postgresqlDatabase: \"crow?sslmode=require\"/g" ../values.yaml
+	@echo "Replaced template values for db connections"

@@ -161,6 +161,15 @@ codacy-tools:
 
 worker-manager:
   replicaCount: 1
+  config:
+    workers:
+      dedicatedMax: 20
+      inactivityTimeout: 30
+      analysis:
+        podDebugInfo: true
+  grafana:
+    grafana_dashboards:
+      enabled: true
 
 fluentdoperator:
   enabled: true

@@ -17,7 +17,7 @@ define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=600s \
+	--timeout=900s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
@@ -35,6 +35,7 @@ define call_helm_install
 	--set global.features.cloneSubmodules=true \
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
+	--debug \
 	"$${extra_args[@]}"
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))

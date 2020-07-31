@@ -372,7 +372,7 @@ codacy-spa:
       memory: 128Mi
 
 rabbitmq-ha:
-  replicaCount: 3
+  replicaCount: 1
   rabbitmqErlangCookie:  <--- erlang-cookie ---> # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
   persistentVolume:
     enabled: true

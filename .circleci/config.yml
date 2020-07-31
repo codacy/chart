@@ -227,6 +227,7 @@ references:
             echo "$(date +%s)-$(cat .version)-dev-$(git rev-parse --short HEAD)" > .version
             cat .version
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
+
       - deploy:
           name: Install Codacy
           command: make -e -C .do/ deploy_to_doks_from_local_dir
