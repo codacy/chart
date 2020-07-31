@@ -794,7 +794,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/re
 </code></pre></div>
 
 <h3 id="2-installing-loki">2. Installing Loki<a class="headerlink" href="#2-installing-loki" title="Permanent link">&para;</a></h3>
-<p>Obtain the configuration file for Loki, <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-loki.yaml"><code>values-loki.yaml</code></a>, and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use <code>storageClassName: microk8s-hostpath</code>.</p>
+<p>Obtain the configuration file for Loki, <a href="https://raw.githubusercontent.com/codacy/chart/1.0.1/codacy/values-loki.yaml"><code>values-loki.yaml</code></a>, and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use <code>storageClassName: microk8s-hostpath</code>.</p>
 <div class="highlight"><pre><span></span><code>helm repo add loki https://grafana.github.io/loki/charts
 helm upgrade --install --atomic loki loki/loki --version <span class="m">0</span>.17.0 <span class="se">\</span>
              --recreate-pods --namespace codacy --values values-loki.yaml
@@ -802,13 +802,13 @@ helm upgrade --install --atomic loki loki/loki --version <span class="m">0</span
 
 <h3 id="3-installing-promtail">3. Installing Promtail<a class="headerlink" href="#3-installing-promtail" title="Permanent link">&para;</a></h3>
 <p>Promtail is an agent that ships the contents of local logs to a Loki instance.</p>
-<p>Obtain the configuration file for Promtail, <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-promtail.yaml"><code>values-promtail.yaml</code></a>, and install it by running the command below.</p>
+<p>Obtain the configuration file for Promtail, <a href="https://raw.githubusercontent.com/codacy/chart/1.0.1/codacy/values-promtail.yaml"><code>values-promtail.yaml</code></a>, and install it by running the command below.</p>
 <div class="highlight"><pre><span></span><code>helm upgrade --install --atomic promtail loki/promtail --version <span class="m">0</span>.13.0 <span class="se">\</span>
              --recreate-pods --namespace codacy --values promtail-values.yaml
 </code></pre></div>
 
 <h3 id="4-installing-prometheus-and-grafana">4. Installing Prometheus and Grafana<a class="headerlink" href="#4-installing-prometheus-and-grafana" title="Permanent link">&para;</a></h3>
-<p>Obtain the configuration file for the <a href="https://github.com/helm/charts/tree/master/stable/prometheus-operator">Prometheus Operator bundle</a>, <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-prometheus-operator.yaml"><code>values-prometheus-operator.yaml</code></a>. Then:</p>
+<p>Obtain the configuration file for the <a href="https://github.com/helm/charts/tree/master/stable/prometheus-operator">Prometheus Operator bundle</a>, <a href="https://raw.githubusercontent.com/codacy/chart/1.0.1/codacy/values-prometheus-operator.yaml"><code>values-prometheus-operator.yaml</code></a>. Then:</p>
 <ol>
 <li>
 <p>Edit the Grafana password for the <code>admin</code> user in the <code>values-prometheus-operator.yaml</code> file.</p>

@@ -748,7 +748,7 @@ helm repo update
 <p>Install the NGINX Ingress Controller:</p>
 <ol>
 <li>
-<p>Download the configuration file <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-nginx.yaml"><code>values-nginx.yaml</code></a> for the NGINX Ingress Controller.</p>
+<p>Download the configuration file <a href="https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-nginx.yaml"><code>values-nginx.yaml</code></a> for the NGINX Ingress Controller.</p>
 <p>If you wish to use a private load balancer edit the file and enable the required annotation where indicated.</p>
 </li>
 <li>
@@ -774,14 +774,14 @@ kubectl apply --validate<span class="o">=</span><span class="nb">false</span> -f
 
 </li>
 <li>
-<p>Download the certificate issuer configuration file <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/issuer-letsencrypt.yaml"><code>issuer-letsencrypt.yaml</code></a>, edit the file to set your email address where indicated, and execute:</p>
+<p>Download the certificate issuer configuration file <a href="https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/issuer-letsencrypt.yaml"><code>issuer-letsencrypt.yaml</code></a>, edit the file to set your email address where indicated, and execute:</p>
 <div class="highlight"><pre><span></span><code>kubectl apply --namespace codacy -f issuer-letsencrypt.yaml
 </code></pre></div>
 
 </li>
 <li>
 <p>Finally, install the certificate manager.</p>
-<p>Download the cert-manager configuration file <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-cert-manager.yaml"><code>values-cert-manager.yaml</code></a>, and execute:</p>
+<p>Download the cert-manager configuration file <a href="https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-cert-manager.yaml"><code>values-cert-manager.yaml</code></a>, and execute:</p>
 <div class="highlight"><pre><span></span><code>helm upgrade --install --version v0.15.1 codacy-cert-manager jetstack/cert-manager <span class="se">\</span>
              --namespace codacy <span class="se">\</span>
              --values values-cert-manager.yaml
@@ -793,7 +793,7 @@ kubectl apply --validate<span class="o">=</span><span class="nb">false</span> -f
 <p>Set up Ingress to use TLS:</p>
 <ol>
 <li>
-<p>Download the Codacy Ingress configuration file for AWS <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-tls-ingress-aws.yaml"><code>values-tls-ingress-aws.yaml</code></a>, and edit the file where indicated.</p>
+<p>Download the Codacy Ingress configuration file for AWS <a href="https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-tls-ingress-aws.yaml"><code>values-tls-ingress-aws.yaml</code></a>, and edit the file where indicated.</p>
 </li>
 <li>
 <p>Apply this configuration by performing a Helm upgrade. To do so append <code>--values values-tls-ingress-aws.yaml</code> to the command <a href="../..#helm-upgrade">used to install Codacy</a>:</p>

@@ -885,7 +885,7 @@
 </tbody>
 </table>
 <h4 id="standard-cluster-provisioning">Standard cluster provisioning<a class="headerlink" href="#standard-cluster-provisioning" title="Permanent link">&para;</a></h4>
-<p>The resources recommended on the following table are based on our experience and are also the defaults in the <a href="https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml"><code>values-production.yaml</code></a> file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy <strong>depend mainly on the rate of commits</strong> done by your team that Codacy will be analyzing.</p>
+<p>The resources recommended on the following table are based on our experience and are also the defaults in the <a href="https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-production.yaml"><code>values-production.yaml</code></a> file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy <strong>depend mainly on the rate of commits</strong> done by your team that Codacy will be analyzing.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.</p>

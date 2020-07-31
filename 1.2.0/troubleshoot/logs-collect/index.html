@@ -594,12 +594,12 @@
 <ol>
 <li>
 <p>Download the logs of the last 7 days as an archive file with the name <code>codacy_logs_&lt;timestamp&gt;.zip</code> by running the following command locally, replacing <code>&lt;namespace&gt;</code> with the namespace in which Codacy was installed:</p>
-<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/1.2.0/docs/troubleshoot/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
     -n &lt;namespace&gt;
 </code></pre></div>
 
 <p>To reduce the size of the compressed archive file, you should retrieve logs for a smaller number of days by replacing <code>&lt;days&gt;</code> with a number between 1 and 7:</p>
-<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>bash &lt;<span class="o">(</span>curl -fsSL https://raw.githubusercontent.com/codacy/chart/1.2.0/docs/troubleshoot/extract-codacy-logs.sh<span class="o">)</span> <span class="se">\</span>
     -n &lt;namespace&gt; -d &lt;days&gt;
 </code></pre></div>
 

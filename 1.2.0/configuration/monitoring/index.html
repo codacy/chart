@@ -715,7 +715,7 @@ kubectl apply -f <span class="s2">&quot;https://raw.githubusercontent.com/coreos
 
 ### 2. Installing Loki
 
-Obtain the configuration file for Loki, [`values-loki.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
+Obtain the configuration file for Loki, [`values-loki.yaml`](https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
 
 <div class="highlight"><pre><span></span><code>helm repo add loki https://grafana.github.io/loki/charts
 
@@ -729,7 +729,7 @@ helm upgrade --install --atomic --timeout 600s loki loki/loki <span class="se">\
 
 Promtail is an agent that ships the contents of local logs to a Loki instance.
 
-Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-promtail.yaml), and install it by running the command below.
+Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-promtail.yaml), and install it by running the command below.
 
 <div class="highlight"><pre><span></span><code>helm upgrade --install --atomic --timeout 600s promtail loki/promtail <span class="se">\</span>
   --version <span class="m">0</span>.22.2 --namespace monitoring --values values-promtail.yaml
@@ -737,7 +737,7 @@ Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw
 
 ### 4. Installing Prometheus and Grafana
 
-Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-prometheus-operator.yaml). Then:
+Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://raw.githubusercontent.com/codacy/chart/1.2.0/codacy/values-prometheus-operator.yaml). Then:
 
 1.  Edit the Grafana password for the `admin` user and the hostname for grafana in the `values-prometheus-operator.yaml` file.
 
