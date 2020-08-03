@@ -132,14 +132,31 @@ global:
     #   # password: "" # Optional password to authenticate on your SMTP server
     #   # port: 25 # Optional port of your SMTP server, the default is 25
 
-  config:
-    workers:
+  workers:
+    config:
+      dedicatedMax: 2
+      inactivityTimeout: 20
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
         pluginTimeout:
           min: 300
           max: 900
+      workerResources:
+        limits:
+          cpu: 1
+          memory: "3Gi"
+        requests:
+          cpu: 0.5
+          memory: "1Gi"
+      pluginResources:
+        limits:
+          cpu: 1
+          memory: 2000000000 # 2000Mb
+        requests:
+          cpu: 1
+          memory: 2000000000 # 2000Mb
+
 
 codacy-ingress:
   create: true
@@ -317,30 +334,7 @@ worker-manager:
     requests:
       cpu: 200m
       memory: 200Mi
-  config:
-    workers:
-      dedicatedMax: 2
-      inactivityTimeout: 20
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        pluginTimeout:
-          min: 300
-          max: 900
-    workerResources:
-      limits:
-        cpu: 1
-        memory: "3Gi"
-      requests:
-        cpu: 0.5
-        memory: "1Gi"
-    pluginResources:
-      limits:
-        cpu: 1
-        memory: 2000000000 # 2000Mb
-      requests:
-        cpu: 1
-        memory: 2000000000 # 2000Mb
+
 crow:
   replicaCount: 1
   resources:

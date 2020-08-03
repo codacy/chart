@@ -34,8 +34,10 @@ global:
     protocol: "http"
     port: 7990
 
-  config:
-    workers:
+  workers:
+    config:
+      dedicatedMax: 20
+      inactivityTimeout: 30
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
@@ -160,10 +162,7 @@ codacy-tools:
 
 worker-manager:
   replicaCount: 1
-  config:
-    workers:
-      dedicatedMax: 20
-      inactivityTimeout: 30
+
   grafana:
     grafana_dashboards:
       enabled: true
