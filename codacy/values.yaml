@@ -307,6 +307,11 @@ rabbitmq-ha:
       enabled: false
   podManagementPolicy: Parallel
   forceBoot: true # Allows a graceful recovery from 'Waiting for Mnesia tables' in case all rabbitmq pods restart.
+  loadDefinition:
+    enabled: true
+    existingSecret: rabbitmq-load-definition
+  extraConfiguration: |
+    management.load_definitions = /app/load_definition.json
 
 postgres:
   fullnameOverride: codacy-postgres
