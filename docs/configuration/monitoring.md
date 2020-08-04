@@ -107,10 +107,12 @@ helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-oper
 
 Follow the [Kubernetes documentation](https://v1-15.docs.kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that is now running on your cluster, using the method that best suits your use case.
 
-### 5. Enable Service Dashboards
+### 5. Enable service dashboards
 
 !!! warning
-    Currently, the application metrics and information reported by the Codacy components are very limited since we are still developing these reporting capabilities.
+    Currently, the application metrics and information reported by the Codacy components to populate service dashboards are very limited since we are still developing these reporting capabilities.
+
+    As such, we recommend that you skip this configuration.
 
 Now that you have Prometheus and Grafana installed you can enable `serviceMonitor` and `grafana_dashboards` for Codacy components.
 
