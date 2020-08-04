@@ -90,6 +90,7 @@ global:
       enabled: true
     grafana:
       enabled: true
+      label: "grafana_dashboard"
 
 codacy-ingress:
   create: true

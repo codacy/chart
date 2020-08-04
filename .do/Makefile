@@ -3,14 +3,15 @@ RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
+MONITORING_DEPLOYMENTS?=$(shell kubectl get deployments -n "monitoring" | awk '{print $$1}' | tail -n +2)
 WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
 HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 
 define rotate_pod
-  kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=10m &
+  kubectl patch deployment $(strip $(1)) -n $(2) -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
+  kubectl rollout status "deployment/$(strip $(1))" -n $(2) --watch --timeout=10m &
 endef
 
 define call_helm_install
@@ -37,7 +38,8 @@ define call_helm_install
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
 
-  $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
+  $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT), $(NAMESPACE)))
+  $(foreach DEPLOYMENT, $(MONITORING_DEPLOYMENTS),$(call rotate_pod, $(MONITORING_DEPLOYMENTS), "monitoring"))
 endef
 
 define call_helm_install_infrastructure
