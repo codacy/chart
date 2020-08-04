@@ -25,7 +25,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
     crow:
       config:
         passwordAuth:
-          password: <--- crow password --->
+          password: C0dacy123
     ```
 
 2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
