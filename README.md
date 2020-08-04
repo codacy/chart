@@ -40,7 +40,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
 -   Codacy/[Activities](https://bitbucket.org/qamine/codacy-activities/src/master/.helm/)
--   Codacy/[Repository Listener](https://github.com/codacy/repository-listener/tree/dev/.helm/)
+-   Codacy/[Repository Listener](https://github.com/codacy/repository-listener/tree/master/.helm/)
 -   Codacy/[Portal](https://bitbucket.org/qamine/portal/src/master/.helm/)
 -   Codacy/[Worker Manager](https://bitbucket.org/qamine/worker-manager/src/master/.helm/)
 -   Codacy/[Engine](https://bitbucket.org/qamine/codacy-worker/src/master/.helm/)
