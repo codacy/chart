@@ -109,7 +109,10 @@ Follow the [Kubernetes documentation](https://v1-15.docs.kubernetes.io/docs/task
 
 ### 5. Enable Service Dashboards
 
-Now that you have Prometheus and Grafana installed you can enable `serviceMonitors` and `grafana_dashboards` for Codacy components.
+!!! warning
+    Currently, the application metrics and information reported by the Codacy components are very limited since we are still developing these reporting capabilities.
+
+Now that you have Prometheus and Grafana installed you can enable `serviceMonitor` and `grafana_dashboards` for Codacy components.
 
 1.  Create a file named `values-monitoring.yaml` with the following content:
 
