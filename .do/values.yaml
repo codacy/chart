@@ -191,6 +191,7 @@ rabbitmq-ha:
       enabled: true
     prometheusRule:
       enabled: true
+      namespace: "monitoring"
       rules:
         - alert: RabbitmqDown
           expr: rabbitmq_up{service="{{ template "rabbitmq.fullname" . }}"} == 0
