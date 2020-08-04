@@ -252,8 +252,9 @@ global:
   metrics:
     serviceMonitor:
       enabled: false
-    grafana_dashboards:
+    grafana:
       enabled: false
+      label: "grafana_dashboard"
 
 codacy-ingress:
   create: true

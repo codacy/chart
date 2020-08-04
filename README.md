@@ -170,6 +170,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.crow.passwordAuth.username`                | Crow login username                                                                                          | `codacy`                                     |
 | `global.crow.passwordAuth.password`                | Crow login password                                                                                          | `PLEASE_CHANGE_ME`                           |
 | `global.metrics.serviceMonitor.enabled`            | Enable instantiation of ServiceMonitors for prometheus metric scraping                                       | `false`                                      |
+| `global.metrics.grafana.enabled`                   | Enable grafana metrics.                                                                                      | `false`                                      |
 
 The following parameters are specific to each Codacy component.
 
@@ -224,7 +225,6 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
-| `codacy-api.metrics.grafana_dashboards.enabled`     | Create the ConfigMap with the dashboard of this component. Can be imported through grafana sidecar. | `false`                                      |
 | `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `2`                                          |
 | `worker-manager.config.workers.inactivityTimeout`   | Inactivity timeout for a worker                                                                     | `30`                                         |
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
