@@ -117,27 +117,23 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
 1.  Create a file named `values-monitoring.yaml` with the following content:
 
     ```yaml
-    codacy-api:
+    website:
       metrics:
         serviceMonitor:
           enabled: true
         grafana_dashboards:
           enabled: true
-    engine:
+    seats:
       metrics:
         serviceMonitor:
           enabled: true
-    worker-manager:
-      grafana:
         grafana_dashboards:
           enabled: true
-    listener:
-      grafana:
-        grafana_dashboards:
-          enabled: true
-    remote-provider-service:
+    rps:
       metrics:
         serviceMonitor:
+          enabled: true
+        grafana_dashboards:
           enabled: true
     ```
 
