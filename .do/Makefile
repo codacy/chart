@@ -35,7 +35,6 @@ define call_helm_install
 	--set global.features.cloneSubmodules=true \
 	--set worker-manager.config.codacy.worker.image=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
-	--debug \
 	"$${extra_args[@]}"
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))

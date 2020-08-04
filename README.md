@@ -173,6 +173,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.metrics.serviceMonitor.enabled`            | Enable instantiation of ServiceMonitors for prometheus metric scraping                                       | `false`                                      |
 | `global.metrics.grafana.enabled`                   | Enable grafana metrics.                                                                                      | `false`                                      |
 
+
 The following parameters are specific to each Codacy component.
 
 | Parameter                                           | Description                                                                                         | Default                                      |
@@ -237,12 +238,13 @@ The following parameters are specific to each Codacy component.
 
 The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 
-| Parameter                        | Description                                                                                                    | Default    |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------- |
-| `fluentdoperator.enable`         | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.         | `true`     |
-| `fluentdoperator.expirationDays` | Number of days to retain logs. More time uses more disk on minio and retention over 7 days is not recommended. | `7`        |
-| `rabbitmq-ha.rabbitmqUsername`   | Username for the bundled RabbitMQ.                                                                             | `rabbitmq` |
-| `rabbitmq-ha.rabbitmqPassword`   | Password for the bundled RabbitMQ.                                                                             | `rabbitmq` |
+| Parameter                            | Description                                                                                                    | Default           |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `fluentdoperator.enable`             | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.         | `true`            |
+| `fluentdoperator.expirationDays`     | Number of days to retain logs. More time uses more disk on minio and retention over 7 days is not recommended. | `7`               |
+| `rabbitmq-ha.rabbitmqUsername`       | Username for the bundled RabbitMQ.                                                                             | `rabbitmq-codacy` |
+| `rabbitmq-ha.rabbitmqPassword`       | Password for the bundled RabbitMQ.                                                                             | `rabbitmq-codacy` |
+| `rabbitmq-ha.rabbitmqErlangCookie`   | The rabbitmq Erlang cookie RabbitMQ.                                                                           | `nil`             |
 
 You can also configure values for the PostgreSQL database via the Postgresql [README.md](https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md)
 

@@ -128,14 +128,16 @@ To solve this issue:
 
 ### Rabbitmq access
 
-We use `rabbitmq` as an internal queue of events between our components.
+We use `rabbitmq` for the internal message queue between our components.
 
-Should you need to access the `rabbitmq` dashboard, you need to do the following:
+Should you need to access the `rabbitmq` dashboard, you need to do the following steps:
 
 1.  Create a `port-forward` from the rabbitmq pod to you local machine with:
 
     ```bash
-        kubectl port-forward $(kubectl get pods --namespace=$NAMESPACE | grep codacy-rabbitmq-ha-0 | tail -n 1 | awk '{print $1}') 15672:15672 --namespace=$NAMESPACE
+    kubectl port-forward codacy-rabbitmq-ha-0 15672:15672 --namespace=$NAMESPACE
     ```
 
-2.  Access the web ui through `localhost:15672`. You can use the login credentials that you configured on your `values-production.yaml`.
+    Please note that you must provide the correct namespace.
+
+2.  Access the web ui through `localhost:15672`, logging in with the set `rabbitmq` credentials. See [README.md](https://github.com/codacy/chart/blob/master/README.md) for default values for these credentials.
