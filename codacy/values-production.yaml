@@ -352,7 +352,7 @@ crow:
       http:
         context: "/monitoring"
     passwordAuth:
-      password: <--- crow-login-password --->
+      password: C0dacy123
 
 codacy-spa:
   replicaCount: 2

@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up the Codacy integration with Bitbucket Cloud.
 
-## Create an OAuth consumer {id="create-oauth"}
+## Create an OAuth consumer {: id="create-oauth"}
 
 To integrate Codacy with Bitbucket Cloud, you must register an OAuth consumer for Codacy on Bitbucket.
 
@@ -42,7 +42,7 @@ You can create a consumer on any existing individual or team account. To create 
 
    ![Bitbucket consumer key and secret](images/bitbucket-consumer-key-and-secret.png)
 
-## Configure Bitbucket Cloud on Codacy {id="configure"}
+## Configure Bitbucket Cloud on Codacy {: id="configure"}
 
 After creating the OAuth consumer on Bitbucket Cloud, you must configure it on Codacy:
 

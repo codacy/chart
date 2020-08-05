@@ -91,13 +91,13 @@ deploy_monitoring: set_cluster_context
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki loki/loki \
-	  --version 0.28.1 --namespace monitoring --values ../codacy/values-loki.yaml
+	  --version 0.28.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 0.22.2 --namespace monitoring --values ../codacy/values-promtail.yaml
+	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
 
 	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
-	  --version 8.13.8 --namespace monitoring --values ../codacy/values-prometheus-operator.yaml \
+	  --version 8.13.8 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml \
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
 
