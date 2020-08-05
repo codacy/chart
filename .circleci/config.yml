@@ -366,6 +366,7 @@ jobs:
     <<: *default_doks_image
     steps:
       - <<: *attach_workspace
+      - <<: *update_versions
       - run:
           name: Set chart version suffix
           command: |
