@@ -41,6 +41,7 @@ global:
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
+        podDebugInfo: true
         pluginTimeout:
           min: 300
           max: 900
@@ -162,15 +163,6 @@ codacy-tools:
 
 worker-manager:
   replicaCount: 1
-  config:
-    workers:
-      dedicatedMax: 20
-      inactivityTimeout: 30
-      analysis:
-        podDebugInfo: true
-  grafana:
-    grafana_dashboards:
-      enabled: true
 
 fluentdoperator:
   enabled: true
@@ -190,3 +182,26 @@ rabbitmq-ha:
     enabled: true
     serviceMonitor:
       enabled: true
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: Rabbitmq Unavailable
+          expr: |
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} < kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}"}
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Insufficient Rabbitmq Nodes
+            description: |
+              Insufficient Rabbitmq Nodes - {{ "{{ $value }}" }}
+        - alert: Rabbitmq Down
+          expr: |
+            kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}"} == 0
+          for: 5m
+          labels:
+            severity: error
+          annotations:
+            summary: Rabbitmq Down
+            description: |
+              No Rabbitmq Nodes

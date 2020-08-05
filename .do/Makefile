@@ -3,7 +3,6 @@ RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
-MONITORING_DEPLOYMENTS?=$(shell kubectl get deployments -n "monitoring" | awk '{print $$1}' | tail -n +2)
 WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
 HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
@@ -39,7 +38,6 @@ define call_helm_install
 	"$${extra_args[@]}"
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT), $(NAMESPACE)))
-  $(foreach DEPLOYMENT, $(MONITORING_DEPLOYMENTS),$(call rotate_pod, $(MONITORING_DEPLOYMENTS), "monitoring"))
 endef
 
 define call_helm_install_infrastructure
@@ -130,11 +128,15 @@ deploy_monitoring: set_cluster_context
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
 	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
 
+	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED_DEV#g;" values-prometheus-operator.yaml
+	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
+
 	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
-	  --version 8.13.8 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml \
+	  --version 9.3.1 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
 
 	kubectl rollout restart deployment -n monitoring $(shell kubectl get deployments -n monitoring -o jsonpath='{.items[*].metadata.name}')
 	kubectl rollout restart statefulset -n monitoring $(shell kubectl get statefulsets -n monitoring -o jsonpath='{.items[*].metadata.name}')
 	kubectl rollout restart daemonset -n monitoring $(shell kubectl get daemonsets -n monitoring -o jsonpath='{.items[*].metadata.name}')
+

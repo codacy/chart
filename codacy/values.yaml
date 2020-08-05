@@ -34,6 +34,7 @@ global:
 
   workers:
     config:
+      imageVersion: stable
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
@@ -307,7 +308,7 @@ rabbitmq-ha:
       enabled: false
   podManagementPolicy: Parallel
   forceBoot: true # Allows a graceful recovery from 'Waiting for Mnesia tables' in case all rabbitmq pods restart.
-  loadDefinition:
+  loadDefinition: # Loads rabbitmq-secret.yaml to ensure that all queues are created upon rabbitmq restart.
     enabled: true
     existingSecret: rabbitmq-load-definition
   extraConfiguration: |
@@ -369,8 +370,4 @@ minio:
   defaultBucket:
     enabled: false
 
-worker-manager:
-  config:
-    codacy:
-      worker:
-        imageVersion: stable
+

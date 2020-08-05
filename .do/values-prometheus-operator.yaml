@@ -1,0 +1,42 @@
+
+defaultRules:
+  create: false # disable the default alertmanager rules that monitor the cluster
+
+## Configuration for alertmanager
+## based off of: https://medium.com/faun/trying-prometheus-operator-with-helm-minikube-b617a2dccfa3
+## and: https://awesome-prometheus-alerts.grep.to/alertmanager
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['job']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 1h
+      receiver: 'slack'
+      routes:
+      - receiver: 'null'
+        match:
+          alertname: Watchdog
+      - receiver: "slack"
+        match_re:
+          severity: error|warning
+        continue: true
+    receivers:
+    - name: 'null'
+    - name: 'slack'
+      slack_configs:
+      - api_url: <--- slack-api-url --->
+        send_resolved: true
+        channel: '<--- slack-channel --->'
+        title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Monitoring Event Notification'
+        text: |-
+          {{ range .Alerts }}
+            *Alert:* {{ .Labels.alertname }} - `{{ .Labels.severity }}`
+            *Description:* {{ .Annotations.message }}
+            *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:> *Runbook:* <{{ .Annotations.runbook_url }}|:spiral_note_pad:>
+            *Details:*
+            {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+            {{ end }}
+          {{ end }}
