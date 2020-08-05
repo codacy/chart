@@ -34,6 +34,55 @@ global:
     protocol: "http"
     port: 7990
 
+  config:
+    workers:
+      analysis:
+        maxFileSizeBytes: 150000
+        # These values are in seconds
+        pluginTimeout:
+          min: 300
+          max: 900
+
+  crow:
+    config:
+      passwordAuth:
+        enable: true
+        username: <--- crow-username --->
+        password: <--- crow-password --->
+
+  activitiesdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: activities # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  hotspotsdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: hotspots # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: <--- codacy-db-port --->
+  listenerdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: listener # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+
 codacy-ingress:
   create: true
   ingress:
@@ -49,7 +98,7 @@ codacy-api:
     type: ClusterIP
   metrics:
     serviceMonitor:
-      enabled: false
+      enabled: true
     grafana_dashboards:
       enabled: true
 
@@ -65,12 +114,17 @@ activities:
     initialDelaySeconds: 10
     periodSeconds: 5
     failureThreshold: 5
+  activitiesdb: {}
 
 remote-provider-service:
   replicaCount: 1
+  metrics:
+    serviceMonitor:
+      enabled: true
 
 hotspots-api:
   replicaCount: 1
+  hotspotsdb: {}
 
 hotspots-worker:
   replicaCount: 1
@@ -90,6 +144,7 @@ listener:
   grafana:
     grafana_dashboards:
       enabled: true
+  listenerdb: {}
 
 core:
   replicaCount: 1
@@ -98,27 +153,30 @@ engine:
   replicaCount: 1
   metrics:
     serviceMonitor:
-      enabled: false
+      enabled: true
+
+codacy-tools:
+  replicaCount: 1
 
 worker-manager:
   replicaCount: 1
   config:
     workers:
       dedicatedMax: 20
+      inactivityTimeout: 30
   grafana:
     grafana_dashboards:
       enabled: true
 
 fluentdoperator:
   enabled: true
+  expirationDays: 15
 
 crow:
   replicaCount: 1
-  fullnameOverride: codacy-crow
   config:
     play:
       http:
         context: "/monitoring"
-    passwordAuth:
-      password: "PLEASE_CHANGE_ME"
-
+    passwordAuth: {}
+  crowdb: {}

@@ -2,11 +2,11 @@
 
 Follow the instructions below to set up the Codacy integration with GitLab Enterprise:
 
-## Create a GitLab application {id="create-application"}
+## Create a GitLab application {: id="create-application"}
 
 To integrate Codacy with GitLab Enterprise, you must create a GitLab application:
 
-1.  Open `<gitlab enterprise url>/profile/applications`, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
+1.  Open `<gitlab enterprise url>/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 
@@ -16,7 +16,6 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
 
         ```text
         https://codacy.example.com/login/GitLabEnterprise
-        https://codacy.example.com/add/addProvider/GitLabEnterprise
         https://codacy.example.com/add/addService/GitLabEnterprise
         https://codacy.example.com/add/addPermissions/GitLabEnterprise
         ```
@@ -32,7 +31,7 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
-## Configure GitLab Enterprise on Codacy {id="configure"}
+## Configure GitLab Enterprise on Codacy {: id="configure"}
 
 After creating the GitLab application, you must configure it on Codacy:
 
@@ -60,9 +59,33 @@ After creating the GitLab application, you must configure it on Codacy:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
 
 After this is done you will be able to use GitLab Enterprise to authenticate to Codacy.
+
+## Detect changes to repositories and organizations
+
+Optionally, Codacy can automatically detect the following changes to repositories and organizations on your GitLab Enterprise instance:
+
+-   **For repositories:** renames, deletes, and visibility changes
+-   **For organizations:** renames, deletes, and access removed
+
+To do this, you must configure a [System Hook](https://docs.gitlab.com/ee/system_hooks/system_hooks.html) on your GitLab Enterprise instance to notify Codacy of the changes:
+
+1.  Open `<gitlab enterprise url>/admin/hooks` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
+
+2.  Fill in the fields to create the System Hook:
+
+    -   **URL:** The URL of your Codacy instance with the path `/2.0/events/gle/organization`. For example, `http://codacy.example.com/2.0/events/gle/organization`
+
+    -   **Secret Token:** Copy the Application Secret from the GitLab application that you created previously, or from the value of `clientSecret` in the file `values-production.yaml` that you used to install Codacy.
+
+    -   **Trigger:** Enable the trigger `Repository update events`
+    
+    -   **SSL verification:** Enable the SSL verification.
+
+    ![GitLab Enterprise System Hook](images/gitlab-enterprise-system-hook.png)
+
+3.  Click **Save Changes** to save the System Hook.

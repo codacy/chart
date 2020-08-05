@@ -40,9 +40,38 @@ define call_helm_install
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
 endef
 
+define call_helm_install_infrastructure
+	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
+	helm upgrade --install ${1} ${3} \
+	--atomic \
+	--timeout=600s \
+	-f ../codacy/values-production.yaml \
+	-f values.yaml \
+	--namespace ${2} \
+	--set codacy-ingress.create=false \
+	--set portal.create=false \
+	--set ragnaros.create=false \
+	--set activities.create=false \
+	--set remote-provider-service.create=false \
+	--set hotspots-api.create=false \
+	--set hotspots-worker.create=false \
+	--set listener.create=false \
+	--set core.create=false \
+	--set engine.create=false \
+	--set codacy-tools.create=false \
+	--set codacy-api.create=false \
+	--set worker-manager.create=false \
+	--set crow.create=false \
+	--set codacy-spa.create=false
+endef
+
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	$(MAKE) -C ../ setup_helm_repos
+
+.PHONY: helm_install_infrastructure
+helm_install_infrastructure:
+	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_local_dir
 helm_install_from_local_dir: update_ingress_values
@@ -59,6 +88,9 @@ update_dependencies:
 .PHONY: update_ingress_values
 update_ingress_values:
 	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+
+.PHONY: deploy_to_doks_infrastructure
+deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
 deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
@@ -91,13 +123,13 @@ deploy_monitoring: set_cluster_context
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki loki/loki \
-	  --version 0.28.1 --namespace monitoring --values ../codacy/values-loki.yaml
+	  --version 0.28.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 0.22.2 --namespace monitoring --values ../codacy/values-promtail.yaml
+	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
 
 	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
-	  --version 8.13.8 --namespace monitoring --values ../codacy/values-prometheus-operator.yaml \
+	  --version 8.13.8 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml \
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
 

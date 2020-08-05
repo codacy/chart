@@ -29,7 +29,6 @@ Carefully review and set up the system requirements to run Codacy by following t
 Optionally, you can follow one of the guides below to quickly create a new Kubernetes or MicroK8s cluster that satisfies the characteristics described in the system requirements:
 
 -   [Creating an Amazon EKS cluster](infrastructure/eks-quickstart.md)
--   [Creating an AKS cluster](infrastructure/aks-quickstart.md)
 -   [Creating a MicroK8s cluster](infrastructure/microk8s-quickstart.md)
 
 ## 2. Installing Codacy
@@ -62,11 +61,7 @@ Install Codacy on an existing cluster using our Helm chart:
         --namespace codacy
     ```
 
-4.  Download the template file [`values-production.yaml`](https://github.com/codacy/chart/blob/master/codacy/values-production.yaml){target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments. You can download the template file by running:
-
-    ```bash
-    wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml
-    ```
+4.  Download the template file [`values-production.yaml`](./values-files/values-production.yaml){: target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments.
 
 5.  Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.
 
@@ -76,13 +71,7 @@ Install Codacy on an existing cluster using our Helm chart:
 6.  <span id="helm-upgrade">Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.</span>
 
     !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
-
-        Use `wget` to download the extra file and uncomment the last line before running the `helm upgrade` command below:
-
-        ```bash
-        wget https://raw.githubusercontent.com/codacy/chart/master/codacy/values-microk8s.yaml
-        ```
+        **If you are using MicroK8s** you must download and use the file [`values-microk8s.yaml`](./values-files/values-microk8s.yaml) together with the file `values-production.yaml` by uncommenting the last line in the `helm upgrade` command below.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
@@ -128,9 +117,10 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
 
 1.  Use a browser to navigate to the Codacy hostname previously configured on the file `values-production.yaml`.
 
-2.  Follow Codacy's onboarding process, which will guide you through the following steps:
+2.  Log in using your Git provider account. This automatically creates a Codacy administrator account with your credentials.
 
-    -   Creating an administrator account
+3.  Follow Codacy's onboarding process, which will guide you through the following steps:
+
     -   Configuring one or more of the following supported integrations:
         -   [GitHub Cloud](configuration/integrations/github-cloud.md)
         -   [GitHub Enterprise](configuration/integrations/github-enterprise.md)
@@ -142,6 +132,8 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Creating an initial organization
     -   Inviting users to Codacy
 
-3.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
+4.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
+
+5.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
 
 If you run into any issues while configuring Codacy, be sure to [check our troubleshooting guide](troubleshoot/troubleshoot.md) for more help.

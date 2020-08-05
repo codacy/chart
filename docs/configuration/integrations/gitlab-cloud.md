@@ -2,7 +2,7 @@
 
 Follow the instructions below to set up the Codacy integration with GitLab Cloud.
 
-## Create a GitLab application {id="create-application"}
+## Create a GitLab application {: id="create-application"}
 
 To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
@@ -16,7 +16,6 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
         ```text
         https://codacy.example.com/login/GitLab
-        https://codacy.example.com/add/addProvider/GitLab
         https://codacy.example.com/add/addService/GitLab
         https://codacy.example.com/add/addPermissions/GitLab
         ```
@@ -31,7 +30,7 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
-## Configure GitLab Cloud on Codacy {id="configure"}
+## Configure GitLab Cloud on Codacy {: id="configure"}
 
 After creating the GitLab application, you must configure it on Codacy:
 
@@ -56,7 +55,6 @@ After creating the GitLab application, you must configure it on Codacy:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

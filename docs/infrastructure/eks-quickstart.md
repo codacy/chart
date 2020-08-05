@@ -2,6 +2,11 @@
 
 Follow the instructions below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
+![codacy eks quicksart](images/codacy-chart-eks-quickstart.jpg)
+
+The image above is a non-exhaustive overview of what you can expect to have
+deployed in your AWS account by using this quickstart.
+
 ## 1. Prepare your environment
 
 Prepare your environment to set up the Amazon EKS cluster:
@@ -11,6 +16,7 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) version >= 2.0.0
     -   [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1
     -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
+    -   [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version >= 1.14
 
 2.  Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
@@ -31,7 +37,8 @@ Prepare your environment to set up the Amazon EKS cluster:
 
     -   **backend**: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking
     -   **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
-    -   **setup**: Additional setup to be performed before installing Codacy on your vanilla Amazon EKS cluster
+
+    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](./EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
 
 ## 2. Set up the Terraform state storage backend
 
@@ -50,7 +57,7 @@ Although using the backend is optional, we recommend that you deploy it, particu
 
 2.  Take note of the value of `state_bucket_name` in the output of the command.
 
-3.  Edit the `main/config.tf` and `setup/config.tf` files and follow the instructions included in the comments to set the name of the Amazon S3 bucket created above and enable the use of the backend in those infrastructure stacks.
+3.  Edit the `main/config.tf` file and follow the instructions included in the comments to set the name of the Amazon S3 bucket created above and enable the use of the backend in those infrastructure stacks.
 
 ## 3. Create a vanilla Amazon EKS cluster
 
@@ -86,7 +93,7 @@ Create a cluster that includes all the required network and node setup:
 3.  Set up the kubeconfig file that stores the information needed by `kubectl` to connect to the new cluster by default:
 
     ```bash
-    aws eks update-kubeconfig --name codacy-cluster
+    aws eks update-kubeconfig --name codacy-cluster --alias codacy-cluster
     ```
 
 4.  Get information about the pods in the cluster to test that the cluster was created and that `kubectl` can successfully connect to the cluster:
@@ -95,55 +102,48 @@ Create a cluster that includes all the required network and node setup:
     kubectl get pods -A
     ```
 
-    You'll notice that nothing is scheduled. That's because we haven't yet allowed the worker nodes to join the cluster (see the [EKS docs](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html) for more details). We'll do that on the next section.
+## 4. Prepare to set up the Ingress Controller
 
-## 4. Set up the cluster to run Codacy
+Prepare your infrastructure for the Ingress Controller setup, which is performed later during the installation process:
 
-Some additional setup is necessary to run Codacy on the newly created cluster, such as allowing workers to join the cluster and installing the following Helm charts:
+1.  Make sure that your network resources are correctly tagged, and create the following required tags if they are missing:
 
--   [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
--   [nginx-ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress)
--   [cert-manager](https://github.com/jetstack/cert-manager)
+    | Resource Type    | Key = Value                                                                                   |
+    | ---------------- | --------------------------------------------------------------------------------------------- |
+    | VPC              | `kubernetes.io/cluster/codacy-cluster` = `shared`                                             |
+    | Subnet (public)  | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/elb` = `1`          |
+    | Subnet (private) | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/internal-elb` = `1` |
 
-Set up the cluster to run Codacy:
+    For more information refer to the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging).
 
-1.  Initialize Terraform and deploy the infrastructure described in the `setup/` directory, then follow Terraform's instructions:
+2.  Add the following chart repositories to Helm:
 
     ```bash
-    cd ../setup/
-    terraform init && terraform apply
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+    helm repo update
     ```
 
-2.  Connect to the Kubernetes Dashboard:
+## 5. Install the NGINX Ingress Controller
+
+Install the NGINX Ingress Controller:
+
+1.  Download the configuration file [`values-nginx.yaml`](../values-files/values-nginx.yaml) for the NGINX Ingress Controller.
+
+    If you wish to use a private load balancer or restrict the IP range for the provisioned load balancer edit the file and enable the required annotation and/or the corresponding setting where indicated.
+
+2.  Install the NGINX Ingress Controller:
 
     ```bash
-    kubectl proxy
-    ```
-
-    Open the following URL on a browser and select `token`:
-
-    <http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy>
-
-    Run the following command to obtain the admin token required to connect to the Kubernetes Dashboard:
-
-    ```bash
-    terraform output admin_token
+    kubectl create namespace codacy
+    helm upgrade --install --namespace codacy --version 1.39.0 codacy-nginx-ingress stable/nginx-ingress -f values-nginx.yaml
     ```
 
 ## Uninstalling the Amazon EKS cluster
 
 !!! warning
-    If you proceed beyond this point you'll permanently delete and break things.
+If you proceed beyond this point you'll permanently delete and break things.
 
-1.  Clean up your cluster back to a vanilla state by removing the setup required to install Codacy.
-
-    Run the following command in the `setup/` folder:
-
-    ```bash
-    terraform destroy
-    ```
-
-2.  After removing the stacks and setup above, you may now delete the Kubernetes cluster.
+1.  Delete the Kubernetes cluster.
 
     Run the following command in the `main/` directory:
 
@@ -153,7 +153,7 @@ Set up the cluster to run Codacy:
 
     This process takes around 10 minutes.
 
-3.  Remove the Terraform backend.
+2.  Remove the Terraform backend.
 
     If you created the Terraform backend with the provided stack you can now safely delete it.
 
