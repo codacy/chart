@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@dev:4.3.3-microk8slogsonfail.1.2fb9828
+  codacy: codacy/base@dev:4.3.3-microk8slogsonfail.2.f5c6c30
   slack: circleci/slack@3.4.2
 
 references:
@@ -443,6 +443,7 @@ workflows:
                 - release
                 - /sandbox\/.*/
                 - /release.*/
+                - fix-microk8s
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
