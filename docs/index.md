@@ -61,7 +61,7 @@ Install Codacy on an existing cluster using our Helm chart:
         --namespace codacy
     ```
 
-4.  Download the template file [`values-production.yaml`](./values-files/values-production.yaml){target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments.
+4.  Download the template file [`values-production.yaml`](./values-files/values-production.yaml){: target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments.
 
 5.  Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.
 
@@ -71,7 +71,7 @@ Install Codacy on an existing cluster using our Helm chart:
 6.  <span id="helm-upgrade">Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.</span>
 
     !!! important
-        **If you are using MicroK8s** you must use the file [`values-microk8s.yaml`](./values-files/values-microk8s.yaml) together with the file `values-production.yaml`.
+        **If you are using MicroK8s** you must use the file [`values-microk8s.yaml`](./values-files/values-microk8s.yaml){: target="_blank"} together with the file `values-production.yaml`.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
