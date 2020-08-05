@@ -119,23 +119,11 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
 1.  Create a file named `values-monitoring.yaml` with the following content:
 
     ```yaml
-    website:
+    global:
       metrics:
         serviceMonitor:
           enabled: true
-        grafana_dashboards:
-          enabled: true
-    seats:
-      metrics:
-        serviceMonitor:
-          enabled: true
-        grafana_dashboards:
-          enabled: true
-    rps:
-      metrics:
-        serviceMonitor:
-          enabled: true
-        grafana_dashboards:
+        grafana:
           enabled: true
     ```
 
