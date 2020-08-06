@@ -33,7 +33,7 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   **backend**: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking
     -   **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
 
-    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
+    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](./EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
 
 ## 2. Set up the Terraform state storage backend
 
