@@ -34,8 +34,10 @@ global:
     protocol: "http"
     port: 7990
 
-  config:
-    workers:
+  workers:
+    config:
+      dedicatedMax: 20
+      inactivityTimeout: 30
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
@@ -83,6 +85,12 @@ global:
     service:
       port: <--- codacy-db-port --->
 
+  metrics:
+    serviceMonitor:
+      enabled: true
+    grafana:
+      enabled: true
+
 codacy-ingress:
   create: true
   ingress:
@@ -96,11 +104,7 @@ codacy-api:
   replicaCount: 2
   service:
     type: ClusterIP
-  metrics:
-    serviceMonitor:
-      enabled: true
-    grafana_dashboards:
-      enabled: true
+
 
 portal:
   replicaCount: 1
@@ -141,9 +145,6 @@ listener:
     persistence:
       enabled: true
       size: 200Gi
-  grafana:
-    grafana_dashboards:
-      enabled: true
   listenerdb: {}
 
 core:
@@ -160,13 +161,6 @@ codacy-tools:
 
 worker-manager:
   replicaCount: 1
-  config:
-    workers:
-      dedicatedMax: 20
-      inactivityTimeout: 30
-  grafana:
-    grafana_dashboards:
-      enabled: true
 
 fluentdoperator:
   enabled: true
