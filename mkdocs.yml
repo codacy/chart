@@ -1,21 +1,19 @@
 # Project information
 site_name: chart
-site_url: https://codacy.github.io/chart/
+site_url: https://docs.codacy.com/chart/
 
 # Configuration
 theme:
-    logo: 'images/codacy-logo.svg'
+    logo: 'assets/images/codacy-logo.svg'
     name: 'material'
     palette:
         primary: 'indigo'
         accent: 'indigo'
 
 extra_css:
-  - 'css/extra.css'
-  - 'css/version-select.css'
+  - 'assets/stylesheets/extra.css'
 extra_javascript:
-  - 'js/extra.js'
-  - 'js/version-select.js'
+  - 'assets/javascripts/extra.js'
 strict: true
 use_directory_urls: true
 
