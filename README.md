@@ -150,6 +150,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.workers.config.analysis.pluginTimeout.min` | Minimum plugin timeout value in seconds                                                                      | `300`                                        |
 | `global.workers.config.analysis.pluginTimeout.max` | Maximum plugin timeout value in seconds                                                                      | `900`                                        |
 | `global.workers.config.dedicatedMax`               | Number of concurrent worker pod instances                                                                    | `5`                                          |
+| `global.workers.config.inactivityTimeout`          | Inactivity timeout for a worker                                                                              | `30`                                         |
 | `global.codacy.license`                            | Codacy license for your installation                                                                         | `nil`                                        |
 | `global.activitiesdb.postgresqlUsername`           | Username of the Postgresql server                                                                            | `codacy`                                     |
 | `global.activitiesdb.postgresqlDatabase`           | Database name of the Postgresql server                                                                       | `jobs`                                       |
@@ -225,8 +226,6 @@ The following parameters are specific to each Codacy component.
 | `codacy-api.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
 | `codacy-api.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
 | `codacy-api.metrics.serviceMonitor.enabled`         | Create the ServiceMonitor resource type to be read by prometheus operator.                          | `false`                                      |
-| `worker-manager.config.workers.dedicatedMax`        | TBD                                                                                                 | `2`                                          |
-| `worker-manager.config.workers.inactivityTimeout`   | Inactivity timeout for a worker                                                                     | `30`                                         |
 | `crow.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
 | `crow.image.repository`                             | Image repository                                                                                    | from dependency                              |
 | `crow.image.tag`                                    | Image tag                                                                                           | from dependency                              |
