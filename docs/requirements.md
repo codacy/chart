@@ -58,7 +58,7 @@ The following is a simplified overview of how to calculate resource allocation f
 
 #### Standard cluster provisioning
 
-The resources recommended on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy **depend mainly on the rate of commits** done by your team that Codacy will be analyzing.
+The resources recommended on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](./values-files/values-production.yaml) file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy **depend mainly on the rate of commits** done by your team that Codacy will be analyzing.
 
 !!! important
     For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.

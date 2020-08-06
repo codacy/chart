@@ -1,11 +1,15 @@
 # Monitoring
 
+<!---
+FIXME: Commented out to prevent issues while service monitors are not compatible with helm3
+
 Currently, we support two monitoring solutions:
 
 -   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
 The sections below provide details on how to set up each monitoring solution.
+--->
 
 ## Setting up monitoring using Crow
 
@@ -25,7 +29,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
     crow:
       config:
         passwordAuth:
-          password: <--- crow password --->
+          password: C0dacy123
     ```
 
 2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
@@ -37,10 +41,13 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
+                 --recreate-pods \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
+
+<!---
+FIXME: service dashboards are currently not compatible with helm3.
 
 ## Setting up monitoring using Grafana, Prometheus, and Loki
 
@@ -70,7 +77,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/re
 
 ### 2. Installing Loki
 
-Obtain the configuration file for Loki, [`values-loki.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
+Obtain the configuration file for Loki, [`values-loki.yaml`](../values-files/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
 
 ```bash
 helm repo add loki https://grafana.github.io/loki/charts
@@ -82,7 +89,7 @@ helm upgrade --install --atomic loki loki/loki --version 0.17.0 \
 
 Promtail is an agent that ships the contents of local logs to a Loki instance.
 
-Obtain the configuration file for Promtail, [`values-promtail.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-promtail.yaml), and install it by running the command below.
+Obtain the configuration file for Promtail, [`values-promtail.yaml`](../values-files/values-promtail.yaml), and install it by running the command below.
 
 ```bash
 helm upgrade --install --atomic promtail loki/promtail --version 0.13.0 \
@@ -91,7 +98,7 @@ helm upgrade --install --atomic promtail loki/promtail --version 0.13.0 \
 
 ### 4. Installing Prometheus and Grafana
 
-Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-prometheus-operator.yaml). Then:
+Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](../values-files/values-prometheus-operator.yaml). Then:
 
 1.  Edit the Grafana password for the `admin` user in the `values-prometheus-operator.yaml` file.
 
@@ -131,3 +138,4 @@ Now that you have Prometheus and Grafana installed you can enable `serviceMonito
     helm upgrade (...options used to install Codacy...) \
                  --values values-monitoring.yaml --recreate-pods
     ```
+--->
