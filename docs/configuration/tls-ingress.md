@@ -31,7 +31,7 @@ Install and set up cert-manager to issue certificates from Let's Encrypt:
     kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.1/cert-manager-legacy.crds.yaml
     ```
 
-3.  Download the certificate issuer configuration file [`issuer-letsencrypt.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/issuer-letsencrypt.yaml), edit the file to set your email address where indicated, and execute:
+3.  Download the certificate issuer configuration file [`issuer-letsencrypt.yaml`](../values-files/issuer-letsencrypt.yaml), edit the file to set your email address where indicated, and execute:
 
     ```bash
     kubectl apply --namespace codacy -f issuer-letsencrypt.yaml
@@ -39,7 +39,7 @@ Install and set up cert-manager to issue certificates from Let's Encrypt:
 
 4.  Finally, install the certificate manager.
 
-    Download the cert-manager configuration file [`values-cert-manager.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-cert-manager.yaml), and execute:
+    Download the cert-manager configuration file [`values-cert-manager.yaml`](../values-files/values-cert-manager.yaml), and execute:
 
     ```bash
     helm upgrade --install --version v0.15.1 codacy-cert-manager jetstack/cert-manager \
@@ -51,7 +51,7 @@ Install and set up cert-manager to issue certificates from Let's Encrypt:
 
 Set up Ingress to use TLS:
 
-1.  Uncomment the TLS section in the `codacy-ingress` section of your [`values-prodcution.yaml`](https://raw.githubusercontent.com/codacy/chart/master/codacy/values-production.yaml) file.
+1.  Uncomment the TLS section in the `codacy-ingress` section of your [`values-prodcution.yaml`](../values-files/values-production.yaml) file.
 
 2.  Apply the new configuration by performing a Helm upgrade, using the same options you have previously used to install Codacy.
 

@@ -12,7 +12,7 @@ If the information provided on this page is not enough to solve your issue, cont
 
 The following sections help you troubleshoot the integration of Codacy with your Git provider.
 
-### GitHub Cloud and GitHub Enterprise authentication {id="github"}
+### GitHub Cloud and GitHub Enterprise authentication {: id="github"}
 
 #### 404 error
 
@@ -32,7 +32,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitHub error page (for example, `Iv1.0000000000000000`)
 2.  Check if the value of the parameter matches the value of the Client ID of your GitHub App
 
-### GitLab Cloud and GitLab Enterprise authentication {id="gitlab"}
+### GitLab Cloud and GitLab Enterprise authentication {: id="gitlab"}
 
 #### Invalid redirect URI
 
@@ -72,7 +72,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitLab error page (for example, `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
 2.  Check if the value of the parameter matches the value of the Application ID of your GitLab application
 
-### Bitbucket Cloud authentication {id="bitbucket-cloud"}
+### Bitbucket Cloud authentication {: id="bitbucket-cloud"}
 
 #### Invalid client_id
 
@@ -96,7 +96,7 @@ If the error persists:
 
 The following sections help you troubleshoot the Codacy configuration.
 
-### Lost or changed database secrets {id="db-secrets"}
+### Lost or changed database secrets {: id="db-secrets"}
 
 When you open the Codacy UI, an error message states that the secret used to encrypt sensitive data on the database and the one in your configuration file are different.
 
@@ -122,6 +122,7 @@ To solve this issue:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --recreate-pods \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

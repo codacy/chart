@@ -28,14 +28,3 @@
 
 ## addon values files and dev requirements
 requirements-dev.yaml
-values-cert-manager.yaml
-values-loki.yaml
-values-microk8s.yaml
-values-nginx.yaml
-values-prometheus-operator.yaml
-values-promtail.yaml
-values-tls-ingress-aws.yaml
-
-
-## kubernetes templates
-issuer-letsencrypt.yaml
