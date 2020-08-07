@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html>
+
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Redirecting</title>
-  <script>
-    (function () {
-        var newPath = "latest/";
-        var hash = window.location.hash.substring(1);
-        if (hash) {
-          window.location.replace(newPath + "#" + hash);
-        } else {
-          window.location.replace(newPath)
-        }
-    })();
-  </script>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <link rel="canonical" href="https://docs.codacy.com/chart/">
+    <meta name="robots" content="noindex">
+    <script>var anchor=window.location.hash.substr(1);location.href="https://docs.codacy.com/chart/"+(anchor?"#"+anchor:"")</script>
+    <meta http-equiv="refresh" content="0; url=https://docs.codacy.com/chart/">
 </head>
 <body>
+Redirecting...
 </body>
 </html>
