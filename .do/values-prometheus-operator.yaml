@@ -1,4 +1,3 @@
-
 defaultRules:
   create: false # disable the default alertmanager rules that monitor the cluster
 

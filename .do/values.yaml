@@ -197,7 +197,7 @@ rabbitmq-ha:
               Insufficient Rabbitmq Nodes - {{ "{{ $value }}" }}
         - alert: Rabbitmq Down
           expr: |
-            kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}"} == 0
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} == 0
           for: 5m
           labels:
             severity: error

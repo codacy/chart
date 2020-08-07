@@ -128,13 +128,15 @@ deploy_monitoring: set_cluster_context
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
 	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
 
-	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED_DEV#g;" values-prometheus-operator.yaml
+	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED#g;" values-prometheus-operator.yaml
 	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
 
 	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
 	  --version 9.3.1 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
-	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
+	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}' \
+	  --set alertmanager.ingress.hosts='{alerts.k8s.dev.codacy.org}' \
+	  --set prometheus.ingress.hosts='{prometheus.k8s.dev.codacy.org}'
 
 	kubectl rollout restart deployment -n monitoring $(shell kubectl get deployments -n monitoring -o jsonpath='{.items[*].metadata.name}')
 	kubectl rollout restart statefulset -n monitoring $(shell kubectl get statefulsets -n monitoring -o jsonpath='{.items[*].metadata.name}')
