@@ -96,18 +96,24 @@ If the error persists:
 
 The following sections help you troubleshoot the Codacy configuration.
 
-### Rabbitmq access
+### Accessing the RabbitMQ dashboard
 
-We use `rabbitmq` for the internal message queue between our components.
+We use RabbitMQ for the internal message queue between our components.
 
-Should you need to access the `rabbitmq` dashboard, you need to do the following steps:
+If you need to access the RabbitMQ dashboard:
 
-1.  Create a `port-forward` from the rabbitmq pod to you local machine with:
+1.  Create a `port-forward` from the `rabbitmq` pod to your local machine, replacing `<namespace>` with the namespace in which Codacy was installed:
 
     ```bash
-    kubectl port-forward codacy-rabbitmq-ha-0 15672:15672 --namespace=$NAMESPACE
+    kubectl port-forward codacy-rabbitmq-ha-0 15672:15672 --namespace=<namespace>
     ```
 
-    Please note that you must provide the correct namespace.
+    !!! important
+        **If you are using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
 
-2.  Access the web ui through `localhost:15672`, logging in with the set `rabbitmq` credentials. See [README.md](https://github.com/codacy/chart/blob/master/README.md) for default values for these credentials.
+2.  Access the RabbitMQ dashboard on the address `localhost:15672`, and log in with the configured RabbitMQ credentials.
+
+    The default RabbitMQ credentials are the following:
+
+    -   **Username:** `rabbitmq-codacy`
+    -   **Password:** `rabbitmq-codacy`
