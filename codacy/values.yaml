@@ -34,7 +34,7 @@ global:
 
   workers:
     config:
-      imageVersion: stable
+      imageVersion: 7.8.1
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
@@ -268,10 +268,10 @@ codacy-ingress:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: "true"
     extraPaths:
-      - backend:
-          serviceName: codacy-crow
-          servicePort: http
-        path: /monitoring
+    - backend:
+        serviceName: codacy-crow
+        servicePort: http
+      path: /monitoring
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
