@@ -5,9 +5,9 @@ dependencies:
   condition: global.minio.create
   alias: minio
 
-- name: rabbitmq-ha
-  version: 1.44.3
-  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: rabbitmq
+  version: 7.5.7
+  repository: https://charts.bitnami.com/bitnami
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 

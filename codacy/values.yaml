@@ -34,6 +34,7 @@ global:
 
   workers:
     config:
+      imageVersion: stable
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
@@ -142,8 +143,8 @@ global:
 
   rabbitmq:
     create: true
-    rabbitmqUsername: rabbitmq
-    rabbitmqPassword: rabbitmq
+    rabbitmqUsername: rabbitmq-codacy
+    rabbitmqPassword: rabbitmq-codacy
     rabbitmqvHost: "/"
     host: codacy-rabbitmq-ha
     port: 5672
@@ -299,11 +300,19 @@ crow:
 rabbitmq-ha:
   rabbitmqErlangCookie: "PLEASE_CHANGE_ME_TO_A_RANDOM_STR" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
   fullnameOverride: codacy-rabbitmq-ha
-  rabbitmqUsername: "rabbitmq"
-  rabbitmqPassword: "rabbitmq"
+  auth:
+    username: "rabbitmq-codacy"
+    password: "rabbitmq-codacy"
   prometheus:
     operator:
       enabled: false
+  podManagementPolicy: Parallel
+  forceBoot: true # Allows a graceful recovery from 'Waiting for Mnesia tables' in case all rabbitmq pods restart.
+  loadDefinition: # Loads rabbitmq-secret.yaml to ensure that all queues are created upon rabbitmq restart.
+    enabled: true
+    existingSecret: rabbitmq-load-definition
+  extraConfiguration: |
+    management.load_definitions = /app/load_definition.json
 
 postgres:
   fullnameOverride: codacy-postgres
@@ -361,8 +370,4 @@ minio:
   defaultBucket:
     enabled: false
 
-worker-manager:
-  config:
-    codacy:
-      worker:
-        imageVersion: stable
+

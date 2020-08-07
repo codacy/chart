@@ -5,9 +5,9 @@ dependencies:
   condition: global.minio.create
   alias: minio
 
-- name: rabbitmq-ha
-  version: 1.44.3
-  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: rabbitmq
+  version: 7.5.7
+  repository: https://charts.bitnami.com/bitnami
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 
@@ -32,7 +32,7 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: ">=6.7.1-0"
+  version: ">=6.16.0-0"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/portal.git
   condition: portal.create
@@ -80,7 +80,7 @@ dependencies:
   condition: core.create
 
 - name: engine
-  version: ">=6.0.0-0"
+  version: ">=7.6.1-0"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create

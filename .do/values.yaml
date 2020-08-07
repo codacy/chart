@@ -41,6 +41,7 @@ global:
       analysis:
         maxFileSizeBytes: 150000
         # These values are in seconds
+        podDebugInfo: true
         pluginTimeout:
           min: 300
           max: 900
@@ -90,6 +91,7 @@ global:
       enabled: true
     grafana:
       enabled: true
+      label: "grafana_dashboard"
 
 codacy-ingress:
   create: true
@@ -174,3 +176,32 @@ crow:
         context: "/monitoring"
     passwordAuth: {}
   crowdb: {}
+
+rabbitmq-ha:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: Rabbitmq Unavailable
+          expr: |
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} < kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}"}
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Insufficient Rabbitmq Nodes
+            description: |
+              Insufficient Rabbitmq Nodes - {{ "{{ $value }}" }}
+        - alert: Rabbitmq Down
+          expr: |
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} == 0
+          for: 5m
+          labels:
+            severity: error
+          annotations:
+            summary: Rabbitmq Down
+            description: |
+              No Rabbitmq Nodes
