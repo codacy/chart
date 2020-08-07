@@ -390,27 +390,6 @@ jobs:
           command: cat .version
       - <<: *persist_to_workspace
 
-  upload_docs:
-    docker:
-      - image: circleci/python:3.8
-    working_directory: ~/workdir/
-    steps:
-      - <<: *attach_workspace
-      - add_ssh_keys:
-          fingerprints:
-            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
-      - run:
-          name: setup git provider
-          command: |
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            git config --global user.name codacycircleci
-            git config --global user.email circleci@codacy.com
-      - run:
-          name: Set cluster
-          command: |
-            sudo pip install -r requirements.pip
-            mike deploy -u $(cat .version) latest -m "[ci skip] Updated documentation" -p
-
   get_changelogs:
     <<: *default_doks_image
     steps:
@@ -846,9 +825,6 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
-      - upload_docs:
-          requires:
-            - tag_version_latest
       - slack_notify_release:
           context: CodacyDO
           requires:
