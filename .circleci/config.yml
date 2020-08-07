@@ -460,7 +460,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.16/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -546,7 +546,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.13/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -560,7 +560,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.14/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -574,7 +574,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.15/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -588,7 +588,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.16/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -602,7 +602,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.17/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -616,7 +616,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.18/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -669,7 +669,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.13/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -683,7 +683,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.14/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -697,7 +697,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.15/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -711,7 +711,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.16/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -725,7 +725,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.17/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -739,7 +739,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.18/stable"
           helm_version: "v3.2.1"
-          helm_timeout: 900
+          helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
