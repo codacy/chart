@@ -184,6 +184,7 @@ rabbitmq-ha:
       enabled: true
     prometheusRule:
       enabled: true
+      namespace: "monitoring"
       rules:
         - alert: Rabbitmq Unavailable
           expr: |
