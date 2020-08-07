@@ -44,6 +44,9 @@ Install Codacy on an existing cluster using our Helm chart:
 
     -   [Helm](https://helm.sh/docs/intro/install/) version 3.2
 
+        !!! warning
+            Helm 3.3 is not supported because there is a known incompatibility with the MinIO component used by Codacy.
+
 2.  Create a cluster namespace called `codacy` that will group all resources related to Codacy.
 
     ```bash
