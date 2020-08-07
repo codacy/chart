@@ -96,36 +96,6 @@ If the error persists:
 
 The following sections help you troubleshoot the Codacy configuration.
 
-### Lost or changed database secrets {id="db-secrets"}
-
-When you open the Codacy UI, an error message states that the secret used to encrypt sensitive data on the database and the one in your configuration file are different.
-
-To solve this issue:
-
-1.  Obtain the correct key from the Codacy logs by executing the following command, where `<namespace>` is the cluster namespace where Codacy is installed:
-
-    ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-secrets.sh) \
-        -n <namespace>
-    ```
-
-    You can also download the script [extract-codacy-secrets.sh](extract-codacy-secrets.sh) to run it manually.
-
-2.  Copy the value of the key and update your `values-production.yaml` file with this value.
-
-3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
-
-    !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
-
-        To do this, uncomment the last line before running the `helm upgrade` command below.
-
-    ```bash
-    helm upgrade (...options used to install Codacy...) \
-                 --values values-production.yaml \
-                 # --values values-microk8s.yaml
-    ```
-
 ### Rabbitmq access
 
 We use `rabbitmq` for the internal message queue between our components.
