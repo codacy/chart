@@ -92,4 +92,4 @@ codacy-spa:
   replicaCount: 1
   resources:
     limits:
-      memory: 384Mi
+      memory: 1000Mi
