@@ -31,9 +31,9 @@ Some of these repositories are private and accessible to Codacy engineers only.
 ![Helm Chart Structure](https://raw.githubusercontent.com/codacy/chart/master/docs/images/charts.png)
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
--   [Minio](https://github.com/helm/charts/tree/master/stable/minio)
+-   [MinIO](https://github.com/minio/charts/tree/master)
 -   [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
--   [Postgres](https://github.com/helm/charts/tree/master/stable/postgresql)
+-   [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql)
 -   [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
 -   Codacy/[Website](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
