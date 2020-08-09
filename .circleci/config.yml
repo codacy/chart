@@ -392,6 +392,25 @@ jobs:
           command: cat .version
       - <<: *persist_to_workspace
 
+  build_docs:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/workdir/
+    steps:
+      - <<: *attach_workspace
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: ssh keyscan
+          command: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: Build docs
+          command: |
+            sudo pip install -r requirements.pip
+            mkdocs build
+
   get_changelogs:
     <<: *default_doks_image
     steps:
@@ -467,6 +486,13 @@ workflows:
           <<: *helm_values
           requires:
             - helm_push_unstable
+
+  build_docs:
+    jobs:
+      - checkout
+      - build_docs:
+          requires:
+            - checkout
 
   deploy_chart_to_sandbox_cluster:
     jobs:
