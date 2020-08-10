@@ -61,6 +61,7 @@ references:
           size: 10Gi
       rabbitmq-ha:
         replicaCount: 1
+        ulimitNofiles: 32768
 
   qa_automation_image: &qa_automation_image
     docker:
