@@ -371,6 +371,7 @@ worker-manager:
       workerUser: "rabbitmq"
       workerPass: "rabbitmq"
     workers:
+      javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
       dedicatedMax: 5
       inactivityTimeout: 30
       analysis:
@@ -386,7 +387,9 @@ worker-manager:
 
     codacy:
       worker:
+        imageName: codacy/codacy-worker
         imageVersion: stable
+        iamRole: iamRole
 
     # The resources to assign to a worker pod
     workerResources:
