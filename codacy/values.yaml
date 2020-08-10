@@ -376,6 +376,7 @@ worker-manager:
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000
+        podDebugInfo: true
         pluginTimeout:
           min: 300
           max: 900
