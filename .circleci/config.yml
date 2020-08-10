@@ -542,20 +542,6 @@ workflows:
             - helm_lint
 
       - codacy/microk8s_install:
-          name: install_k8s-1.13_helm-3.2
-          helm_repo: "https://charts.codacy.com/unstable"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.13/stable"
-          helm_version: "v3.2.1"
-          helm_timeout: 1200
-          context: CodacyDocker
-          docker_username: $DOCKER_USER
-          docker_password: $DOCKER_PASS
-          <<: *helm_values
-          requires:
-            - helm_push_unstable
-
-      - codacy/microk8s_install:
           name: install_k8s-1.14_helm-3.2
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
@@ -632,7 +618,6 @@ workflows:
           source_charts_repo_url: "https://charts.codacy.com/unstable"
           target_charts_repo_url: "https://charts.codacy.com/nightly"
           requires:
-            - install_k8s-1.13_helm-3.2
             - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
@@ -663,20 +648,6 @@ workflows:
           context: CodacyDO
           requires:
             - create_release_cluster
-
-      - codacy/microk8s_install:
-          name: install_k8s-1.13_helm-3.2
-          helm_repo: "https://charts.codacy.com/incubator"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.13/stable"
-          helm_version: "v3.2.1"
-          helm_timeout: 1200
-          context: CodacyDocker
-          docker_username: $DOCKER_USER
-          docker_password: $DOCKER_PASS
-          <<: *helm_values
-          requires:
-            - helm_push_incubator
 
       - codacy/microk8s_install:
           name: install_k8s-1.14_helm-3.2
@@ -778,7 +749,6 @@ workflows:
             - test_e2e
             - test_api
             - test_apiv3
-            - install_k8s-1.13_helm-3.2
             - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
@@ -793,7 +763,6 @@ workflows:
             - test_e2e
             - test_api
             - test_apiv3
-            - install_k8s-1.13_helm-3.2
             - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
