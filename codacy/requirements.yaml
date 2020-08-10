@@ -80,8 +80,8 @@ dependencies:
   condition: core.create
 
 - name: engine
-  version: "7.6.2-fix4paulo.3.aa0130b30"
-  repository: https://charts.codacy.com/unstable
+  version: ">=6.3.0"
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create
 
