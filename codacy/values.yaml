@@ -373,6 +373,9 @@ worker-manager:
       analysis:
         # Ignore files with size bigger than this value during analysis
         maxFileSizeBytes: 150000
+        pluginTimeout:
+          min: 300
+          max: 900
       # Toleration and nodeSelector for worker/tool pods
       tolerations: []
       nodeSelector: {}
