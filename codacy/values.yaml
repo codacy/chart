@@ -98,6 +98,9 @@ global:
   #     # password: ""
   #     # port: 25
 
+  config:
+    inactivityTimeout: 30
+
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
 
