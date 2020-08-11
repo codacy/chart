@@ -77,7 +77,7 @@ The storage requirements recommended on the following table **depend mainly on t
 | ---------- | ---------------------------- | ----------------------- |
 | NFS        | Yes                          | **200 GB**              |
 | RabbitMQ   | Yes                          | **8 GB**                |
-| Minio      | Yes                          | **40 GB**               |
+| Minio      | Yes                          | **20 GB**               |
 | PostgreSQL | No (external DB recommended) | **500 GB+**             |
 
 ## PostgreSQL server setup

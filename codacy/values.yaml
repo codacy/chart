@@ -333,9 +333,6 @@ postgres:
 
 minio:
   fullnameOverride: codacy-minio
-  image:
-    # We require this version in order to use lifecycle policies
-    tag: RELEASE.2019-10-12T01-39-57Z
   persistence:
     size: 20Gi
   minioConfig:
