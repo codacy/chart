@@ -206,3 +206,8 @@ rabbitmq-ha:
             summary: Rabbitmq Down
             description: |
               No Rabbitmq Nodes
+
+minio:
+  persistence:
+    enabled: true
+    size: 40Gi
