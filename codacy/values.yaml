@@ -369,5 +369,3 @@ minio:
     purge: "false"
   defaultBucket:
     enabled: false
-
-
