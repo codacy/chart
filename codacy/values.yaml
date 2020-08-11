@@ -372,6 +372,7 @@ worker-manager:
       workerPass: "rabbitmq"
     workers:
       javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
+      genericMax: 2
       dedicatedMax: 5
       inactivityTimeout: 30
       analysis:
