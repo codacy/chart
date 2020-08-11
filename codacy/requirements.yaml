@@ -98,8 +98,8 @@ dependencies:
   condition: codacy-api.create
 
 - name: worker-manager
-  version: "10.0.0-fixconfigmapindentation.45.bc77657b"
-  repository: https://charts.codacy.com/unstable
+  version: ">=10.1.3"
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
   condition: worker-manager.create
 
