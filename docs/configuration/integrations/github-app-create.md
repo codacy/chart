@@ -15,7 +15,7 @@ To create the GitHub App:
     | GitHub App name                         | Codacy                                                  |
     | Homepage URL                            | `https://codacy.example.com`                            |
     | User authorization callback URL         | `https://codacy.example.com`                            |
-    | Webhook URL                             | `https://codacy.example.com/2.0/events/gh/organization` |
+    | Webhook URL                             | For GitHub Cloud:<br/>`https://codacy.example.com/2.0/events/gh/organization`<br/><br/>For GitHub Enterprise:<br/>`https://codacy.example.com/2.0/events/ghe/organization` |
     | **Repository permissions**              |                                                         |
     | Administration                          | Read & write                                            |
     | Checks                                  | Read & write                                            |
