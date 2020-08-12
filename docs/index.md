@@ -42,14 +42,7 @@ Install Codacy on an existing cluster using our Helm chart:
         !!! important
             **If you are using MicroK8s** you don't need to install kubectl because you will execute all `kubectl` commands as `microk8s.kubectl` commands instead. To simplify this, [check how to create an alias](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy) for `kubectl`.
 
-    -   [Helm](https://helm.sh/docs/intro/install/) version 3.2
-
-        !!! warning
-            Helm 3.3 is not supported because there is a known incompatibility with the MinIO chart currently used by Codacy.
-            
-            More specifically, **Helm versions compiled with Go 1.14 or later are not supported**. You can check the Go version that was used to compile Helm with `helm version`.
-            
-            This will be fixed in a future version of Codacy Self-hosted.
+    -   [Helm](https://helm.sh/docs/intro/install/) version >= 3.2
 
 2.  Create a cluster namespace called `codacy` that will group all resources related to Codacy.
 
