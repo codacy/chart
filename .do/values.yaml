@@ -184,11 +184,10 @@ rabbitmq-ha:
       enabled: true
     prometheusRule:
       enabled: true
-      namespace: "monitoring"
       rules:
         - alert: Rabbitmq Unavailable
           expr: |
-            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} < kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}"}
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"} < kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"}
           for: 15m
           labels:
             severity: warning
@@ -198,7 +197,7 @@ rabbitmq-ha:
               Insufficient Rabbitmq Nodes - {{ "{{ $value }}" }}
         - alert: Rabbitmq Down
           expr: |
-            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}"} == 0
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"} == 0
           for: 5m
           labels:
             severity: error
