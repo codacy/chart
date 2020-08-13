@@ -33,7 +33,7 @@ define call_helm_install
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
-	--set worker-manager.config.codacy.worker.image=${5} \
+	--set worker-manager.config.codacy.worker.imageVersion=${5} \
 	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
 
