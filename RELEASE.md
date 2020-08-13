@@ -38,7 +38,7 @@ Please make sure you have these tools installed before starting this process:
     make update_dependencies
     ```
 
-    This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
+    This will update the `requirements.lock` with the latest versions and freeze the `global.workerManager.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
 -   [ ] 6.  Commit
 
@@ -130,7 +130,7 @@ Please make sure you have these tools installed before starting this process:
     At this point it may be relevant to test a fresh installation of the release candidate as well as an upgraded installation.
 
     Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for the Solutions Engineers in the CircleCI workflow of your release branch.
-    
+
     After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
     If all is good give a public OK to the release.
