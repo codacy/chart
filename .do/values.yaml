@@ -34,17 +34,10 @@ global:
     protocol: "http"
     port: 7990
 
-  workers:
-    config:
-      dedicatedMax: 20
-      inactivityTimeout: 30
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        podDebugInfo: true
-        pluginTimeout:
-          min: 300
-          max: 900
+  workerManager:
+    workers:
+      config:
+        dedicatedMax: 20
 
   crow:
     config:

@@ -98,8 +98,13 @@ global:
   #     # password: ""
   #     # port: 25
 
-  config:
-    inactivityTimeout: 30
+  workerManager:
+    workers:
+      config:
+        imageVersion: stable
+        javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
+        inactivityTimeout: 30
+
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
@@ -358,51 +363,10 @@ minio:
 
 worker-manager:
   create: true
-  replicaCount: 1
   fullnameOverride: codacy-worker-manager
   config:
     play:
-      configFile: enterprise.conf
       logFile: logback.xml
     cloudAmqp:
-      workerUser: "rabbitmq"
-      workerPass: "rabbitmq"
-    workers:
-      javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
-      genericMax: 2
-      dedicatedMax: 5
-      inactivityTimeout: 30
-      analysis:
-        # Ignore files with size bigger than this value during analysis
-        maxFileSizeBytes: 150000
-        podDebugInfo: true
-        pluginTimeout:
-          min: 300
-          max: 900
-      # Toleration and nodeSelector for worker/tool pods
-      tolerations: []
-      nodeSelector: {}
-
-    codacy:
-      worker:
-        imageName: codacy/codacy-worker
-        imageVersion: stable
-        iamRole: iamRole
-
-    # The resources to assign to a worker pod
-    workerResources:
-      requests:
-        cpu: 1
-        memory: 1Gi
-      limits:
-        cpu: 1
-        memory: 2Gi
-
-    # The resources to assign to a tool pod
-    pluginResources:
-      requests:
-        cpu: 0.5
-        memory: 1000000000 # this value needs to be set in bytes
-      limits:
-        cpu: 1
-        memory: 3000000000 # this value needs to be set in bytes
+      workerUser: "rabbitmq-codacy"
+      workerPass: "rabbitmq-codacy"

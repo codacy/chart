@@ -16,6 +16,32 @@ global:
     uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
 
+  workerManager:
+    workers:
+      config:
+        dedicatedMax: 2
+        inactivityTimeout: 20
+        analysis:
+          maxFileSizeBytes: 150000
+          # These values are in seconds
+          pluginTimeout:
+            min: 300
+            max: 900
+        workerResources:
+          limits:
+            cpu: 1
+            memory: "3Gi"
+          requests:
+            cpu: 0.5
+            memory: "1Gi"
+        pluginResources:
+          limits:
+            cpu: 1
+            memory: 2000000000 # 2000Mb
+          requests:
+            cpu: 1
+            memory: 2000000000 # 2000Mb
+
 
   defaultdb:
     create: false
@@ -299,6 +325,7 @@ codacy-tools:
     requests:
       cpu: 0.5
       memory: 1Gi
+
 worker-manager:
   replicaCount: 2
   resources:
@@ -308,30 +335,6 @@ worker-manager:
     requests:
       cpu: 200m
       memory: 200Mi
-  config:
-    workers:
-      dedicatedMax: 2
-      inactivityTimeout: 20
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        pluginTimeout:
-          min: 300
-          max: 900
-    workerResources:
-      limits:
-        cpu: 1
-        memory: "3Gi"
-      requests:
-        cpu: 0.5
-        memory: "1Gi"
-    pluginResources:
-      limits:
-        cpu: 1
-        memory: 2000000000 # 2000Mb
-      requests:
-        cpu: 1
-        memory: 2000000000 # 2000Mb
 
 crow:
   replicaCount: 1
