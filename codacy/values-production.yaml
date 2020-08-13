@@ -99,6 +99,14 @@ global:
     host: <--- codacy-db-host --->
     service:
       port: <--- codacy-db-port --->
+  activitiesdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: activities # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
 
     # github:
     # enabled: "false"
@@ -228,14 +236,6 @@ activities:
     requests:
       cpu: 100m
       memory: 200Mi
-  activitiesdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: activities # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
 
 remote-provider-service:
   replicaCount: 2
