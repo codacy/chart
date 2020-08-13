@@ -19,13 +19,14 @@ Crow is installed alongside Codacy when the Helm chart is deployed to the cluste
 
 We highly recommend that you define a custom password for Crow, if you haven't already done it when installing Codacy:
 
-1.  Edit the value of `crow.config.passwordAuth.password` in the `values-production.yaml` file that you used to install Codacy:
+1.  Edit the value of `global.crow.config.passwordAuth.password` in the `values-production.yaml` file that you used to install Codacy:
 
     ```yaml
-    crow:
-      config:
-        passwordAuth:
-          password: C0dacy123
+    global:
+      crow:
+        config:
+          passwordAuth:
+            password: C0dacy123
     ```
 
 2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):

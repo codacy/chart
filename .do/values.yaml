@@ -34,17 +34,10 @@ global:
     protocol: "http"
     port: 7990
 
-  workers:
-    config:
-      dedicatedMax: 20
-      inactivityTimeout: 30
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        podDebugInfo: true
-        pluginTimeout:
-          min: 300
-          max: 900
+  workerManager:
+    workers:
+      config:
+        dedicatedMax: 20
 
   crow:
     config:
@@ -120,7 +113,6 @@ activities:
     initialDelaySeconds: 10
     periodSeconds: 5
     failureThreshold: 5
-  activitiesdb: {}
 
 remote-provider-service:
   replicaCount: 1
@@ -130,7 +122,6 @@ remote-provider-service:
 
 hotspots-api:
   replicaCount: 1
-  hotspotsdb: {}
 
 hotspots-worker:
   replicaCount: 1
@@ -174,8 +165,6 @@ crow:
     play:
       http:
         context: "/monitoring"
-    passwordAuth: {}
-  crowdb: {}
 
 rabbitmq-ha:
   metrics:
