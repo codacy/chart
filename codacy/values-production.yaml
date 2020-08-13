@@ -91,6 +91,14 @@ global:
     host: <--- codacy-db-host --->
     service:
       port: <--- codacy-db-port --->
+  hotspotsdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: hotspots # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
 
     # github:
     # enabled: "false"
@@ -247,14 +255,7 @@ hotspots-api:
     requests:
       cpu: 100m
       memory: 200Mi
-  hotspotsdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: hotspots # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
+
 hotspots-worker:
   replicaCount: 2
   resources:
