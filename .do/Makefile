@@ -34,7 +34,7 @@ define call_helm_install
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
 	--set global.workerManager.workers.config.imageVersion=${5} \
-	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
+	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
 
   $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT), $(NAMESPACE)))

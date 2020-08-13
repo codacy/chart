@@ -165,8 +165,6 @@ crow:
     play:
       http:
         context: "/monitoring"
-    passwordAuth: {}
-  crowdb: {}
 
 rabbitmq-ha:
   metrics:

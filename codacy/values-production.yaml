@@ -107,6 +107,15 @@ global:
     host: <--- codacy-db-host --->
     service:
       port: <--- codacy-db-port --->
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: <--- codacy-db-port --->
+    fullnameOverride: codacy-crowdb
 
     # github:
     # enabled: "false"
@@ -347,21 +356,10 @@ crow:
       cpu: 0.1
       memory: 100Mi
   fullnameOverride: codacy-crow
-  crowdb:
-    create: false
-    host: <--- codacy-db-host --->
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: crow # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    service:
-      port: <--- codacy-db-port --->
-    fullnameOverride: codacy-crowdb
   config:
     play:
       http:
         context: "/monitoring"
-    passwordAuth:
-      password: C0dacy123
 
 codacy-spa:
   replicaCount: 2
