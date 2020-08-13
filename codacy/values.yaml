@@ -367,6 +367,4 @@ worker-manager:
   config:
     play:
       logFile: logback.xml
-    cloudAmqp:
-      workerUser: "rabbitmq-codacy"
-      workerPass: "rabbitmq-codacy"
+    cloudAmqp: {} # This should be configured through global.rabbitmq.rabbitUsername and global.rabbitmq.rabbitPassword respectively
