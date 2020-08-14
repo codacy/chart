@@ -389,3 +389,6 @@ minio:
   persistence:
     enabled: true
     size: 20Gi
+  resources:
+    requests:
+      memory: 1.5Gi
