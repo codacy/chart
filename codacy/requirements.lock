@@ -43,10 +43,10 @@ dependencies:
   version: 7.9.0
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
-  version: 0.8.1
+  version: 0.9.0
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 16.10.2
+  version: 16.11.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.1.5
@@ -56,5 +56,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.17.1
-digest: sha256:306f08ebc10f2bb1b8a29238b20b3790d7bb6d5c4e31369b92b19e9a93996fd4
-generated: "2020-08-14T12:01:55.252321+01:00"
+digest: sha256:8859aca77b552ee2958d0b99e113b1fbf48d533c277a72ab00f528452211e4c2
+generated: "2020-08-14T16:22:53.599444+01:00"
