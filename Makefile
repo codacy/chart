@@ -1,3 +1,5 @@
+VERSION_NUMBER?=$(shell cat .version | grep -Eoh "^([0-9]+\.[0-9]+)" || echo "development")
+
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -8,10 +10,11 @@ setup_helm_repos:
 	helm repo add codacy-external https://charts.codacy.com/external
 	helm repo update
 
-.PHONY: update_worker_version
-update_worker_version:
+.PHONY: update_versions
+update_versions:
 	$(eval ENGINE_VERSION=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]'))
 	@echo ${ENGINE_VERSION}
+	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "v${VERSION_NUMBER}" -e
 	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "${ENGINE_VERSION}" -e
 
 .PHONY: helm_dep_up
@@ -20,4 +23,4 @@ helm_dep_up:
 	ls -l codacy/charts/
 
 .PHONY: update_dependencies
-update_dependencies: setup_helm_repos helm_dep_up update_worker_version
+update_dependencies: setup_helm_repos helm_dep_up update_versions
