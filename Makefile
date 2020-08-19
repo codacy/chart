@@ -1,4 +1,5 @@
-VERSION_NUMBER?=$(shell cat .version | grep -Eoh "^([0-9]+\.[0-9]+)" || echo "development")
+CODACY_VERSION_NUMBER?=$(shell cat .version || echo "development")
+DOCUMENTATION_VERSION_NUMBER?=$(shell cat .version | grep -Eoh "^([0-9]+\.[0-9]+)" || echo "development")
 
 .PHONY: setup_helm_repos
 setup_helm_repos:
@@ -14,7 +15,8 @@ setup_helm_repos:
 update_versions:
 	$(eval ENGINE_VERSION=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]'))
 	@echo ${ENGINE_VERSION}
-	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "v${VERSION_NUMBER}" -e
+	ytool -f "./codacy/values.yaml" -s global.codacy.version "v${CODACY_VERSION_NUMBER}" -e
+	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "v${DOCUMENTATION_VERSION_NUMBER}" -e
 	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "${ENGINE_VERSION}" -e
 
 .PHONY: helm_dep_up
