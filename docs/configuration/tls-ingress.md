@@ -56,5 +56,6 @@ Set up Ingress to use TLS:
 2.  Apply the new configuration by performing a Helm upgrade, using the same options you have previously used to install Codacy.
 
     ```bash
-    helm upgrade (...options used to install Codacy...)
+    helm upgrade (...options used to install Codacy...) \
+                 --version {{ version }} 
     ```
