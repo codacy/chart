@@ -10,7 +10,7 @@ helm dep build ./chart/codacy
 helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
 ```
 
-### Update
+### Upgrade
 
 ```bash
 (cd chart; sudo git fetch --all --prune --tags; sudo git reset --hard origin/<YOUR-BRANCH>;)
