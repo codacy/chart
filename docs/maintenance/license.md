@@ -19,6 +19,7 @@ Some changes to your Codacy plan require that you update your Codacy license wit
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --version {{ version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
