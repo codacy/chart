@@ -78,6 +78,7 @@ Install Codacy on an existing cluster using our Helm chart:
     helm repo update
     helm upgrade --install codacy codacy-stable/codacy \
                  --namespace codacy \
+                 --version {{ version }} \
                  --values values-production.yaml
                  # --values values-microk8s.yaml
     ```

@@ -10,6 +10,9 @@ theme:
         primary: 'indigo'
         accent: 'indigo'
 
+extra:
+  version: 1.3.0
+
 extra_css:
   - 'css/extra.css'
   - 'css/version-select.css'
@@ -25,6 +28,7 @@ copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
 # Plugins and extensions
 plugins:
   - search
+  - markdownextradata
 
 markdown_extensions:
   - admonition
