@@ -73,6 +73,7 @@ After creating the Bitbucket Server application link, you must configure it on C
     ```bash
     helm upgrade (...options used to install Codacy...) \
                  --recreate-pods \
+                 --version {{ version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
