@@ -24,7 +24,7 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Deciding to release a new version
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in #engineering in our slack (tag engineers) and get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release.
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel #team-engineering (tag @engineers) and get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release.
 
 -   [ ] 2.  Confirm with every squad if the release can go ahead.
 
@@ -115,7 +115,7 @@ The Release Manager must create a release candidate branch:
     Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
     ```bash
-    git tag '6.0.0-RC-<n>' && git push --tag
+    git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
     ```
 
 ## 3. Testing and stabilizing the release

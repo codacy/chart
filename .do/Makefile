@@ -9,15 +9,15 @@ SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 
 define rotate_pod
-  kubectl patch deployment $(strip $(1)) -n ${NAMESPACE} -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n ${NAMESPACE} --watch --timeout=10m &
+  kubectl patch deployment $(strip $(1)) -n $(2) -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
+  kubectl rollout status "deployment/$(strip $(1))" -n $(2) --watch --timeout=10m &
 endef
 
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=600s \
+	--timeout=900s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
@@ -33,16 +33,45 @@ define call_helm_install
 	--set global.codacy.backendUrl=${4} \
 	--set listener.nfsserverprovisioner.storageClass.name="${1}-listener-cache-class" \
 	--set global.features.cloneSubmodules=true \
-	--set worker-manager.config.codacy.worker.image=${5} \
-	--set crow.config.passwordAuth.password=$${CROW_PASSWORD} \
+	--set global.workerManager.workers.config.imageVersion=${5} \
+	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
 
-  $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT)))
+  $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT), $(NAMESPACE)))
+endef
+
+define call_helm_install_infrastructure
+	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
+	helm upgrade --install ${1} ${3} \
+	--atomic \
+	--timeout=600s \
+	-f ../codacy/values-production.yaml \
+	-f values.yaml \
+	--namespace ${2} \
+	--set codacy-ingress.create=false \
+	--set portal.create=false \
+	--set ragnaros.create=false \
+	--set activities.create=false \
+	--set remote-provider-service.create=false \
+	--set hotspots-api.create=false \
+	--set hotspots-worker.create=false \
+	--set listener.create=false \
+	--set core.create=false \
+	--set engine.create=false \
+	--set codacy-tools.create=false \
+	--set codacy-api.create=false \
+	--set worker-manager.create=false \
+	--set crow.create=false \
+	--set codacy-spa.create=false
 endef
 
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	$(MAKE) -C ../ setup_helm_repos
+
+.PHONY: helm_install_infrastructure
+helm_install_infrastructure:
+	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_local_dir
 helm_install_from_local_dir: update_ingress_values
@@ -59,6 +88,9 @@ update_dependencies:
 .PHONY: update_ingress_values
 update_ingress_values:
 	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+
+.PHONY: deploy_to_doks_infrastructure
+deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
 deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
@@ -91,16 +123,22 @@ deploy_monitoring: set_cluster_context
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki loki/loki \
-	  --version 0.28.1 --namespace monitoring --values ../codacy/values-loki.yaml
+	  --version 0.28.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 0.22.2 --namespace monitoring --values ../codacy/values-promtail.yaml
+	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
+
+	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED#g;" values-prometheus-operator.yaml
+	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
 
 	helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
-	  --version 8.13.8 --namespace monitoring --values ../codacy/values-prometheus-operator.yaml \
+	  --version 9.3.1 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
-	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}'
+	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}' \
+	  --set alertmanager.ingress.hosts='{alerts.k8s.dev.codacy.org}' \
+	  --set prometheus.ingress.hosts='{prometheus.k8s.dev.codacy.org}'
 
 	kubectl rollout restart deployment -n monitoring $(shell kubectl get deployments -n monitoring -o jsonpath='{.items[*].metadata.name}')
 	kubectl rollout restart statefulset -n monitoring $(shell kubectl get statefulsets -n monitoring -o jsonpath='{.items[*].metadata.name}')
 	kubectl rollout restart daemonset -n monitoring $(shell kubectl get daemonsets -n monitoring -o jsonpath='{.items[*].metadata.name}')
+

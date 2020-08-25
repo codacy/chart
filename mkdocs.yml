@@ -1,20 +1,22 @@
 # Project information
-site_name: Chart
-site_url: https://codacy.github.io/chart/
+site_name: chart
+site_url: https://docs.codacy.com/chart/
 
 # Configuration
 theme:
-  logo: 'images/codacy-logo.svg'
-  name: 'material'
-  palette:
-    primary: 'indigo'
-    accent: 'indigo'
+    logo: 'assets/images/codacy-logo.svg'
+    name: 'material'
+    palette:
+        primary: 'indigo'
+        accent: 'indigo'
+
+extra:
+  version: 2.0.0
 
 extra_css:
-  - 'stylesheets/extra.css'
+  - 'assets/stylesheets/extra.css'
 extra_javascript:
-  - 'javascripts/extra.js'
-
+  - 'assets/javascripts/extra.js'
 strict: true
 use_directory_urls: true
 
@@ -23,42 +25,45 @@ copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
 
 # Plugins and extensions
 plugins:
-- search
+  - search
+  - markdownextradata
 
 markdown_extensions:
-- admonition
-- codehilite
-- attr_list
-- pymdownx.inlinehilite
-- pymdownx.superfences
-- pymdownx.tasklist:
-    custom_checkbox: true
-- toc:
-    permalink: true
+  - admonition
+  - codehilite
+  - attr_list
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+        custom_checkbox: true
+  - toc:
+        permalink: true
 
 # Table of contents
 nav:
   - index.md
   - requirements.md
   - "Setting up Kubernetes":
-    - infrastructure/eks-quickstart.md
-    - infrastructure/microk8s-quickstart.md
+      - infrastructure/eks-quickstart.md
+      - infrastructure/microk8s-quickstart.md
   - "Configuring Codacy":
-    - "Integrations":
-      - configuration/integrations/github-cloud.md
-      - configuration/integrations/github-enterprise.md
-      - configuration/integrations/github-app-create.md
-      - configuration/integrations/gitlab-cloud.md
-      - configuration/integrations/gitlab-enterprise.md
-      - configuration/integrations/bitbucket-cloud.md
-      - configuration/integrations/bitbucket-server.md
-      - configuration/integrations/email.md
-    - configuration/monitoring.md
+      - "Integrations":
+          - configuration/integrations/github-cloud.md
+          - configuration/integrations/github-enterprise.md
+          - configuration/integrations/github-app-create.md
+          - configuration/integrations/gitlab-cloud.md
+          - configuration/integrations/gitlab-enterprise.md
+          - configuration/integrations/bitbucket-cloud.md
+          - configuration/integrations/bitbucket-server.md
+          - configuration/integrations/email.md
+      - configuration/tls-ingress.md
+      - configuration/monitoring.md
   - "Maintenance and operations":
-    - maintenance/upgrade.md
-    - maintenance/uninstall.md
-    - maintenance/database.md
+      - maintenance/license.md
+      - maintenance/upgrade.md
+      - maintenance/uninstall.md
+      - maintenance/database.md
   - "Troubleshooting":
-    - troubleshoot/troubleshoot.md
-    - troubleshoot/logs-collect.md
-    - troubleshoot/k8s-cheatsheet.md
+      - troubleshoot/troubleshoot.md
+      - troubleshoot/logs-collect.md
+      - troubleshoot/k8s-cheatsheet.md

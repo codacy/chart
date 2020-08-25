@@ -2,6 +2,11 @@
 
 Follow the instructions below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
 
+![codacy eks quicksart](images/codacy-chart-eks-quickstart.jpg)
+
+The image above is a non-exhaustive overview of what you can expect to have
+deployed in your AWS account by using this quickstart.
+
 ## 1. Prepare your environment
 
 Prepare your environment to set up the Amazon EKS cluster:
@@ -33,7 +38,7 @@ Prepare your environment to set up the Amazon EKS cluster:
     -   **backend**: Optional S3 bucket for storing the Terraform state and a DynamoDB table for state locking
     -   **main**: Amazon EKS cluster, including the setup of all network and node infrastructure to go from zero to a fully functional cluster
 
-    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](https://raw.githubusercontent.com/codacy/chart/master/docs/infrastructure/EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
+    You must have administration privileges on AWS to deploy (and eventually destroy) this infrastructure. The policy file [aws-terraform-minimum-admin-policy.json](./EKS/aws-terraform-minimum-admin-policy.json) lists the minimum privileges that are required.
 
 ## 2. Set up the Terraform state storage backend
 
@@ -88,13 +93,49 @@ Create a cluster that includes all the required network and node setup:
 3.  Set up the kubeconfig file that stores the information needed by `kubectl` to connect to the new cluster by default:
 
     ```bash
-    aws eks update-kubeconfig --name codacy-cluster
+    aws eks update-kubeconfig --name codacy-cluster --alias codacy-cluster
     ```
 
 4.  Get information about the pods in the cluster to test that the cluster was created and that `kubectl` can successfully connect to the cluster:
 
     ```bash
     kubectl get pods -A
+    ```
+
+## 4. Prepare to set up the Ingress Controller
+
+Prepare your infrastructure for the Ingress Controller setup, which is performed later during the installation process:
+
+1.  Make sure that your network resources are correctly tagged, and create the following required tags if they are missing:
+
+    | Resource Type    | Key = Value                                                                                   |
+    | ---------------- | --------------------------------------------------------------------------------------------- |
+    | VPC              | `kubernetes.io/cluster/codacy-cluster` = `shared`                                             |
+    | Subnet (public)  | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/elb` = `1`          |
+    | Subnet (private) | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/internal-elb` = `1` |
+
+    For more information refer to the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging).
+
+2.  Add the following chart repositories to Helm:
+
+    ```bash
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+    helm repo update
+    ```
+
+## 5. Install the NGINX Ingress Controller
+
+Install the NGINX Ingress Controller:
+
+1.  Download the configuration file [`values-nginx.yaml`](../values-files/values-nginx.yaml) for the NGINX Ingress Controller.
+
+    If you wish to use a private load balancer or restrict the IP range for the provisioned load balancer edit the file and enable the required annotation and/or the corresponding setting where indicated.
+
+2.  Install the NGINX Ingress Controller:
+
+    ```bash
+    kubectl create namespace codacy
+    helm upgrade --install --namespace codacy --version 1.39.0 codacy-nginx-ingress stable/nginx-ingress -f values-nginx.yaml
     ```
 
 ## Uninstalling the Amazon EKS cluster

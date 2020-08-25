@@ -40,3 +40,7 @@ terraform.tfvars*
 **/charts
 chart.iml
 site/
+
+# helm dependencies temporary folders
+codacy/charts
+codacy/tmpcharts

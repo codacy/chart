@@ -53,6 +53,15 @@ engine:
       cpu: 1
       memory: 2Gi
 
+codacy-tools:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+
 worker-manager:
   replicaCount: 1
   resources:
@@ -62,6 +71,7 @@ worker-manager:
     workerResources:
       limits:
         memory: "2Gi"
+
 crow:
   resources:
     limits:
@@ -79,4 +89,4 @@ codacy-spa:
   replicaCount: 1
   resources:
     limits:
-      memory: 128Mi
+      memory: 1000Mi

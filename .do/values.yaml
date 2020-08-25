@@ -34,14 +34,57 @@ global:
     protocol: "http"
     port: 7990
 
-  config:
+  workerManager:
     workers:
-      analysis:
-        maxFileSizeBytes: 150000
-        # These values are in seconds
-        pluginTimeout:
-          min: 300
-          max: 900
+      config:
+        dedicatedMax: 20
+
+  crow:
+    config:
+      passwordAuth:
+        enable: true
+        username: <--- crow-username --->
+        password: <--- crow-password --->
+
+  activitiesdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: activities # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  hotspotsdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: hotspots # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+  crowdb:
+    create: false
+    host: <--- codacy-db-host --->
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: crow # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    service:
+      port: <--- codacy-db-port --->
+  listenerdb:
+    create: false
+    postgresqlUsername: <--- codacy-db-username --->
+    postgresqlDatabase: listener # You need to create the DB manually
+    postgresqlPassword: <--- codacy-db-password --->
+    host: <--- codacy-db-host --->
+    service:
+      port: <--- codacy-db-port --->
+
+  metrics:
+    serviceMonitor:
+      enabled: true
+    grafana:
+      enabled: true
+      label: "grafana_dashboard"
 
 codacy-ingress:
   create: true
@@ -56,11 +99,7 @@ codacy-api:
   replicaCount: 2
   service:
     type: ClusterIP
-  metrics:
-    serviceMonitor:
-      enabled: false
-    grafana_dashboards:
-      enabled: true
+
 
 portal:
   replicaCount: 1
@@ -77,6 +116,9 @@ activities:
 
 remote-provider-service:
   replicaCount: 1
+  metrics:
+    serviceMonitor:
+      enabled: true
 
 hotspots-api:
   replicaCount: 1
@@ -96,9 +138,7 @@ listener:
     persistence:
       enabled: true
       size: 200Gi
-  grafana:
-    grafana_dashboards:
-      enabled: true
+  listenerdb: {}
 
 core:
   replicaCount: 1
@@ -107,28 +147,55 @@ engine:
   replicaCount: 1
   metrics:
     serviceMonitor:
-      enabled: false
+      enabled: true
+
+codacy-tools:
+  replicaCount: 1
 
 worker-manager:
   replicaCount: 1
-  config:
-    workers:
-      dedicatedMax: 20
-      inactivityTimeout: 30
-  grafana:
-    grafana_dashboards:
-      enabled: true
 
 fluentdoperator:
   enabled: true
+  expirationDays: 15
 
 crow:
   replicaCount: 1
-  fullnameOverride: codacy-crow
   config:
     play:
       http:
         context: "/monitoring"
-    passwordAuth:
-      password: "PLEASE_CHANGE_ME"
 
+rabbitmq-ha:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: Rabbitmq Unavailable
+          expr: |
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"} < kube_statefulset_status_replicas{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"}
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Insufficient Rabbitmq Nodes
+            description: |
+              Insufficient Rabbitmq Nodes - {{ "{{ $value }}" }}
+        - alert: Rabbitmq Down
+          expr: |
+            kube_statefulset_status_replicas_ready{statefulset="{{ template "rabbitmq.fullname" . }}",namespace="{{ .Release.Namespace }}"} == 0
+          for: 5m
+          labels:
+            severity: error
+          annotations:
+            summary: Rabbitmq Down
+            description: |
+              No Rabbitmq Nodes
+
+minio:
+  persistence:
+    enabled: true
+    size: 40Gi

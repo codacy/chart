@@ -12,7 +12,7 @@ If the information provided on this page is not enough to solve your issue, cont
 
 The following sections help you troubleshoot the integration of Codacy with your Git provider.
 
-### GitHub Cloud and GitHub Enterprise authentication {id="github"}
+### GitHub Cloud and GitHub Enterprise authentication {: id="github"}
 
 #### 404 error
 
@@ -32,7 +32,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitHub error page (for example, `Iv1.0000000000000000`)
 2.  Check if the value of the parameter matches the value of the Client ID of your GitHub App
 
-### GitLab Cloud and GitLab Enterprise authentication {id="gitlab"}
+### GitLab Cloud and GitLab Enterprise authentication {: id="gitlab"}
 
 #### Invalid redirect URI
 
@@ -72,7 +72,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the GitLab error page (for example, `cca35a2a1f9b9b516ac927d82947bd5149b0e57e922c9e5564ac092ea16a3ccd`)
 2.  Check if the value of the parameter matches the value of the Application ID of your GitLab application
 
-### Bitbucket Cloud authentication {id="bitbucket-cloud"}
+### Bitbucket Cloud authentication {: id="bitbucket-cloud"}
 
 #### Invalid client_id
 
@@ -96,33 +96,24 @@ If the error persists:
 
 The following sections help you troubleshoot the Codacy configuration.
 
-### Lost or changed database secrets {id="db-secrets"}
+### Accessing the RabbitMQ dashboard
 
-When you open the Codacy UI, an error message states that the secret used to encrypt sensitive data on the database and the one in your configuration file are different.
+We use RabbitMQ for the internal message queue between our components.
 
-To solve this issue:
+If you need to access the RabbitMQ dashboard:
 
-1.  Obtain the correct key from the Codacy logs by executing the following command, where `<namespace>` is the cluster namespace where Codacy is installed:
+1.  Create a `port-forward` from the `rabbitmq` pod to your local machine, replacing `<namespace>` with the namespace in which Codacy was installed:
 
     ```bash
-    bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/troubleshoot/extract-codacy-secrets.sh) \
-        -n <namespace>
+    kubectl port-forward codacy-rabbitmq-ha-0 15672:15672 --namespace=<namespace>
     ```
-
-    You can also download the script [extract-codacy-secrets.sh](extract-codacy-secrets.sh) to run it manually.
-
-2.  Copy the value of the key and update your `values-production.yaml` file with this value.
-
-3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
 
     !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        **If you are using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
 
-        To do this, uncomment the last line before running the `helm upgrade` command below.
+2.  Access the RabbitMQ dashboard on the address `localhost:15672`, and log in with the configured RabbitMQ credentials.
 
-    ```bash
-    helm upgrade (...options used to install Codacy...) \
-                 --recreate-pods
-                 --values values-production.yaml \
-                 # --values values-microk8s.yaml
-    ```
+    The default RabbitMQ credentials are the following:
+
+    -   **Username:** `rabbitmq-codacy`
+    -   **Password:** `rabbitmq-codacy`

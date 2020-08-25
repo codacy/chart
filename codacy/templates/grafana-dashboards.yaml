@@ -1,0 +1,23 @@
+{{/*This file is based on this: https://github.com/helm/charts/blob/master/stable/prometheus-operator/templates/grafana/configmap-dashboards.yaml*/}}
+
+{{- if .Values.global.metrics.grafana.enabled }}
+{{- $files := .Files.Glob "dashboards/*.json" }}
+{{- if $files }}
+apiVersion: v1
+kind: ConfigMapList
+items:
+  {{- range $path, $fileContents := $files }}
+  {{- $dashboardName := printf "%s" (regexReplaceAll "(^.*/)(.*)\\.json$" $path "${2}") | trunc 63 | trimSuffix "-" | trimSuffix "." | trimSuffix "_" }}
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: codacy-dashboard-{{ $dashboardName }}
+      labels:
+        {{- if $.Values.global.metrics.grafana.label }}
+        {{ $.Values.global.metrics.grafana.label }}: "1"
+        {{- end }}
+    data:
+      {{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
+{{- end }}
+{{- end }}
+{{- end }}
