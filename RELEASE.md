@@ -32,7 +32,11 @@ The next sections include detailed instructions on how to complete each step of 
 
     Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
-    We follow the [semver](https://semver.org/) specification.
+    We follow the [semver](https://semver.org/) specification so, given a version number MAJOR.MINOR.PATCH, increment the:
+
+    -   **MAJOR version** when you make changes that are incompatible with old values.yaml files or integrations
+    -   **MINOR version** when you add functionality in a backwards compatible manner
+    -   **PATCH version** when you make backwards compatible bug fixes
 
 ## 2. Preparing the release for testing
 
