@@ -38,7 +38,7 @@ Please make sure you have these tools installed before starting this process:
     make update_dependencies
     ```
 
-    This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
+    This will update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
 -   [ ] 6.  Commit
 
