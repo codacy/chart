@@ -15,8 +15,9 @@ setup_helm_repos:
 update_versions:
 	$(eval ENGINE_VERSION=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]'))
 	@echo ${ENGINE_VERSION}
-	ytool -f "./codacy/values.yaml" -s global.codacy.version "v${CODACY_VERSION_NUMBER}" -e
-	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.installation.version "v${DOCUMENTATION_VERSION_NUMBER}" -e
+	# Values used by codacy-api
+	ytool -f "./codacy/values.yaml" -s global.codacy.installation.version "v${CODACY_VERSION_NUMBER}" -e
+	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "v${DOCUMENTATION_VERSION_NUMBER}" -e
 	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "${ENGINE_VERSION}" -e
 
 .PHONY: helm_dep_up
