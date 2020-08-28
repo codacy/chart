@@ -52,7 +52,7 @@ dependencies:
 - name: remote-provider-service
   version: ">=8.6.0"
   repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/remote-provider-service.git
+  git: git@github.com:codacy/remote-provider-service.git
   condition: remote-provider-service.create
 
 - name: hotspots-api
