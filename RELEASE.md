@@ -104,7 +104,7 @@ The Release Manager must create a release candidate branch:
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
 
-    Your chart will be deployed to [the release environment described in this table](./README.md#development-installations)
+    Your chart will be deployed to [the release environment described in this table](README.md#development-installations)
 
     -   [ ] 7.1.  Cherry-pick fixes
 
@@ -132,21 +132,21 @@ The Release Manager must involve the QA team and relevant stakeholders in testin
 
 Then, the QA team and the stakeholders test the new release:
 
--   [ ] 1.  Validate that the features present in changelog generated during the circleci pipeline work according to the requirements.
+-   [ ] 1.  Validate that the features present in changelog generated during the CircleCI pipeline work according to the requirements.
 
--   [ ] 2.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests), case some tests fail involve QA and Eng team to help debug the problem.
+-   [ ] 2.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests). In case some tests fail involve QA and the Engineering team to help debug the problem.
 
--   [ ] 3.  Validate the Results from the Regression tests.
+-   [ ] 3.  Validate the results from the regression tests.
 
 -   [ ] 4.  Test the CLI, Client Side Tools, and Coverage Reporter
 
--   [ ] 5.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should,  raise bugs or concerns if any. give feedback with the identified bugs that are blocking the release with the stakeholders
+-   [ ] 5.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should, raise bugs or concerns if any. Give feedback with the identified bugs that are blocking the release with the stakeholders.
 
--   [ ] 6.  No known blockers bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
+-   [ ] 6.  No known blocker bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
 
 -   [ ] 7.  If necessary address different stakeholders and ask for help testing the new release.
 
--   [ ] 8.  Sync with solution engineers to do acceptance testing, a clean installation on this phase is recommended.
+-   [ ] 8.  Sync with solution engineers to do acceptance testing, a clean installation is recommended at this stage.
 
 -   [ ] 9.  If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
 
@@ -156,7 +156,7 @@ Then, the QA team and the stakeholders test the new release:
 
     Involve the QA stakeholders in the release process.
 
-    Remind them that this release candidate is available for testing in the [release environment](./README.md#Development).
+    Remind them that this release candidate is available for testing in the [release environment](README.md#Development).
 
     Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
 
@@ -164,7 +164,7 @@ Then, the QA team and the stakeholders test the new release:
 
     Involve the Solutions Engineers stakeholders in the release process.
 
-    Inform them that this release candidate is available for testing in the [release environment](./README.md#Development). At this point the Solutions Architects should:
+    Inform them that this release candidate is available for testing in the [release environment](README.md#Development). At this point the Solutions Architects should:
 
     -   [ ] 12.1.  Perform a fresh installation of the release candidate
 
