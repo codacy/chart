@@ -153,9 +153,11 @@ The following sections provide details on the role of each stakeholder while tes
 
 ### Approval by the Release Manager
 
-When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release branch.
+-   [ ] 1.  To patch the current release candidate with fixes for bugs identified during the testing stage, see the section [Patching a release](#patching-a-release).
 
-After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
+-   [ ] 2.  When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release branch.
+
+    After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
 ## 4. Launching the new release
 
@@ -171,7 +173,7 @@ Then, the Release Manager releases and announces the new version:
 
 The final version will be `6.0.0`.
 
-## Patch
+## Patching a release
 
 -   [ ] 1.  Checkout the correct branch on this project
 
@@ -183,8 +185,8 @@ The final version will be `6.0.0`.
 
     Update the `requirements.yaml` file to use the patched version of a given component.
 
-    If you need any changes that are already merged to the master branch, you can cherry-pick them as described on step 7.2 of the previous section.
+    If you need any changes that are already merged to the master branch, you can cherry-pick them as described on step 7.1 of the section [Preparing the release for testing](#2.-preparing-the-release-for-testing).
 
 -   [ ] 3.  Follow up with a normal release
 
-    Continue directly from the step 4 of the [Prepare a new release](#prepare-a-new-release) secion.
+    Continue directly from step 4 of the section [Preparing the release for testing](#2.-preparing-the-release-for-testing).
