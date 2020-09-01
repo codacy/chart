@@ -128,51 +128,42 @@ The Release Manager must create a release candidate branch:
 
 ## 3. Testing and stabilizing the release
 
-The Release Manager must involve the QA team and relevant stakeholders in testing the new release candidate.
+The Release Manager must involve the following stakeholders in testing the new release candidate available in the [release environment](README.md#Development):
 
-Then, the QA team and the stakeholders test the new release:
+-   Engineering teams
+-   QA team
+-   Solution Engineers
+-   Any other relevant stakeholders
 
--   [ ] 1.  Validate that the features present in changelog generated during the CircleCI pipeline work according to the requirements.
+The following sections provide details on the role of each stakeholder while testing and approving the release candidate.
 
--   [ ] 2.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests). In case some tests fail involve QA and the Engineering team to help debug the problem.
+### Approval by the Engineering teams together with the QA team
 
--   [ ] 3.  Validate the results from the regression tests.
+-   [ ] 1.  Validate that the features present in the changelog generated during the CircleCI pipeline work according to the requirements. Also test the CLI, Client Side Tools, and Coverage Reporter.
 
--   [ ] 4.  Test the CLI, Client Side Tools, and Coverage Reporter
+    Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionality the new features impacted to make sure everything is running as it should, and raise bugs or concerns if any.
 
--   [ ] 5.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionalities your feature impacted to make sure everything is running as it should, raise bugs or concerns if any. Give feedback with the identified bugs that are blocking the release with the stakeholders.
+    No known blocker bugs should be released, and ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation and give feedback with the identified bugs that are blocking the release to the other stakeholders.
 
--   [ ] 6.  No known blocker bugs should be released, ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation.
+-   [ ] 2.  Run the regression tests with our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/src/master/docs/getting-started.md#markdown-header-run-the-tests). If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
 
--   [ ] 7.  If necessary address different stakeholders and ask for help testing the new release.
+    Validate the results from the regression tests. In case some tests fail debug the problem.
 
--   [ ] 8.  Sync with solution engineers to do acceptance testing, a clean installation is recommended at this stage.
+-   [ ] 3.  Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
 
--   [ ] 9.  If you find any critical path that might have been affected, make sure you add/edit the tests in our [automation test suite](https://bitbucket.org/qamine/qa-automation-tests/).
+### Approval by the Solution Engineers
 
--   [ ] 10. Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
+-   [ ] 1.  Perform a fresh installation of the release candidate
 
--   [ ] 11. Approval by QA
+-   [ ] 2.  Perform an upgrade on an existing installation
 
-    Involve the QA stakeholders in the release process.
+-   [ ] 3.  Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
 
-    Remind them that this release candidate is available for testing in the [release environment](README.md#Development).
+### Approval by the Release Manager
 
-    Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for QA in the CircleCI workflow of your release branch.
+When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release branch.
 
--   [ ] 12. Approval by Solutions Engineers
-
-    Involve the Solutions Engineers stakeholders in the release process.
-
-    Inform them that this release candidate is available for testing in the [release environment](README.md#Development). At this point the Solutions Architects should:
-
-    -   [ ] 12.1.  Perform a fresh installation of the release candidate
-
-    -   [ ] 12.2.  Perform an upgrade on an existing installation
-
-    -   [ ] 12.3.  Should all of these stakeholders be happy, a go-ahead of the release should be given by clicking the Manual Approval step for the Solutions Engineers in the CircleCI workflow of your release branch.
-
-    After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
+After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
 ## 4. Launching the new release
 
