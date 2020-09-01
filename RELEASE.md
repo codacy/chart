@@ -108,23 +108,23 @@ The Release Manager must create a release candidate branch:
 
     -   [ ] 7.1.  Cherry-pick fixes
 
-    At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
+        At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
 
-    You can cherry-pick the required changes with:
+        You can cherry-pick the required changes with:
 
-    ```bash
-    git cherry-pick <commit-hash>
-    ```
+        ```bash
+        git cherry-pick <commit-hash>
+        ```
 
-    Ensure the cherry-pick commit is free from any conflicts.
+        Ensure the cherry-pick commit is free from any conflicts.
 
     -   [ ] 7.2.  Push new Release Candidate tag
 
-    Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
+        Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
-    ```bash
-    git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
-    ```
+        ```bash
+        git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
+        ```
 
 ## 3. Testing and stabilizing the release
 
