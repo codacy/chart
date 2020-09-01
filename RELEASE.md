@@ -50,12 +50,6 @@ The Release Manager must create a release candidate branch:
 
 -   [ ] 2.  Clone this project on master branch
 
-    **If you're releasing a patch version**, checkout the previous release branch that you will be patching. For example:
-
-    ```bash
-    git checkout 'release-6.0.1'
-    ```
-
 -   [ ] 3.  Create a new branch with the pattern `release-x.x.x`, where `x.x.x` is the new version number
 
     For example:
@@ -75,8 +69,6 @@ The Release Manager must create a release candidate branch:
     ```
 
     This will update the `requirements.lock` with the latest versions and freeze the `worker-manager.config.codacy.worker.image` version on `./codacy/values.yaml`.
-
-    **If you're releasing a patch version**, update the `requirements.yaml` file to use the patched version of a given component. If you need any changes that are already merged to the master branch, you should cherry-pick them as described in the step 7.1 below.
 
 -   [ ] 5.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
 
@@ -178,3 +170,21 @@ Then, the Release Manager releases and announces the new version:
 -   [ ] 3.  Inform all stakeholders the release is finished 
 
 The final version will be `6.0.0`.
+
+## Patch
+
+-   [ ] 1.  Checkout the correct branch on this project
+
+    ```bash
+    git checkout 'release-6.0.1'
+    ```
+
+-   [ ] 2.  Freeze a specific component
+
+    Update the `requirements.yaml` file to use the patched version of a given component.
+
+    If you need any changes that are already merged to the master branch, you can cherry-pick them as described on step 7.2 of the previous section.
+
+-   [ ] 3.  Follow up with a normal release
+
+    Continue directly from the step 4 of the [Prepare a new release](#prepare-a-new-release) secion.
