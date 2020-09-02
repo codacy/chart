@@ -96,7 +96,7 @@ The Release Manager must create a release candidate branch:
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
 
-    Your chart will be deployed to [the release environment described in this table](README.md#development-installations)
+    Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
     -   [ ] 7.1.  Cherry-pick fixes
 
@@ -120,20 +120,18 @@ The Release Manager must create a release candidate branch:
 
 ## 3. Testing and stabilizing the release
 
-The Release Manager must involve the following stakeholders in testing the new release candidate available in the [release environment](README.md#Development):
+The Release Manager must announce to the following stakeholders that the new release candidate is available on the [release environment](README.md#development-installations):
 
--   Engineering teams
 -   QA team
+-   Engineering teams
 -   Solution Engineers
 -   Any other relevant stakeholders
 
-The following sections provide details on the role of each stakeholder while testing and approving the release candidate.
+The Release Manager is also responsible for ensuring that each stakeholder tests and approves the release candidate. The following sections provide details on the role of each stakeholder and the Release Manager in this process:
 
-### Approval by the Engineering teams together with the QA team
+### Approval by the QA team
 
 -   [ ] 1.  Validate that the features present in the changelog generated during the CircleCI pipeline work according to the requirements. Also test the CLI, Client Side Tools, and Coverage Reporter.
-
-    Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionality the new features impacted to make sure everything is running as it should, and raise bugs or concerns if any.
 
     No known blocker bugs should be released, and ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation and give feedback with the identified bugs that are blocking the release to the other stakeholders.
 
@@ -142,6 +140,14 @@ The following sections provide details on the role of each stakeholder while tes
     Validate the results from the regression tests. In case some tests fail debug the problem.
 
 -   [ ] 3.  Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
+
+### Approval by the Engineering teams
+
+-   [ ] 1.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionality the new features impacted to make sure everything is running as it should, and raise bugs or concerns if any.
+
+    No known blocker bugs should be released, and ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation and give feedback with the identified bugs that are blocking the release to the other stakeholders.
+
+-   [ ] 2.  Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
 
 ### Approval by the Solution Engineers
 
@@ -153,11 +159,9 @@ The following sections provide details on the role of each stakeholder while tes
 
 ### Approval by the Release Manager
 
--   [ ] 1.  To patch the current release candidate with fixes for bugs identified during the testing stage, see the section [Patching a release](#patching-a-release).
+If there are fixes for bugs identified during the testing stage, you must [patch the current release candidate](#patching-a-release) and restart the testing and stabilization stage with the new release candidate version.
 
--   [ ] 2.  When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release branch.
-
-    After this Manual Approval on CircleCI the workflow will promote the RC to the [stable](https://charts.codacy.com/stable/api/charts) channel.
+When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release candidate branch. After this Manual Approval on CircleCI the workflow will promote the release candidate to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
 ## 4. Launching the new release
 
