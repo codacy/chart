@@ -56,7 +56,6 @@ define call_helm_install_infrastructure
 	--set hotspots-api.create=false \
 	--set hotspots-worker.create=false \
 	--set listener.create=false \
-	--set core.create=false \
 	--set engine.create=false \
 	--set codacy-tools.create=false \
 	--set codacy-api.create=false \

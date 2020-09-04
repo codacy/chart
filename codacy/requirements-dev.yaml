@@ -73,12 +73,6 @@ dependencies:
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
-- name: core
-  version: ">=3.0.0-0"
-  repository: https://charts.codacy.com/unstable
-  git: git@bitbucket.org:qamine/codacy-core.git
-  condition: core.create
-
 - name: engine
   version: ">=7.6.1-0"
   repository: https://charts.codacy.com/unstable
