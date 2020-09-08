@@ -92,7 +92,6 @@ Install Codacy on an existing cluster using our Helm chart:
     codacy-activitiesdb-0                           1/1     Running   0          8m57s
     codacy-api-f7897b965-fgn67                      1/1     Running   0          8m57s
     codacy-api-f7897b965-kkqsx                      1/1     Running   0          8m57s
-    codacy-core-7bcf697968-85tl6                    1/1     Running   0          8m57s
     codacy-crow-7c957d45f6-b8zp2                    1/1     Running   2          8m57s
     codacy-crowdb-0                                 1/1     Running   0          8m57s
     codacy-engine-549bcb69d9-cgrqf                  1/1     Running   1          8m57s

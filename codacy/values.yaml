@@ -21,8 +21,6 @@ global:
       port: 80
     activities:
       url: "codacy-activities"
-    core:
-      url: "codacy-core"
     remoteProviderService:
       url: "codacy-remote-provider-service"
       port: 80
