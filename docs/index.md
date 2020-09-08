@@ -133,8 +133,6 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Creating an initial organization
     -   Inviting users to Codacy
 
-4.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
-
-5.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
+4.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
 
 If you run into any issues while configuring Codacy, be sure to [check our troubleshooting guide](troubleshoot/troubleshoot.md) for more help.
