@@ -7,7 +7,7 @@ WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 1.36.3
 # variables
-K8S_VERSION ?= 1.15
+K8S_VERSION ?= 1.17
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-8vcpu-32gb
 NODES_MIN ?= 7
