@@ -13,6 +13,6 @@ terraform {
 # note: make sure you set and export the DIGITALOCEAN_TOKEN environment variable,
 # which holds your user token
 provider "digitalocean" {
-  version = "~> 1.4"
+  version = "~> 1.22.2"
   token = var.digital_ocean_token
 }
