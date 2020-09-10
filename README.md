@@ -210,6 +210,7 @@ The following parameters are specific to each Codacy component.
 | `listener.nfsserverprovisioner.enabled`             | Creates an NFS server and a storage class to mount volumes in that server.                          | `true`                                       |
 | `listener.nfsserverprovisioner.persistence.enabled` | Creates an NFS provisioner                                                                          | `true`                                       |
 | `listener.nfsserverprovisioner.persistence.size`    | Size of the NFS server disk                                                                         | `120Gi`                                      |
+| `listener.cacheCleanup.olderThanDays`               | Data retention policy in days                                                                       | `30`                                         |
 | `engine.replicaCount`                               | Number of replicas                                                                                  | `1`                                          |
 | `engine.image.repository`                           | Image repository                                                                                    | from dependency                              |
 | `engine.image.tag`                                  | Image tag                                                                                           | from dependency                              |
