@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:1.6.6
+      - image: codacy/ci-do:1.8.2
     working_directory: ~/workdir/
 
   helm_values: &helm_values
