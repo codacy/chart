@@ -32,6 +32,6 @@ To upgrade Codacy to the latest stable version:
     ```bash
     helm upgrade codacy codacy-stable/codacy \
                  --namespace codacy \
-                 -- version {{ version }} \
+                 --version {{ version }} \
                  --values codacy.yaml
     ```
