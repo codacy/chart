@@ -281,11 +281,13 @@ fluentdoperator:
   rbac:
     create: true
   useReleaseNamespaceOnly: true
-  # Doesn't work:
-  # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
+
   fluentd:
     extraEnv:
+      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
       FLUENTD_SYSTEMD_CONF: disable
+      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-prometheus-input-plugins
+      #FLUENTD_PROMETHEUS_CONF: disable
 
 crow:
   create: true
