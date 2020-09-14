@@ -10,7 +10,7 @@ dependencies:
   version: 8.6.4
 - name: log-router
   repository: https://charts.codacy.com/external
-  version: 0.5.0
+  version: 0.6.3
 - name: codacy-ingress
   repository: https://charts.codacy.com/stable
   version: 0.8.0
@@ -43,7 +43,7 @@ dependencies:
   version: 0.10.9
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 16.28.0
+  version: 16.28.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.2.0
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.22.4
-digest: sha256:edb4089950ae08d6742c348a088d8669f705fbc87cb277482900352b4eb7404c
-generated: "2020-09-14T12:08:44.175926+01:00"
+digest: sha256:1044a00986f4b59ac3378ac2b7b1057c3d28ce83e143f41bca2a2f0529e3eed6
+generated: "2020-09-14T15:11:35.26631+01:00"
