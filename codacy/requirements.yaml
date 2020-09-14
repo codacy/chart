@@ -32,7 +32,7 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: ">=6.7.1"
+  version: ">=6.20.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
   condition: portal.create
@@ -50,7 +50,7 @@ dependencies:
   condition: activities.create
 
 - name: remote-provider-service
-  version: ">=8.6.0"
+  version: ">=8.25.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/remote-provider-service.git
   condition: remote-provider-service.create
@@ -68,13 +68,13 @@ dependencies:
   condition: hotspots-worker.create
 
 - name: listener
-  version: ">=7.11.0"
+  version: ">=7.21.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
 - name: engine
-  version: ">=6.3.0"
+  version: ">=7.16.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create
@@ -86,13 +86,13 @@ dependencies:
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: ">=9.2.0"
+  version: ">=16.28.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
   condition: codacy-api.create
 
 - name: worker-manager
-  version: ">=10.0.0"
+  version: ">=10.2.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/worker-manager.git
   condition: worker-manager.create
