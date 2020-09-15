@@ -37,7 +37,7 @@ dependencies:
   version: 7.21.0
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 7.16.0
+  version: 7.16.1
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
   version: 0.10.9
@@ -49,9 +49,9 @@ dependencies:
   version: 10.2.0
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 5.1.5
+  version: 5.1.6
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.22.4
-digest: sha256:1044a00986f4b59ac3378ac2b7b1057c3d28ce83e143f41bca2a2f0529e3eed6
-generated: "2020-09-14T15:11:35.26631+01:00"
+digest: sha256:981faaf9bb447514215e2b396d08b5cb232b0b0e2983a948332838994c8edcf4
+generated: "2020-09-15T09:48:05.342553+01:00"
