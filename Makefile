@@ -31,6 +31,7 @@ update_dependencies: setup_helm_repos helm_dep_up update_versions
 
 .PHONY: get_release_notes
 get_release_notes: setup_helm_repos helm_dep_up
+	git fetch --all --tags
 	git clone git@github.com:codacy/release-notes-tools.git
 	pip3 install -r release-notes-tools/requirements.pip --user
 	changelogs/getChangelogs.sh
