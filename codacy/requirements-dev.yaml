@@ -19,7 +19,7 @@ dependencies:
     global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
 
 - name: log-router
-  version: 0.5.0
+  version: 0.6.3
   repository: https://charts.codacy.com/external
   condition: fluentdoperator.enabled
   alias: fluentdoperator
@@ -52,7 +52,7 @@ dependencies:
 - name: remote-provider-service
   version: ">=8.6.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@bitbucket.org:qamine/remote-provider-service.git
+  git: git@github.com:codacy/remote-provider-service.git
   condition: remote-provider-service.create
 
 - name: hotspots-api
@@ -72,12 +72,6 @@ dependencies:
   repository: https://charts.codacy.com/unstable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
-
-- name: core
-  version: ">=3.0.0-0"
-  repository: https://charts.codacy.com/unstable
-  git: git@bitbucket.org:qamine/codacy-core.git
-  condition: core.create
 
 - name: engine
   version: ">=7.6.1-0"

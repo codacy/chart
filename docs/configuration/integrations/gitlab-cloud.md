@@ -25,6 +25,7 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
         -   `api`
         -   `read_user`
         -   `read_repository`
+        -   `openid`
 
     ![GitLab Cloud application](images/gitlab-cloud-application.png)
 
@@ -55,6 +56,7 @@ After creating the GitLab application, you must configure it on Codacy:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
+                 --version {{ version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

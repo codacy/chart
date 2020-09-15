@@ -140,9 +140,6 @@ listener:
       size: 200Gi
   listenerdb: {}
 
-core:
-  replicaCount: 1
-
 engine:
   replicaCount: 1
   metrics:

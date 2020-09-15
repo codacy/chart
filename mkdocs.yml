@@ -10,6 +10,9 @@ theme:
         primary: 'indigo'
         accent: 'indigo'
 
+extra:
+  version: 2.0.0
+
 extra_css:
   - 'assets/stylesheets/extra.css'
 extra_javascript:
@@ -23,6 +26,7 @@ copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
 # Plugins and extensions
 plugins:
   - search
+  - markdownextradata
 
 markdown_extensions:
   - admonition
@@ -53,7 +57,6 @@ nav:
           - configuration/integrations/bitbucket-cloud.md
           - configuration/integrations/bitbucket-server.md
           - configuration/integrations/email.md
-      - configuration/tls-ingress.md
       - configuration/monitoring.md
   - "Maintenance and operations":
       - maintenance/license.md

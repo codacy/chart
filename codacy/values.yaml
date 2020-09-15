@@ -21,8 +21,6 @@ global:
       port: 80
     activities:
       url: "codacy-activities"
-    core:
-      url: "codacy-core"
     remoteProviderService:
       url: "codacy-remote-provider-service"
       port: 80
@@ -31,6 +29,10 @@ global:
       port: 80
     # Trial license. Valid for 4 users until the end of 2020
     license: "RAjlCYb/DxsAME0TjIn55neFSYOt0yxxnXBh4nKe/hbz4mjr0dDs3TLOehzQ3QyaLfONRva7T2iSkA57bMdpI/ZwAOUQtjO5XiU1KDaSUXCFZwDu1mBJMlMONCVOV3AuB6y56tsL0CZXnBqZD3R9dShTVXiSYDt/+2dhlVqGb70="
+    installation:
+      version: development
+    documentation:
+      version: development
 
   # github:
   #   enabled: "false"
@@ -279,11 +281,13 @@ fluentdoperator:
   rbac:
     create: true
   useReleaseNamespaceOnly: true
-  # Doesn't work:
-  # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
+
   fluentd:
     extraEnv:
+      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
       FLUENTD_SYSTEMD_CONF: disable
+      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-prometheus-input-plugins
+      #FLUENTD_PROMETHEUS_CONF: disable
 
 crow:
   create: true

@@ -43,7 +43,6 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   Codacy/[Portal](https://bitbucket.org/qamine/portal/src/master/.helm/)
 -   Codacy/[Worker Manager](https://bitbucket.org/qamine/worker-manager/src/master/.helm/)
 -   Codacy/[Engine](https://bitbucket.org/qamine/codacy-worker/src/master/.helm/)
--   Codacy/[Core](https://bitbucket.org/qamine/codacy-core/src/master/.helm/)
 -   Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
 -   Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
 -   Codacy/[Remote Provider Service](https://bitbucket.org/qamine/remote-provider-service/src/master/.helm/)
@@ -211,10 +210,6 @@ The following parameters are specific to each Codacy component.
 | `listener.nfsserverprovisioner.enabled`             | Creates an NFS server and a storage class to mount volumes in that server.                          | `true`                                       |
 | `listener.nfsserverprovisioner.persistence.enabled` | Creates an NFS provisioner                                                                          | `true`                                       |
 | `listener.nfsserverprovisioner.persistence.size`    | Size of the NFS server disk                                                                         | `120Gi`                                      |
-| `core.replicaCount`                                 | Number of replicas                                                                                  | `1`                                          |
-| `core.image.repository`                             | Image repository                                                                                    | from dependency                              |
-| `core.image.tag`                                    | Image tag                                                                                           | from dependency                              |
-| `core.service.type`                                 | Service type                                                                                        | `ClusterIP`                                  |
 | `engine.replicaCount`                               | Number of replicas                                                                                  | `1`                                          |
 | `engine.image.repository`                           | Image repository                                                                                    | from dependency                              |
 | `engine.image.tag`                                  | Image tag                                                                                           | from dependency                              |

@@ -78,6 +78,7 @@ Install Codacy on an existing cluster using our Helm chart:
     helm repo update
     helm upgrade --install codacy codacy-stable/codacy \
                  --namespace codacy \
+                 --version {{ version }} \
                  --values values-production.yaml
                  # --values values-microk8s.yaml
     ```
@@ -91,7 +92,6 @@ Install Codacy on an existing cluster using our Helm chart:
     codacy-activitiesdb-0                           1/1     Running   0          8m57s
     codacy-api-f7897b965-fgn67                      1/1     Running   0          8m57s
     codacy-api-f7897b965-kkqsx                      1/1     Running   0          8m57s
-    codacy-core-7bcf697968-85tl6                    1/1     Running   0          8m57s
     codacy-crow-7c957d45f6-b8zp2                    1/1     Running   2          8m57s
     codacy-crowdb-0                                 1/1     Running   0          8m57s
     codacy-engine-549bcb69d9-cgrqf                  1/1     Running   1          8m57s
@@ -132,8 +132,6 @@ After successfully installing Codacy on your cluster, you are now ready to perfo
     -   Creating an initial organization
     -   Inviting users to Codacy
 
-4.  If you wish to set up HTTPS for Codacy follow our [configuration instructions](configuration/tls-ingress.md).
-
-5.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
+4.  As a last step we recommend that you [set up monitoring](configuration/monitoring.md) on your Codacy instance.
 
 If you run into any issues while configuring Codacy, be sure to [check our troubleshooting guide](troubleshoot/troubleshoot.md) for more help.
