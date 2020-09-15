@@ -40,7 +40,7 @@ do
 done
 
 cd release-notes-tools
-python3 jira-release-notes.py -u "Codacy Chart" -st "" -et ""  --no-changelogs
+python3 jira-release-notes.py -u "Self-hosted" -st "" -et "" --no-changelogs
 cd ..
 
 rm "$OLD_LOCK_FILE"
