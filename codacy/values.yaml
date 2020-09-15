@@ -103,7 +103,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: 7.16.0
+        imageVersion: 7.16.1
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
