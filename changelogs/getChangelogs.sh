@@ -30,7 +30,7 @@ do
     if [ "$start_tag" != "" ] && [ "$start_tag" != "$end_tag" ] && [ "$repository_url" != "null" ];
         then
             cd release-notes-tools
-            python3 jira-release-notes.py -u "$repository_url" -st "$start_tag" -et "$end_tag" --append-header --append-changelog
+            python3 jira-release-notes.py -u "$repository_url" -st "$start_tag" -et "$end_tag" --append-header --append-changelog --no-release-notes
             cd ..
         else
             [ "$repository_url" == "null" ] && echo "Skipped $dependency: has no repository url."
@@ -38,6 +38,10 @@ do
             [ "$start_tag" == "" ] && handleNewDependency "$dependency" "$repository_url" "$end_tag"
     fi
 done
+
+cd release-notes-tools
+python3 jira-release-notes.py -u "Codacy Chart" -st "" -et ""  --no-changelogs
+cd ..
 
 rm "$OLD_LOCK_FILE"
 mv "$CHANGELOG_FILE" ./changelog.md
