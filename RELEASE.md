@@ -70,7 +70,7 @@ The Release Manager must create a release candidate branch:
 
     This will update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
--   [ ] 5.  Commit the updated `docs/releasenotes.md`, `requirements.lock` and `./codacy/values.yaml` to the branch
+-   [ ] 5.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
 
     For example:
 
@@ -168,7 +168,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
     make get_release_notes
     ```
 
-    This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `release-notes-tools/releasenotes.md` and `release-notes-tools/missingreleasenotes.md`.
+    This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
     
 -   [ ] 2.  Manually curate the generated release notes output
 
