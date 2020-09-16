@@ -45,5 +45,5 @@ cd ..
 
 rm "$OLD_LOCK_FILE"
 mv "$CHANGELOG_FILE" ./changelog.md
-mv "$RELEASENOTES_FILE" ./docs/releasenotes.md
+mv "$RELEASENOTES_FILE" ./releasenotes.md
 mv "$MISSINGRELEASENOTES_FILE" ./missingreleasenotes.md
