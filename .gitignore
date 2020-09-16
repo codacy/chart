@@ -2,9 +2,7 @@
 # This supports shell glob matching, relative path matching, and
 # negation (prefixed with !). Only one pattern per line.
 .DS_Store
-changelogs
-.changelogs/gitchangelog.rc
-codacy/requirements_old.lock
+
 # Common VCS dirs
 .bzr/
 .bzrignore
@@ -44,3 +42,10 @@ site/
 # helm dependencies temporary folders
 codacy/charts
 codacy/tmpcharts
+
+# Release notes and changelogs automated generation
+release-notes-tools
+releasenotes.md
+missingreleasenotes.md
+changelog.md
+codacy/requirements_old.lock
