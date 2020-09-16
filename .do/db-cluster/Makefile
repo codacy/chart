@@ -26,7 +26,7 @@ setup_vars:
 	@echo "environment = \"$(ENVIRONMENT)\"" >> $(VARS_FILE)
 
 .PHONY: start_cluster
-start_cluster: initialize_terrafom terraform_logistics replace_db_values
+start_cluster: initialize_terrafom terraform_logistics save_outputs replace_db_values
 	echo "DB cluster(s) provisioned."
 
 .PHONY: destroy_cluster
@@ -41,6 +41,9 @@ initialize_terrafom: setup_vars create_terraformrc
 .PHONY: terraform_logistics
 terraform_logistics:
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+
+.PHONY: save_outputs
+save_outputs:
 	$(TF) output -json > terraform_outputs.json
 
 .PHONY: replace_db_values
@@ -49,7 +52,7 @@ replace_db_values:
 	$(eval port=$(shell cat terraform_outputs.json | jq -r '.db_cluster_port | .value'))
 	$(eval username=$(shell cat terraform_outputs.json | jq -r '.db_cluster_username | .value'))
 	$(eval password=$(shell cat terraform_outputs.json | jq -r '.db_cluster_password | .value'))
-
+	@echo "DB Host: ${host}"
 	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../../codacy/values-production.yaml
 	@sed -i "s/postgresqlDatabase: activities/postgresqlDatabase: \"activities?sslmode=require\"/g; s/postgresqlDatabase: hotspots/postgresqlDatabase: \"hotspots?sslmode=require\"/g; s/postgresqlDatabase: crow/postgresqlDatabase: \"crow?sslmode=require\"/g" ../../codacy/values-production.yaml
 	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../values.yaml
