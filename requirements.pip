@@ -1,4 +1,5 @@
 mkdocs==1.1.2
 mkdocs-material==5.5.3
 mkdocs-markdownextradata-plugin==0.1.7
+ruamel.yaml==0.15.97
 ytool==0.4.1
