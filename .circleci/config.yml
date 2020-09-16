@@ -408,7 +408,7 @@ jobs:
       - run:
           name: Build docs
           command: |
-            sudo pip install -r requirements.pip
+            pip3 install -r requirements.pip
             mkdocs build
 
   get_changelogs:
