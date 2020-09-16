@@ -55,7 +55,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git checkout -b 'release-6.0.0'
+    git checkout -b 'release-x.x.x'
     ```
 
 -   [ ] 4.  Update Dependencies
@@ -75,7 +75,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git commit -m 'release: prepare 6.0.0'
+    git commit -m 'release: prepare x.x.x'
     ```
 
 -   [ ] 6.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
@@ -83,7 +83,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git tag '6.0.0-RC-0'
+    git tag 'x.x.x-RC-1'
     ```
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
@@ -91,7 +91,7 @@ The Release Manager must create a release candidate branch:
 -   [ ] 7.  Push the commit
 
     ```bash
-    git push --tag && git push --set-upstream origin 'release-6.0.0'
+    git push --tag && git push --set-upstream origin 'release-x.x.x'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
@@ -115,7 +115,7 @@ The Release Manager must create a release candidate branch:
         Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
         ```bash
-        git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
+        git tag 'x.x.x-RC-<n>' && git push --tag origin 'x.x.x-RC-<n>' && git push --force-with-lease
         ```
 
 ## 3. Testing and stabilizing the release
@@ -175,7 +175,7 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 3.  Inform all stakeholders the release is finished 
 
-The final version will be `6.0.0`.
+The final version will be `x.x.x`.
 
 ## Patching a release
 
