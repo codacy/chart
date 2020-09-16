@@ -406,9 +406,13 @@ jobs:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
+          name: Install dependencies
+          command: |
+            apk add gcc python3-dev python2-dev musl-dev
+            pip3 install -r requirements.pip
+      - deploy:
           name: Build docs
           command: |
-            pip3 install -r requirements.pip
             mkdocs build
 
   get_changelogs:
