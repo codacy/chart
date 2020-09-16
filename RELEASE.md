@@ -172,7 +172,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
     
 -   [ ] 2.  Manually curate the generated release notes output
 
-    Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the releaste notes again to collect the most up-to-date information from Jira.
+    Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
 
 -   [ ] 3.  Generate the tool versions and updates for the new release by following the instructions on [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes).
 

@@ -394,7 +394,7 @@ jobs:
 
   build_docs:
     docker:
-      - image: codacy/ci-do:1.8.3
+      - image: circleci/python:3.8
     working_directory: ~/workdir/
     steps:
       - <<: *attach_workspace
@@ -406,13 +406,9 @@ jobs:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
-          name: Install dependencies
-          command: |
-            apk add gcc python3-dev python2-dev musl-dev
-            pip3 install -r requirements.pip
-      - deploy:
           name: Build docs
           command: |
+            sudo pip install -r requirements.pip
             mkdocs build
 
   get_changelogs:
