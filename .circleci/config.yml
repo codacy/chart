@@ -394,7 +394,7 @@ jobs:
 
   build_docs:
     docker:
-      - image: circleci/python:3.8
+      - image: codacy/ci-do:1.8.3
     working_directory: ~/workdir/
     steps:
       - <<: *attach_workspace
