@@ -199,6 +199,15 @@ references:
           command: make -C ./.do deploy_monitoring
       - <<: *persist_to_workspace
 
+  setup_db_values: &setup_db_values
+    steps:
+      - <<: *attach_workspace
+      - <<: *doctl_authenticate
+      - deploy:
+          name: "Setup DB values"
+          command: make -C ./.do/db-cluster initialize_terrafom save_outputs replace_db_values
+      - <<: *persist_to_workspace
+
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
     steps:
       - <<: *attach_workspace
@@ -293,17 +302,18 @@ jobs:
       <<: *dev_environment
     <<: *create_cluster
 
-  create_sandbox_cluster:
+  setup_sandbox_db_values:
     <<: *default_doks_image
     environment:
       <<: *sandbox_environment
-    <<: *create_cluster
+    <<: *setup_db_values
 
-  create_release_cluster:
+  setup_release_db_values:
     <<: *default_doks_image
     environment:
       <<: *release_environment
-    <<: *create_cluster
+    <<: *setup_db_values
+
 
   deploy_to_doks_dev:
     <<: *default_doks_image
@@ -411,32 +421,6 @@ jobs:
             sudo pip install -r requirements.pip
             mkdocs build
 
-  get_changelogs:
-    <<: *default_doks_image
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
-      - <<: *attach_workspace
-      - run:
-          name: "Install requirements"
-          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq
-      - run:
-          name: setup ssh
-          command: |
-            ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: "Get changelogs"
-          command: bash ./.circleci/getChangelogs.sh
-      - store_artifacts:
-          path: ~/workdir/changelogs
-      - run:
-          name: Stash changelog file url
-          command: |
-            curl -s "https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN}" | jq '.[] | .url' | sed 's/"//g' >> .changelog_url
-      - <<: *persist_to_workspace
-
   slack_notify_release:
     <<: *default_doks_image
     steps:
@@ -447,7 +431,6 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Changelog: $(cat .changelog_url)
 
 ############
 #  WORKFLOWS
@@ -507,14 +490,14 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
-      - create_sandbox_cluster:
+      - setup_sandbox_db_values:
           context: CodacyDO
           requires:
             - helm_lint
       - deploy_to_doks_sandbox:
           context: CodacyDO
           requires:
-            - create_sandbox_cluster
+            - setup_sandbox_db_values
 
   deploy_chart_to_dev_cluster:
     jobs:
@@ -561,10 +544,6 @@ workflows:
           requires:
             - set_chart_version_nightly
       - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - helm_lint
-      - get_changelogs:
           context: CodacyDO
           requires:
             - helm_lint
@@ -668,15 +647,14 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - create_release_cluster:
+      - setup_release_db_values:
           context: CodacyDO
           requires:
-            - helm_push_incubator
+            - helm_lint
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
-            - create_release_cluster
-
+            - setup_release_db_values
       - codacy/microk8s_install:
           name: install_k8s-1.14_helm-3.2
           helm_repo: "https://charts.codacy.com/incubator"
@@ -747,10 +725,6 @@ workflows:
           requires:
             - helm_push_incubator
 
-      - get_changelogs:
-          context: CodacyAWS
-          requires:
-            - deploy_to_doks_release
       - test_web:
           context: CodacyAWS
           requires:
@@ -772,7 +746,6 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - get_changelogs
             - test_web
             - test_e2e
             - test_api
@@ -786,7 +759,6 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - get_changelogs
             - test_web
             - test_e2e
             - test_api

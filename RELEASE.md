@@ -24,9 +24,9 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Deciding to release a new version
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel #team-engineering (tag @engineers) and get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release.
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers). Get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release and confirm if the release can go ahead.
 
--   [ ] 2.  Confirm with every squad if the release can go ahead.
+-   [ ] 2.  Inform all stakeholders outside the engineering team that a new release proccess is being started, in the Slack channel [#enterprise_releases](https://codacy.slack.com/channels/enterprise_releases) (tag @here).
 
 -   [ ] 3.  Decide the new version number.
 
@@ -55,7 +55,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git checkout -b 'release-6.0.0'
+    git checkout -b 'release-x.x.x'
     ```
 
 -   [ ] 4.  Update Dependencies
@@ -75,7 +75,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git commit -m 'release: prepare 6.0.0'
+    git commit -m 'release: prepare x.x.x'
     ```
 
 -   [ ] 6.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
@@ -83,7 +83,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git tag '6.0.0-RC-0'
+    git tag 'x.x.x-RC-1'
     ```
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
@@ -91,7 +91,7 @@ The Release Manager must create a release candidate branch:
 -   [ ] 7.  Push the commit
 
     ```bash
-    git push --tag && git push --set-upstream origin 'release-6.0.0'
+    git push --tag && git push --set-upstream origin 'release-x.x.x'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
@@ -115,7 +115,7 @@ The Release Manager must create a release candidate branch:
         Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
         ```bash
-        git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
+        git tag 'x.x.x-RC-<n>' && git push --tag origin 'x.x.x-RC-<n>' && git push --force-with-lease
         ```
 
 ## 3. Testing and stabilizing the release
@@ -125,6 +125,7 @@ The Release Manager must announce to the following stakeholders that the new rel
 -   QA team
 -   Engineering teams
 -   Solution Engineers
+-   Technical Writer
 -   Any other relevant stakeholders
 
 The Release Manager is also responsible for ensuring that each stakeholder tests and approves the release candidate. The following sections provide details on the role of each stakeholder and the Release Manager in this process:
@@ -156,6 +157,28 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 -   [ ] 2.  Perform an upgrade on an existing installation
 
 -   [ ] 3.  Inform the Release Manager on #enterprise-releases about the progress/findings of the testing on the release.
+
+### Approval by the Technical Writer
+
+-   [ ] 1.  Generate release notes
+
+    Run the makefile target `get_release_notes` to generate release notes.
+
+    ```bash
+    make get_release_notes
+    ```
+
+    This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
+
+-   [ ] 2.  Manually curate the generated release notes output
+
+    Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
+
+-   [ ] 3.  Generate the tool versions and updates for the new release by following the instructions on [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes).
+
+-   [ ] 4.  Review the release notes on a new pull request in codacy/docs
+
+    Copy the release notes file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted), add the tool version list, and make the final adjustments in a new pull request. Get all the necessary stakeholders involved in reviewing the release notes.
 
 ### Approval by the Release Manager
 
@@ -197,7 +220,7 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 3.  Inform all stakeholders that the release is finished
 
-The final version will be `6.0.0`.
+The final version will be `x.x.x`.
 
 ## Patching a release
 
