@@ -26,7 +26,7 @@ The next sections include detailed instructions on how to complete each step of 
 
 -   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers). Get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release and confirm if the release can go ahead.
 
--   [ ] 2.  Inform all stakeholders outside the engineering team that a new release proccess is being started, in the Slack channel [#enterprise-releases](https://codacy.slack.com/channels/enterprise-releases) (tag @here).
+-   [ ] 2.  Inform all stakeholders outside the engineering team that a new release proccess is being started, in the Slack channel [#enterprise_releases](https://codacy.slack.com/channels/enterprise_releases) (tag @here).
 
 -   [ ] 3.  Decide the new version number.
 
