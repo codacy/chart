@@ -175,24 +175,25 @@ Then, the Release Manager releases and announces the new version:
 
     **Note:** This process will be improved in [REL-51](https://codacy.atlassian.net/browse/REL-51)
 
-        1.  Go to the repository (or clone it)
-        2.  Checkout the version that was validated to work with the current release:
+    1.  Go to the repository (or clone it)
 
-             ```bash
-             git checkout y.y.y
-             ```
+    2.  Checkout the version that was validated to work with the current release:
 
-        3.  Tag the commit with the current release version prefixed with `self-hosted-`:
+         ```bash
+         git checkout y.y.y
+         ```
 
-             ```bash
-             git tag self-hosted-x.x.x
-             ```
+    3.  Tag the commit with the current release version prefixed with `self-hosted-`:
 
-        4.  Push the new tag:
+         ```bash
+         git tag self-hosted-x.x.x
+         ```
 
-             ```bash
-             git push --tag origin self-hosted-x.x.x
-             ```
+    4.  Push the new tag:
+
+         ```bash
+         git push --tag origin self-hosted-x.x.x
+         ```
 
 -   [ ] 3.  Inform all stakeholders that the release is finished
 
