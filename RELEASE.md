@@ -169,7 +169,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
     ```
 
     This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
-    
+
 -   [ ] 2.  Manually curate the generated release notes output
 
     Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
@@ -194,7 +194,29 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 1.  If all is good give a public OK to the release
 
--   [ ] 2.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
+-   [ ] 2.  Tag the CLI and Coverage Reporter with the version of the release being done.
+
+    **Note:** This process will be improved in [REL-51](https://codacy.atlassian.net/browse/REL-51)
+
+    1.  Go to the repository (or clone it)
+
+    2.  Checkout the version that was validated to work with the current release:
+
+         ```bash
+         git checkout y.y.y
+         ```
+
+    3.  Tag the commit with the current release version prefixed with `self-hosted-`:
+
+         ```bash
+         git tag self-hosted-x.x.x
+         ```
+
+    4.  Push the new tag:
+
+         ```bash
+         git push --tag origin self-hosted-x.x.x
+         ```
 
 -   [ ] 3.  Inform all stakeholders that the release is finished
 
