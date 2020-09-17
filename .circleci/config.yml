@@ -421,32 +421,6 @@ jobs:
             sudo pip install -r requirements.pip
             mkdocs build
 
-  get_changelogs:
-    <<: *default_doks_image
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
-      - <<: *attach_workspace
-      - run:
-          name: "Install requirements"
-          command: apk add sudo util-linux && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64" && chmod +x /usr/local/bin/yq
-      - run:
-          name: setup ssh
-          command: |
-            ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: "Get changelogs"
-          command: bash ./.circleci/getChangelogs.sh
-      - store_artifacts:
-          path: ~/workdir/changelogs
-      - run:
-          name: Stash changelog file url
-          command: |
-            curl -s "https://circleci.com/api/v1.1/project/github/codacy/chart/${CIRCLE_BUILD_NUM}/artifacts?circle-token=${CIRCLE_API_USER_TOKEN}" | jq '.[] | .url' | sed 's/"//g' >> .changelog_url
-      - <<: *persist_to_workspace
-
   slack_notify_release:
     <<: *default_doks_image
     steps:
@@ -457,7 +431,6 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
-            Changelog: $(cat .changelog_url)
 
 ############
 #  WORKFLOWS
@@ -571,10 +544,6 @@ workflows:
           requires:
             - set_chart_version_nightly
       - helm_push_unstable:
-          context: CodacyDO
-          requires:
-            - helm_lint
-      - get_changelogs:
           context: CodacyDO
           requires:
             - helm_lint
@@ -756,10 +725,6 @@ workflows:
           requires:
             - helm_push_incubator
 
-      - get_changelogs:
-          context: CodacyAWS
-          requires:
-            - deploy_to_doks_release
       - test_web:
           context: CodacyAWS
           requires:
@@ -781,7 +746,6 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - get_changelogs
             - test_web
             - test_e2e
             - test_api
@@ -795,7 +759,6 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - get_changelogs
             - test_web
             - test_e2e
             - test_api
