@@ -239,8 +239,8 @@ references:
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
 
       - deploy:
-          name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_local_dir
+          name: Install Codacy infrastructure
+          command: make -e -C .do/ update_ingress_values helm_install_infrastructure
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
