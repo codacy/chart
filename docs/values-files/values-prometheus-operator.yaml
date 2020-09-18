@@ -5,7 +5,12 @@ grafana:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
-  #  hosts: <--- grafana url --->
+      cert-manager.io/cluster-issuer: letsencrypt-codacy
+    tls:
+      hosts:
+        - host: <--- grafana url --->
+      secretName: grafana-ingress-tls-secret
+    hosts: <--- grafana url --->
   sidecar:
     dashboards:
       searchNamespace: ALL
