@@ -6,7 +6,7 @@ TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 2.16.0
-CERT_MANAGER_VERSION ?= v1.0.1
+CERT_MANAGER_VERSION ?= v0.16.1
 # variables
 K8S_VERSION ?= 1.17
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
@@ -69,13 +69,9 @@ install_certmanager:
 
 	# Fetch and patch issuer-letsencrypt.yaml Issuer
 	wget https://docs.codacy.com/chart/values-files/issuer-letsencrypt.yaml >/dev/null 2>&1
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-dev" -e
+	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "kube-system" -e
 	ytool -f "issuer-letsencrypt.yaml" -s spec.acme.email "reliability@codacy.com" -e
-	kubectl apply --namespace codacy-dev -f issuer-letsencrypt.yaml
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-sandbox" -e
-	kubectl apply --namespace codacy-sandbox -f issuer-letsencrypt.yaml
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-release" -e
-	kubectl apply --namespace codacy-release -f issuer-letsencrypt.yaml
+	kubectl apply --namespace kube-system -f issuer-letsencrypt.yaml
 
 	# Actually install cert-manager
 	wget https://docs.codacy.com/chart/values-files/values-cert-manager.yaml >/dev/null 2>&1
