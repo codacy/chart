@@ -6,7 +6,7 @@ TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 2.16.0
-CERT_MANAGER_VERSION ?= v0.16.1
+CERT_MANAGER_VERSION ?= v0.15.1
 # variables
 K8S_VERSION ?= 1.17
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
@@ -64,21 +64,21 @@ install_nginx:
 install_certmanager:
 	helm repo add jetstack https://charts.jetstack.io
 	helm repo update
+	# Actually install cert-manager
+	wget https://docs.codacy.com/chart/values-files/values-cert-manager.yaml >/dev/null 2>&1
+	ytool -f "values-cert-manager.yaml" -s global.leaderElection.namespace "kube-system" -e
+	helm upgrade --install --version ${CERT_MANAGER_VERSION} codacy-cert-manager jetstack/cert-manager \
+			--namespace kube-system \
+			--values values-cert-manager.yaml \
+			--set installCRDs=true
+
 	kubectl label namespace kube-system certmanager.k8s.io/disable-validation="true" --overwrite
-	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.1/cert-manager.crds.yaml
 
 	# Fetch and patch issuer-letsencrypt.yaml Issuer
 	wget https://docs.codacy.com/chart/values-files/issuer-letsencrypt.yaml >/dev/null 2>&1
 	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "kube-system" -e
 	ytool -f "issuer-letsencrypt.yaml" -s spec.acme.email "reliability@codacy.com" -e
 	kubectl apply --namespace kube-system -f issuer-letsencrypt.yaml
-
-	# Actually install cert-manager
-	wget https://docs.codacy.com/chart/values-files/values-cert-manager.yaml >/dev/null 2>&1
-	ytool -f "values-cert-manager.yaml" -s global.leaderElection.namespace "kube-system" -e
-	helm upgrade --install --version ${CERT_MANAGER_VERSION} codacy-cert-manager jetstack/cert-manager \
-			--namespace kube-system \
-			--values values-cert-manager.yaml
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context
