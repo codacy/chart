@@ -24,9 +24,9 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Deciding to release a new version
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel #team-engineering (tag @engineers) and get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release.
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers). Get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release and confirm if the release can go ahead.
 
--   [ ] 2.  Confirm with every squad if the release can go ahead.
+-   [ ] 2.  Inform all stakeholders outside the engineering team that a new release proccess is being started, in the Slack channel [#enterprise_releases](https://codacy.slack.com/channels/enterprise_releases) (tag @here).
 
 -   [ ] 3.  Decide the new version number.
 
@@ -55,7 +55,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git checkout -b 'release-6.0.0'
+    git checkout -b 'release-x.x.x'
     ```
 
 -   [ ] 4.  Update Dependencies
@@ -75,7 +75,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git commit -m 'release: prepare 6.0.0'
+    git commit -m 'release: prepare x.x.x'
     ```
 
 -   [ ] 6.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
@@ -83,7 +83,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git tag '6.0.0-RC-0'
+    git tag 'x.x.x-RC-1'
     ```
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
@@ -91,7 +91,7 @@ The Release Manager must create a release candidate branch:
 -   [ ] 7.  Push the commit
 
     ```bash
-    git push --tag && git push --set-upstream origin 'release-6.0.0'
+    git push --tag && git push --set-upstream origin 'release-x.x.x'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
@@ -115,7 +115,7 @@ The Release Manager must create a release candidate branch:
         Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
         ```bash
-        git tag '6.0.0-RC-<n>' && git push --tag && git push --force-with-lease
+        git tag 'x.x.x-RC-<n>' && git push --tag origin 'x.x.x-RC-<n>' && git push --force-with-lease
         ```
 
 ## 3. Testing and stabilizing the release
@@ -169,7 +169,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
     ```
 
     This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
-    
+
 -   [ ] 2.  Manually curate the generated release notes output
 
     Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
@@ -194,11 +194,33 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 1.  If all is good give a public OK to the release
 
--   [ ] 2.  Tag the CLI, Client Side Tools, and Coverage Reporter with the version of the release being done.
+-   [ ] 2.  Tag the CLI and Coverage Reporter with the version of the release being done.
 
--   [ ] 3.  Inform all stakeholders the release is finished 
+    **Note:** This process will be improved in [REL-51](https://codacy.atlassian.net/browse/REL-51)
 
-The final version will be `6.0.0`.
+    1.  Go to the repository (or clone it)
+
+    2.  Checkout the version that was validated to work with the current release:
+
+         ```bash
+         git checkout y.y.y
+         ```
+
+    3.  Tag the commit with the current release version prefixed with `self-hosted-`:
+
+         ```bash
+         git tag self-hosted-x.x.x
+         ```
+
+    4.  Push the new tag:
+
+         ```bash
+         git push --tag origin self-hosted-x.x.x
+         ```
+
+-   [ ] 3.  Inform all stakeholders that the release is finished
+
+The final version will be `x.x.x`.
 
 ## Patching a release
 
