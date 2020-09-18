@@ -9,7 +9,7 @@ grafana:
     tls:
       hosts:
         - host: <--- grafana url --->
-      secretName: grafana-ingress-tls-secret
+      - secretName: grafana-ingress-tls-secret
     hosts: <--- grafana url --->
   sidecar:
     dashboards:
