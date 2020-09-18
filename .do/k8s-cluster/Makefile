@@ -67,6 +67,7 @@ install_certmanager:
 	# Actually install cert-manager
 	wget https://docs.codacy.com/chart/values-files/values-cert-manager.yaml >/dev/null 2>&1
 	ytool -f "values-cert-manager.yaml" -s global.leaderElection.namespace "kube-system" -e
+	ytool -f "values-cert-manager.yaml" -s ingressShim.defaultIssuerKind "ClusterIssuer" -e
 	helm upgrade --install --version ${CERT_MANAGER_VERSION} codacy-cert-manager jetstack/cert-manager \
 			--namespace kube-system \
 			--values values-cert-manager.yaml \
@@ -77,12 +78,10 @@ install_certmanager:
 	# Fetch and patch issuer-letsencrypt.yaml Issuer
 	wget https://docs.codacy.com/chart/values-files/issuer-letsencrypt.yaml >/dev/null 2>&1
 	ytool -f "issuer-letsencrypt.yaml" -s spec.acme.email "reliability@codacy.com" -e
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-dev -e
-	kubectl apply --namespace codacy-dev -f issuer-letsencrypt.yaml
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-sandbox -e
-	kubectl apply --namespace codacy-sandbox -f issuer-letsencrypt.yaml
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "codacy-release -e
-	kubectl apply --namespace codacy-release -f issuer-letsencrypt.yaml
+	ytool -f "issuer-letsencrypt.yaml" -s metadata.name "letsencrypt-codacy" -e
+	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "kube-system" -e
+	ytool -f "issuer-letsencrypt.yaml" -s kind "ClusterIssuer" -e
+	kubectl apply --namespace kube-system -f issuer-letsencrypt.yaml
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context

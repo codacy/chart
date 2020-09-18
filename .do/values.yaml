@@ -108,7 +108,7 @@ codacy-ingress:
       hosts:
         - host: <codacy-app.dns.internal>
         - host: <codacy-api.dns.internal>
-      secretName: codacy-ingress-tls-secret
+      secretName: <environment>-ingress-tls-secret
 
 codacy-api:
   replicaCount: 2
