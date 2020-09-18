@@ -90,8 +90,8 @@ codacy-ingress:
   create: true
   ingress:
     hostname:
-      app: <codacy-app.dns.internal>
-      api: <codacy-api.dns.internal>
+      app: dev.k8s.dev.codacy.org
+      api: dev.k8s.dev.codacy.org
     spa:
       serviceName: codacy-spa # this will be moved to the ingress default configs when the spa is released
     annotations:
@@ -99,7 +99,7 @@ codacy-ingress:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/acme-challenge-type: http01
       cert-manager.io/cluster-issuer: letsencrypt-codacy
-      external-dns.alpha.kubernetes.io/hostname: '<codacy-app.dns.internal>,<codacy-api.dns.internal>'
+      external-dns.alpha.kubernetes.io/hostname: 'dev.k8s.dev.codacy.org,dev.k8s.dev.codacy.org'
       external-dns.alpha.kubernetes.io/scope: public
       nginx.ingress.kubernetes.io/proxy-body-size: 128m
       nginx.ingress.kubernetes.io/ssl-redirect: "true"

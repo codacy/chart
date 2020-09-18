@@ -248,7 +248,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=2.1.0
 
   helm_push: &helm_push
     steps:
@@ -318,8 +318,8 @@ jobs:
   deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
-      <<: *dev_environment
-    <<: *deploy_to_doks_from_local_dir_with_dev_requirements
+      <<: *release_environment
+    <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_sandbox:
     <<: *default_doks_image
@@ -461,6 +461,29 @@ workflows:
       - build_docs:
           requires:
             - checkout
+
+  deploy_chart_to_dev_cluster_fix:
+    jobs:
+      - codacy/checkout_and_version:
+          dev_branch: "master"
+          release_branch: "master"
+          filters:
+            branches:
+              only:
+                - fix-dev
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
+          requires:
+            - codacy/checkout_and_version
+      - create_dev_cluster:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - deploy_to_doks_dev:
+          context: CodacyDO
+          requires:
+            - create_dev_cluster
 
   deploy_chart_to_sandbox_cluster:
     jobs:
