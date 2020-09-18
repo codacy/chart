@@ -477,6 +477,27 @@ workflows:
           requires:
             - checkout
 
+  update_release_pipeline:
+    jobs:
+      - checkout
+      - codacy/helm_aws:
+          name: helm_lint
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
+          requires:
+            - checkout
+      - helm_push_incubator:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - setup_release_db_values:
+          context: CodacyDO
+          requires:
+            - helm_lint
+      - deploy_to_doks_release:
+          context: CodacyDO
+          requires:
+            - setup_release_db_values
+
   deploy_chart_to_sandbox_cluster:
     jobs:
       - codacy/checkout_and_version:
