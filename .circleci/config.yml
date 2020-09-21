@@ -100,7 +100,7 @@ references:
     RELEASE_NAME: codacy-release
     NAMESPACE: codacy-release
     ENVIRONMENT: release
-    HELM_REPOSITORY: codacy-incubator
+    HELM_REPOSITORY: codacy-stable
     CODACY_URL: http://release.k8s.dev.codacy.org
     HELM_INSTALL_EXTRA_FLAGS: --set global.github.app.name=codacy-k8s-selfhost-release --set global.github.app.id="${GITHUB_APP_ID_RELEASE}" --set global.github.app.privateKey="${GITHUB_PRIVATE_KEY_RELEASE}" --set global.github.clientId=${GITHUB_CLIENTID_RELEASE} --set global.github.clientSecret=${GITHUB_CLIENTSECRET_RELEASE} --set global.githubEnterprise.app.name=codacy-k8s-selfhosted-release --set global.githubEnterprise.app.id="${GITHUB_ENTERPRISE_APP_ID_RELEASE}" --set global.githubEnterprise.app.privateKey="${GITHUB_ENTERPRISE_PRIVATE_KEY_RELEASE}" --set global.githubEnterprise.clientId="${GITHUB_ENTERPRISE_CLIENTID_RELEASE}" --set global.githubEnterprise.clientSecret="${GITHUB_ENTERPRISE_CLIENTSECRET_RELEASE}" --set global.bitbucket.key="${BITBUCKET_KEY_RELEASE}" --set global.bitbucket.secret="${BITBUCKET_SECRET_RELEASE}" --set global.bitbucketEnterprise.consumerKey="${BITBUCKET_ENTERPRISE_CONSUMER_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPublicKey="${BITBUCKET_ENTERPRISE_CONSUMER_PUBLIC_KEY_RELEASE}" --set global.bitbucketEnterprise.consumerPrivateKey="${BITBUCKET_ENTERPRISE_CONSUMER_PRIVATE_KEY_RELEASE}" --set global.gitlab.clientId="${GITLAB_CLIENTID_RELEASE}" --set global.gitlab.clientSecret="${GITLAB_CLIENTSECRET_RELEASE}" --set global.gitlabEnterprise.clientId="${GITLABENTERPRISE_CLIENTID_RELEASE}" --set global.gitlabEnterprise.clientSecret="${GITLABENTERPRISE_CLIENTSECRET_RELEASE}"
 
@@ -248,7 +248,7 @@ references:
       - <<: *doctl_authenticate
       - deploy:
           name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=2.1.0
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=2.1.0 HELM_REPOSITORY=codacy-stable
 
   helm_push: &helm_push
     steps:
@@ -308,17 +308,22 @@ jobs:
       <<: *sandbox_environment
     <<: *setup_db_values
 
+  setup_dev_db_values:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *setup_db_values
+
   setup_release_db_values:
     <<: *default_doks_image
     environment:
       <<: *release_environment
     <<: *setup_db_values
 
-
   deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
-      <<: *release_environment
+      <<: *dev_environment
     <<: *deploy_to_cluster_from_chartmuseum
 
   deploy_to_doks_sandbox:
@@ -480,10 +485,30 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - deploy_to_doks_dev:
+      - setup_dev_db_values:
           context: CodacyDO
           requires:
             - create_dev_cluster
+      - deploy_to_doks_dev:
+          context: CodacyDO
+          requires:
+            - setup_dev_db_values
+      # - setup_release_db_values:
+      #     context: CodacyDO
+      #     requires:
+      #       - create_dev_cluster
+      # - deploy_to_doks_release:
+      #     context: CodacyDO
+      #     requires:
+      #       - setup_release_db_values
+      # - setup_sandbox_db_values:
+      #     context: CodacyDO
+      #     requires:
+      #       - create_dev_cluster
+      # - deploy_to_doks_sandbox:
+      #     context: CodacyDO
+      #     requires:
+      #       - setup_sandbox_db_values
 
   deploy_chart_to_sandbox_cluster:
     jobs:
