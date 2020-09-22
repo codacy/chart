@@ -104,8 +104,8 @@ codacy-ingress:
       nginx.ingress.kubernetes.io/use-regex: "true"
     tls:
       hosts:
-        - <codacy-app.dns.internal>
-        - <codacy-api.dns.internal>
+        - host: <codacy-app.dns.internal>
+        - host: <codacy-api.dns.internal>
       secretName: <environment>-ingress-tls-secret
 
 codacy-api:
