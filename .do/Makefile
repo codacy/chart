@@ -1,5 +1,5 @@
-CODACY_URL?="http://dev.k8s.dev.codacy.org"
-GRAFANA_URL?="http://grafana.k8s.dev.codacy.org"
+CODACY_URL?="https://dev.k8s.dev.codacy.org"
+GRAFANA_URL?="https://grafana.k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
