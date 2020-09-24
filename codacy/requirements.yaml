@@ -68,8 +68,8 @@ dependencies:
   condition: hotspots-worker.create
 
 - name: listener
-  version: "7.21.0-fixpollingsync.23.d6328903"
-  repository: https://charts.codacy.com/unstable
+  version: "7.22.0"
+  repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
