@@ -86,7 +86,8 @@ update_dependencies:
 
 .PHONY: update_ingress_values
 update_ingress_values:
-	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#http://##g" values.yaml
+	sed -i "s#<codacy-app.dns.internal>#${CODACY_URL}#g; s#<codacy-api.dns.internal>#${CODACY_URL}#g; s#https://##g" values.yaml
+	sed -i "s#<environment>#${NAMESPACE}#g" values.yaml
 
 .PHONY: deploy_to_doks_infrastructure
 deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
