@@ -33,8 +33,8 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 1.6.4
 - name: listener
-  repository: https://charts.codacy.com/stable
-  version: 7.21.1
+  repository: https://charts.codacy.com/unstable
+  version: 7.21.0-fixpollingsync.23.d6328903
 - name: engine
   repository: https://charts.codacy.com/stable
   version: 7.16.2
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.22.4
-digest: sha256:580cb78dcaa32f10fb52128a4d318701dfc0e67a03d06de193b76dbbd9a540c5
-generated: "2020-09-16T09:33:20.402157+01:00"
+digest: sha256:8ebae388cb90985c235061df093bfd54c358f5e69b87cbec0c2010a806967823
+generated: "2020-09-24T12:26:02.394825351+01:00"
