@@ -35,10 +35,10 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "codacy.labels" }}
-app.kubernetes.io/name: {{ include "codacy.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-helm.sh/chart: {{ include "codacy.chart" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/name: {{ "sandbox-test" }}
+app.kubernetes.io/instance: {{ "sandbox-test" }}
+helm.sh/chart: {{ "sandbox-test" }}
+app.kubernetes.io/managed-by: {{ "sandbox-test" }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | trunc 63 | quote }}
 {{- end }}

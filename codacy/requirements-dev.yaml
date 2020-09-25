@@ -74,14 +74,14 @@ dependencies:
   condition: listener.create
 
 - name: engine
-  version: ">=7.6.1-0"
+  version: "7.18.0-testengineinitializerendpoint.6.bdc51010e"
   repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create
 
 - name: codacy-tools
-  version: ">=0.4.1"
-  repository: https://charts.codacy.com/stable
+  version: "1.0.0-callengiiiinetest.25.829e22e"
+  repository: https://charts.codacy.com/unstable
   git: git@github.com:codacy/codacy-tools.git
   condition: codacy-tools.create
 
