@@ -27,10 +27,10 @@ Install MicroK8s on the machine:
     sudo apt update && sudo apt install nfs-common -y
     ```
 
-2.  Install MicroK8s from the `1.15/stable` channel:
+2.  Install MicroK8s from the `1.16/stable` channel:
 
     ```bash
-    sudo snap install microk8s --classic --channel=1.15/stable
+    sudo snap install microk8s --classic --channel=1.16/stable
     sudo usermod -a -G microk8s $USER
     sudo su - $USER
     ```
