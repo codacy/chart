@@ -218,7 +218,9 @@ Then, the Release Manager releases and announces the new version:
          git push --tag origin self-hosted-x.x.x
          ```
 
-    5.  Add a link to the release notes page to the description of the new release on GitHub. Substitute `x.x.x` with the version being released:
+    5.  Add a link to the release notes page to the [description of the new release](https://github.com/codacy/chart/releases) on GitHub.
+    
+        Substitute `x.x.x` in the URL with the version being released:
 
         ```markdown
         Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-vx.x.x/
