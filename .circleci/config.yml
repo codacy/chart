@@ -278,6 +278,17 @@ references:
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
+  append_releasenotes_link: &append_releasenotes_link
+    steps:
+      - <<: *attach_workspace
+      - deploy:
+          name: Append release notes link to releasenotes.md
+          command: |
+            version=$(cat .version | cut -d - -f1)
+
+      - <<: *persist_to_workspace
+
+
 ############
 #  JOBS
 ############
@@ -416,6 +427,26 @@ jobs:
           title: $(cat .version)
           message: |
             Version $(cat .version) of the Codacy chart has been released!
+
+  publish_release_notes: &publish_release_notes
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - deploy:
+          name: Publish release notes link on github
+          command: |
+            version=$(cat .version)
+            contents="Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-v$version/"
+
+            curl -X POST -H "Authorization: token $CIRCLECI_GITHUB_TOKEN" https://api.github.com/repos/codacy/chart/releases \
+            -d '{
+              "tag_name": "$version",
+              "target_commitish": "master",
+              "name": "$version",
+              "body": "$contents",
+              "draft": false,
+              "prerelease": false
+            }'\
 
 ############
 #  WORKFLOWS
@@ -670,6 +701,10 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
+      - publish_release_notes:
+          context: CodacyDO
+          requires:
+            - tag_version_latest
       - slack_notify_release:
           context: CodacyDO
           requires:
