@@ -278,17 +278,6 @@ references:
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
 
-  append_releasenotes_link: &append_releasenotes_link
-    steps:
-      - <<: *attach_workspace
-      - deploy:
-          name: Append release notes link to releasenotes.md
-          command: |
-            version=$(cat .version | cut -d - -f1)
-
-      - <<: *persist_to_workspace
-
-
 ############
 #  JOBS
 ############
@@ -438,7 +427,7 @@ jobs:
             version=$(cat .version)
             contents="Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-v$version/"
 
-            curl -X POST -H "Authorization: token $CIRCLECI_GITHUB_TOKEN" https://api.github.com/repos/codacy/chart/releases \
+            curl -X POST -H "Authorization: token $CIRCLE_CI_GITHUB_TOKEN" https://api.github.com/repos/codacy/chart/releases \
             -d '{
               "tag_name": "$version",
               "target_commitish": "master",
@@ -701,11 +690,17 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
-      - publish_release_notes:
+      - manual_release_notes_hold:
+          type: approval
           context: CodacyDO
           requires:
             - tag_version_latest
+      - publish_release_notes:
+          context: CodacyDO
+          requires:
+            - manual_release_notes_hold
       - slack_notify_release:
           context: CodacyDO
           requires:
             - tag_version_latest
+            - publish_release_notes
