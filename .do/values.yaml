@@ -151,7 +151,13 @@ listener:
       enabled: true
       size: 200Gi
   listenerdb: {}
-
+  env:
+    CONFIG_FORCE_codacy_repositoryListener_CodacyDaemon_checkForUpdates_enable: "true"
+    CONFIG_FORCE_codacy_repositoryListener_polling_default_minWaitPaid: "1 minutes"
+    CONFIG_FORCE_codacy_repositoryListener_polling_default_maxWaitPaid: "1 minutes"
+    CONFIG_FORCE_codacy_repositoryListener_polling_default_minWaitFree: "1 minutes"
+    CONFIG_FORCE_codacy_repositoryListener_polling_default_maxWaitFree: "1 minutes"
+    CONFIG_FORCE_codacy_repositoryListener_interval: "15 seconds"
 engine:
   replicaCount: 1
   metrics:
