@@ -11,11 +11,9 @@ global:
       url: "codacy-hotspots-api"
     engine:
       url: "codacy-engine"
+      port: 80
     tools:
       url: "codacy-tools"
-    engineApi:
-      url: "codacy-engine"
-      port: 9001
     listener:
       url: "codacy-listener"
       port: 80
