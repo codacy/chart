@@ -43,7 +43,6 @@ global:
     config:
       passwordAuth:
         enable: true
-        username: <--- crow-username --->
         password: <--- crow-password --->
 
   activitiesdb:
