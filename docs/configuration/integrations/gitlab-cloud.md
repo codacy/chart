@@ -16,6 +16,7 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
         ```text
         https://codacy.example.com/login/GitLab
+        https://codacy.example.com/add/addProvider/GitLab
         https://codacy.example.com/add/addService/GitLab
         https://codacy.example.com/add/addPermissions/GitLab
         ```
