@@ -417,6 +417,26 @@ jobs:
           message: |
             Version $(cat .version) of the Codacy chart has been released!
 
+  publish_release_notes: &publish_release_notes
+    <<: *default_doks_image
+    steps:
+      - <<: *attach_workspace
+      - deploy:
+          name: Publish release notes link on github
+          command: |
+            version=$(cat .version)
+            contents="Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-v$version/"
+
+            curl -X POST -H "Authorization: token $CIRCLE_CI_GITHUB_TOKEN" https://api.github.com/repos/codacy/chart/releases \
+            -d '{
+              "tag_name": "$version",
+              "target_commitish": "master",
+              "name": "$version",
+              "body": "$contents",
+              "draft": false,
+              "prerelease": false
+            }'\
+
 ############
 #  WORKFLOWS
 ############
@@ -670,7 +690,17 @@ workflows:
           force: true
           requires:
             - promote_chart_to_stable
+      - manual_release_notes_hold:
+          type: approval
+          context: CodacyDO
+          requires:
+            - tag_version_latest
+      - publish_release_notes:
+          context: CodacyDO
+          requires:
+            - manual_release_notes_hold
       - slack_notify_release:
           context: CodacyDO
           requires:
             - tag_version_latest
+            - publish_release_notes
