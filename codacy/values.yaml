@@ -18,9 +18,6 @@ global:
     tools:
       url: "codacy-tools"
       port: 80
-    engineApi:
-      url: "codacy-engine"
-      port: 9001
     listener:
       url: "codacy-listener"
       port: 80
