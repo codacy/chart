@@ -550,6 +550,7 @@ workflows:
       - deploy_to_doks_release:
           context: CodacyDO
           requires:
+            - helm_push_incubator
             - setup_release_db_values
       - codacy/microk8s_install:
           name: install_k8s-1.14_helm-3.2

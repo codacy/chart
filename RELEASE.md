@@ -168,7 +168,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
     make get_release_notes
     ```
 
-    This uses [codacy/release-notes-tool](https://github.com/codacy/release-notes-tool) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
+    This uses [codacy/release-notes-tools](https://github.com/codacy/release-notes-tools) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
 
 -   [ ] 2.  Manually curate the generated release notes output
 
