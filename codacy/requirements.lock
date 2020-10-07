@@ -16,7 +16,7 @@ dependencies:
   version: 0.10.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 6.20.3
+  version: 6.21.0
 - name: ragnaros
   repository: https://charts.codacy.com/stable
   version: 24.1.1
@@ -37,7 +37,7 @@ dependencies:
   version: 7.22.1
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 7.19.3
+  version: 7.20.0
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
   version: 1.3.0
@@ -49,9 +49,9 @@ dependencies:
   version: 10.2.3
 - name: crow
   repository: https://charts.codacy.com/stable
-  version: 5.1.10
+  version: 5.2.0
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.23.4
+  version: 1.24.0
 digest: sha256:c240a01ee2e46b2efda59af762826c56208521c38a4207274cc70d5f9e5b7163
-generated: "2020-10-07T12:18:24.332232+01:00"
+generated: "2020-10-07T15:18:00.49583+01:00"
