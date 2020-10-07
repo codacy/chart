@@ -44,7 +44,7 @@ The Release Manager must create a release candidate branch:
 
 -   [ ] 1.  Make sure that you have the following tools installed:
 
-    -   git
+    -   [git](https://git-scm.com/)
     -   [ytool](https://github.com/codacy/ytool)
     -   [helm >=3.x](https://helm.sh/docs/intro/install/)
 
