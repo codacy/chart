@@ -44,7 +44,7 @@ The Release Manager must create a release candidate branch:
 
 -   [ ] 1.  Make sure that you have the following tools installed:
 
-    -   git
+    -   [git](https://git-scm.com/)
     -   [ytool](https://github.com/codacy/ytool)
     -   [helm >=3.x](https://helm.sh/docs/intro/install/)
 
@@ -91,7 +91,7 @@ The Release Manager must create a release candidate branch:
 -   [ ] 7.  Push the commit
 
     ```bash
-    git push --tag && git push --set-upstream origin 'release-x.x.x'
+    git push origin refs/tags/x.x.x-RC-1 && git push --set-upstream origin 'release-x.x.x'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
@@ -115,7 +115,7 @@ The Release Manager must create a release candidate branch:
         Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 
         ```bash
-        git tag 'x.x.x-RC-<n>' && git push --tag origin 'x.x.x-RC-<n>' && git push --force-with-lease
+        git tag 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
         ```
 
 ## 3. Testing and stabilizing the release

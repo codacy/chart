@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@4.5.7
+  codacy: codacy/base@5.0.4
   slack: circleci/slack@3.4.2
 
 references:
@@ -329,7 +329,6 @@ jobs:
     environment:
       <<: *release_environment
     <<: *setup_db_values
-
 
   deploy_to_doks_dev:
     <<: *default_doks_image

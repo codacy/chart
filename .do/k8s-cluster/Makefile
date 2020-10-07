@@ -7,7 +7,6 @@ WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 2.16.0
 CERT_MANAGER_VERSION ?= v0.15.1
-# variables
 K8S_VERSION ?= 1.17
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-8vcpu-32gb
@@ -31,11 +30,11 @@ setup_vars:
 	@echo "docker_password = [REDACTED]"
 	@echo "docker_password = \"$(DOCKER_PASSWORD)\"" >> $(VARS_FILE)
 
-	echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
-	echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
-	echo "nodes_min = $(NODES_MIN)" >> $(VARS_FILE)
-	echo "nodes_max = $(NODES_MAX)" >> $(VARS_FILE)
-	echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
+	@echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
+	@echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
+	@echo "nodes_min = $(NODES_MIN)" >> $(VARS_FILE)
+	@echo "nodes_max = $(NODES_MAX)" >> $(VARS_FILE)
+	@echo "cluster_name = \"$(DOKS_CLUSTER_NAME)\"">> $(VARS_FILE)
 
 .PHONY: start_cluster
 start_cluster: set_cluster_context provision_cluster install_nginx install_certmanager

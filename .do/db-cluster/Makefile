@@ -5,7 +5,6 @@ TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE_PREFIX ?= postgres
 VARS_FILE ?= deploy.tfvars
-# variables
 K8S_CLUSTER_REGION ?= fra1
 K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json | jq -r '.cluster_id.value')
 INSTANCE_TYPE ?= db-s-6vcpu-16gb
