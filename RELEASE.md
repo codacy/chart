@@ -91,7 +91,7 @@ The Release Manager must create a release candidate branch:
 -   [ ] 7.  Push the commit
 
     ```bash
-    git push --tag && git push --set-upstream origin 'release-x.x.x'
+    git push --tag origin 'x.x.x-RC-1' && git push --set-upstream origin 'release-x.x.x'
     ```
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
