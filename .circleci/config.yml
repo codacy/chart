@@ -283,7 +283,7 @@ references:
 ############
 
 jobs:
-  checkout:
+  checkout_and_version_from_git_tag:
     docker:
       - image: codacy/ci-base:1.0.1
     working_directory: ~/workdir/
@@ -292,7 +292,7 @@ jobs:
       - run:
           name: setup version from git tag
           command: |
-            git tag --sort creatordate | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" | tail -n -1 > .version
+            make setup_version_from_git_tag
             echo $(cat .version)
       - <<: *persist_to_workspace
 
@@ -476,10 +476,10 @@ workflows:
 
   build_docs:
     jobs:
-      - checkout
+      - checkout_and_version_from_git_tag
       - build_docs:
           requires:
-            - checkout
+            - checkout_and_version_from_git_tag
 
   deploy_chart_to_sandbox_cluster:
     jobs:
@@ -528,7 +528,7 @@ workflows:
 
   release_pipeline:
     jobs:
-      - checkout:
+      - checkout_and_version_from_git_tag:
           filters:
             branches:
               only:
@@ -537,7 +537,7 @@ workflows:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
-            - checkout
+            - checkout_and_version_from_git_tag
       - helm_push_incubator:
           context: CodacyDO
           requires:
