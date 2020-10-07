@@ -1,4 +1,4 @@
-CODACY_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version || echo "development")
+RELEASE_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version | cut -d- -f 1 || echo "development")
 DOCUMENTATION_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version | grep -Eoh "^v([0-9]+\.[0-9]+)" || echo "development")
 
 .PHONY: setup_version_from_git_tag
@@ -19,9 +19,9 @@ setup_helm_repos:
 update_versions:
 	$(eval ENGINE_VERSION=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]'))
 	@echo ${ENGINE_VERSION}
-	@echo ${CODACY_VERSION_NUMBER}
+	@echo ${RELEASE_VERSION_NUMBER}
 	# Values used by codacy-api
-	ytool -f "./codacy/values.yaml" -s global.codacy.installation.version "${CODACY_VERSION_NUMBER}" -e
+	ytool -f "./codacy/values.yaml" -s global.codacy.installation.version "${RELEASE_VERSION_NUMBER}" -e
 	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "${DOCUMENTATION_VERSION_NUMBER}" -e
 	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "${ENGINE_VERSION}" -e
 
