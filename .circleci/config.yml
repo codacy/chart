@@ -314,7 +314,6 @@ jobs:
       <<: *release_environment
     <<: *setup_db_values
 
-
   deploy_to_doks_dev:
     <<: *default_doks_image
     environment:
