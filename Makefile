@@ -1,6 +1,10 @@
 CODACY_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version || echo "development")
 DOCUMENTATION_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version | grep -Eoh "^v([0-9]+\.[0-9]+)" || echo "development")
 
+.PHONY: setup_version_from_git_tag
+setup_version_from_git_tag:
+	git tag --sort creatordate | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" | tail -n -1 > .version
+
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -28,6 +32,9 @@ helm_dep_up:
 
 .PHONY: update_dependencies
 update_dependencies: setup_helm_repos helm_dep_up update_versions
+
+.PHONY: prepare_release
+prepare_release: setup_version_from_git_tag update_dependencies
 
 .PHONY: get_release_notes
 get_release_notes: setup_helm_repos helm_dep_up
