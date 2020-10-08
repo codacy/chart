@@ -1,6 +1,6 @@
-# Installing Codacy on Kubernetes
+# Installing Codacy Self-hosted
 
-This documentation guides you on how to install Codacy on Kubernetes or MicroK8s.
+This documentation guides you on how to install Codacy Self-hosted on Kubernetes or MicroK8s.
 
 To install Codacy you must complete these main steps:
 
