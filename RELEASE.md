@@ -65,10 +65,10 @@ The Release Manager must create a release candidate branch:
     Run the following command:
 
     ```bash
-    make prepare_release
+    make update_dependencies
     ```
 
-    This will update the `requirements.lock` with the latest versions and freeze multiple version values on `./codacy/values.yaml`.
+    This will update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
 -   [ ] 5.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
 
