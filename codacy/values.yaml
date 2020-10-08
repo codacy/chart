@@ -5,20 +5,25 @@ global:
     environment: "production"
     api:
       url: "codacy-api"
+      port: 80
     portal:
       url: "codacy-portal"
+      port: 80
     hotspots:
       url: "codacy-hotspots-api"
+      port: 80
     engine:
       url: "codacy-engine"
       port: 80
     tools:
       url: "codacy-tools"
+      port: 80
     listener:
       url: "codacy-listener"
       port: 80
     activities:
       url: "codacy-activities"
+      port: 80
     remoteProviderService:
       url: "codacy-remote-provider-service"
       port: 80
