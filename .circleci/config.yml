@@ -427,14 +427,14 @@ jobs:
             contents="Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-v$version/"
 
             curl -X POST -H "Authorization: token $CIRCLE_CI_GITHUB_TOKEN" https://api.github.com/repos/codacy/chart/releases \
-            -d '{
-              "tag_name": "$version",
-              "target_commitish": "master",
-              "name": "$version",
-              "body": "$contents",
-              "draft": false,
-              "prerelease": false
-            }'\
+            -d "{
+              \"tag_name\": \"$version\",
+              \"target_commitish\": \"master\",
+              \"name\": \"$version\",
+              \"body\": \"$contents\",
+              \"draft\": false,
+              \"prerelease\": false
+            }"\
 
 ############
 #  WORKFLOWS
