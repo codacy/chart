@@ -13,7 +13,7 @@ dependencies:
   version: 0.6.3
 - name: codacy-ingress
   repository: https://charts.codacy.com/stable
-  version: 0.10.0
+  version: 0.11.0
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 6.21.0
@@ -34,16 +34,16 @@ dependencies:
   version: 1.7.0
 - name: listener
   repository: https://charts.codacy.com/stable
-  version: 7.22.1
+  version: 7.23.0
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 7.20.0
+  version: 8.0.0
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
   version: 1.3.0
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 18.5.3
+  version: 18.7.0
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.2.3
@@ -52,6 +52,6 @@ dependencies:
   version: 5.2.0
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.24.0
-digest: sha256:ab79314f393226891209ee98067b55c6afb9cd10a0d678539a69e8789afc2dca
-generated: "2020-10-08T09:55:40.601447+01:00"
+  version: 1.25.0
+digest: sha256:4df93c06d364e2ff9166dcb47f1f297f696017809c9cbd09b5789b9ef1d1cf15
+generated: "2020-10-08T14:12:57.120799+01:00"
