@@ -160,6 +160,8 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 ### Approval by the Technical Writer
 
+The Technical Writer must follow the steps below to [prepare the release notes](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) for the new release:
+
 -   [ ] 1.  Generate release notes
 
     Run the makefile target `get_release_notes` to generate release notes.
