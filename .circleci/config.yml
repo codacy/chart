@@ -48,6 +48,9 @@ references:
         listenerdb:
           create: true
 
+        rabbitmq:
+          ssl: "false"
+
       listener:
         persistence:
           claim:

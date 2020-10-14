@@ -148,7 +148,7 @@ global:
     rabbitmqvHost: "/"
     host: codacy-rabbitmq-ha
     port: 5672
-    ssl: false
+    ssl: "false"
     timeout: 15s
 
   defaultdb:

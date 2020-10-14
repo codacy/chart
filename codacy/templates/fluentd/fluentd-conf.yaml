@@ -27,10 +27,10 @@ data:
     <filter **>
       @type record_modifier
       <record>
-        pod_name ${record["kubernetes"]["pod_name"]}
+        pod_name ${record["pod_name"]}
       </record>
       <record>
-        container_name ${record["kubernetes"]["container_name"]}
+        container_name ${record["container_name"]}
       </record>
     </filter>
 
@@ -68,7 +68,6 @@ data:
       #   id retention-policy
       #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
       # </bucket_lifecycle_rule>
-
       store_as json
       <format>
         @type json
