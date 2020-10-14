@@ -68,7 +68,6 @@ data:
       #   id retention-policy
       #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
       # </bucket_lifecycle_rule>
-
       store_as json
       <format>
         @type json
