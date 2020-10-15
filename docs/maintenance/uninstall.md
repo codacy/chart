@@ -7,16 +7,13 @@ To do so run:
 helm -n codacy uninstall codacy
 kubectl -n codacy delete --all pod &
 kubectl -n codacy delete --all pvc &
-kubectl -n codacy delete --all pv  &
 kubectl -n codacy delete --all job &
 sleep 5
 kubectl -n codacy patch pvc -p '{"metadata":{"finalizers":null}}' $(kubectl -n codacy get pvc -o jsonpath='{.items[*].metadata.name}')
-kubectl -n codacy patch pv -p '{"metadata":{"finalizers":null}}' $(kubectl -n codacy get pv -o jsonpath='{.items[*].metadata.name}')
 sleep 5
 kubectl -n codacy delete pod $(kubectl -n codacy get pod -o jsonpath='{.items[*].metadata.name}') --force --grace-period=0
 kubectl -n codacy get pod &
 kubectl -n codacy get pvc &
-kubectl -n codacy get pv  &
 kubectl -n codacy get job &
 ```
 
