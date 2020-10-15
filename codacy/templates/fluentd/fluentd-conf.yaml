@@ -90,7 +90,7 @@ data:
         timekey_use_utc true
         flush_interval 60s
         flush_mode interval
-        # HACK: Retry writting the logs forever to recover from network issues
+        # HACK: Retry writting the logs forever to recover from network issues 
         #       This helps when minio/s3 is only available after fluentd starts
         retry_timeout {{ .Values.fluentdoperator.flushTimeout }}
       </buffer>
