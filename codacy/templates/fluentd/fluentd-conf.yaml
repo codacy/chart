@@ -92,7 +92,7 @@ data:
         flush_mode interval
         # HACK: Retry writting the logs forever to recover from network issues
         #       This helps when minio/s3 is only available after fluentd starts
-        retry_forever true
+        retry_timeout {{ .Values.fluentdoperator.flushTimeout }}
       </buffer>
     </match>
 {{ end }}

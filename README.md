@@ -237,6 +237,10 @@ The following parameters refer to components that are not internal to Codacy, bu
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------- | ----------------- |
 | `fluentdoperator.enable`             | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.         | `true`            |
 | `fluentdoperator.expirationDays`     | Number of days to retain logs. More time uses more disk on minio and retention over 7 days is not recommended. | `7`               |
+| `fluentdoperator.flushTimeout`       | Duration and unit until a fluent log is successfully flushed. Fluentd will retry for this duration. Values can be expressed in different units, e.g. `10s`, `5h`. | `1h`               |
+
+
+
 | `rabbitmq-ha.rabbitmqUsername`       | Username for the bundled RabbitMQ.                                                                             | `rabbitmq-codacy` |
 | `rabbitmq-ha.rabbitmqPassword`       | Password for the bundled RabbitMQ.                                                                             | `rabbitmq-codacy` |
 | `rabbitmq-ha.rabbitmqErlangCookie`   | The rabbitmq Erlang cookie RabbitMQ.                                                                           | `nil`             |
