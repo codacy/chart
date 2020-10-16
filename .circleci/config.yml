@@ -10,6 +10,20 @@ references:
       - image: codacy/ci-do:1.8.2
     working_directory: ~/workdir/
 
+  setup_aws_credentials: &setup_aws_credentials
+    run:
+      name: Setup AWS Credentials
+      command: |
+        mkdir -p ~/.aws && touch ~/.aws/credentials
+        cat > ~/.aws/credentials \<< EOF
+        [default]
+        aws_access_key_id=$ACCESS_KEY_ID
+        aws_secret_access_key=$SECRET_ACCESS_KEY
+        [development]
+        role_arn = arn:aws:iam::$AWS_ACCOUNT_ID_DEV:role/$CONTINUOUS_DELIVERY_ROLE
+        source_profile = default
+        EOF
+
   helm_values: &helm_values
     microk8s_values_content: |
       global:
@@ -127,7 +141,7 @@ references:
   ########################################################
 
   qa_environment_release: &qa_environment_release
-    AWS_PROFILE: production
+    AWS_PROFILE: development
     SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: k8s-releases
@@ -135,25 +149,25 @@ references:
     RP_ENDPOINT: https://reportportal.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
-    AWS_PROFILE: production
+    AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
     LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     LAUNCH_NAME: WEB_K8S_RELEASE
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
-    AWS_PROFILE: production
+    AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/E2E.xml
     LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
     LAUNCH_NAME: E2E_K8S_RELEASE
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
-    AWS_PROFILE: production
+    AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
     LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
     LAUNCH_NAME: API_K8S_RELEASE
 
   qa_selfhosted_apiv3_testpath: &qa_selfhosted_apiv3_testpath
-    AWS_PROFILE: production
+    AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/APIV3.xml
     LAUNCH_TAG: CIRCLECI;APIV3;SELFHOSTED;RELEASE
     LAUNCH_NAME: APIV3_K8S_RELEASE
@@ -275,6 +289,7 @@ references:
   qa_job: &qa_job
     steps:
       - <<: *attach_workspace
+      - <<: *setup_aws_credentials
       - deploy:
           name: Run tests
           command: |
