@@ -284,6 +284,7 @@ fluentdoperator:
   rbac:
     create: true
   useReleaseNamespaceOnly: true
+  flushTimeout: "1h"
 
   fluentd:
     extraEnv:

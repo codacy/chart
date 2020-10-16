@@ -14,28 +14,28 @@ data:
     </match>
 
     # Remove unneeded fields from the logs
-    <filter **>
+    <filter kubernetes.var.log.containers.**{{ .Release.Namespace }}**>
       @type record_modifier
       <record>
-        for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record["kubernetes"].delete("container_name"); record["kubernetes"].delete("pod_name"); record["kubernetes"].delete("container_image_id"); record["kubernetes"].delete("host"); record.delete("container_info"); record.delete("docker")}
+        for_remove ${record["kubernetes"].delete("namespace_name"); record["kubernetes"].delete("pod_id"); record["kubernetes"].delete("namespace_labels"); record["kubernetes"].delete("container_info"); record["kubernetes"].delete("labels"); record.delete("container_name"); record.delete("pod_name"); record["kubernetes"].delete("container_image_id"); record["kubernetes"].delete("host"); record.delete("container_info"); record.delete("docker")}
       </record>
       # This removes the fields defined in `for_remove` from the logs
       remove_keys for_remove
     </filter>
 
     # Move nested records to toplevel to be used as buffer key
-    <filter **>
+    <filter kubernetes.var.log.containers.**{{ .Release.Namespace }}**>
       @type record_modifier
       <record>
-        pod_name ${record["pod_name"]}
+        pod_name ${record["kubernetes"]["pod_name"]}
       </record>
       <record>
-        container_name ${record["container_name"]}
+        container_name ${record["kubernetes"]["container_name"]}
       </record>
     </filter>
 
     # Output to S3
-    <match **>
+    <match kubernetes.var.log.containers.**{{ .Release.Namespace }}**>
       # Docs: https://github.com/fluent/fluent-plugin-s3
       @type s3
       @log_level info
@@ -68,6 +68,7 @@ data:
       #   id retention-policy
       #   expiration_days {{ .Values.fluentdoperator.expirationDays }}
       # </bucket_lifecycle_rule>
+
       store_as json
       <format>
         @type json
@@ -91,7 +92,7 @@ data:
         flush_mode interval
         # HACK: Retry writting the logs forever to recover from network issues
         #       This helps when minio/s3 is only available after fluentd starts
-        retry_forever true
+        retry_timeout {{ .Values.fluentdoperator.flushTimeout }}
       </buffer>
     </match>
 {{ end }}
