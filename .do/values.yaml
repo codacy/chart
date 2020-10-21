@@ -6,7 +6,7 @@ global:
   githubEnterprise:
     enabled: "true"
     login: "true"
-    hostname: "github.dev.codacy.org"
+    hostname: "github-new.dev.codacy.org"
     port: 443
     protocol: "https"
     disableSSL: "true"
