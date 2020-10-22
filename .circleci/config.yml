@@ -417,7 +417,7 @@ jobs:
           color: "#2EB67D"
           title: $(cat .version)
           message: |
-            Version $(cat .version) of the Codacy chart has been released!
+            Version $(cat .version) of the Codacy chart has been released! https://github.com/codacy/chart/releases/tag/$(cat .version)
 
   publish_release_notes: &publish_release_notes
     <<: *default_doks_image
