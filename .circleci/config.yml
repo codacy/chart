@@ -196,7 +196,7 @@ references:
           command: make -C ./.do/db-cluster start_cluster
       - deploy:
           name: "Deploy monitoring"
-          command: make -C ./.do deploy_monitoring
+          command: echo "hello!"
       - <<: *persist_to_workspace
 
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
@@ -220,7 +220,6 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - <<: *swap_requirement_files
       - <<: *update_versions
       - run:
           name: Set dev branch version using unix timestamp
