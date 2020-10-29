@@ -4,7 +4,7 @@ DOCUMENTATION_VERSION_NUMBER?=$(shell sed -e 's/.*/v&/g' .version | grep -Eoh "^
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
-	helm repo add stable https://kubernetes-charts.storage.googleapis.com
+	helm repo add stable https://charts.helm.sh/stable
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
