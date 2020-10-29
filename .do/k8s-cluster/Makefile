@@ -53,7 +53,7 @@ set_cluster_context:
 .PHONY: install_nginx
 install_nginx:
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-	helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+	helm repo add stable https://charts.helm.sh/stable
 	helm repo update
 
 	helm upgrade --install nginx-ingress --version ${NGINX_INGRESS_VERSION} --namespace kube-system ingress-nginx/ingress-nginx \
