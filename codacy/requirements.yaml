@@ -32,7 +32,7 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: ">=6.23.0"
+  version: ">=6.23.1"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/portal.git
   condition: portal.create

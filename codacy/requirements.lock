@@ -16,7 +16,7 @@ dependencies:
   version: 0.11.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 6.23.0
+  version: 6.23.1
 - name: ragnaros
   repository: https://charts.codacy.com/stable
   version: 25.0.1
@@ -40,10 +40,10 @@ dependencies:
   version: 8.6.0
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
-  version: 2.0.2
+  version: 2.0.3
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 18.15.0
+  version: 18.15.1
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.3.0
@@ -52,6 +52,6 @@ dependencies:
   version: 5.3.0
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.27.0
-digest: sha256:f85eabf3d1fbc3cf3fbaed3f2b9b901e43dd4bae57fdb3ba19f89a858bc4d911
-generated: "2020-10-29T17:17:15.002328Z"
+  version: 1.28.0
+digest: sha256:f1a364a276ac7ce57c37515c8b205c636c29bd82e48fd423d4dd84d08e7f33eb
+generated: "2020-10-30T14:17:29.666871Z"
