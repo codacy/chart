@@ -9,7 +9,7 @@ its dependencies with a single command line.
 ![K8s Love](https://raw.githubusercontent.com/codacy/chart/master/docs/images/k8s-love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
-Each service in Codacy has its chart published to our
+Each service in Codacy has its chart published to our test
 [charts repository](https://charts.codacy.com/stable/api/charts).
 
 This chart bundles all the components and their dependencies.
