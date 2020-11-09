@@ -1,30 +1,10 @@
 # Kubernetes cheatsheet
 
-## How to install a custom Codacy version
-
-### Install
-
-```bash
-sudo git clone git://github.com/codacy/chart -b <YOUR-BRANCH>
-helm dep build ./chart/codacy
-helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
-```
-
-### Upgrade
-
-```bash
-(cd chart; sudo git fetch --all --prune --tags; sudo git reset --hard origin/<YOUR-BRANCH>;)
-helm dep build ./chart/codacy
-helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
-```
-
-## Debugging 
+## Debugging using events
 
 !!! important
     Always check the pods and deployment versions in the namespace
     to make sure you are not debugging an issue in a version that is not the one you would expect
-
-### Events
 
 Events are a great way to understand what is going on under the hood in a Kubernetes cluster.
 By looking at them you can see if probes are failing, and other important signals from your cluster.

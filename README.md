@@ -296,7 +296,7 @@ Replace the `<codacy-doks-cluster>` with the name of your target cluster.
 $ doctl kubernetes cluster kubeconfig save <codacy-doks-cluster> --set-current-context
 ```
 
-## Deploy your version of a component
+### Deploy your version of a component
 
 You can deploy your version of a component using any of the `.circleci`
 pipelines we have set up in this project. Currently, we use the `hourly_pipeline`
@@ -309,10 +309,28 @@ for this purpose.
 5.  Follow the circleci pipeline and use kubectl to see if your installation was successful
 6.  Go to <http://sandbox.k8s.dev.codacy.org/> and test it out
 
-## Add a new component
+### Add a new component
 
 To add a new component on this chart, you need to:
 
 1.  Change the `requirements.yaml`
 2.  use the `helm dep up codacy/` command to update the `requirements.lock`
 3.  `git push`
+
+### Installing a custom Codacy version
+
+To install a custom Codacy version:
+
+```bash
+sudo git clone git://github.com/codacy/chart -b <YOUR-BRANCH>
+helm dep build ./chart/codacy
+helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
+```
+
+To upgrade a custom Codacy version:
+
+```bash
+(cd chart; sudo git fetch --all --prune --tags; sudo git reset --hard origin/<YOUR-BRANCH>;)
+helm dep build ./chart/codacy
+helm upgrade --install codacy ./chart/codacy/ --namespace codacy --atomic --timeout=300 --values ./<YOUR-VALUES-FILE>
+```
