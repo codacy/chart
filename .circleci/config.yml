@@ -27,6 +27,15 @@ references:
   helm_values: &helm_values
     microk8s_values_content: |
       global:
+        github:
+          enabled: "true"
+          login: "true" # Show login button for GitHub Cloud
+          clientId: "${MICROK8S_TEST_GH_CLIENT_ID}" # Client ID
+          clientSecret: "${MICROK8S_TEST_GH_CLIENT_SECRET}" # Client secret
+          app:
+            name: "microk8s-testing" # GitHub App name
+            id: "${MICROK8S_TEST_GH_APP_ID}" # App ID
+            privateKey: "${MICROK8S_TEST_GH_APP_PRIVATEKEY}" # Contents of the .pem file without newlines
         imagePullSecrets:
           - name: docker-credentials
         play:
