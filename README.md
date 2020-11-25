@@ -38,13 +38,10 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   Codacy/[Website](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[API](https://bitbucket.org/qamine/codacy-website/src/master/.helm/)
 -   Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
--   Codacy/[Activities](https://bitbucket.org/qamine/codacy-activities/src/master/.helm/)
 -   Codacy/[Repository Listener](https://github.com/codacy/repository-listener/tree/master/.helm/)
 -   Codacy/[Portal](https://bitbucket.org/qamine/portal/src/master/.helm/)
 -   Codacy/[Worker Manager](https://bitbucket.org/qamine/worker-manager/src/master/.helm/)
 -   Codacy/[Engine](https://bitbucket.org/qamine/codacy-worker/src/master/.helm/)
--   Codacy/[Hotspots API](https://bitbucket.org/qamine/hotspots-api/src/master/.helm/)
--   Codacy/[Hotspots Worker](https://bitbucket.org/qamine/hotspots-worker/src/master/.helm/)
 -   Codacy/[Remote Provider Service](https://bitbucket.org/qamine/remote-provider-service/src/master/.helm/)
 -   Codacy/[SPA](https://github.com/codacy/codacy-spa/tree/dev/.helm/codacy-spa/)
 
@@ -186,21 +183,6 @@ The following parameters are specific to each Codacy component.
 | `remote-provider-service.image.tag`                 | Image tag                                                                                           | from dependency                              |
 | `remote-provider-service.service.type`              | Remote Provider service type                                                                        | `ClusterIP`                                  |
 | `remote-provider-service.service.annotations`       | Annotations to be added to the Remote Provider service                                              | `{}`                                         |
-| `activities.replicaCount`                           | Number of replicas                                                                                  | `1`                                          |
-| `activities.image.repository`                       | Image repository                                                                                    | from dependency                              |
-| `activities.image.tag`                              | Image tag                                                                                           | from dependency                              |
-| `activities.service.type`                           | Service type                                                                                        | `ClusterIP`                                  |
-| `activities.service.annotations`                    | Annotations to be added to the service                                                              | `{}`                                         |
-| `hotspots-api.replicaCount`                         | Number of replicas                                                                                  | `1`                                          |
-| `hotspots-api.image.repository`                     | Image repository                                                                                    | from dependency                              |
-| `hotspots-api.image.tag`                            | Image tag                                                                                           | from dependency                              |
-| `hotspots-api.service.type`                         | Service type                                                                                        | `ClusterIP`                                  |
-| `hotspots-api.service.annotations`                  | Annotations to be added to the service                                                              | `{}`                                         |
-| `hotspots-worker.replicaCount`                      | Number of replicas                                                                                  | `1`                                          |
-| `hotspots-worker.image.repository`                  | Image repository                                                                                    | from dependency                              |
-| `hotspots-worker.image.tag`                         | Image tag                                                                                           | from dependency                              |
-| `hotspots-worker.service.type`                      | Service type                                                                                        | `ClusterIP`                                  |
-| `hotspots-worker.service.annotations`               | Annotations to be added to the service                                                              | `{}`                                         |
 | `listener.replicaCount`                             | Number of replicas                                                                                  | `1`                                          |
 | `listener.image.repository`                         | Image repository                                                                                    | from dependency                              |
 | `listener.image.tag`                                | Image tag                                                                                           | from dependency                              |

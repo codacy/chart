@@ -88,7 +88,6 @@ Install Codacy on an existing cluster using our Helm chart:
     ```bash
     $ kubectl get pods -n codacy
     NAME                                            READY   STATUS    RESTARTS   AGE
-    codacy-activities-6d9db9499-stk2k               1/1     Running   2          8m57s
     codacy-activitiesdb-0                           1/1     Running   0          8m57s
     codacy-api-f7897b965-fgn67                      1/1     Running   0          8m57s
     codacy-api-f7897b965-kkqsx                      1/1     Running   0          8m57s
@@ -97,8 +96,6 @@ Install Codacy on an existing cluster using our Helm chart:
     codacy-engine-549bcb69d9-cgrqf                  1/1     Running   1          8m57s
     codacy-engine-549bcb69d9-sh5f4                  1/1     Running   1          8m57s
     codacy-fluentdoperator-x5vr2                    2/2     Running   0          8m57s
-    codacy-hotspots-api-b7b9db896-68gxx             1/1     Running   2          8m57s
-    codacy-hotspots-worker-76bb45b4d6-8gz45         1/1     Running   3          8m57s
     codacy-hotspotsdb-0                             1/1     Running   0          8m57s
     codacy-listener-868b784dcf-npdfh                1/1     Running   0          8m57s
     codacy-listenerdb-0                             1/1     Running   0          8m57s
