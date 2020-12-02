@@ -45,7 +45,3 @@ codacy/tmpcharts
 
 # Automated generation of changelogs and release notes
 release-notes-tools
-releasenotes.md
-missingreleasenotes.md
-changelog.md
-codacy/requirements_old.lock
