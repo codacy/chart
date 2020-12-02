@@ -1,11 +1,25 @@
 #!/bin/bash
 set -e
-REQUIREMENTS_FILE="$(pwd)/codacy/requirements.yaml"
+## TODO: Cleanup/simplify these environment variables
 OLD_LOCK_FILE="$(pwd)/codacy/requirements_old.lock"
-NEW_LOCK_FILE="$(pwd)/codacy/requirements.lock"
 CHANGELOG_FILE="$(pwd)/release-notes-tools/changelog.md"
 RELEASENOTES_FILE="$(pwd)/release-notes-tools/releasenotes.md"
 MISSINGRELEASENOTES_FILE="$(pwd)/release-notes-tools/missingreleasenotes.md"
+
+# Test if arguments were set
+if [[ -z $1 || -z $2 ]]; then
+    echo "Usage: $0 <requirements.yaml path> <requirements.lock path>"
+    exit 1
+fi
+
+if [[ ! -f $1 || ! -f $2 ]]; then
+    echo "Invalid requirements.yaml or requirements.lock file"
+    exit 1
+fi
+
+# Assign argument values
+REQUIREMENTS_FILE=$1
+NEW_LOCK_FILE=$2
 
 function appendToChangelog() {
     echo "$1" >> "$CHANGELOG_FILE"
@@ -43,6 +57,7 @@ cd release-notes-tools
 python3 jira-release-notes.py -u "Self-hosted" -st "" -et "" --no-changelogs
 cd ..
 
+# Cleanup
 rm "$OLD_LOCK_FILE"
 mv "$CHANGELOG_FILE" ./changelog.md
 mv "$RELEASENOTES_FILE" ./releasenotes.md

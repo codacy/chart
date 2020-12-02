@@ -34,5 +34,6 @@ get_release_notes: setup_helm_repos helm_dep_up
 	git fetch --all --tags
 	git clone git@github.com:codacy/release-notes-tools.git
 	pip3 install -r release-notes-tools/requirements.pip --user
-	changelogs/getChangelogs.sh
+	changelogs/getChangelogs.sh ${CURDIR}/codacy/requirements.yaml \
+	                            ${CURDIR}/codacy/requirements.lock
 	rm -rf release-notes-tools
