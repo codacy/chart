@@ -40,7 +40,7 @@ dependencies:
   version: 8.11.2
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
-  version: 2.0.3
+  version: 2.2.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
   version: 19.15.0
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.33.0
-digest: sha256:16df0dd9a78991de80e47a14f29720da006b059e4feff49713a452bddcb91d55
-generated: "2020-12-04T11:47:11.618276Z"
+digest: sha256:9483213041d97bd7e1f4cd110507a3074e3f57a4cb0823f946ffab9f548f118e
+generated: "2020-12-04T12:09:31.649611Z"
