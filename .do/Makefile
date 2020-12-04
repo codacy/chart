@@ -9,11 +9,6 @@ HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 
-define rotate_pod
-  kubectl patch deployment $(strip $(1)) -n $(2) -p '{"spec":{"template":{"metadata":{"annotations":{"date": "'$(shell date +'%Y-%m-%dT%H:%M:%S')'" }}}}}';
-  kubectl rollout status "deployment/$(strip $(1))" -n $(2) --watch --timeout=10m &
-endef
-
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
@@ -37,8 +32,6 @@ define call_helm_install
 	--set global.workerManager.workers.config.imageVersion=${5} \
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	"$${extra_args[@]}"
-
-  $(foreach DEPLOYMENT, $(DEPLOYMENTS),$(call rotate_pod, $(DEPLOYMENT), $(NAMESPACE)))
 endef
 
 define call_helm_install_infrastructure
