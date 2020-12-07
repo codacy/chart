@@ -78,9 +78,10 @@ The Release Manager must create a release candidate branch:
     make create_version_file update_dependencies
     ```
 
-    First, a `.version` file will be created based off of the most recently created tag, which is the one you have created on the previous step.
+    These Makefile targets:
 
-    Then, the command will update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
+    -   Create a `.version` file based on the most recent tag that you created on the previous step.
+    -   Update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
     This will also update the `global.codacy.installation.version` and `global.codacy.documentation.version` version on `./codacy/values.yaml`.
 
