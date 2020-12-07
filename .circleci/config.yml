@@ -317,7 +317,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Setup version from git tag
+          name: Set up version from git tag
           command: |
             make create_version_file
       - <<: *persist_to_workspace
