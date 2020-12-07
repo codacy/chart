@@ -49,3 +49,6 @@ releasenotes.md
 missingreleasenotes.md
 changelog.md
 codacy/requirements_old.lock
+
+# explicitly ignore the version file
+.version

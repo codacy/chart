@@ -317,10 +317,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: setup version from git tag
+          name: Setup version from git tag
           command: |
-            git tag --sort creatordate | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" | tail -n -1 > .version
-            echo $(cat .version)
+            make create_version_file
       - <<: *persist_to_workspace
 
   create_dev_cluster:
