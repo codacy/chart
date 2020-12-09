@@ -13,7 +13,7 @@ dependencies:
   version: 0.6.3
 - name: codacy-ingress
   repository: https://charts.codacy.com/stable
-  version: 0.11.0
+  version: 0.12.6
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 6.25.0
@@ -25,7 +25,7 @@ dependencies:
   version: 1.9.2
 - name: remote-provider-service
   repository: https://charts.codacy.com/stable
-  version: 8.32.0
+  version: 8.32.2
 - name: hotspots-api
   repository: https://charts.codacy.com/stable
   version: 1.8.1
@@ -43,15 +43,15 @@ dependencies:
   version: 2.2.1
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 19.15.0
+  version: 19.15.3
 - name: worker-manager
   repository: https://charts.codacy.com/stable
-  version: 10.3.2
+  version: 10.3.3
 - name: crow
   repository: https://charts.codacy.com/stable
   version: 5.4.0
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.33.0
-digest: sha256:9483213041d97bd7e1f4cd110507a3074e3f57a4cb0823f946ffab9f548f118e
-generated: "2020-12-04T12:09:31.649611Z"
+  version: 1.34.0
+digest: sha256:8d29ceeef510ec2c3092ddd9e40b8d440a8c3251b01a36caf50cb6b2d28e789c
+generated: "2020-12-09T16:35:08.117783Z"
