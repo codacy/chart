@@ -40,21 +40,21 @@ For a custom hardware resource recommendation, please contact us at [support@cod
 
 #### Codacy architecture
 
-You can look at Codacy separately as two parts:
+You can look at Codacy separately as two groups of components:
 
 -   The **"Platform"** contains the UI and other components important to treat and show results
 -   The **"Analysis"** is the swarm of workers that run **between one and four** linters simultaneously, depending on factors such as the number of files or the programming languages used in your projects
 
-![High-level architecture](images/codacy-architecture.svg)
+![High-level Codacy architecture](images/codacy-architecture.svg)
 
 Since all components are running on a cluster, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage.
 
-The following is a simplified overview of how to calculate resource allocation for the "Platform" and the "Analysis":
+The following is a simplified overview of how to calculate resource allocation for the group of components "Platform" and "Analysis":
 
-| Component                                              | vCPU                        | Memory                          |
-| ------------------------------------------------------ | --------------------------- | ------------------------------- |
-| Platform<br/>(1 replica per component)                 | 4                           | 8 GB                            |
-| Analysis<br/>(1 Analysis Worker + **up to** 4 linters) | 5<br/>(per Analysis Worker) | 10 GB<br/>(per Analysis Worker) |
+| Group of components                                       | vCPU                        | Memory                          |
+| --------------------------------------------------------- | --------------------------- | ------------------------------- |
+| Platform<br/>(1 replica per component)                    | 4                           | 8 GB                            |
+| Analysis<br/>(1 Analysis Worker with **up to** 4 linters) | 5<br/>(per Analysis Worker) | 10 GB<br/>(per Analysis Worker) |
 
 #### Standard cluster provisioning
 
