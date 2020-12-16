@@ -33,9 +33,9 @@ global:
     # Trial license. Valid for 4 users until the end of 2020
     license: "RAjlCYb/DxsAME0TjIn55neFSYOt0yxxnXBh4nKe/hbz4mjr0dDs3TLOehzQ3QyaLfONRva7T2iSkA57bMdpI/ZwAOUQtjO5XiU1KDaSUXCFZwDu1mBJMlMONCVOV3AuB6y56tsL0CZXnBqZD3R9dShTVXiSYDt/+2dhlVqGb70="
     installation:
-      version: development
+      version: v3.2.0-RC-0
     documentation:
-      version: development
+      version: v3.2
 
   # github:
   #   enabled: "false"
@@ -106,7 +106,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: stable
+        imageVersion: 8.11.2
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
@@ -268,10 +268,10 @@ codacy-ingress:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: "true"
     extraPaths:
-      - backend:
-          serviceName: codacy-crow
-          servicePort: http
-        path: /monitoring
+    - backend:
+        serviceName: codacy-crow
+        servicePort: http
+      path: /monitoring
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
