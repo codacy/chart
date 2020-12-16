@@ -170,12 +170,6 @@ codacy-tools:
 worker-manager:
   replicaCount: 1
 
-codacy-spa:
-  config:
-    codacy:
-      pagination:
-        repositoriesLimit: 20
-
 fluentdoperator:
   enabled: true
   expirationDays: 15
