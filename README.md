@@ -230,6 +230,7 @@ The following parameters are specific to each Codacy component.
 | `codacy-spa.image.tag`                              | Image tag                                                                                           | from dependency                              |
 | `codacy-spa.service.type`                           | SPA service type                                                                                    | `ClusterIP`                                  |
 | `codacy-spa.service.annotations`                    | Annotations to be added to the SPA service                                                          | `{}`                                         |
+| `codacy-spa.config.codacy.pagination.repositoriesLimit`   | Amount of repositories to fetch on each page                                                  | `100`                              |
 
 The following parameters refer to components that are not internal to Codacy, but go as part of this bundle so that you can bootstrap Codacy faster.
 
