@@ -40,36 +40,38 @@ For a custom hardware resource recommendation, please contact us at [support@cod
 
 #### Codacy architecture
 
-You can look at Codacy separately as two parts:
+You can look at Codacy separately as two groups of components:
 
 -   The **"Platform"** contains the UI and other components important to treat and show results
 -   The **"Analysis"** is the swarm of workers that run **between one and four** linters simultaneously, depending on factors such as the number of files or the programming languages used in your projects
 
-![High-level architecture](images/codacy-architecture.svg)
+![High-level Codacy architecture](images/codacy-architecture.svg)
 
-Since all components are running on a cluster, you can increase the number of replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage.
+Since all components are running on a cluster, you can increase the number of pod replicas in every deployment to give you more resilience and throughput, at a cost of increased resource usage.
 
-The following is a simplified overview of how to calculate resource allocation for the "Platform" and the "Analysis":
+The following is a simplified overview of how to calculate resource allocation for the group of components "Platform" and "Analysis":
 
-| Component                                              | vCPU                        | Memory                          |
-| ------------------------------------------------------ | --------------------------- | ------------------------------- |
-| Platform<br/>(1 replica per component)                 | 4                           | 8 GB                            |
-| Analysis<br/>(1 Analysis Worker + **up to** 4 linters) | 5<br/>(per Analysis Worker) | 10 GB<br/>(per Analysis Worker) |
+| Group of components                                           | vCPU                        | Memory                          |
+| ------------------------------------------------------------- | --------------------------- | ------------------------------- |
+| Platform<br/>(1 pod replica per component)                    | 4                           | 8 GB                            |
+| Analysis<br/>(1 Analysis Worker pod with **up to** 4 linters) | 5<br/>(per Analysis Worker) | 10 GB<br/>(per Analysis Worker) |
 
 #### Standard cluster provisioning
 
-The resources recommended on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](./values-files/values-production.yaml) file, which you might need to adapt taking into account your use case. As described in the section above, Codacy's architecture allows scaling the "Analysis" part of the platform, meaning that the resources needed for Codacy **depend mainly on the rate of commits** done by your team that Codacy will be analyzing.
+As described in the section above, Codacy's architecture allows scaling the "Analysis" group of components, meaning that the resources needed for Codacy **depend mainly on the rate of commits** done by your team that Codacy will be analyzing.
 
-!!! important
+The resources recommended on the following table are based on our experience and are also the defaults in the [`values-production.yaml`](./values-files/values-production.yaml) file. You might need to adapt these defaults taking into account your use case. In particular, you should set the value of `global.workerManager.workers.config.dedicatedMax` to the maximum number of concurrent analysis depending on the available resources and number of replicas per component.
+
+!!! note
     For MicroK8s clusters we added an extra 1.5 vCPU and 1.5 GB memory to the "Platform" to account for the MicroK8s platform itself running on the same machine.
 
-| Installation type                            | Replicas per component | Max. concurrent analysis | Platform resources          | Analysis resources        | **~ Total resources**         |
-| -------------------------------------------- | ---------------------- | ------------------------ | --------------------------- | ------------------------- | ----------------------------- |
-| Kubernetes<br/>Small Installation            | 1                      | 2                        | 4 vCPUs<br/>8 GB RAM        | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
-| Kubernetes<br/>Medium Installation (default) | 2                      | 4                        | 8 vCPUs<br/>16 GB RAM       | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
-| Kubernetes<br/>Big Installation              | 2+                     | 10+                      | 8+ vCPUs<br/>16+ GB RAM     | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
-| MicroK8s<br/>Minimum                         | 1                      | 2                        | 5.5 vCPUs<br/>9.5 GB RAM    | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
-| MicroK8s<br/>Recommended (default)           | 1+                     | 2                        | 9.5+ vCPUs<br/>17.5+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **21+ vCPUs<br/>40+ GB RAM**  |
+| Installation type                            | Pod replicas per component | Max. concurrent analysis | Platform resources          | Analysis resources        | **~ Total resources**         |
+| -------------------------------------------- | -------------------------- | ------------------------ | --------------------------- | ------------------------- | ----------------------------- |
+| Kubernetes<br/>Small Installation            | 1                          | 2                        | 4 vCPUs<br/>8 GB RAM        | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
+| Kubernetes<br/>Medium Installation (default) | 2                          | 4                        | 8 vCPUs<br/>16 GB RAM       | 20 vCPUs<br/>40 GB RAM    | **32 vCPUs<br/>64 GB RAM**    |
+| Kubernetes<br/>Big Installation              | 2+                         | 10+                      | 8+ vCPUs<br/>16+ GB RAM     | 50+ vCPUs<br/>100+ GB RAM | **60+ vCPUs<br/>110+ GB RAM** |
+| MicroK8s<br/>Minimum                         | 1                          | 2                        | 5.5 vCPUs<br/>9.5 GB RAM    | 10 vCPUs<br/>20 GB RAM    | **16 vCPUs<br/>32 GB RAM**    |
+| MicroK8s<br/>Recommended (default)           | 1+                         | 2                        | 9.5+ vCPUs<br/>17.5+ GB RAM | 10 vCPUs<br/>20 GB RAM    | **21+ vCPUs<br/>40+ GB RAM**  |
 
 The storage requirements recommended on the following table **depend mainly on the number of repositories** that Codacy will be analyzing and should be used as a guideline to determine your installation requirements.
 
