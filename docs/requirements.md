@@ -2,7 +2,7 @@
 
 Before installing Codacy you must ensure that you have the following infrastructure correctly provisioned and configured:
 
--   [Kubernetes or MicroK8s cluster](#kubernetes-or-microK8s-cluster-setup)
+-   [Kubernetes or MicroK8s cluster](#kubernetes-or-microk8s-cluster-setup)
 -   [PostgreSQL server](#postgresql-server-setup)
 
 The next sections describe in detail how to set up these prerequisites.
