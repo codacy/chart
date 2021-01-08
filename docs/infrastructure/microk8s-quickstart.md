@@ -10,7 +10,7 @@ Prepare your environment to set up the MicroK8s instance.
 
 -   You will need a machine running [Ubuntu Server 18.04 LTS](https://ubuntu.com/download/server) that:
 
-    -   Is correctly provisioned with the resources described for MicroK8s in the [system requirements](../requirements.md#kubernetes-or-microK8s-cluster-setup)
+    -   Is correctly provisioned with the resources described for MicroK8s in the [system requirements](../requirements.md#kubernetes-or-microk8s-cluster-setup)
     -   Is able to establish a connection to the PostgreSQL instance described in the [system requirements](../requirements.md#postgresql-server-setup)
 
 -   Make sure that you have [Helm](https://helm.sh/docs/intro/install/) version 3.2.1 installed.

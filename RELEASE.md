@@ -58,27 +58,7 @@ The Release Manager must create a release candidate branch:
     git checkout -b 'release-x.x.x'
     ```
 
--   [ ] 4.  Update Dependencies
-
-    Let's assume that `requirements.yaml` file should have the correct dynamic versions configured.
-
-    Run the following command:
-
-    ```bash
-    make update_dependencies
-    ```
-
-    This will update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
-
--   [ ] 5.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
-
-    For example:
-
-    ```bash
-    git commit -m 'release: prepare x.x.x'
-    ```
-
--   [ ] 6.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
+-   [ ] 4.  Tag the commit with a release candidate version following the pattern `x.x.x-RC-0`
 
     For example:
 
@@ -86,9 +66,44 @@ The Release Manager must create a release candidate branch:
     git tag 'x.x.x-RC-1'
     ```
 
-    This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next step.
+    This is a requirement so that we can fill in values for `engine` and `documentation` versions on the next step.
 
--   [ ] 7.  Push the commit
+-   [ ] 5.  Update Dependencies
+
+    Let's assume that `requirements.yaml` file should have the correct dynamic versions configured.
+
+    Run the following command:
+
+    ```bash
+    rm .version && make create_version_file update_dependencies
+    ```
+
+    These Makefile targets:
+
+    -   Create a `.version` file based on the most recent tag that you created on the previous step.
+    -   Update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
+
+    This will also update the `global.codacy.installation.version` and `global.codacy.documentation.version` version on `./codacy/values.yaml`.
+
+-   [ ] 6.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
+
+    For example:
+
+    ```bash
+    git commit -m 'release: prepare x.x.x'
+    ```
+
+-   [ ] 7.  Move the the tag to the latest commit you have just done
+
+    For example:
+
+    ```bash
+    git tag -f 'x.x.x-RC-1'
+    ```
+
+    This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next steps.
+
+-   [ ] 8.  Push the commit
 
     ```bash
     git push origin refs/tags/x.x.x-RC-1 && git push --set-upstream origin 'release-x.x.x'
@@ -98,7 +113,7 @@ The Release Manager must create a release candidate branch:
 
     Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
-    -   [ ] 7.1.  Cherry-pick fixes
+    -   [ ] 8.1.  Cherry-pick fixes
 
         At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
 
@@ -110,7 +125,7 @@ The Release Manager must create a release candidate branch:
 
         Ensure the cherry-pick commit is free from any conflicts.
 
-    -   [ ] 7.2.  Push new Release Candidate tag
+    -   [ ] 8.2.  Push new Release Candidate tag
 
         Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
 

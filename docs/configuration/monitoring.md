@@ -107,7 +107,7 @@ helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-oper
   --version 8.13.8 --namespace monitoring --values values-prometheus-operator.yaml
 ```
 
-Follow the [Kubernetes documentation](https://v1-15.docs.kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that is now running on your cluster, using the method that best suits your use case.
+Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that is now running on your cluster, using the method that best suits your use case.
 
 ### 5. Enable service dashboards
 
