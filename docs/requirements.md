@@ -10,7 +10,7 @@ The next sections describe in detail how to set up these prerequisites.
 
 ## Git provider
 
-To use Codacy Self-hosted, you must use one or more of our [supported Git providers](../faq/general/which-version-control-systems-do-you-support/). In particular, if you're using a self-hosted Git provider, make sure that your version is supported by Codacy.
+To use Codacy Self-hosted, you must use one or more of our [supported Git providers](../../faq/general/which-version-control-systems-do-you-support/). In particular, if you're using a self-hosted Git provider, make sure that your version is supported by Codacy.
 
 ## Kubernetes or MicroK8s cluster setup
 
