@@ -30,8 +30,8 @@ global:
     workerManager:
       url: "codacy-worker-manager"
       port: 80
-    # Trial license. Valid for 4 users until the end of 2020
-    license: "RAjlCYb/DxsAME0TjIn55neFSYOt0yxxnXBh4nKe/hbz4mjr0dDs3TLOehzQ3QyaLfONRva7T2iSkA57bMdpI/ZwAOUQtjO5XiU1KDaSUXCFZwDu1mBJMlMONCVOV3AuB6y56tsL0CZXnBqZD3R9dShTVXiSYDt/+2dhlVqGb70="
+    # Trial license. Valid for 4 users until the end of 2030
+    license: "lV5QUFrZhlibdCP/MN8pZo76B3jhPeL/RAk4E2AL2WZlGI8Vno/LfvAwnSHm26uY817I3qvEjfhIZFCkDi8R6PngiB+UiT+h8W0Blica8Sp+d5ngnh9HuhTG6xAIf7gAQxyJpn3boV87CKTO+5nHYSeJccMd+s8esMxoS84Z2xI="
     installation:
       version: development
     documentation:
