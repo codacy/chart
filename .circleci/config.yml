@@ -647,6 +647,34 @@ workflows:
           requires:
             - helm_push_incubator
 
+      - codacy/microk8s_install:
+          name: install_k8s-1.19_helm-3.2
+          helm_repo: "https://charts.codacy.com/incubator"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.19/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_incubator
+
+      - codacy/microk8s_install:
+          name: install_k8s-1.20_helm-3.2
+          helm_repo: "https://charts.codacy.com/incubator"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.20/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_incubator
+
       - test_web:
           context: CodacyAWS
           requires:
