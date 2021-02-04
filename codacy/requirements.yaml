@@ -92,8 +92,8 @@ dependencies:
   condition: codacy-api.create
 
 - name: worker-manager
-  version: ">=10.0.0"
-  repository: https://charts.codacy.com/stable
+  version: ">=10.7.0-fixjaegervalues"
+  repository: https://charts.codacy.com/unstable
   git: git@bitbucket.org:qamine/worker-manager.git
   condition: worker-manager.create
 
