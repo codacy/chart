@@ -68,8 +68,8 @@ dependencies:
   condition: hotspots-worker.create
 
 - name: listener
-  version: ">=7.11.0"
-  repository: https://charts.codacy.com/stable
+  version: ">=7.31.4-fixkamonbooleanstrings"
+  repository: https://charts.codacy.com/unstable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
