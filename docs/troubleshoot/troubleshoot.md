@@ -2,7 +2,7 @@
 
 This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy.
 
-If the information provided on this page is not enough to solve your issue, contact [support@codacy.com](mailto:support@codacy.com) providing:
+If the information provided on this page is not enough to solve your issue, contact <mailto:support@codacy.com> providing:
 
 -   The description of the issue
 -   All the information that you were able to obtain while following these troubleshooting instructions
