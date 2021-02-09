@@ -41,7 +41,7 @@ The cluster must be configured to accept and establish connections on the follow
 
 The high-level architecture described in the next section is important in understanding how Codacy uses and allocates hardware resources. Below we also provide guidance on [resource provisioning for typical scenarios](#standard-cluster-provisioning).
 
-For a custom hardware resource recommendation, please contact us at [support@codacy.com](mailto://support@codacy.com).
+For a custom hardware resource recommendation, please contact us at <mailto:support@codacy.com>.
 
 #### Codacy architecture
 
