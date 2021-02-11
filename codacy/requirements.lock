@@ -19,7 +19,7 @@ dependencies:
   version: 6.28.1
 - name: ragnaros
   repository: https://charts.codacy.com/stable
-  version: 27.0.0
+  version: 27.0.4
 - name: activities
   repository: https://charts.codacy.com/stable
   version: 1.9.2
@@ -37,13 +37,13 @@ dependencies:
   version: 8.0.0
 - name: engine
   repository: https://charts.codacy.com/stable
-  version: 8.21.1
+  version: 9.1.0
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
   version: 2.3.3
 - name: codacy-api
   repository: https://charts.codacy.com/stable
-  version: 20.24.0
+  version: 20.25.0-releaseturnonimportpatterns.2.e8a028095
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.6.5
@@ -52,6 +52,6 @@ dependencies:
   version: 5.5.0
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.41.0
-digest: sha256:a886339b29b5aac8033154efbb3c8b0f8b17d9c75fe6400c92cc825b1523d9e9
-generated: "2021-02-10T16:12:30.545755Z"
+  version: 1.41.1
+digest: sha256:1fc84435bb5968a45e49fb9fa499f2f0c26fb1fa401eaab72093b37697f882ae
+generated: "2021-02-11T16:13:33.610562Z"
