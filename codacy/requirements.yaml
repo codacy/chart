@@ -68,19 +68,19 @@ dependencies:
   condition: hotspots-worker.create
 
 - name: listener
-  version: ">=7.11.0"
+  version: "8.0.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
 - name: engine
-  version: ">=6.3.0"
+  version: "9.1.0"
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create
 
 - name: codacy-tools
-  version: ">=0.4.1"
+  version: "2.3.3"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-tools.git
   condition: codacy-tools.create
