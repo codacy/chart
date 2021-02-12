@@ -19,7 +19,7 @@ The cluster running Codacy must satisfy the following requirements:
 -   The infrastructure hosting the cluster must be provisioned with the hardware and networking requirements described below
 -   The orchestration platform managing the cluster must be one of:
     -   [Kubernetes](https://kubernetes.io/) **version 1.14.\*** to **1.20.\*** (1.16 recommended)
-    -   [MicroK8s](https://microk8s.io/) **version 1.14.\*** to **1.20.\*** (1.16 recommended)
+    -   [MicroK8s](https://microk8s.io/) **version 1.14.\*** to **1.18.\*** (1.16 recommended)
 -   The [NGINX Ingress controller](https://github.com/kubernetes/ingress-nginx) must be installed and correctly set up in the cluster
 
 ### Cluster networking requirements
