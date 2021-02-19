@@ -185,13 +185,13 @@ The Technical Writer must follow the steps below to [prepare the release notes](
     make get_release_notes
     ```
 
-    This uses [codacy/release-notes-tools](https://github.com/codacy/release-notes-tools) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
+    This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
 
 -   [ ] 2.  Manually curate the generated release notes output
 
     Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
 
--   [ ] 3.  Generate the tool versions and updates for the new release by following the instructions on [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes).
+-   [ ] 3.  Generate the tool versions and updates for the new release by following the instructions on [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes/blob/master/tools-diff/README.md).
 
 -   [ ] 4.  Review the release notes on a new pull request in codacy/docs
 
