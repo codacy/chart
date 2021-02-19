@@ -44,12 +44,12 @@ update_dependencies: setup_helm_repos helm_dep_up update_internals_versions upda
 get_release_notes: setup_helm_repos helm_dep_up
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags
-	# Cleanup release-notes-tools if it exists
-	if [ -d release-notes-tools ]; then rm -rf release-notes-tools; fi
-	# Clone codacy/release-notes-tools and generate the changelog and release notes
-	git clone git@github.com:codacy/release-notes-tools.git
+	# Cleanup codacy-tools-release-notes if it exists
+	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
+	# Clone codacy/codacy-tools-release-notes and generate the changelog and release notes
+	git clone git@github.com:codacy/codacy-tools-release-notes.git
 	# Install dependencies
-	pip3 install -r release-notes-tools/requirements.pip --user
+	pip3 install -r codacy-tools-release-notes/requirements.pip --user
 	# Generate changelogs and release notes
-	release-notes-tools/getChangelogs.sh ${CURDIR}/codacy/requirements.yaml \
+	codacy-tools-release-notes/getChangelogs.sh ${CURDIR}/codacy/requirements.yaml \
 	                                     ${CURDIR}/codacy/requirements.lock
