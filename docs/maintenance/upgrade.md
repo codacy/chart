@@ -8,7 +8,7 @@ To upgrade Codacy to the latest stable version:
         Failing to follow the steps to deal with breaking changes can cause the upgrade to fail or cause problems while Codacy is running.
 
     !!! tip
-        The version of your Codacy instance is available when you click your avatar on the top right-hand corner of any Codacy page:
+        Click your avatar on the top right-hand corner of any Codacy page to see the version of your Codacy Self-hosted instance:
 
         ![Obtaining the Codacy Self-hosted version](../troubleshoot/images/self-hosted-version.png)
 
