@@ -7,9 +7,12 @@ If the information provided on this page is not enough to solve your issue, cont
 -   The description of the issue
 -   All the information that you were able to obtain while following these troubleshooting instructions
 -   The [collected logs](logs-collect.md) of your Codacy instance
--   The version of your Codacy instance, available when you click your avatar on the top right-hand corner of any Codacy page:
+-   The version of your Codacy instance
 
-    ![Obtaining the Codacy Self-hosted version](images/self-hosted-version.png)
+    {%
+        include-markdown "../assets/includes/self-hosted-version.txt"
+    %}
+    
 
 ## Git provider integrations
 
