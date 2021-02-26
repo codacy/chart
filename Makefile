@@ -41,7 +41,7 @@ helm_dep_up:
 update_dependencies: setup_helm_repos helm_dep_up update_internals_versions update_docs_versions
 
 .PHONY: get_release_notes
-get_release_notes: setup_helm_repos helm_dep_up
+get_release_notes: create_version_file setup_helm_repos helm_dep_up
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags
 	# Cleanup codacy-tools-release-notes if it exists
@@ -51,5 +51,7 @@ get_release_notes: setup_helm_repos helm_dep_up
 	# Install dependencies
 	pip3 install -r codacy-tools-release-notes/requirements.pip --user
 	# Generate changelogs and release notes
-	codacy-tools-release-notes/getChangelogs.sh ${CURDIR}/codacy/requirements.yaml \
-	                                     ${CURDIR}/codacy/requirements.lock
+	codacy-tools-release-notes/getChangelogs.sh \
+		$(shell cat .version | grep -Eoh "^([0-9]+\.[0-9]+\.[0-9]+)") \
+		${CURDIR}/codacy/requirements.yaml \
+		${CURDIR}/codacy/requirements.lock
