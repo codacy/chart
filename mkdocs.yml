@@ -26,6 +26,7 @@ copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
 # Plugins and extensions
 plugins:
   - search
+  - include-markdown
   - markdownextradata
 
 markdown_extensions:

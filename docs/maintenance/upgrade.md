@@ -7,6 +7,10 @@ To upgrade Codacy to the latest stable version:
     !!! warning
         Failing to follow the steps to deal with breaking changes can cause the upgrade to fail or cause problems while Codacy is running.
 
+    {%
+        include-markdown "../assets/includes/self-hosted-version.txt"
+    %}
+
 2.  Store all your currently defined configuration values in a file:
 
     ```bash
