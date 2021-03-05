@@ -34,7 +34,7 @@ dependencies:
 - name: portal
   version: ">=6.7.1"
   repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/portal.git
+  git: git@github.com:codacy/portal.git
   condition: portal.create
 
 - name: ragnaros
