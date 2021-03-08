@@ -39,9 +39,11 @@ setup_vars:
 .PHONY: start_cluster
 start_cluster: set_cluster_context provision_cluster install_nginx install_certmanager
 
+.PHONY: validate_cluster
+validate_cluster: setup_vars create_terraformrc tf_init tf_validate
+
 .PHONY: provision_cluster
-provision_cluster: setup_vars create_terraformrc
-	echo '1' | $(TF) init -input=false -reconfigure
+provision_cluster: setup_vars create_terraformrc tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) apply -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 	$(TF) output -json > terraform_outputs.json
@@ -83,7 +85,14 @@ install_certmanager:
 	kubectl apply --namespace kube-system -f issuer-letsencrypt.yaml
 
 .PHONY: destroy_cluster
-destroy_cluster: setup_vars create_terraformrc set_cluster_context
-	echo '1' | $(TF) init -input=false -reconfigure
+destroy_cluster: setup_vars create_terraformrc set_cluster_context tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE)
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
+
+.PHONY: tf_init
+tf_init:
+	echo '1' | $(TF) init -input=false -reconfigure
+
+.PHONY: tf_validate
+tf_validate:
+	$(TF) validate
