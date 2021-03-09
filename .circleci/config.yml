@@ -210,6 +210,18 @@ references:
       command: |
         mv codacy/requirements-dev.yaml codacy/requirements.yaml
 
+  validate_cluster: &validate_cluster
+    steps:
+      - <<: *attach_workspace
+      - <<: *doctl_authenticate
+      - deploy:
+          name: "Validate K8S Cluster"
+          command: make -C ./.do/k8s-cluster validate_cluster
+      - deploy:
+          name: "Validate DB Cluster"
+          command: make -C ./.do/db-cluster initialize_terrafom
+      - <<: *persist_to_workspace
+
   create_cluster: &create_cluster
     steps:
       - <<: *attach_workspace
@@ -321,6 +333,12 @@ jobs:
           command: |
             make create_version_file
       - <<: *persist_to_workspace
+
+  validate_dev_cluster:
+    <<: *default_doks_image
+    environment:
+      <<: *dev_environment
+    <<: *validate_cluster
 
   create_dev_cluster:
     <<: *default_doks_image
@@ -482,10 +500,14 @@ workflows:
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
-      - helm_push_unstable:
+      - validate_dev_cluster:
           context: CodacyDO
           requires:
             - helm_lint
+      - helm_push_unstable:
+          context: CodacyDO
+          requires:
+            - validate_dev_cluster
       - codacy/microk8s_install:
           name: install_k8s-1.16_helm-3.2
           helm_repo: "https://charts.codacy.com/unstable"

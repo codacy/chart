@@ -33,8 +33,7 @@ destroy_cluster: initialize_terrafom
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
 .PHONY: initialize_terrafom
-initialize_terrafom: setup_vars create_terraformrc
-	echo '1' | $(TF) init -input=false -reconfigure
+initialize_terrafom: setup_vars create_terraformrc tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE_PREFIX)-$(ENVIRONMENT)
 
 .PHONY: terraform_logistics
@@ -57,3 +56,11 @@ replace_db_values:
 	@sed -i "s/<--- codacy-db-username --->/$(username)/g; s/<--- codacy-db-password --->/$(password)/g; s/<--- codacy-db-host --->/$(host)/g; s/<--- codacy-db-port --->/$(port)/g;" ../values.yaml
 	@sed -i "s/postgresqlDatabase: activities/postgresqlDatabase: \"activities?sslmode=require\"/g; s/postgresqlDatabase: hotspots/postgresqlDatabase: \"hotspots?sslmode=require\"/g; s/postgresqlDatabase: crow/postgresqlDatabase: \"crow?sslmode=require\"/g" ../values.yaml
 	@echo "Replaced template values for db connections"
+
+.PHONY: tf_init
+tf_init:
+	echo '1' | $(TF) init -input=false -reconfigure
+
+.PHONY: tf_validate
+tf_validate:
+	$(TF) validate
