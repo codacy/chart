@@ -32,13 +32,13 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: ">=6.7.1"
+  version: 6.32.1 
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/portal.git
   condition: portal.create
 
 - name: ragnaros
-  version: ">=15.2.2"
+  version: 28.1.1 
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/ragnaros.git
   condition: ragnaros.create
@@ -68,25 +68,25 @@ dependencies:
   condition: hotspots-worker.create
 
 - name: listener
-  version: ">=7.11.0"
+  version: 8.5.0 
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
 - name: engine
-  version: ">=6.3.0"
+  version: 9.4.0 
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-worker.git
   condition: engine.create
 
 - name: codacy-tools
-  version: ">=0.4.1"
+  version: 2.4.10 
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-tools.git
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: ">=9.2.0"
+  version: 20.41.2 
   repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
   condition: codacy-api.create
