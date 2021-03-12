@@ -2,7 +2,7 @@
 
 To upgrade Codacy to the latest stable version:
 
-1.  Check the [release notes](/release-notes/) for all Codacy Self-hosted versions between your current version and the most recent version for breaking changes and follow the instructions provided carefully.
+1.  Check the [release notes](https://docs.codacy.com/release-notes/) for all Codacy Self-hosted versions between your current version and the most recent version for breaking changes and follow the instructions provided carefully.
 
     !!! warning
         Failing to follow the steps to deal with breaking changes can cause the upgrade to fail or cause problems while Codacy is running.
