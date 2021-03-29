@@ -727,6 +727,8 @@ workflows:
             - install_k8s-1.16_helm-3.2
             - install_k8s-1.17_helm-3.2
             - install_k8s-1.18_helm-3.2
+            - install_k8s-1.19_helm-3.2
+            - install_k8s-1.20_helm-3.2
       - manual_solutions_eng_hold:
           type: approval
           context: CodacyDO
@@ -740,6 +742,8 @@ workflows:
             - install_k8s-1.16_helm-3.2
             - install_k8s-1.17_helm-3.2
             - install_k8s-1.18_helm-3.2
+            - install_k8s-1.19_helm-3.2
+            - install_k8s-1.20_helm-3.2
       - set_chart_version_release:
           context: CodacyDO
           requires:
