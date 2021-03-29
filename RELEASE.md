@@ -75,7 +75,7 @@ The Release Manager must create a release candidate branch:
     Run the following command:
 
     ```bash
-    rm .version && make create_version_file update_dependencies
+    rm .version; make create_version_file update_dependencies
     ```
 
     These Makefile targets:
