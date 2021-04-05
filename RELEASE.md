@@ -113,7 +113,6 @@ The Release Manager must create a release candidate branch:
 
     Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
-    -   [ ] 8.1.  Cherry-pick fixes
 
         - [ ] 8.1.1. Fixes on codacy-chart
         
