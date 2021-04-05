@@ -114,17 +114,17 @@ The Release Manager must create a release candidate branch:
     Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
 
-        - [ ] 8.1.1. Fixes on codacy-chart
+    - [ ] 8.1. Cherry-picking fixes on codacy-chart
         
-            At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
+        At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
 
-            You can cherry-pick the required changes with:
+        You can cherry-pick the required changes with:
 
-            ```bash
-            git cherry-pick <commit-hash>
-            ```
+        ```bash
+        git cherry-pick <commit-hash>
+        ```
 
-            Ensure the cherry-pick commit is free from any conflicts.
+        Ensure the cherry-pick commit is free from any conflicts.
         
         - [ ] 8.1.2 Fixes on a specific component
             
