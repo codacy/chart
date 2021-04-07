@@ -113,8 +113,9 @@ The Release Manager must create a release candidate branch:
 
     Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
-    -   [ ] 8.1.  Cherry-pick fixes
 
+    - [ ] 8.1. Cherry-picking fixes on codacy-chart
+        
         At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
 
         You can cherry-pick the required changes with:
@@ -124,6 +125,26 @@ The Release Manager must create a release candidate branch:
         ```
 
         Ensure the cherry-pick commit is free from any conflicts.
+        
+    - [ ] 8.2. Cherry-picking fixes on a specific component
+            
+        At this stage it is possible for some component to have a bug that needs to be fixed before the release.
+            
+        If this is the case, you should produce a new version for the component (with chart published in stable repo) that only includes the changes that introduce the fix.
+            
+        This new version should be set as fixed in the `requirements.lock` file to ensure that other unrelated component changes are not pulled to the release.
+            
+        After this, update the current version by adding a new tag:
+            
+        ```bash
+        git tag 'x.x.x-RC-<n>'
+        ```
+            
+        and by updating the `.version` file:
+            
+        ```bash
+        rm .version && make create_version_file
+        ```
 
     -   [ ] 8.2.  Push new Release Candidate tag
 
