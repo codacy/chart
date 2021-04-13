@@ -41,9 +41,9 @@ helm_dep_up:
 update_dependencies: setup_helm_repos helm_dep_up update_internals_versions update_docs_versions
 
 .PHONY: get_release_notes
-get_release_notes: create_version_file setup_helm_repos helm_dep_up
+get_release_notes: create_version_file
 	# Fetch updated codacy/chart tags
-	git fetch --all --tags
+	git fetch --all --tags --force
 	# Cleanup codacy-tools-release-notes if it exists
 	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
 	# Clone codacy/codacy-tools-release-notes and generate the changelog and release notes
