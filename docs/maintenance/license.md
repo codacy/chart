@@ -17,7 +17,7 @@ Some changes to your Codacy plan require that you update your Codacy Self-hosted
 2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
 
     !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        **If you're using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
 
         To do this, uncomment the last line before running the `helm upgrade` command below.
 

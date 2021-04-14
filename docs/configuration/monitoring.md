@@ -6,10 +6,10 @@ description: Instructions on how to set up monitoring for your Codacy Self-hoste
 
 Currently, Codacy Self-hosted supports two monitoring solutions:
 
--   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
+-   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.
 
-The sections below provide details on how to set up each monitoring solution.
+The sections below provide instructions on how to set up each monitoring solution.
 
 ## Setting up monitoring using Crow
 
@@ -36,7 +36,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 2.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
 
     !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        **If you're using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
 
         To do this, uncomment the last line before running the `helm upgrade` command below.
 
@@ -62,7 +62,7 @@ The simplest way to set up Prometheus in your cluster is by using the [Prometheu
 Add the custom resources required for installing this bundle in your cluster:
 
 !!! important
-    **If you are using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
+    **If you're using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
 
 ```bash
 kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
@@ -102,7 +102,7 @@ helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
 
 Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](../values-files/values-prometheus-operator.yaml). Then:
 
-1.  Edit the Grafana password for the `admin` user and the hostname for grafana in the `values-prometheus-operator.yaml` file.
+1.  Edit the Grafana password for the `admin` user and the hostname for Grafana in the `values-prometheus-operator.yaml` file.
 
 2.  Install the bundle on your cluster by running the command below.
 
@@ -111,12 +111,12 @@ helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-oper
   --version 8.13.8 --namespace monitoring --values values-prometheus-operator.yaml
 ```
 
-Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that is now running on your cluster, using the method that best suits your use case.
+Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that's now running on your cluster, using the method that best suits your use case.
 
 ### 5. Enable service dashboards
 
 !!! warning
-    Currently, the application metrics and information reported by the Codacy components to populate service dashboards are very limited since we are still developing these reporting capabilities.
+    Currently, the application metrics and information reported by the Codacy components to populate service dashboards are very limited since we're still developing these reporting capabilities.
 
     As such, we recommend that you skip this configuration.
 

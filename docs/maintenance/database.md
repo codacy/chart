@@ -54,13 +54,14 @@ PGPASSWORD=$DB_PASSWORD pg_restore -h $DEST_HOSTNAME -p $DEST_HOSTPORT -U $DB_US
 
 With the custom format from `pg_dump` (by using `-Fc`) we can now invoke `pg_restore` with multiple parallel jobs. This should make the restoration of the databases quicker, depending on which value you provide for the number of parallel jobs to execute. We provide a value of 8 parallel jobs in the example above (`-j 8`).
 
-*NOTE: If you run into any problems while restoring, make sure that you have the database created in that postgres instance (e.g. before restoring the jobs database the postgres instance should have an empty database called `jobs` created there)*
+!!! note
+    If you run into any problems while restoring, make sure that you have the database created in that Postgres instance (e.g. before restoring the jobs database the Postgres instance should have an empty database called `jobs` created there).
 
-[For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/9.6/app-pgrestore.html)
+For more information and additional options, please check the [official documentation](https://www.postgresql.org/docs/9.6/app-pgrestore.html).
 
 ## Sample script
 
-Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could easily migrate your databases with the following sample script:
+Assuming you have the same `$DB_USER` and `$DB_PASSWORD`, and that you want to migrate all the databases from the same hostname to the same destination hostname, you could migrate your databases with the following sample script:
 
 ```bash
 SRC_HOSTNAME=$1
@@ -78,7 +79,7 @@ do
 done
 ```
 
-You could simply invoke it with:
+As an example, you could run the script as follows:
 
 ```bash
 migrateDBs.sh postgres–instance1.us-east-1.rds.amazonaws.com 25060 postgres–instance1.eu-west-1.rds.amazonaws.com 25060 super_user secret_password

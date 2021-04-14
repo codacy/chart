@@ -15,7 +15,7 @@ Prepare your environment to set up the MicroK8s instance.
 
 -   Make sure that you have [Helm](https://helm.sh/docs/intro/install/) version 3.2.1 installed.
 
-The next steps assume that you are starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.
+The next steps assume that you're starting from a clean install of Ubuntu Server and require that you run commands on a local or remote command line session on the machine.
 
 ## 2. Installing MicroK8s
 

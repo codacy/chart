@@ -8,9 +8,9 @@ description: Useful helm and kubectl commands to help troubleshoot your Codacy S
 
 !!! important
     Always check the pods and deployment versions in the namespace
-    to make sure you are not debugging an issue in a version that is not the one you would expect
+    to make sure you aren't debugging an issue in a version that's not the one you would expect
 
-Events are a great way to understand what is going on under the hood in a Kubernetes cluster.
+Events are a great way to understand what's going on under the hood in a Kubernetes cluster.
 By looking at them you can see if probes are failing, and other important signals from your cluster.
 
 Get events for the whole namespace:

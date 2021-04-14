@@ -40,7 +40,7 @@ Install Codacy on an existing cluster using our Helm chart:
     -   [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) within one minor version difference of your cluster
 
         !!! important
-            **If you are using MicroK8s** you don't need to install kubectl because you will execute all `kubectl` commands as `microk8s.kubectl` commands instead. To simplify this, [check how to create an alias](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy) for `kubectl`.
+            **If you're using MicroK8s** you don't need to install kubectl because you will execute all `kubectl` commands as `microk8s.kubectl` commands instead. To simplify this, [check how to create an alias](infrastructure/microk8s-quickstart.md#notes-on-installing-codacy) for `kubectl`.
 
     -   [Helm](https://helm.sh/docs/intro/install/) version >= 3.2
 
@@ -66,12 +66,12 @@ Install Codacy on an existing cluster using our Helm chart:
 5.  Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.
 
     !!! important
-        **If you are using MicroK8s** you must map the hostname to the public IP address of the machine running MicroK8s.
+        **If you're using MicroK8s** you must map the hostname to the public IP address of the machine running MicroK8s.
 
 6.  <span id="helm-upgrade">Add Codacy's chart repository to your Helm client and install the Codacy chart using the file `values-production.yaml` created previously.</span>
 
     !!! important
-        **If you are using MicroK8s** you must download and use the file [`values-microk8s.yaml`](./values-files/values-microk8s.yaml) together with the file `values-production.yaml` by uncommenting the last line in the `helm upgrade` command below.
+        **If you're using MicroK8s** you must download and use the file [`values-microk8s.yaml`](./values-files/values-microk8s.yaml) together with the file `values-production.yaml` by uncommenting the last line in the `helm upgrade` command below.
 
     ```bash
     helm repo add codacy-stable https://charts.codacy.com/stable/
@@ -113,7 +113,7 @@ Install Codacy on an existing cluster using our Helm chart:
 
 ## 3. Configuring Codacy
 
-After successfully installing Codacy on your cluster, you are now ready to perform the post-install configuration steps:
+After successfully installing Codacy on your cluster, you're now ready to perform the post-install configuration steps:
 
 1.  Use a browser to navigate to the Codacy hostname previously configured on the file `values-production.yaml`.
 
