@@ -1,6 +1,10 @@
+---
+description: Some changes to your Codacy plan require that you update your Codacy Self-hosted license with a new one provided by a Codacy representative.
+---
+
 # Updating your Codacy license
 
-Some changes to your Codacy plan require that you update your Codacy license with a new one provided by a Codacy representative:
+Some changes to your Codacy plan require that you update your Codacy Self-hosted license with a new one provided by a Codacy representative:
 
 1.  Edit the value of `codacy-api.config.license` in the `values-production.yaml` file that you used to install Codacy:
 

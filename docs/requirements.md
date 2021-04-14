@@ -1,6 +1,10 @@
+---
+description: Before installing Codacy Self-hosted you must ensure that you have your infrastructure correctly provisioned and configured.
+---
+
 # System requirements
 
-Before installing Codacy you must ensure that you have the following infrastructure correctly provisioned and configured:
+Before installing Codacy Self-hosted you must ensure that you have the following infrastructure correctly provisioned and configured:
 
 -   [Git provider](#git-provider)
 -   [Kubernetes or MicroK8s cluster](#kubernetes-or-microk8s-cluster-setup)

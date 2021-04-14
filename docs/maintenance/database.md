@@ -1,3 +1,7 @@
+---
+description: Instructions on how to migrate your Codacy Self-hosted database.
+---
+
 # Database migration guide
 
 Migrating databases between pods is a straightforward process with 3 steps:

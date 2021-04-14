@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up Codacy Self-hosted to send emails using your SMTP server.
+---
+
 # Emails
 
-Follow the instructions below to set up Codacy to send emails using your SMTP server:
+Follow the instructions below to set up Codacy Self-hosted to send emails using your SMTP server:
 
 1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 

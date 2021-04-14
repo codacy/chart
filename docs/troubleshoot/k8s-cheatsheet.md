@@ -1,3 +1,7 @@
+---
+description: Useful helm and kubectl commands to help troubleshoot your Codacy Self-hosted instance.
+---
+
 # Kubernetes cheatsheet
 
 ## Debugging using events

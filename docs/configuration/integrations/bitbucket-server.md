@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with Bitbucket Server.
+---
+
 # Bitbucket Server
 
-Follow the instructions below to set up the Codacy integration with Bitbucket Server.
+Follow the instructions below to set up the Codacy Self-hosted integration with Bitbucket Server.
 
 ## Create a Bitbucket Server application link
 

@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with GitLab Enterprise.
+---
+
 # GitLab Enterprise
 
-Follow the instructions below to set up the Codacy integration with GitLab Enterprise:
+Follow the instructions below to set up the Codacy Self-hosted integration with GitLab Enterprise:
 
 ## Create a GitLab application {: id="create-application"}
 

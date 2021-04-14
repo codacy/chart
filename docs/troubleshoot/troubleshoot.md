@@ -1,6 +1,6 @@
 # Troubleshooting Codacy
 
-This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy.
+This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy Self-hosted.
 
 If the information provided on this page is not enough to solve your issue, contact <mailto:support@codacy.com> providing:
 

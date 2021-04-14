@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up monitoring for your Codacy Self-hosted instance.
+---
+
 # Monitoring
 
-Currently, we support two monitoring solutions:
+Currently, Codacy Self-hosted supports two monitoring solutions:
 
 -   **[Crow](#setting-up-monitoring-using-crow):** A simple, lightweight, and built-in monitoring solution, that is enabled by default when you install Codacy.
 -   **[Prometheus + Grafana + Loki](#setting-up-monitoring-using-grafana-prometheus-and-loki):** A comprehensive third-party monitoring solution, recommended for more advanced usage.

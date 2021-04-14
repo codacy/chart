@@ -1,6 +1,10 @@
+---
+description: To help troubleshoot issues, obtain the logs from your Codacy Self-hosted instance and send them to Codacy's Support.
+---
+
 # Collecting logs for Support
 
-To help troubleshoot issues, obtain the logs from your Codacy instance and send them to Codacy's Support:
+To help troubleshoot issues, obtain the logs from your Codacy Self-hosted instance and send them to Codacy's Support:
 
 1.  Run the following command on a machine with network access to the Codacy cluster, replacing `<namespace>` with the namespace in which Codacy was installed:
 

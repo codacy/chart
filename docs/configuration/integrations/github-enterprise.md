@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with GitHub Enterprise.
+---
+
 # GitHub Enterprise
 
-Follow the instructions below to set up the Codacy integration with GitHub Enterprise:
+Follow the instructions below to set up the Codacy Self-hosted integration with GitHub Enterprise:
 
 1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 

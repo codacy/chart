@@ -1,6 +1,6 @@
 # Creating a GitHub App
 
-You must create and correctly set up a [GitHub App](https://developer.github.com/apps/about-apps/) to allow Codacy to integrate with GitHub.
+You must create and correctly set up a [GitHub App](https://developer.github.com/apps/about-apps/) to allow Codacy Self-hosted to integrate with GitHub.
 
 To create the GitHub App:
 

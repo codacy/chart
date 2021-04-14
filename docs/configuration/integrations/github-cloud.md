@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with GitHub Cloud.
+---
+
 # GitHub Cloud
 
-Follow the instructions below to set up the Codacy integration with GitHub Cloud:
+Follow the instructions below to set up the Codacy Self-hosted integration with GitHub Cloud:
 
 1.  Follow the instructions on [creating a GitHub App](github-app-create.md).
 

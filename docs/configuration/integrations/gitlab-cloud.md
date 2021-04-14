@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with GitLab Cloud.
+---
+
 # GitLab Cloud
 
-Follow the instructions below to set up the Codacy integration with GitLab Cloud.
+Follow the instructions below to set up the Codacy Self-hosted integration with GitLab Cloud.
 
 ## Create a GitLab application {: id="create-application"}
 

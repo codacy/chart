@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with Bitbucket Cloud.
+---
+
 # Bitbucket Cloud
 
-Follow the instructions below to set up the Codacy integration with Bitbucket Cloud.
+Follow the instructions below to set up the Codacy Self-hosted integration with Bitbucket Cloud.
 
 ## Create an OAuth consumer {: id="create-oauth"}
 
