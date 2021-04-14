@@ -1,6 +1,10 @@
+---
+description: Instructions on how to set up the Codacy Self-hosted integration with GitLab Cloud.
+---
+
 # GitLab Cloud
 
-Follow the instructions below to set up the Codacy integration with GitLab Cloud.
+Follow the instructions below to set up the Codacy Self-hosted integration with GitLab Cloud.
 
 ## Create a GitLab application {: id="create-application"}
 
@@ -51,7 +55,7 @@ After creating the GitLab application, you must configure it on Codacy:
 3.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
 
     !!! important
-        **If you are using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
+        **If you're using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
         
         To do this, uncomment the last line before running the `helm upgrade` command below.
 

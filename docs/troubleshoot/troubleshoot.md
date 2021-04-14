@@ -1,8 +1,8 @@
 # Troubleshooting Codacy
 
-This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy.
+This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy Self-hosted.
 
-If the information provided on this page is not enough to solve your issue, contact <mailto:support@codacy.com> providing:
+If the information provided on this page isn't enough to solve your issue, contact <mailto:support@codacy.com> providing:
 
 -   The description of the issue
 -   All the information that you were able to obtain while following these troubleshooting instructions
@@ -115,7 +115,7 @@ If you need to access the RabbitMQ dashboard:
     ```
 
     !!! important
-        **If you are using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
+        **If you're using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
 
 2.  Access the RabbitMQ dashboard on the address `localhost:15672`, and log in with the configured RabbitMQ credentials.
 

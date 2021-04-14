@@ -43,7 +43,7 @@ Prepare your environment to set up the Amazon EKS cluster:
 
 The [backend](https://www.terraform.io/docs/backends/index.html) stores the current and historical state of your infrastructure.
 
-Although using the backend is optional, we recommend that you deploy it, particularly if you are planning to use these Terraform templates to make modifications to the cluster in the future:
+Although using the backend is optional, we recommend that you deploy it, particularly if you're planning to use these Terraform templates to make modifications to the cluster in the future:
 
 1.  Initialize Terraform and deploy the infrastructure described in the `backend/` directory, then follow Terraform's instructions:
 

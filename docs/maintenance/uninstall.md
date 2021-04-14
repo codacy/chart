@@ -1,6 +1,7 @@
 # Uninstalling Codacy
 
-To ensure a clean removal you should uninstall Codacy before destroying the cluster.
+To ensure a clean removal you should uninstall Codacy Self-hosted before destroying the cluster.
+
 To do so run:
 
 ```bash
@@ -17,9 +18,7 @@ kubectl -n codacy get pvc &
 kubectl -n codacy get job &
 ```
 
-Note that the deletion of `pvc`s in the above command has to run in the background
-due to a cyclic dependency in one of the components. If you are unsure of the
-effects of these commands please run each of the `bash` subcommands and validate their output.
+Note that the deletion of `pvc`s in the above command has to run in the background due to a cyclic dependency in one of the components. If you're unsure of the effects of these commands please run each of the `bash` subcommands and validate their output:
 
 ```bash
 echo "PVCs to delete:"
