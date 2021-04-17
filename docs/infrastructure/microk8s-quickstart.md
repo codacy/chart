@@ -1,3 +1,7 @@
+---
+descriptions: Set up a MicroK8s instance to run Codacy Self-hosted, including all the necessary dependencies and configurations.
+---
+
 # Creating a MicroK8s cluster
 
 Follow the instructions below to set up a MicroK8s instance from scratch, including all the necessary dependencies and configurations.
