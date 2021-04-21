@@ -116,27 +116,11 @@ codacy-api:
 portal:
   replicaCount: 1
 
-activities:
-  replicaCount: 1
-  readinessProbe:
-    initialDelaySeconds: 10
-    periodSeconds: 3
-  livenessProbe:
-    initialDelaySeconds: 10
-    periodSeconds: 5
-    failureThreshold: 5
-
 remote-provider-service:
   replicaCount: 1
   metrics:
     serviceMonitor:
       enabled: true
-
-hotspots-api:
-  replicaCount: 1
-
-hotspots-worker:
-  replicaCount: 1
 
 listener:
   replicaCount: 1

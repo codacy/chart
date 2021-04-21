@@ -43,29 +43,11 @@ dependencies:
   git: git@bitbucket.org:qamine/ragnaros.git
   condition: ragnaros.create
 
-- name: activities
-  version: ">=1.3.0"
-  repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/codacy-activities.git
-  condition: activities.create
-
 - name: remote-provider-service
   version: ">=8.6.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/remote-provider-service.git
   condition: remote-provider-service.create
-
-- name: hotspots-api
-  version: ">=1.4.1"
-  repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/hotspots-api.git
-  condition: hotspots-api.create
-
-- name: hotspots-worker
-  version: ">=1.3.0"
-  repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/hotspots-worker.git
-  condition: hotspots-worker.create
 
 - name: listener
   version: ">=7.11.0"
