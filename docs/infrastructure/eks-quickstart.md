@@ -1,6 +1,10 @@
+---
+descriptions: Set up an Amazon EKS cluster to run Codacy Self-hosted, including the necessary underlying infrastructure, using Terraform.
+---
+
 # Creating an Amazon EKS cluster
 
-Follow the instructions below to set up an Amazon EKS cluster from scratch, including all the necessary underlying infrastructure, using Terraform.
+Follow the instructions below to set up an Amazon EKS cluster from scratch, including the necessary underlying infrastructure, using Terraform.
 
 The following diagram is a non-exhaustive overview of what you can expect to have deployed in your AWS account by using this quickstart guide.
 
