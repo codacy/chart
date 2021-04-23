@@ -41,17 +41,13 @@ helm_dep_up:
 update_dependencies: setup_helm_repos helm_dep_up update_internals_versions update_docs_versions
 
 .PHONY: get_release_notes
-get_release_notes: create_version_file
+get_release_notes:
+	# Clone codacy/codacy-tools-release-notes
+	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
+	git clone -b clean/refactor-scripts-DOCS-206 git@github.com:codacy/codacy-tools-release-notes.git
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
-	# Cleanup codacy-tools-release-notes if it exists
-	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
-	# Clone codacy/codacy-tools-release-notes and generate the changelog and release notes
-	git clone git@github.com:codacy/codacy-tools-release-notes.git
-	# Install dependencies
-	pip3 install -r codacy-tools-release-notes/requirements.pip --user
-	# Generate changelogs and release notes
-	codacy-tools-release-notes/getChangelogs.sh \
-		$(shell cat .version | grep -Eoh "^([0-9]+\.[0-9]+\.[0-9]+)") \
-		${CURDIR}/codacy/requirements.yaml \
-		${CURDIR}/codacy/requirements.lock
+	# Generate changelog and release notes
+	codacy-tools-release-notes/run.sh \
+		$(shell git tag --sort v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 1) \
+		$(shell git tag --sort v:refname | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 2 | head -n 1)
