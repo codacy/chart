@@ -154,6 +154,20 @@ The Release Manager must create a release candidate branch:
         git tag 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
         ```
 
+-   [ ] 9.  Generate release notes
+
+    -   [ ] 9.1.  Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
+    
+        ```bash
+        make get_release_notes
+        ```
+
+        This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate a file `self-hosted-vx.x.x.md`.
+
+    -   [ ] 9.2.  Open a pull request with the generated release notes (🚧 [DOCS-205](https://codacy.atlassian.net/browse/DOCS-205) will automate this step)
+
+        Copy the generated file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted) and open a new pull request. Get all the necessary stakeholders involved in reviewing the release notes on the pull request.
+
 ## 3. Testing and stabilizing the release
 
 The Release Manager must announce to the following stakeholders that the new release candidate is available on the [release environment](README.md#development-installations):
@@ -196,27 +210,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 ### Approval by the Technical Writer
 
-The Technical Writer must follow the steps below to [prepare the release notes](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) for the new release:
-
--   [ ] 1.  Generate release notes
-
-    Run the makefile target `get_release_notes` to generate release notes.
-
-    ```bash
-    make get_release_notes
-    ```
-
-    This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate the files `releasenotes.md` and `missingreleasenotes.md`.
-
--   [ ] 2.  Manually curate the generated release notes output
-
-    Make adjustments directly on the corresponding Jira Epics and Bugs, and generate the release notes again to collect the most up-to-date information from Jira.
-
--   [ ] 3.  Generate the tool versions and updates for the new release by following the instructions on [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes/blob/master/tools-diff/README.md).
-
--   [ ] 4.  Review the release notes on a new pull request in codacy/docs
-
-    Copy the release notes file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted), add the tool version list, and make the final adjustments in a new pull request. Get all the necessary stakeholders involved in reviewing the release notes.
+The Technical Writer must manually curate the generated release notes by making adjustments directly on the corresponding Jira Epics and Bugs, and generating the release notes again to collect the most up-to-date information from Jira. [Read more about the release notes process](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) on the Handbook.
 
 ### Approval by the Release Manager
 
