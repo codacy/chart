@@ -42,13 +42,13 @@ update_dependencies: setup_helm_repos helm_dep_up update_internals_versions upda
 
 .PHONY: get_release_notes
 get_release_notes:
-	# Obtain current and previous chart versions
+	# Obtain current and previous chart versions from the chart release branches
 	$(eval VERSION_NEW=$(shell git branch --remote --sort version:refname | grep -Eo "release-[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 1 | cut -d - -f 2))
 	$(eval VERSION_OLD=$(shell git branch --remote --sort version:refname | grep -Eo "release-[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 2 | head -n 1 | cut -d - -f 2))
-	if [ -z "${VERSION_NEW}" ] || [ -z "${VERSION_OLD}" ]; then echo "Can't find the current or previous chart version."; exit 1; fi
+	if [ -z "${VERSION_NEW}" ] || [ -z "${VERSION_OLD}" ]; then echo "Can't find the current or previous chart version from the release branches."; exit 1; fi
 	# Clone codacy/codacy-tools-release-notes
 	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
-	git clone -b clean/refactor-scripts-DOCS-206 git@github.com:codacy/codacy-tools-release-notes.git
+	git clone git@github.com:codacy/codacy-tools-release-notes.git
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
 	# Generate changelog and release notes

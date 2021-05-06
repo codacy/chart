@@ -164,7 +164,7 @@ The Release Manager must create a release candidate branch:
 
         This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate a file `self-hosted-vx.x.x.md`.
 
-    -   [ ] 9.2.  Open a pull request with the generated release notes (🚧 [DOCS-205](https://codacy.atlassian.net/browse/DOCS-205) will automate this step)
+    -   [ ] 9.2.  Open a pull request with the generated release notes:
 
         Copy the generated file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted) and open a new pull request. Get all the necessary stakeholders involved in reviewing the release notes on the pull request.
 
