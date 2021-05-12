@@ -24,11 +24,13 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Deciding to release a new version
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers). Get a status from each squad on any changes that may be on the master branch of components that may be deal breakers for the release and confirm if the release can go ahead.
+-   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers).
 
--   [ ] 2.  Inform all stakeholders outside the engineering team that a new release proccess is being started, in the Slack channel [#sh_releases](https://codacy.slack.com/channels/sh_releases) (tag @here).
+    Get a status from each squad on any changes that may be on the master branch of the components and that may be deal breakers for the release.
 
--   [ ] 3.  Decide the new version number.
+    Confirm if the release can go ahead.
+
+-   [ ] 2.  Decide the new version number.
 
     Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
@@ -37,6 +39,8 @@ The next sections include detailed instructions on how to complete each step of 
     -   **MAJOR version** when you make changes that are incompatible with old values.yaml files or integrations
     -   **MINOR version** when you add functionality in a backwards compatible manner
     -   **PATCH version** when you make backwards compatible bug fixes
+
+-   [ ] 3.  Inform all stakeholders outside the engineering team that a new release proccess is being started (tag @here in the Slack channel [#sh_releases](https://codacy.slack.com/channels/sh_releases)).
 
 ## 2. Preparing the release for testing
 
@@ -63,7 +67,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git tag 'x.x.x-RC-1'
+    git tag 'x.x.x-RC-0'
     ```
 
     This is a requirement so that we can fill in values for `engine` and `documentation` versions on the next step.
@@ -81,9 +85,10 @@ The Release Manager must create a release candidate branch:
     These Makefile targets:
 
     -   Create a `.version` file based on the most recent tag that you created on the previous step.
+
     -   Update the `requirements.lock` with the latest versions and freeze the `global.workers.config.imageVersion` version on `./codacy/values.yaml`.
 
-    This will also update the `global.codacy.installation.version` and `global.codacy.documentation.version` version on `./codacy/values.yaml`.
+        This will also update the `global.codacy.installation.version` and `global.codacy.documentation.version` version on `./codacy/values.yaml`.
 
 -   [ ] 6.  Commit the updated `requirements.lock` and `./codacy/values.yaml` to the branch
 
@@ -98,7 +103,7 @@ The Release Manager must create a release candidate branch:
     For example:
 
     ```bash
-    git tag -f 'x.x.x-RC-1'
+    git tag -f 'x.x.x-RC-0'
     ```
 
     This version will be published to the [incubator](https://charts.codacy.com/incubator/api/charts) channel in the next steps.
@@ -106,17 +111,18 @@ The Release Manager must create a release candidate branch:
 -   [ ] 8.  Push the commit
 
     ```bash
-    git push origin refs/tags/x.x.x-RC-1 && git push --set-upstream origin 'release-x.x.x'
+    git push origin refs/tags/x.x.x-RC-0 && git push --set-upstream origin 'release-x.x.x'
     ```
 
-    This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel.
+    This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel. Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
-    Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
+-   [ ] 9.  Cherry pick fixes (only if build fails)
 
+    At this stage, it's possible that the build fails and that you need to cherry-pick fixes either from the chart or from specific components that have a bug that needs to be fixed before the release:
 
-    - [ ] 8.1. Cherry-picking fixes on codacy-chart
-        
-        At this stage, it is possible for the build to have failed. The fixes for this failure should have been merged to `master` following a successfully approved Pull Request.
+    -   **Cherry-picking fixes on the chart**
+
+        The fixes for this failure must be merged to `master` following a successfully approved Pull Request.
 
         You can cherry-pick the required changes with:
 
@@ -125,48 +131,44 @@ The Release Manager must create a release candidate branch:
         ```
 
         Ensure the cherry-pick commit is free from any conflicts.
-        
-    - [ ] 8.2. Cherry-picking fixes on a specific component
-            
-        At this stage it is possible for some component to have a bug that needs to be fixed before the release.
-            
+
+    -   **Cherry-picking fixes on a specific component**
+
         If this is the case, you should produce a new version for the component (with chart published in stable repo) that only includes the changes that introduce the fix.
-            
-        This new version should be set as fixed in the `requirements.lock` file to ensure that other unrelated component changes are not pulled to the release.
-            
+
+        This new version must be manually fixed in the `requirements.lock` file to ensure that other unrelated component changes are not pulled to the release.
+
         After this, update the current version by adding a new tag:
-            
+
         ```bash
         git tag 'x.x.x-RC-<n>'
         ```
-            
+
         and by updating the `.version` file:
-            
+
         ```bash
         rm .version && make create_version_file
         ```
 
-    -   [ ] 8.2.  Push new Release Candidate tag
+    If you cherry-picked any changes to the release branch, you must add another release candidate tag to your release branch and push it:
 
-        Since there are new hotfix changes to the release, you must then add another release candidate tag to your release branch and push it again.
+    ```bash
+    git tag 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
+    ```
 
-        ```bash
-        git tag 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
-        ```
+-   [ ] 10. Generate release notes
 
--   [ ] 9.  Generate release notes
+    -   [ ] 10.1. Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
 
-    -   [ ] 9.1.  Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
-    
         ```bash
         make get_release_notes
         ```
 
         This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate a file `self-hosted-vx.x.x.md`.
 
-    -   [ ] 9.2.  Open a pull request with the generated release notes:
+    -   [ ] 10.2. Open a pull request with the generated release notes:
 
-        Copy the generated file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted) and open a new pull request. Get all the necessary stakeholders involved in reviewing the release notes on the pull request.
+        Copy the generated file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted) and open a new pull request. Add the Technical Writer and the QA team as reviewers of the pull request.
 
 ## 3. Testing and stabilizing the release
 
@@ -210,7 +212,9 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 ### Approval by the Technical Writer
 
-The Technical Writer must manually curate the generated release notes by making adjustments directly on the corresponding Jira Epics and Bugs, and generating the release notes again to collect the most up-to-date information from Jira. [Read more about the release notes process](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) on the Handbook.
+The Technical Writer must manually curate the generated release notes by making adjustments directly on the corresponding Jira Epics and Bugs, and generating the release notes again to collect the most up-to-date information from Jira and to take into account any cherry-picks that were done in the release branch.
+
+[Read more about the release notes process](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) on the Handbook.
 
 ### Approval by the Release Manager
 
