@@ -2,7 +2,7 @@
 description: Instructions on how to set up Codacy Self-hosted to send emails using your SMTP server.
 ---
 
-# Emails
+# SMTP server
 
 Follow the instructions below to set up Codacy Self-hosted to send emails using your SMTP server:
 
