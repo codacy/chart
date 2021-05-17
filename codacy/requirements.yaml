@@ -86,8 +86,8 @@ dependencies:
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: "21.11.1-hotfixremovesecureselfhostedlogincookie.2.abffb46ed"
-  repository: https://charts.codacy.com/unstable
+  version: "21.11.1-hotfixremovesecureselfhostedlogincookie.2.bc65b8252"
+  repository: https://charts.codacy.com/stable
   git: git@bitbucket.org:qamine/codacy-website.git
   condition: codacy-api.create
 

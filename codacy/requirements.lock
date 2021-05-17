@@ -42,8 +42,8 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 2.6.10
 - name: codacy-api
-  repository: https://charts.codacy.com/unstable
-  version: 21.11.1-hotfixremovesecureselfhostedlogincookie.2.abffb46ed
+  repository: https://charts.codacy.com/stable
+  version: 21.11.1-hotfixremovesecureselfhostedlogincookie.2.bc65b8252
 - name: worker-manager
   repository: https://charts.codacy.com/stable
   version: 10.11.0
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.53.3
-digest: sha256:98f8d6344cdbe1ea99acc48c7193d9995e338be6d654e750e47c6f8da41fa02b
-generated: "2021-05-17T17:57:48.655533+01:00"
+digest: sha256:2516aa7a4927cfac14ea8e3a5777270acd14002d001931198cba4e94d45c2118
+generated: "2021-05-17T19:52:02.845737+01:00"
