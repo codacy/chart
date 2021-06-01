@@ -33,6 +33,7 @@ To upgrade Codacy Self-hosted to the latest stable version:
 
     ```bash
     helm upgrade codacy codacy-stable/codacy \
+                 --version {{ version }} \
                  --namespace codacy \
                  --values codacy.yaml
     ```
