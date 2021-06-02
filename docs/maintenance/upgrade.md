@@ -32,6 +32,7 @@ To upgrade Codacy Self-hosted to the latest stable version:
 4.  Perform the upgrade using the values stored in the file:
 
     ```bash
+    helm repo update
     helm upgrade codacy codacy-stable/codacy \
                  --version {{ version }} \
                  --namespace codacy \
