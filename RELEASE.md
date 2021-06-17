@@ -164,7 +164,7 @@ The Release Manager must create a release candidate branch:
     make get_release_notes
     ```
 
-    After the makefile target runs successfully, open the pull request that is created at the end of the process and add the Technical Writer, the QA team, and all relevant stakeholders as reviewers of the pull request.
+    After the makefile target runs successfully, open the pull request that is created at the end of the process and add all remaining relevant stakeholders as reviewers of the pull request.
 
 ## 3. Testing and stabilizing the release
 
