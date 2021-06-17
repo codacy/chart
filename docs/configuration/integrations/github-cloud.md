@@ -21,7 +21,7 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
       app:
         name: "codacy" # GitHub App name
         id: "1234" # App ID
-        privateKey: "" # Contents of the .pem file without newlines or the Begin/End sections
+        privateKey: "" # Contents of the .pem file without newlines or the BEGIN/END lines
     ```
 
 4.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
