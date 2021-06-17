@@ -59,7 +59,7 @@ install_nginx:
 	helm repo update
 
 	helm upgrade --install nginx-ingress --version ${NGINX_INGRESS_VERSION} --namespace kube-system ingress-nginx/ingress-nginx \
-	--set controller.publishService.enabled=true
+	-f values-nginx.yaml
 
 .PHONY: install_certmanager
 install_certmanager:

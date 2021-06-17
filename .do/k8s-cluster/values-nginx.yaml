@@ -1,0 +1,5 @@
+controller:
+  publishService:
+    enabled: true
+  config:
+    server-tokens: "false"
