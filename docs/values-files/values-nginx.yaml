@@ -25,5 +25,5 @@ controller:
       memory: 300Mi
 
   config:
-    # Hides the http response hearders showing the explicit version of nginx
+    # Hides the http response headers showing the explicit version of nginx
     server-tokens: "false"
