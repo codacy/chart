@@ -158,17 +158,13 @@ The Release Manager must create a release candidate branch:
 
 -   [ ] 10. Generate release notes
 
-    -   [ ] 10.1. Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
+    Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
 
-        ```bash
-        make get_release_notes
-        ```
+    ```bash
+    make get_release_notes
+    ```
 
-        This uses [codacy/codacy-tools-release-notes](https://github.com/codacy/codacy-tools-release-notes) to generate a file `self-hosted-vx.x.x.md`.
-
-    -   [ ] 10.2. Open a pull request with the generated release notes:
-
-        Copy the generated file to the [release notes folder in codacy/docs](https://github.com/codacy/docs/tree/master/docs/release-notes/self-hosted) and open a new pull request. Add the Technical Writer and the QA team as reviewers of the pull request.
+    After the makefile target runs successfully, open the pull request that is created at the end of the process and add all remaining relevant stakeholders as reviewers of the pull request.
 
 ## 3. Testing and stabilizing the release
 
