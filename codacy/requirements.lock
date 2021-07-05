@@ -16,7 +16,7 @@ dependencies:
   version: 0.21.0
 - name: portal
   repository: https://charts.codacy.com/stable
-  version: 6.38.3
+  version: 6.38.5
 - name: ragnaros
   repository: https://charts.codacy.com/stable
   version: 29.9.0
@@ -53,5 +53,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.61.0
-digest: sha256:fbe0d5a351abd228323eba569e72108a218d1d808ad6cb4675a7c72f61a3d402
-generated: "2021-06-30T10:30:21.915396+01:00"
+digest: sha256:28ff4f2bb6bb6cfa39127ab5b70de92f435780846d0511bffc1d4d425ec9ac4d
+generated: "2021-07-05T15:15:38.744907+01:00"
