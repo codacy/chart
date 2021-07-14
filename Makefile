@@ -52,4 +52,4 @@ get_release_notes:
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
 	# Generate changelog and release notes
-	codacy-tools-release-notes/run.sh ${VERSION_NEW} ${VERSION_OLD}
+	codacy-tools-release-notes/run.sh ${VERSION_NEW} ${VERSION_OLD} --push
