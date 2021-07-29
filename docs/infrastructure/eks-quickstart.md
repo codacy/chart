@@ -117,7 +117,7 @@ Prepare your infrastructure for the Ingress Controller setup, which is performed
     | Subnet (public)  | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/elb` = `1`          |
     | Subnet (private) | `kubernetes.io/cluster/codacy-cluster` = `shared`<br/>`kubernetes.io/role/internal-elb` = `1` |
 
-    For more information refer to the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-tagging).
+    For more information refer to the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#vpc-subnet-tagging).
 
 2.  Add the following chart repositories to Helm:
 
