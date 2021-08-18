@@ -51,5 +51,5 @@ get_release_notes:
 	git clone git@github.com:codacy/release-notes-tools.git
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
-	# Generate changelog and release notes
+	# Generate release notes and create pull request on codacy/docs
 	release-notes-tools/run.sh selfhosted ${VERSION_NEW} ${VERSION_OLD} --push
