@@ -44,7 +44,7 @@ codacy/charts
 codacy/tmpcharts
 
 # Automated generation of changelogs and release notes
-codacy-tools-release-notes
+release-notes-tools
 
 # explicitly ignore the version file
 .version
