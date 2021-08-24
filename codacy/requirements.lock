@@ -13,7 +13,7 @@ dependencies:
   version: 0.6.3
 - name: codacy-ingress
   repository: https://charts.codacy.com/stable
-  version: 0.24.0
+  version: 0.24.1
 - name: portal
   repository: https://charts.codacy.com/stable
   version: 6.40.0
@@ -52,6 +52,6 @@ dependencies:
   version: 5.6.4
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.65.1
-digest: sha256:52f6539e6d3f55f397696ef2643ef3041237b2b2988ba9011919047e49633d22
-generated: "2021-08-23T15:12:43.637121+01:00"
+  version: 1.66.0
+digest: sha256:774574169ac94755ff1294ee9dad0786661a9c3d2f0d2713ad7e53a347184040
+generated: "2021-08-24T11:35:48.292262+01:00"
