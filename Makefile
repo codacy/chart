@@ -46,10 +46,10 @@ get_release_notes:
 	$(eval VERSION_NEW=$(shell git branch --remote --sort version:refname | grep -Eo "release-[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 1 | cut -d - -f 2))
 	$(eval VERSION_OLD=$(shell git branch --remote --sort version:refname | grep -Eo "release-[0-9]+\.[0-9]+\.[0-9]+$$" | tail -n 2 | head -n 1 | cut -d - -f 2))
 	if [ -z "${VERSION_NEW}" ] || [ -z "${VERSION_OLD}" ]; then echo "Can't find the current or previous chart version from the release branches."; exit 1; fi
-	# Clone codacy/codacy-tools-release-notes
-	if [ -d codacy-tools-release-notes ]; then rm -rf codacy-tools-release-notes; fi
-	git clone git@github.com:codacy/codacy-tools-release-notes.git
+	# Clone codacy/release-notes-tools
+	if [ -d release-notes-tools ]; then rm -rf release-notes-tools; fi
+	git clone git@github.com:codacy/release-notes-tools.git
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
-	# Generate changelog and release notes
-	codacy-tools-release-notes/run.sh selfhosted ${VERSION_NEW} ${VERSION_OLD} --push
+	# Generate release notes and create pull request on codacy/docs
+	release-notes-tools/run.sh selfhosted ${VERSION_NEW} ${VERSION_OLD} --push
