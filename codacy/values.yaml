@@ -9,6 +9,7 @@ global:
     portal:
       url: "codacy-portal"
       port: 80
+      pullRequestListTimeoutSeconds : 30
     hotspots:
       url: "codacy-hotspots-api"
       port: 80
@@ -110,6 +111,8 @@ global:
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
+  git:
+    branchListTimeoutSeconds: 30
 
   play:
     cryptoSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
