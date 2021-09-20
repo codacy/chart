@@ -252,7 +252,9 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 3.  Inform all stakeholders that the release is finished
 
-The final version will be `x.x.x`.
+    The final version will be `x.x.x`.
+
+-   [ ] 4. Finally, the Technical Writer must [release a version of the documentation for the new Codacy Self-hosted version](https://github.com/codacy/docs/blob/master/CONTRIBUTING.md#releasing-a-new-version-of-the-documentation).
 
 ## Patching a release
 
