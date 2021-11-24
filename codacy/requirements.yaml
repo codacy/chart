@@ -88,7 +88,7 @@ dependencies:
 - name: codacy-api
   version: ">=9.2.0"
   repository: https://charts.codacy.com/stable
-  git: git@bitbucket.org:qamine/codacy-website.git
+  git: git@github.com:codacy/codacy-website.git
   condition: codacy-api.create
 
 - name: worker-manager
