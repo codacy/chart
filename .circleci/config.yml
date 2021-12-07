@@ -7,7 +7,7 @@ orbs:
 references:
   default_doks_image: &default_doks_image
     docker:
-      - image: codacy/ci-do:1.8.2
+      - image: codacy/ci-do:2.8.0
     working_directory: ~/workdir/
 
   setup_aws_credentials: &setup_aws_credentials
