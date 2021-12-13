@@ -37,7 +37,7 @@ variable "environment" {
 
 variable "db_names" {
     type = list(string)
-    default = ["accounts", "analysis", "results", "metrics", "filestore", "jobs", "crow", "activities", "hotspots", "listener"]
+    default = ["accounts", "analysis", "results", "metrics", "filestore", "jobs", "crow", "listener"]
 }
 
 variable "postgres_instance_type" {
