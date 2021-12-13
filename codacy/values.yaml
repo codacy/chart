@@ -10,9 +10,6 @@ global:
       url: "codacy-portal"
       port: 80
       pullRequestListTimeoutSeconds : 30
-    hotspots:
-      url: "codacy-hotspots-api"
-      port: 80
     engine:
       url: "codacy-engine"
       port: 80
@@ -21,9 +18,6 @@ global:
       port: 80
     listener:
       url: "codacy-listener"
-      port: 80
-    activities:
-      url: "codacy-activities"
       port: 80
     remoteProviderService:
       url: "codacy-remote-provider-service"
@@ -214,30 +208,12 @@ global:
     service:
       port: 5432
 
-  activitiesdb:
-    create: false
-    host: codacy-postgres
-    postgresqlUsername: "codacy"
-    postgresqlDatabase: "activities"
-    postgresqlPassword: "codacy"
-    service:
-      port: 5432
-
   listenerdb:
     create: false
     host: codacy-postgres
     postgresqlUsername: "codacy"
     postgresqlDatabase: "listener"
     postgresqlPassword: "codacy"
-    service:
-      port: 5432
-
-  hotspotsdb:
-    create: false
-    host: codacy-postgres
-    postgresqlUsername: codacy
-    postgresqlDatabase: hotspots
-    postgresqlPassword: codacy
     service:
       port: 5432
 
@@ -342,9 +318,7 @@ postgres:
       CREATE DATABASE metrics WITH OWNER=codacy;
       CREATE DATABASE filestore WITH OWNER=codacy;
       CREATE DATABASE jobs WITH OWNER=codacy;
-      CREATE DATABASE activities WITH OWNER=codacy;
       CREATE DATABASE listener WITH OWNER=codacy;
-      CREATE DATABASE hotspots WITH OWNER=codacy;
       CREATE DATABASE crow WITH OWNER=codacy;
 
 minio:

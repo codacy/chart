@@ -45,22 +45,6 @@ global:
         enable: true
         password: <--- crow-password --->
 
-  activitiesdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: activities # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
-  hotspotsdb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: hotspots # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
   crowdb:
     create: false
     host: <--- codacy-db-host --->
@@ -116,27 +100,11 @@ codacy-api:
 portal:
   replicaCount: 1
 
-activities:
-  replicaCount: 1
-  readinessProbe:
-    initialDelaySeconds: 10
-    periodSeconds: 3
-  livenessProbe:
-    initialDelaySeconds: 10
-    periodSeconds: 5
-    failureThreshold: 5
-
 remote-provider-service:
   replicaCount: 1
   metrics:
     serviceMonitor:
       enabled: true
-
-hotspots-api:
-  replicaCount: 1
-
-hotspots-worker:
-  replicaCount: 1
 
 listener:
   replicaCount: 1

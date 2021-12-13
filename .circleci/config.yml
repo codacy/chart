@@ -64,10 +64,6 @@ references:
           create: true
         crowdb:
           create: true
-        activitiesdb:
-          create: true
-        hotspotsdb:
-          create: true
         listenerdb:
           create: true
 
