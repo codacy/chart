@@ -56,7 +56,7 @@ dependencies:
   condition: listener.create
 
 - name: engine
-  version: 12.2.6
+  version: 12.2.8
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-worker.git
   condition: engine.create
