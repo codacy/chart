@@ -136,7 +136,9 @@ The Release Manager must create a release candidate branch:
 
         If this is the case, you should produce a new version for the component (with chart published in stable repo) that only includes the changes that introduce the fix.
 
-        This new version must be manually fixed in the `requirements.lock` file to ensure that other unrelated component changes are not pulled to the release.
+        Manually copy the versions from `requirements.lock` to the `requirements.yaml` file, ensuring a lock on versions (unrelated component changes are not pulled to the release) and facilitates the creation of release candidates.
+
+        Update the `requirements.yaml` with the new version of the patched component.
 
         After this, update the current version by adding a new tag:
 
@@ -147,13 +149,19 @@ The Release Manager must create a release candidate branch:
         and by updating the `.version` file:
 
         ```bash
-        rm .version && make create_version_file
+        rm .version && make create_version_file update_dependencies
+        ```
+
+        Commit these changes:
+
+        ```bash
+        git commit -m 'fix: bumped component y to version x.x.x'
         ```
 
     If you cherry-picked any changes to the release branch, you must add another release candidate tag to your release branch and push it:
 
     ```bash
-    git tag 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
+    git tag -f 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
     ```
 
 -   [ ] 10. Generate release notes
@@ -235,7 +243,7 @@ Then, the Release Manager releases and announces the new version:
     2.  Checkout the version that was validated to work with the current release:
 
          ```bash
-         git checkout y.y.y
+         git checkout x.x.x
          ```
 
     3.  Tag the commit with the current release version prefixed with `self-hosted-`:
@@ -250,11 +258,9 @@ Then, the Release Manager releases and announces the new version:
          git push --tag origin self-hosted-x.x.x
          ```
 
--   [ ] 3.  Inform all stakeholders that the release is finished
-
     The final version will be `x.x.x`.
 
--   [ ] 4. Finally, the Technical Writer must [release a version of the documentation for the new Codacy Self-hosted version](https://github.com/codacy/docs/blob/master/CONTRIBUTING.md#releasing-a-new-version-of-the-documentation).
+-   [ ] 3.  Finally, the Technical Writer must [release a version of the documentation for the new Codacy Self-hosted version](https://github.com/codacy/docs/blob/master/CONTRIBUTING.md#releasing-a-new-version-of-the-documentation).
 
 ## Patching a release
 
