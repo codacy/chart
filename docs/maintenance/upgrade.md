@@ -11,6 +11,8 @@ To upgrade Codacy Self-hosted to the latest stable version:
     !!! warning
         Failing to follow the steps to deal with breaking changes can cause the upgrade to fail or cause problems while Codacy is running.
 
+        **In particular, [Codacy Self-hosted v5.0.0](https://docs.codacy.com/release-notes/self-hosted/self-hosted-v5.0.0/) drops the support for legacy manual organizations**.
+
     {%
         include-markdown "../assets/includes/self-hosted-version.txt"
     %}
