@@ -36,6 +36,13 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
 3.  Click **Save application** and take note of the generated Application Id and Secret.
 
+!!! note
+    You can ignore the following error that GitLab may display when you test or save the new GitLab application:
+
+    ![GitLab appplication test error](images/gitlab-application-test-error.png)
+
+    This happens because GitLab tests the new application by calling an endpoint that Codacy doesn't implement.
+
 ## Configure GitLab Cloud on Codacy {: id="configure"}
 
 After creating the GitLab application, you must configure it on Codacy:

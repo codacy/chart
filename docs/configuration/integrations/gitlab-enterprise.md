@@ -39,7 +39,7 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
 !!! note
     You can ignore the following error that GitLab Enterprise may display when you test or save the new GitLab application:
 
-    ![GitLab Enterprise appplication test error](images/gitlab-enterprise-application-test-error.png)
+    ![GitLab Enterprise appplication test error](images/gitlab-application-test-error.png)
 
     This happens because GitLab Enterprise tests the new application by calling an endpoint that Codacy doesn't implement.
 
