@@ -69,6 +69,15 @@ global:
       enabled: true
       label: "grafana_dashboard"
 
+  email:
+    enabled: "true"
+    replyTo: "notifications-sh@codacy.com"
+    smtp:
+      protocol: "smtp"
+      hostname: "smtp.mailtrap.io"
+      username: "bc2aeb9e3ab3dc"
+      port: 25
+
 codacy-ingress:
   create: true
   ingress:
