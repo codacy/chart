@@ -32,8 +32,8 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: "6.33.0-sandboxtestemail.81.81c46645"
-  repository: https://charts.codacy.com/unstable
+  version: "6.44.2"
+  repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/portal.git
   condition: portal.create
 
@@ -68,8 +68,8 @@ dependencies:
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: "26.0.5-sandboxtestemail.3.f1a85e1fdc"
-  repository: https://charts.codacy.com/unstable
+  version: ">=26.0.5"
+  repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-website.git
   condition: codacy-api.create
 
