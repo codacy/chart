@@ -74,9 +74,9 @@ global:
     replyTo: "notifications-sh@codacy.com"
     smtp:
       protocol: "smtps"
-      hostname: "smtp.mailtrap.io"
-      username: "bc2aeb9e3ab3dc"
-      port: 587
+      hostname: "smtp.gmail.com"
+      username: "vasco.dias@codacy.com"
+      port: 465
 
 codacy-ingress:
   create: true

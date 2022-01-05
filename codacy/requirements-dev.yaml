@@ -68,8 +68,8 @@ dependencies:
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: "26.0.5-sandboxtestemail.2.97c0b2c49f"
-  repository: https://charts.codacy.com/stable
+  version: "26.0.5-sandboxtestemail.3.f1a85e1fdc"
+  repository: https://charts.codacy.com/unstable
   git: git@github.com:codacy/codacy-website.git
   condition: codacy-api.create
 
