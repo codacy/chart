@@ -73,10 +73,10 @@ global:
     enabled: "true"
     replyTo: "notifications-sh@codacy.com"
     smtp:
-      protocol: "smtp"
+      protocol: "smtps"
       hostname: "smtp.mailtrap.io"
       username: "bc2aeb9e3ab3dc"
-      port: 25
+      port: 587
 
 codacy-ingress:
   create: true
