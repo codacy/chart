@@ -46,7 +46,7 @@ The next sections include detailed instructions on how to complete each step of 
 
 The Release Manager must create a release candidate branch:
 
--   [ ] 1.  Make sure that you have the following tools installed:
+-   [ ] 1.  Make sure that you have the following tools installed and that you have followed the [release notes tools requirements](https://github.com/codacy/release-notes-tools#requirements):
 
     -   [git](https://git-scm.com/)
     -   [ytool](https://github.com/codacy/ytool)
