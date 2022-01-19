@@ -17,7 +17,7 @@ Prepare your environment to set up the Amazon EKS cluster:
 1.  Make sure that you have the following tools installed on your machine:
 
     -   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) version >= 2.0.0
-    -   [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html) version 1
+    -   [AWS CLI](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-install.html) version 1
     -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
     -   [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version >= 1.14
 
