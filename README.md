@@ -148,7 +148,6 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.workers.config.inactivityTimeout`                        | Inactivity timeout for a worker                                                                              | `30`                                         |
 | `global.git.branchListTimeoutSeconds`                            | Timeout in seconds for listing branches in git                                                               | `30`                                         |
 | `global.codacy.portal.pullRequestListTimeoutSeconds`             | Timeout in seconds for listing pull requests from a git provider                                             | `30`                                         |
-| `global.codacy.license`                                          | Codacy license for your installation                                                                         | `nil`                                        |
 | `global.listenerdb.postgresqlUsername`                           | Username of the Postgresql server                                                                            | `codacy`                                     |
 | `global.listenerdb.postgresqlDatabase`                           | Database name of the Postgresql server                                                                       | `listener`                                   |
 | `global.listenerdb.postgresqlPassword`                           | Hostname of the Postgresql server                                                                            | `PLEASE_CHANGE_ME`                           |
@@ -194,6 +193,7 @@ The following parameters are specific to each Codacy component.
 | `engine.service.type`                                   | Service type                                                               | `ClusterIP`      |
 | `engine.service.annotations`                            | Annotations to be added to the service                                     | `{}`             |
 | `engine.metrics.serviceMonitor.enabled`                 | Create the ServiceMonitor resource type to be read by prometheus operator. | `false`          |
+| `codacy-api.config.license`                             | Codacy license for your installation                                       | `nil`            |
 | `codacy-api.image.repository`                           | Image repository                                                           | from dependency  |
 | `codacy-api.image.tag`                                  | Image tag                                                                  | from dependency  |
 | `codacy-api.service.type`                               | Service type                                                               | `ClusterIP`      |
