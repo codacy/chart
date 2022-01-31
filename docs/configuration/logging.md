@@ -14,7 +14,7 @@ The sections below provide instructions on how to configure each logging configu
 ## Setting up log level
 
 The log level of most components can be configured by editing the value of `COMPONENT.config.logLevel` in the `values-production.yaml` file that is used to install Codacy, like is shown in the example below:
-```
+```yaml
 worker-manager:
   replicaCount: 2
   config:
@@ -38,4 +38,16 @@ The list of supported values for this configuration is shown below. Note that ea
 
 ## Configuring log retention period
 
-If you want to change the log retention period,
+As stated in the `values.yaml` file used during deployments, if the `fluentdoperator` is enabled (`enabled:true`), the logs will be collected, and must be cleaned.
+
+To cleanup a bucket in minio, it is necessary to create a bucket lifecycle policy. In the chart repository, Codacy provides a cleaning job template ([lifecycle-police-job.yaml](https://github.com/codacy/chart/blob/master/codacy/templates/fluentd/lifecycle-police-job.yaml)), which will create the policy for you when included in your deployment.
+
+The retention period of your logs can then be configured by editing the value of `fluentdoperator.expirationDays` in the `values.yaml` file, as shown in the example below:
+
+```yaml
+fluentdoperator:
+  enabled: true
+  defaultConfigmap: codacy-fluentd-config
+  bucketName: logs
+  expirationDays: 7
+```

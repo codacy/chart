@@ -58,6 +58,7 @@ nav:
           - configuration/integrations/bitbucket-server.md
           - configuration/integrations/email.md
       - configuration/monitoring.md
+      - configuration/logging.md
   - "Maintenance and operations":
       - maintenance/license.md
       - maintenance/upgrade.md
