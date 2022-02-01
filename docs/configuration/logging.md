@@ -27,7 +27,7 @@ Codacy supports configuring the log level of the following components:
 
 Follow these instructions to configure the log level: 
 
-1.  Edit the value of `<COMPONENT>.config.logLevel` in the `values-production.yaml` file that is used to install Codacy, like is shown in the example below:
+1.  Edit the value of `<COMPONENT>.config.logLevel` in the `values-production.yaml` file that is used to install Codacy, as shown in the example below.
 
     ```yaml
     worker-manager:
