@@ -64,14 +64,11 @@ Follow these instructions to configure the log level:
                  # --values values-microk8s.yaml
     ```
 
-
 ## Configuring the log retention period
 
-The log retention period is the number of days during which logs will be stored, before being removed by the cleanup job specified in the configuration.
+The log retention period is the number of days during which logs will be stored before being removed by the [MinIO bucket lifecycle configuration policy](https://docs.min.io/docs/minio-bucket-lifecycle-guide.html){: target="_blank"} that we provide in the template [lifecycle-police-job.yaml](https://github.com/codacy/chart/blob/master/codacy/templates/fluentd/lifecycle-police-job.yaml).
 
-As stated in the `values.yaml` file used during deployments, if `fluentdoperator.enabled: true` the logs will be collected and must be cleaned. To clean up a bucket in MinIO, it is necessary to create a [bucket lifecycle configuration policy](https://docs.min.io/docs/minio-bucket-lifecycle-guide.html){: target="_blank"}. In the chart repository, Codacy provides the cleaning job template [lifecycle-police-job.yaml](https://github.com/codacy/chart/blob/master/codacy/templates/fluentd/lifecycle-police-job.yaml), which creates the policy for you when included in your deployment under the `templates` directory.
-
-Follow these instructions to adjust the log retention period:
+Follow these instructions to configure the log retention period:
 
 1.  Adjust the retention period of your logs by editing the value of `fluentdoperator.expirationDays` in the `values.yaml` file, as shown in the example below.
 
