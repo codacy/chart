@@ -31,10 +31,10 @@ The components that currently support this configuration are `codacy-api`, `list
 
 The list of supported values for this configuration is shown below. Note that each level also prints the information of the levels higher than it:
 
--   DEBUG: **Most** verbose level. Logs detailed information on the flow through the system.
--   INFO: Logs interesting events such as application startup and shutdown, important events on the flow of the system, or behavior that is skipped for expected reasons.
--   WARN: Logs runtime events that are unexpected, or undesirable, but not necessarily wrong such as the use of deprecated APIs.
--   ERROR: **Least** verbose level. Only logs runtime errors, or unexpected conditions that prevent the expected behavior from happening.
+-   **DEBUG (default):** Logs detailed information on the flow through the system. **This is the most verbose level**.
+-   **INFO:** Logs interesting events such as application startup and shutdown, important events on the flow of the system, or behavior that is skipped for expected reasons.
+-   **WARN:** Logs runtime events that are unexpected, or undesirable, but not necessarily wrong such as the use of deprecated APIs.
+-   **ERROR:** Only logs runtime errors, or unexpected conditions that prevent the expected behavior from happening. **This is the least verbose level**.
 
 ## Configuring the log retention period
 
