@@ -18,12 +18,12 @@ Prepare your environment to set up the Amazon EKS cluster:
 
     -   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) version >= 2.0.0
     -   [AWS CLI](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-install.html) version 1
-    -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) version >= 0.12
+    -   [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) version >= 0.12
     -   [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version >= 1.14
 
 2.  Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
-    Note that, as stated in the [Terraform documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#shared-credentials-file), if your `.aws/credentials` are more complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
+    Note that, as stated on the [Terraform documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profiles-with-shared-credentials-and-configuration-files), if your `.aws/credentials` are more complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
 
     ```bash
     export AWS_SDK_LOAD_CONFIG=1
