@@ -37,7 +37,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 -   [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
 -   Codacy/[Website](https://github.com/codacy/codacy-website/tree/master/.helm/)
 -   Codacy/[API](https://github.com/codacy/codacy-website/tree/master/.helm/)
--   Codacy/[Ragnaros](https://bitbucket.org/qamine/ragnaros/src/master/.helm/)
+-   Codacy/[Ragnaros](https://github.com/codacy/ragnaros/tree/master/.helm/)
 -   Codacy/[Repository Listener](https://github.com/codacy/repository-listener/tree/master/.helm/)
 -   Codacy/[Portal](https://github.com/codacy/portal/src/master/.helm/)
 -   Codacy/[Worker Manager](https://github.com/codacy/worker-manager/tree/master/.helm/)

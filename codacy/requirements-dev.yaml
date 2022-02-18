@@ -40,7 +40,7 @@ dependencies:
 - name: ragnaros
   version: ">=15.2.2-0"
   repository: https://charts.codacy.com/unstable
-  git: git@bitbucket.org:qamine/ragnaros.git
+  git: git@github.com:codacy/ragnaros.git
   condition: ragnaros.create
 
 - name: remote-provider-service
