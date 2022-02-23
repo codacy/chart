@@ -17,7 +17,7 @@ To upgrade Codacy Self-hosted to the latest stable version:
         include-markdown "../assets/includes/self-hosted-version.txt"
     %}
 
-2.  Store all your currently defined configuration values in a file:
+1.  Store all your currently defined configuration values in a file:
 
     ```bash
     helm get values codacy \
@@ -29,9 +29,9 @@ To upgrade Codacy Self-hosted to the latest stable version:
     !!! note
         If you installed Codacy on a Kubernetes namespace different from `codacy`, make sure that you adjust the namespace when executing the commands in this page.
 
-3.  Review the values stored in the file `codacy.yaml`, making any changes if necessary.
+1.  Review the values stored in the file `codacy.yaml`, making any changes if necessary.
 
-4.  Perform the upgrade using the values stored in the file:
+1.  Perform the upgrade using the values stored in the file:
 
     ```bash
     helm repo update
@@ -40,3 +40,8 @@ To upgrade Codacy Self-hosted to the latest stable version:
                  --namespace codacy \
                  --values codacy.yaml
     ```
+
+1.  Update your Codacy command-line tools to the versions with the Git tag `self-hosted-{{ version }}`:
+
+    -   [Codacy Analysis CLI](https://github.com/codacy/codacy-analysis-cli/releases/tag/self-hosted-{{ version }})
+    -   [Codacy Coverage Reporter](https://github.com/codacy/codacy-coverage-reporter/releases/tag/self-hosted-{{ version }})
