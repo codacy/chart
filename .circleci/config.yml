@@ -88,7 +88,7 @@ references:
   qa_automation_image: &qa_automation_image
     docker:
       - image: codacy/qa-automation-test-runner:latest
-      - image: selenium/standalone-chrome:3.141.0
+      - image: selenium/standalone-chrome:3.141.59-20210929
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
@@ -596,20 +596,6 @@ workflows:
           requires:
             - setup_release_db_values
       - codacy/microk8s_install:
-          name: install_k8s-1.14_helm-3.2
-          helm_repo: "https://charts.codacy.com/incubator"
-          chart_version: $(cat .version)
-          microk8s_channel: "1.14/stable"
-          helm_version: "v3.2.1"
-          helm_timeout: 1200
-          context: CodacyDocker
-          docker_username: $DOCKER_USER
-          docker_password: $DOCKER_PASS
-          <<: *helm_values
-          requires:
-            - helm_push_incubator
-
-      - codacy/microk8s_install:
           name: install_k8s-1.15_helm-3.2
           helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
@@ -693,6 +679,20 @@ workflows:
           requires:
             - helm_push_incubator
 
+      - codacy/microk8s_install:
+          name: install_k8s-1.21_helm-3.2
+          helm_repo: "https://charts.codacy.com/incubator"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.21/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_incubator
+
       - test_web:
           context: CodacyAWS
           requires:
@@ -718,13 +718,13 @@ workflows:
             - test_e2e
             - test_api
             - test_apiv3
-            - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
             - install_k8s-1.17_helm-3.2
             - install_k8s-1.18_helm-3.2
             - install_k8s-1.19_helm-3.2
             - install_k8s-1.20_helm-3.2
+            - install_k8s-1.21_helm-3.2
       - manual_solutions_eng_hold:
           type: approval
           context: CodacyDO
@@ -733,13 +733,13 @@ workflows:
             - test_e2e
             - test_api
             - test_apiv3
-            - install_k8s-1.14_helm-3.2
             - install_k8s-1.15_helm-3.2
             - install_k8s-1.16_helm-3.2
             - install_k8s-1.17_helm-3.2
             - install_k8s-1.18_helm-3.2
             - install_k8s-1.19_helm-3.2
             - install_k8s-1.20_helm-3.2
+            - install_k8s-1.21_helm-3.2
       - set_chart_version_release:
           context: CodacyDO
           requires:
