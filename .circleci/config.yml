@@ -780,3 +780,21 @@ workflows:
           requires:
             - tag_version_latest
             - publish_release_notes
+
+  test_microk8s_1_21:
+    jobs:
+      - codacy/microk8s_install:
+          filters:
+            branches:
+              only:
+                - test-microk8s-1.21
+          name: install_k8s-1.14_helm-3.2
+          helm_repo: "https://charts.codacy.com/incubator"
+          chart_version: 5.2.0-RC-0
+          microk8s_channel: "1.21/stable"
+          helm_version: "v3.2.1"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
