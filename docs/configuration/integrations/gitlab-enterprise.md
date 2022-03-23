@@ -25,6 +25,11 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
         https://codacy.example.com/add/addPermissions/GitLabEnterprise
         ```
 
+    -   **Expire access tokens:** Disable the option so that tokens don't expire.
+
+        !!! note
+            Currently, Codacy doesn't support [expiring access tokens](https://gitlab.com/help/integration/oauth_provider.md#expiring-access-tokens){: target="_blank"}. Make sure that this option is turned off.
+
     -   **Scopes:** Enable the scopes:
     
         -   `api`
