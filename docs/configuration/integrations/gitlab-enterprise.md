@@ -10,7 +10,7 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with GitLab Enterprise, you must create a GitLab application:
 
-1.  Open `<gitlab enterprise url>/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
+1.  Open `<gitlab enterprise url>/-/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 
@@ -24,6 +24,11 @@ To integrate Codacy with GitLab Enterprise, you must create a GitLab application
         https://codacy.example.com/add/addService/GitLabEnterprise
         https://codacy.example.com/add/addPermissions/GitLabEnterprise
         ```
+
+    -   **Expire access tokens:** Disable the option so that tokens don't expire.
+
+        !!! note
+            Currently, Codacy doesn't support [expiring access tokens](https://gitlab.com/help/integration/oauth_provider.md#expiring-access-tokens){: target="_blank"}. Make sure that this option is turned off.
 
     -   **Scopes:** Enable the scopes:
     
