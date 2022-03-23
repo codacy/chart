@@ -10,7 +10,7 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
-1.  Open <https://gitlab.com/profile/applications>.
+1.  Open <https://gitlab.com/-/profile/applications>.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 

@@ -10,7 +10,7 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with GitLab Enterprise, you must create a GitLab application:
 
-1.  Open `<gitlab enterprise url>/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
+1.  Open `<gitlab enterprise url>/-/profile/applications` as a GitLab admin, where `<gitlab enterprise url>` is the URL of your GitLab Enterprise instance.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 
