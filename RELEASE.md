@@ -6,7 +6,7 @@ The release process consists of the following stages:
 
 1.  **Deciding to release a new version**
 
-    Decide that we're ready to release a new version of the Codacy Chart and elect who will be the Release Manager.
+    Elect who will be the Release Manager, agree on the scope of the new version, and decide that we're ready to release a new version of the Codacy Chart.
 
 2.  **Preparing the release for testing**
 
@@ -24,13 +24,21 @@ The next sections include detailed instructions on how to complete each step of 
 
 ## 1. Deciding to release a new version
 
--   [ ] 1.  Inform the engineering team that you are the release manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers).
+After electing the Release Manager for releasing a new Codacy Chart version:
+
+-   [ ] 1.  Inform the Product team that you're the Release Manager for a new release in the Slack channel [#team-product](https://codacy.slack.com/channels/team-product) (tag @product).
+
+    Ask the team to validate and agree on the product changes and the status of feature flags included in the scope of the new version.
+
+    Confirm if the release can go ahead.
+
+-   [ ] 2.  Inform the Engineering team that you are the Release Manager for a new release in the Slack channel [#team-engineering](https://codacy.slack.com/channels/team-engineering) (tag @engineers).
 
     Get a status from each squad on any changes that may be on the master branch of the components and that may be deal breakers for the release.
 
     Confirm if the release can go ahead.
 
--   [ ] 2.  Decide the new version number.
+-   [ ] 3.  Decide the new version number.
 
     Go to the [releases page](https://github.com/codacy/chart/releases) to find the latest version, and decide on the version for the new release.
 
@@ -40,7 +48,7 @@ The next sections include detailed instructions on how to complete each step of 
     -   **MINOR version** when you add functionality in a backwards compatible manner
     -   **PATCH version** when you make backwards compatible bug fixes
 
--   [ ] 3.  Inform all stakeholders outside the engineering team that a new release proccess is being started (tag @here in the Slack channel [#sh_releases](https://codacy.slack.com/channels/sh_releases)).
+-   [ ] 4.  Inform all stakeholders outside the engineering team that a new release proccess is being started (tag @here in the Slack channel [#sh_releases](https://codacy.slack.com/channels/sh_releases)).
 
 ## 2. Preparing the release for testing
 
