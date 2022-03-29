@@ -26,7 +26,7 @@ dependencies:
   git: git@github.com:codacy/kube-fluentd-operator.git
 
 - name: codacy-ingress
-  version: ">=0.1.1"
+  version: "0.32.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-ingress.git
   condition: codacy-ingress.create

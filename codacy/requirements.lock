@@ -31,7 +31,7 @@ dependencies:
   version: 12.18.2
 - name: codacy-tools
   repository: https://charts.codacy.com/stable
-  version: 5.5.4
+  version: 5.5.6
 - name: codacy-api
   repository: https://charts.codacy.com/stable
   version: 26.24.0
@@ -43,6 +43,6 @@ dependencies:
   version: 5.8.1
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
-  version: 1.89.0
-digest: sha256:c0addae3e228250790b8ff8ddd7e7cea22b59fe5df11493e0cd3536721f13291
-generated: "2022-03-29T15:11:22.228074+01:00"
+  version: 1.89.1
+digest: sha256:cb47b255e447b2dd307047f41026fc6a795e91bf5fd8c28b2eccb3f169f2d2c5
+generated: "2022-03-29T17:23:40.648428+01:00"
