@@ -10,7 +10,7 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with GitLab Cloud, you must create a GitLab application:
 
-1.  Open <https://gitlab.com/profile/applications>.
+1.  Open <https://gitlab.com/-/profile/applications>.
 
 2.  Fill in the fields to register your Codacy instance on GitLab:
 
@@ -24,6 +24,11 @@ To integrate Codacy with GitLab Cloud, you must create a GitLab application:
         https://codacy.example.com/add/addService/GitLab
         https://codacy.example.com/add/addPermissions/GitLab
         ```
+
+    -   **Expire access tokens:** Disable the option so that tokens don't expire.
+
+        !!! note
+            Currently, Codacy doesn't support [expiring access tokens](https://gitlab.com/help/integration/oauth_provider.md#expiring-access-tokens){: target="_blank"}. Make sure that this option is turned off.
 
     -   **Scopes:** Enable the scopes:
     
