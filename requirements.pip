@@ -1,3 +1,7 @@
 mkdocs==1.2.4
 mkdocs-material==8.2.3
-mkdocs-include-markdown-plugin==3.3.0
+Jinja2==3.1.1
+
+# MkDocs plugins
+mkdocs-include-markdown-plugin==2.8.0
+mkdocs-macros-plugin==0.6.4
