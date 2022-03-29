@@ -2,6 +2,11 @@
 site_name: chart
 site_url: https://docs.codacy.com/chart/
 
+# Repository information
+repo_name: "codacy/chart"
+repo_url: "https://github.com/codacy/chart"
+edit_uri: "edit/master/docs/"
+
 # Configuration
 theme:
     logo: 'assets/images/codacy-logo.svg'
