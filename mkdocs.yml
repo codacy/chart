@@ -32,7 +32,7 @@ copyright: '© <a href="https://www.codacy.com/">Codacy</a>'
 plugins:
   - search
   - include-markdown
-  - markdownextradata
+  - macros
 
 markdown_extensions:
   - admonition
