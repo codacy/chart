@@ -32,13 +32,13 @@ dependencies:
   condition: codacy-ingress.create
 
 - name: portal
-  version: ">=6.7.1"
+  version: "6.48.2"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/portal.git
   condition: portal.create
 
 - name: ragnaros
-  version: ">=15.2.2"
+  version: "36.3.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/ragnaros.git
   condition: ragnaros.create
@@ -50,43 +50,43 @@ dependencies:
   condition: remote-provider-service.create
 
 - name: listener
-  version: ">=7.11.0"
+  version: "9.4.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
 - name: engine
-  version: ">=6.3.0"
+  version: "12.19.0"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-worker.git
   condition: engine.create
 
 - name: codacy-tools
-  version: ">=0.4.1"
+  version: "5.5.6"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-tools.git
   condition: codacy-tools.create
 
 - name: codacy-api
-  version: ">=9.2.0"
+  version: "26.24.8"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-website.git
   condition: codacy-api.create
 
 - name: worker-manager
-  version: ">=10.0.0"
+  version: "10.17.3"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/worker-manager.git
   condition: worker-manager.create
 
 - name: crow
-  version: ">=4.4.0"
+  version: "5.8.1"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/crow.git
   condition: crow.create
 
 - name: codacy-spa
-  version: ">=0.2.0"
+  version: "1.89.1"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/codacy-spa.git
   condition: codacy-spa.create
