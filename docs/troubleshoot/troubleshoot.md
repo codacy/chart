@@ -123,3 +123,11 @@ If you need to access the RabbitMQ dashboard:
 
     -   **Username:** `rabbitmq-codacy`
     -   **Password:** `rabbitmq-codacy`
+
+## Missing new tools
+
+If the **Code patterns** page of your repositories doesn't list a new tool that was included in a new Codacy version, force the list of available tools to refresh by running the following command on any `codacy-engine-*` pod:
+
+```bash
+curl -X POST localhost:9000/api/v1/engine/initialize
+```
