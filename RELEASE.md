@@ -172,7 +172,11 @@ The Release Manager must create a release candidate branch:
     git tag -f 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
     ```
 
--   [ ] 10. Generate release notes
+## 3. Testing and stabilizing the release
+
+The Release Manager must generate the release notes and announce to stakeholders the release candidate:
+
+-   [ ] 1. Generate release notes
 
     Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
 
@@ -180,19 +184,19 @@ The Release Manager must create a release candidate branch:
     make get_release_notes
     ```
 
-    After the makefile target runs successfully, open the pull request that is created at the end of the process and add all remaining relevant stakeholders as reviewers of the pull request.
+    Make sure that the makefile target runs successfully and opens a pull request on the [codacy/docs repository](https://github.com/codacy/docs/pulls).
 
-## 3. Testing and stabilizing the release
+-   [ ] 2. Share the release candidate with all relevant stakeholders
 
-The Release Manager must announce to the following stakeholders that the new release candidate is available on the [release environment](README.md#development-installations):
+    Share the release notes pull request with the following stakeholders to let them them know that the new release candidate is available on the [release environment](README.md#development-installations):
 
--   QA team
--   Engineering teams
--   Solution Engineers
--   Technical Writer
--   Any other relevant stakeholders
+    -   QA team
+    -   Engineering teams
+    -   Solution Engineers
+    -   Technical Writer
+    -   Any other relevant stakeholders
 
-The Release Manager is also responsible for ensuring that each stakeholder tests and approves the release candidate. The following sections provide details on the role of each stakeholder and the Release Manager in this process:
+The Release Manager is also responsible for ensuring that each stakeholder tests and approves the release candidate. The following sections provide details on the role of each stakeholder and the Release Manager in this process.
 
 ### Approval by the QA team
 
