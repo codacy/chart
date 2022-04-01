@@ -87,7 +87,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:3.0.18
+      - image: codacy/qa-automation-test-runner:latest
       - image: selenium/standalone-chrome:98.0.4758.102-chromedriver-98.0.4758.102-grid-4.1.2-20220217
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
