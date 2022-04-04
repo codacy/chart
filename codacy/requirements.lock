@@ -21,7 +21,7 @@ dependencies:
   repository: https://charts.codacy.com/stable
   version: 36.3.0
 - name: remote-provider-service
-  repository: https://charts.codacy.com/incubator
+  repository: https://charts.codacy.com/stable
   version: 10.6.0
 - name: listener
   repository: https://charts.codacy.com/stable
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa
   repository: https://charts.codacy.com/stable
   version: 1.89.1
-digest: sha256:74e82f399eaf7d7dbdb635147fc69fc680d05ec937eaf106ac31acbb7284d5ba
-generated: "2022-03-31T18:40:06.018945+01:00"
+digest: sha256:07c0a5d05ee474486cfdf7afb03abf3564410ec6584c5f854d03e2fba6c17b65
+generated: "2022-04-04T10:30:47.470733+01:00"
