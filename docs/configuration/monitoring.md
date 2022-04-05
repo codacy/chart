@@ -53,16 +53,14 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
 This solution is considerably more resource demanding than Crow, and is recommended only for more advanced usage. Furthermore, its installation, configuration, and management require a deeper knowledge of Kubernetes as each component must be carefully tweaked to match your specific use case, using as starting point the `.yaml` values files provided by us.
 
-The instructions below cover the basic installation of the components in this monitoring stack.
-
-### 1. Installing Prometheus
-
-The simplest way to set up Prometheus in your cluster is by using the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) bundle.
-
-Add the custom resources required for installing this bundle in your cluster:
+The instructions below cover the basic installation of these monitoring services using the [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
 
 !!! important
-    **If you're using MicroK8s** use `microk8s.kubectl` instead of `kubectl`.
+    **If you're using MicroK8s** run `alias kubectl=microk8s.kubectl`.
+
+### 1. Install custom resources
+
+Add the custom resources required for installing the monitoring bundle in your cluster:
 
 ```bash
 kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
@@ -100,18 +98,21 @@ helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
 
 ### 4. Installing Prometheus and Grafana
 
-Obtain the configuration file for the [Prometheus Operator bundle](https://github.com/helm/charts/tree/master/stable/prometheus-operator), [`values-prometheus-operator.yaml`](../values-files/values-prometheus-operator.yaml). Then:
+Obtain the configuration file for the [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack), [`values-prometheus-operator.yaml`](../values-files/values-prometheus-operator.yaml). Then:
 
 1.  Edit the Grafana password for the `admin` user and the hostname for Grafana in the `values-prometheus-operator.yaml` file.
 
 2.  Install the bundle on your cluster by running the command below.
 
 ```bash
-helm upgrade --install --atomic --timeout 600s monitoring stable/prometheus-operator \
-  --version 8.13.8 --namespace monitoring --values values-prometheus-operator.yaml
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+helm upgrade --install --atomic --timeout 600s monitoring  prometheus-community/kube-prometheus-stack \
+  --version 9.4.3 --namespace monitoring --values values-prometheus-operator.yaml
 ```
 
-Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) to access the Grafana service that's now running on your cluster, using the method that best suits your use case.
+Grafana will be available on the domain you configured in your `values-prometheus-operator.yaml` file, with Prometheus and Loki configured as datasources. Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) if you need to access other monitoring services that are now running on your cluster, using the method that best suits your use case.
 
 ### 5. Enable service dashboards
 
