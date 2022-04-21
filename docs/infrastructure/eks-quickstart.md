@@ -23,7 +23,7 @@ Prepare your environment to set up the Amazon EKS cluster:
 
 2.  Set up the AWS CLI credentials for your AWS account using the [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) and [Terraform](https://www.terraform.io/docs/providers/aws/index.html) documentation as reference.
 
-    Note that, as stated on the [Terraform documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profiles-with-shared-credentials-and-configuration-files), if your `.aws/credentials` are more complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
+    Note that, as stated on the [Terraform documentation](https://registry.terraform.io/providers/hashicorp/aws/2.70.1/docs#shared-credentials-file), if your `.aws/credentials` are more complex you might need to set `AWS_SDK_LOAD_CONFIG=1` for Terraform to work correctly:
 
     ```bash
     export AWS_SDK_LOAD_CONFIG=1
