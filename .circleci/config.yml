@@ -92,6 +92,8 @@ references:
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+          SE_NODE_MAX_SESSIONS: 8
+          SE_NODE_OVERRIDE_MAX_SESSIONS: true
     working_directory: ~/workdir
 
   ##################################################################################
