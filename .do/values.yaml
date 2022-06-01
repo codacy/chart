@@ -115,6 +115,10 @@ listener:
       size: 140Gi
   nfsserverprovisioner:
     enabled: true
+    storageClass:
+      mountOptions: 
+        - vers=4.1
+        - noatime
     persistence:
       enabled: true
       size: 200Gi
