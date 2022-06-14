@@ -1,6 +1,6 @@
 .PHONY: setup_helm_repos
 setup_helm_repos:
-	helm repo add bitnami https://charts.bitnami.com/bitnami
+	helm repo add bitnami-pre-2022 https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
 	helm repo add stable https://charts.helm.sh/stable
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
