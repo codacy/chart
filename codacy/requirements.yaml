@@ -7,13 +7,13 @@ dependencies:
 
 - name: rabbitmq
   version: 7.5.7
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 
 - name: postgresql
   version: 8.6.4
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   alias: postgres
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb.create,
     global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
