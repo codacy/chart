@@ -392,6 +392,7 @@ jobs:
 
   test_web:
     <<: *qa_automation_image
+    resource_class: large
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_web_testpath
@@ -399,6 +400,7 @@ jobs:
 
   test_e2e:
     <<: *qa_automation_image
+    resource_class: large
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_e2e_testpath
@@ -406,6 +408,7 @@ jobs:
 
   test_api:
     <<: *qa_automation_image
+    resource_class: large
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_api_testpath
@@ -413,6 +416,7 @@ jobs:
 
   test_apiv3:
     <<: *qa_automation_image
+    resource_class: large
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_apiv3_testpath
