@@ -92,6 +92,8 @@ references:
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
           MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+          SE_NODE_MAX_SESSIONS: 8
+          SE_NODE_OVERRIDE_MAX_SESSIONS: true
     working_directory: ~/workdir
 
   ##################################################################################
@@ -158,24 +160,28 @@ references:
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
     LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     LAUNCH_NAME: WEB_K8S_RELEASE
+    RETRY_NUMBER: 3
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/E2E.xml
     LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
     LAUNCH_NAME: E2E_K8S_RELEASE
+    RETRY_NUMBER: 5
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
     LAUNCH_TAG: CIRCLECI;API;SELFHOSTED;RELEASE
     LAUNCH_NAME: API_K8S_RELEASE
+    RETRY_NUMBER: 3
 
   qa_selfhosted_apiv3_testpath: &qa_selfhosted_apiv3_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/APIV3.xml
     LAUNCH_TAG: CIRCLECI;APIV3;SELFHOSTED;RELEASE
     LAUNCH_NAME: APIV3_K8S_RELEASE
+    RETRY_NUMBER: 3
 
   #########################################
   #  Anchors for steps
