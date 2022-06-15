@@ -160,7 +160,7 @@ references:
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
     LAUNCH_TAG: CIRCLECI;WEB;SELFHOSTED;RELEASE
     LAUNCH_NAME: WEB_K8S_RELEASE
-    RETRY_NUMBER: 3
+    RETRY_NUMBER: 5
 
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
     AWS_PROFILE: development
