@@ -24,6 +24,11 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
 
 3.  Create a new application link with the URL of your Codacy instance.
 
+    !!! important
+        **If you're using Bitbucket Server 7.20 or later** you must select the application type **Atlassian product** while creating the new application link.
+        
+        This is necessary to make the integration compatible with Codacy by [forcing the integration to use OAuth 1.0](https://confluence.atlassian.com/bitbucketserver/link-to-other-applications-1018764620.html#Linktootherapplications-LinktoAtlassianproductsorexternalapplicationsusingOAuth1.0){: target="_blank"}.
+
     ![Bitbucket Server application link](images/bitbucket-server-application-link.png)
 
 4.  Fill in the fields:
