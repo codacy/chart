@@ -10,9 +10,9 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with Bitbucket Server, you must create an application link on your Bitbucket Server instance:
 
-1.  Since Bitbucket Server uses OAuth1, you need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance.
+1.  Create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance.
 
-    Create a key pair using the RSA algorithm in the PKCS#8 format by executing the command:
+    Run the following command to create the key pair using the RSA algorithm in the PKCS#8 format:
 
     ```bash
     bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/integrations/generate-bitbucket-server-secrets.sh)
