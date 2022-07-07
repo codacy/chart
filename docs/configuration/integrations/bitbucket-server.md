@@ -10,9 +10,9 @@ Follow the instructions below to set up the Codacy Self-hosted integration with 
 
 To integrate Codacy with Bitbucket Server, you must create an application link on your Bitbucket Server instance:
 
-1.  Since Bitbucket Server uses OAuth1, you need to create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance.
+1.  Create a key pair to sign and validate the requests between Codacy and the Bitbucket Server instance.
 
-    Create a key pair using the RSA algorithm in the PKCS#8 format by executing the command:
+    Run the following command to create the key pair using the RSA algorithm in the PKCS#8 format:
 
     ```bash
     bash <(curl -fsSL https://raw.githubusercontent.com/codacy/chart/master/docs/configuration/integrations/generate-bitbucket-server-secrets.sh)
@@ -24,7 +24,16 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
 
 3.  Create a new application link with the URL of your Codacy instance.
 
+    !!! important
+        **If you're using Bitbucket Server 7.20 or later** you must select the application type **Atlassian product** while creating the new application link.
+
+        This [forces the integration to use OAuth 1.0](https://confluence.atlassian.com/bitbucketserver/link-to-other-applications-1018764620.html#Linktootherapplications-LinktoAtlassianproductsorexternalapplicationsusingOAuth1.0){: target="_blank"} and is necessary to ensure the compatibility between Codacy and older versions of Bitbucket that only supported OAuth 1.0.
+
     ![Bitbucket Server application link](images/bitbucket-server-application-link.png)
+
+    If Bitbucket Server may warn you that there was no response from the URL you entered. This is expected, and you can click **Continue** after verifying that the URL is correct.
+
+    ![No response from Codacy instance URL](images/bitbucket-server-no-response.png)
 
 4.  Fill in the fields:
 
@@ -35,9 +44,9 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
 
     ![Bitbucket Server application link naming](images/bitbucket-server-link-naming.png)
 
-5.  After creating the link, click **Edit** to add an incoming authentication.
+5.  After creating the new application link, click **Edit** to add an incoming authentication.
 
-6.  Fill in the fields of the incomming authentication:
+6.  Fill in the fields of the incoming authentication:
 
     -   **Consumer Key:** Enter the `consumerKey` generated previously.
     -   **Consumer Name:** Name of the consumer. For example, `Codacy`.
@@ -45,7 +54,7 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
 
     The remaining fields should be left blank.
 
-    ![Bitbucket Server incomming authentication](images/bitbucket-server-incoming-authentication.png)
+    ![Bitbucket Server incoming authentication](images/bitbucket-server-incoming-authentication.png)
 
 ## Configure Bitbucket Server on Codacy
 
