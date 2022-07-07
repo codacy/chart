@@ -31,6 +31,10 @@ To integrate Codacy with Bitbucket Server, you must create an application link o
 
     ![Bitbucket Server application link](images/bitbucket-server-application-link.png)
 
+    If Bitbucket Server may warn you that there was no response from the URL you entered. This is expected, and you can click **Continue** after verifying that the URL is correct.
+
+    ![No response from Codacy instance URL](images/bitbucket-server-no-response.png)
+
 4.  Fill in the fields:
 
     -   **Application Name:** Name of the application. For example, `Codacy`.
