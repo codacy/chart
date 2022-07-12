@@ -15,7 +15,7 @@ To create the GitHub App:
     | GitHub App name                         | Codacy                                                  |
     | Homepage URL                            | `https://codacy.example.com`                            |
     | User authorization callback URL         | `https://codacy.example.com`                            |
-    | Expire user authorization tokens        | Disabled<br/><br/><strong>⚠️ Note:</strong> Currently, Codacy doesn't support <a href="https://docs.github.com/en/developers/apps/building-github-apps/refreshing-user-to-server-access-tokens" target="_blank">expiring user access tokens</a>. Make sure that this option is turned off. |
+    | Expire user authorization tokens        | Disabled<br/><br/><strong>⚠️ Note:</strong> Currently, Codacy doesn't support <a href="https://docs.github.com/en/developers/apps/building-github-apps/refreshing-user-to-server-access-tokens">expiring user access tokens</a>. Make sure that this option is turned off. |
     | Webhook URL                             | For GitHub Cloud:<br/>`https://codacy.example.com/2.0/events/gh/organization`<br/><br/>For GitHub Enterprise:<br/>`https://codacy.example.com/2.0/events/ghe/organization` |
     | **Repository permissions**              |                                                         |
     | Administration                          | Read & write                                            |

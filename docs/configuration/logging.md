@@ -66,7 +66,7 @@ Follow these instructions to configure the log level:
 
 ## Configuring the log retention period
 
-The log retention period is the number of days during which logs will be stored before being removed by the [MinIO bucket lifecycle configuration policy](https://docs.min.io/docs/minio-bucket-lifecycle-guide.html){: target="_blank"} that we provide in the template [lifecycle-police-job.yaml](https://github.com/codacy/chart/blob/master/codacy/templates/fluentd/lifecycle-police-job.yaml).
+The log retention period is the number of days during which logs will be stored before being removed by the [MinIO bucket lifecycle configuration policy](https://docs.min.io/docs/minio-bucket-lifecycle-guide.html) that we provide in the template [lifecycle-police-job.yaml](https://github.com/codacy/chart/blob/master/codacy/templates/fluentd/lifecycle-police-job.yaml).
 
 Follow these instructions to configure the log retention period:
 
