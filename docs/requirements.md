@@ -96,7 +96,7 @@ The storage requirements recommended on the following table **depend mainly on t
 Codacy requires a database server to persist data that must satisfy the following requirements:
 
 -   The infrastructure hosting the database server must be provisioned with the hardware requirements described below
--   The DBMS server must be [PostgreSQL](https://www.postgresql.org/) **version 10.15**
+-   The DBMS server must be [PostgreSQL](https://www.postgresql.org/) **version 10.20**
 -   The PostgreSQL server must be configured to accept connections from the cluster
 -   The Codacy databases and a dedicated user must be created using the instructions below
 
