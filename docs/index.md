@@ -68,7 +68,7 @@ Install Codacy on an existing cluster using our Helm chart:
         --namespace codacy
     ```
 
-4.  Download the template file [`values-production.yaml`](./values-files/values-production.yaml){: target="_blank"} and use a text editor of your choice to edit the value placeholders as described in the comments.
+4.  Download the template file [`values-production.yaml`](./values-files/values-production.yaml) and use a text editor of your choice to edit the value placeholders as described in the comments.
 
 5.  Create an address record on your DNS provider mapping the hostname you used in the previous step to the IP address of your Ingress controller.
 
