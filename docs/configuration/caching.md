@@ -1,5 +1,5 @@
 ---
-description: <!--TODO-->
+description: Configure Codacy Self-hosted to use an external NFS server to improve the performance of the cloned repository cache.
 ---
 
 # Caching
