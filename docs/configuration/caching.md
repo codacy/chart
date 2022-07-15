@@ -18,7 +18,7 @@ To use your own external NFS server:
         enabled: false
       cache:
         name: listener-cache
-        path: /data"
+        path: /data
         nfs:
           server: <NFS_SERVER_IP> # IP address of the external NFS server
           path: /var/nfs/data/ # External NFS server directory or file system to be mounted
