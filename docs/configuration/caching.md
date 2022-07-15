@@ -37,3 +37,18 @@ To use your own external NFS server:
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
+
+1.  Validate that the `repository-listener` pod  is now using the external NFS server:
+
+    ```bash
+    $ kubectl describe pod -n codacy codacy-listener-<...>
+
+    [...]
+
+    Volumes:
+    listener-cache:
+        Type:      NFS (an NFS mount that lasts the lifetime of a pod)
+        Server:    <NFS_SERVER_IP>
+        Path:      /var/nfs/data/
+        ReadOnly:  false
+    ```
