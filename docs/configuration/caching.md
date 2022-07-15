@@ -8,7 +8,7 @@ Codacy Self-hosted includes a built-in NFS server provisioner that deploys a sha
 
 To use your own external NFS server:
 
-1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
+1.  Edit the file `values-production.yaml` that you [used to install Codacy](../index.md#helm-upgrade).
 
 1.  Set `listener.nfsserverprovisioner.enabled: "false"` and define the remaining `listener.cache.*` values as described below:
 
@@ -24,7 +24,7 @@ To use your own external NFS server:
           path: /var/nfs/data/ # External NFS server directory or file system to be mounted
     ```
 
-1.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
+1.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../index.md#helm-upgrade):
 
     !!! important
         **If you're using MicroK8s** you must use the file `values-microk8s.yaml` together with the file `values-production.yaml`.
