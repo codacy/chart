@@ -10,18 +10,18 @@ To use your own external NFS server:
 
 1.  Edit the file `values-production.yaml` that you [used to install Codacy](../../index.md#helm-upgrade).
 
-1.  Set `nfsserverprovisioner.enabled: "false"` and define the remaining values as described below:
+1.  Set `listener.nfsserverprovisioner.enabled: "false"` and define the remaining `listener.cache.*` values as described below:
 
     ```yaml
-    nfsserverprovisioner:
-      enabled: "false"
-
-    cache:
-      name: "listener-cache"
-      path: "/data"
-      nfs:
-        server: "<NFS_SERVER_IP>" # The IP address of the external NFS server
-        path: "/var/nfs/data/" # External NFS server directory or file system to be mounted
+    listener:
+      nfsserverprovisioner:
+        enabled: false
+      cache:
+        name: listener-cache
+        path: /data"
+        nfs:
+          server: <NFS_SERVER_IP> # IP address of the external NFS server
+          path: /var/nfs/data/ # External NFS server directory or file system to be mounted
     ```
 
 1.  Apply the new configuration by performing a Helm upgrade. To do so execute the command [used to install Codacy](../../index.md#helm-upgrade):
