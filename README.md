@@ -185,6 +185,10 @@ The following parameters are specific to each Codacy component.
 | `listener.nfsserverprovisioner.persistence.enabled` | Creates an NFS provisioner                                                                          | `true`                                       |
 | `listener.nfsserverprovisioner.persistence.size`    | Size of the NFS server disk                                                                         | `120Gi`                                      |
 | `listener.cacheCleanup.olderThanDays`               | Data retention policy in days                                                                       | `30`                                         |
+| `listener.cache.name`                               | External NFS volume name                                                                            | `listener-cache`                             |
+| `listener.cache.path`                               | External NFS volume mount path                                                                      | `/data`                                      |
+| `listener.cache.nfs.server`                         | IP address of external NFS server                                                                   | `0.0.0.0`                                    |
+| `listener.cache.nfs.path`                           | External NFS server directory or file system to be mounted                                          | `/`                                          |
 | `engine.replicaCount`                               | Number of replicas                                                                                  | `1`                                          |
 | `engine.image.repository`                           | Image repository                                                                                    | from dependency                              |
 | `engine.image.tag`                                  | Image tag                                                                                           | from dependency                              |

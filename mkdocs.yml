@@ -62,6 +62,7 @@ nav:
           - configuration/integrations/bitbucket-cloud.md
           - configuration/integrations/bitbucket-server.md
           - configuration/integrations/email.md
+      - configuration/caching.md
       - configuration/monitoring.md
       - configuration/logging.md
   - "Maintenance and operations":
