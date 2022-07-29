@@ -5,8 +5,8 @@ TF_PARALLELISM ?= 30
 TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
-NGINX_INGRESS_VERSION ?= 2.16.0
-CERT_MANAGER_VERSION ?= v0.15.1
+NGINX_INGRESS_VERSION ?= 4.2.0
+CERT_MANAGER_VERSION ?= v1.9.1
 K8S_VERSION ?= 1.22
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-8vcpu-32gb
@@ -57,32 +57,19 @@ install_nginx:
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 	helm repo add stable https://charts.helm.sh/stable
 	helm repo update
-
 	helm upgrade --install nginx-ingress --version ${NGINX_INGRESS_VERSION} --namespace kube-system ingress-nginx/ingress-nginx \
-	-f values-nginx.yaml
+	-f values/values-nginx.yaml
 
 .PHONY: install_certmanager
 install_certmanager:
 	helm repo add jetstack https://charts.jetstack.io
 	helm repo update
-	# Actually install cert-manager
-	wget https://docs.codacy.com/chart/values-files/values-cert-manager.yaml >/dev/null 2>&1
-	ytool -f "values-cert-manager.yaml" -s global.leaderElection.namespace "kube-system" -e
-	ytool -f "values-cert-manager.yaml" -s ingressShim.defaultIssuerKind "ClusterIssuer" -e
 	helm upgrade --install --version ${CERT_MANAGER_VERSION} codacy-cert-manager jetstack/cert-manager \
 			--namespace kube-system \
-			--values values-cert-manager.yaml \
+			--values values/values-cert-manager.yaml \
 			--set installCRDs=true
-
 	kubectl label namespace kube-system certmanager.k8s.io/disable-validation="true" --overwrite
-
-	# Fetch and patch issuer-letsencrypt.yaml Issuer
-	wget https://docs.codacy.com/chart/values-files/issuer-letsencrypt.yaml >/dev/null 2>&1
-	ytool -f "issuer-letsencrypt.yaml" -s spec.acme.email "reliability@codacy.com" -e
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.name "letsencrypt-codacy" -e
-	ytool -f "issuer-letsencrypt.yaml" -s metadata.namespace "kube-system" -e
-	ytool -f "issuer-letsencrypt.yaml" -s kind "ClusterIssuer" -e
-	kubectl apply --namespace kube-system -f issuer-letsencrypt.yaml
+	kubectl apply --namespace kube-system -f values/issuer-letsencrypt.yaml
 
 .PHONY: destroy_cluster
 destroy_cluster: setup_vars create_terraformrc set_cluster_context tf_init tf_validate

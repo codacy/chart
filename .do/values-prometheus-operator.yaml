@@ -1,6 +1,12 @@
 defaultRules:
   create: false # disable the default alertmanager rules that monitor the cluster
 
+prometheusOperator:
+  tls:
+    enabled: false
+  admissionWebhooks:
+    enabled: false
+
 ## Configuration for alertmanager
 ## based off of: https://medium.com/faun/trying-prometheus-operator-with-helm-minikube-b617a2dccfa3
 ## and: https://awesome-prometheus-alerts.grep.to/alertmanager
