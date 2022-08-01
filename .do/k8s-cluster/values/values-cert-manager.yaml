@@ -1,0 +1,9 @@
+webhook:
+  enabled: true
+ingressShim:
+  defaultIssuerName: letsencrypt-codacy
+  defaultIssuerKind: ClusterIssuer
+  defaultIssuerGroup: cert-manager.io
+global:
+  leaderElection:
+    namespace: kube-system

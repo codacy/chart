@@ -102,32 +102,33 @@ remove_codacy: set_cluster_context
 	kubectl delete secret -n ${NAMESPACE} docker-credentials
 
 .PHONY: deploy_monitoring
-deploy_monitoring: set_cluster_context
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml"
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"
+deploy_monitoring: #set_cluster_context
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
 
 	helm repo add loki https://grafana.github.io/loki/charts
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo update
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki loki/loki \
-	  --version 0.28.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
+	  --version 2.1.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 0.22.2 --namespace monitoring --values ../docs/values-files/values-promtail.yaml
+	  --version 2.0.2 --namespace monitoring --values values-promtail.yaml
 
 	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED#g;" values-prometheus-operator.yaml
 	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
 	@sed -i "s#<--- grafana url --->#${GRAFANA_URL}#g; s#https://##g" ../docs/values-files/values-prometheus-operator.yaml
 
-	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-	helm repo update
-
-	helm upgrade --install --atomic --timeout 600s monitoring  prometheus-community/kube-prometheus-stack \
-	  --version 9.4.3 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
+	helm upgrade --install --atomic --timeout 1600s monitoring  prometheus-community/kube-prometheus-stack \
+	  --version 39.1.0 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}' \
 	  --set alertmanager.ingress.hosts='{alerts.k8s.dev.codacy.org}' \
