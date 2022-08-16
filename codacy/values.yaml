@@ -327,7 +327,7 @@ postgres:
 minio:
   fullnameOverride: codacy-minio
   persistence:
-    size: 20Gi
+    size: 40Gi
   minioConfig:
     region: "eu-west-1"
   buckets:
