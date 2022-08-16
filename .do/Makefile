@@ -112,13 +112,13 @@ deploy_monitoring: #set_cluster_context
 	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
 	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
 
-	helm repo add loki https://grafana.github.io/loki/charts
+	helm repo add grafana https://grafana.github.io/helm-charts
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	helm repo update
 	-kubectl create namespace monitoring
 
-	helm upgrade --install --atomic --timeout 600s loki loki/loki \
-	  --version 2.1.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
+	helm upgrade --install --atomic --timeout 600s loki grafana/loki \
+	  --version 2.14.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
 	  --version 2.0.2 --namespace monitoring --values values-promtail.yaml
