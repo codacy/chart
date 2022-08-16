@@ -248,9 +248,12 @@ codacy-ingress:
       nginx.ingress.kubernetes.io/use-regex: "true"
     extraPaths:
       - backend:
-          serviceName: codacy-crow
-          servicePort: http
+          service:
+            name: codacy-crow
+            port:
+              name: http
         path: /monitoring
+        pathType: ImplementationSpecific
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
