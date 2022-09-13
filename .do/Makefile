@@ -118,10 +118,10 @@ deploy_monitoring: #set_cluster_context
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki grafana/loki \
-	  --version 2.14.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
+	  --version 3.0.3 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
-	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 2.0.2 --namespace monitoring --values values-promtail.yaml
+	helm upgrade --install --atomic --timeout 600s promtail grafana/promtail \
+	  --version 6.4.0 --namespace monitoring --values values-promtail.yaml
 
 	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED#g;" values-prometheus-operator.yaml
 	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml

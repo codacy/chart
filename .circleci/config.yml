@@ -566,6 +566,7 @@ workflows:
             branches:
               only:
                 - master
+                - bump/monitoring
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/

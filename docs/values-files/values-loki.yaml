@@ -1,24 +1,29 @@
-resources:
-  limits:
-    cpu: 1
-    memory: 1000Mi
-  requests:
-    cpu: 500m
-    memory: 500Mi
-config:
-  limits_config:
-    cardinality_limit: 200000
-    ingestion_rate_mb: 15
-    ingestion_burst_size_mb: 20
-serviceMonitor:
-  enabled: true
-persistence:
-  enabled: true
-  size: 100Gi # adjust persistence volume size if needed
-  #storageClassName: <--- storage class ---> 
-table_manager:
-  retention_deletes_enabled: true
-  retention_period: 72h
-grafana:
-  datasources:
-    enabled: true
+loki:
+  structuredConfig:
+    limits_config:
+      cardinality_limit: 200000
+      ingestion_rate_mb: 15
+      ingestion_burst_size_mb: 20
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 72h
+
+monitoring:
+  selfMonitoring:
+    enabled: false
+
+#resources:
+#  limits:
+#    cpu: 1
+#    memory: 1000Mi
+#  requests:
+#    cpu: 503m
+#    memory: 503Mi
+#
+#persistence:
+#  enabled: true
+#  size: 100Gi # adjust persistence volume size if needed
+#  #storageClassName: <--- storage class --->
+#grafana:
+#  datasources:
+#    enabled: true

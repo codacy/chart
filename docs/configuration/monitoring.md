@@ -63,12 +63,14 @@ The instructions below cover the basic installation of these monitoring services
 Add the custom resources required for installing the monitoring bundle in your cluster:
 
 ```bash
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml"
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"
-kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.58.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
 ```
 
 ### 2. Installing Loki
@@ -76,12 +78,12 @@ kubectl apply -f "https://raw.githubusercontent.com/coreos/prometheus-operator/r
 Obtain the configuration file for Loki, [`values-loki.yaml`](../values-files/values-loki.yaml), and install it by running the command below. While the default storage class setting for Loki persistence should suit most use cases, you may need to adjust it to your specific Kubernetes installation. For instance, for MicroK8s use `storageClassName: microk8s-hostpath`.
 
 ```bash
-helm repo add loki https://grafana.github.io/loki/charts
+helm repo add grafana https://grafana.github.io/helm-charts
 
 kubectl create namespace monitoring
 
-helm upgrade --install --atomic --timeout 600s loki loki/loki \
-  --version 0.28.1 --namespace monitoring --values values-loki.yaml
+helm upgrade --install --atomic --timeout 600s loki grafana/loki \
+  --version 2.14.1 --namespace monitoring --values values-loki.yaml
 ```
 
 ### 3. Installing Promtail
@@ -92,7 +94,7 @@ Obtain the configuration file for Promtail, [`values-promtail.yaml`](../values-f
 
 ```bash
 helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-  --version 0.22.2 --namespace monitoring --values values-promtail.yaml
+  --version 6.4.0 --namespace monitoring --values values-promtail.yaml
 
 ```
 
@@ -109,7 +111,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 helm upgrade --install --atomic --timeout 600s monitoring  prometheus-community/kube-prometheus-stack \
-  --version 9.4.3 --namespace monitoring --values values-prometheus-operator.yaml
+  --version 39.9.0 --namespace monitoring --values values-prometheus-operator.yaml
 ```
 
 Grafana will be available on the domain you configured in your `values-prometheus-operator.yaml` file, with Prometheus and Loki configured as datasources. Follow the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/#accessing-services-running-on-the-cluster) if you need to access other monitoring services that are now running on your cluster, using the method that best suits your use case.
