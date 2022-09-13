@@ -120,15 +120,15 @@ deploy_monitoring: #set_cluster_context
 	helm upgrade --install --atomic --timeout 600s loki grafana/loki \
 	  --version 2.14.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
-	helm upgrade --install --atomic --timeout 600s promtail loki/promtail \
-	  --version 2.0.2 --namespace monitoring --values values-promtail.yaml
+	helm upgrade --install --atomic --timeout 600s promtail grafana/promtail \
+	  --version 2.2.0 --namespace monitoring --values values-promtail.yaml
 
 	@sed -i "s#<--- slack-api-url --->#$$SLACK_API_URL_ALERTS_SELFHOSTED#g;" values-prometheus-operator.yaml
 	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
 	@sed -i "s#<--- grafana url --->#${GRAFANA_URL}#g; s#https://##g" ../docs/values-files/values-prometheus-operator.yaml
 
 	helm upgrade --install --atomic --timeout 1600s monitoring  prometheus-community/kube-prometheus-stack \
-	  --version 39.1.0 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
+	  --version 39.9.0 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}' \
 	  --set alertmanager.ingress.hosts='{alerts.k8s.dev.codacy.org}' \
