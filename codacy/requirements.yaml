@@ -74,7 +74,7 @@ dependencies:
   condition: codacy-api.create
 
 - name: worker-manager
-  version: ">=10.0.0"
+  version: "10.19.122"
   repository: https://charts.codacy.com/stable
   git: git@github.com:codacy/worker-manager.git
   condition: worker-manager.create
