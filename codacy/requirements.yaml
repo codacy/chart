@@ -55,10 +55,11 @@ dependencies:
   git: git@github.com:codacy/repository-listener.git
   condition: listener.create
 
-- name: engine
-  version: ">=6.3.0"
+- name: engine-legacy
+  alias: engine
+  version: ">=1.0.0"
   repository: https://charts.codacy.com/stable
-  git: git@github.com:codacy/codacy-worker.git
+  git: git@github.com:codacy/codacy-worker-legacy.git
   condition: engine.create
 
 - name: codacy-tools
@@ -73,10 +74,11 @@ dependencies:
   git: git@github.com:codacy/codacy-website.git
   condition: codacy-api.create
 
-- name: worker-manager
-  version: ">=10.0.0"
+- name: worker-manager-legacy
+  alias: worker-manager
+  version: ">=1.0.0"
   repository: https://charts.codacy.com/stable
-  git: git@github.com:codacy/worker-manager.git
+  git: git@github.com:codacy/worker-manager-legacy.git
   condition: worker-manager.create
 
 - name: crow
