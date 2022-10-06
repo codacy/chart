@@ -25,68 +25,79 @@ dependencies:
   alias: fluentdoperator
   git: git@github.com:codacy/kube-fluentd-operator.git
 
-- name: codacy-ingress
-  version: ">0.1.1-0"
+- name: codacy-ingress-legacy
+  alias: codacy-ingress
+  version: ">0.1.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-ingress.git
+  git: git@github.com:codacy/codacy-ingress-legacy.git
   condition: codacy-ingress.create
 
-- name: portal
-  version: ">=6.16.0-0"
+- name: portal-legacy
+  alias: portal
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/portal.git
+  git: git@github.com:codacy/portal-legacy.git
   condition: portal.create
 
-- name: ragnaros
-  version: ">=15.2.2-0"
+- name: ragnaros-legacy
+  alias: ragnaros
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/ragnaros.git
+  git: git@github.com:codacy/ragnaros-legacy.git
   condition: ragnaros.create
 
-- name: remote-provider-service
-  version: ">=8.6.0-0"
+- name: remote-provider-service-legacy
+  alias: remote-provider-service
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/remote-provider-service.git
+  git: git@github.com:codacy/remote-provider-service-legacy.git
   condition: remote-provider-service.create
 
-- name: listener
-  version: ">=7.11.0-0"
+- name: listener-legacy
+  alias: listener
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/repository-listener.git
+  git: git@github.com:codacy/repository-listener-legacy.git
   condition: listener.create
 
-- name: engine
-  version: ">=7.6.1-0"
+- name: engine-legacy
+  alias: engine
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-worker.git
+  git: git@github.com:codacy/codacy-worker-legacy.git
   condition: engine.create
 
-- name: codacy-tools
-  version: ">=0.4.1"
+- name: codacy-tools-legacy
+  alias: codacy-tools
+  version: ">=1.0.0"
   repository: https://charts.codacy.com/stable
-  git: git@github.com:codacy/codacy-tools.git
+  git: git@github.com:codacy/codacy-tools-legacy.git
   condition: codacy-tools.create
 
-- name: codacy-api
-  version: ">=8.14.0-0"
+- name: codacy-api-legacy
+  alias: codacy-api
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-website.git
+  git: git@github.com:codacy/codacy-website-legacy.git
   condition: codacy-api.create
 
-- name: worker-manager
-  version: ">=10.0.0-0"
+- name: worker-manager-legacy
+  alias: worker-manager
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/worker-manager.git
+  git: git@github.com:codacy/worker-manager-legacy.git
   condition: worker-manager.create
 
-- name: crow
-  version: ">=4.4.0-0"
+- name: crow-legacy
+  alias: crow
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/crow.git
+  git: git@github.com:codacy/crow-legacy.git
   condition: crow.create
 
-- name: codacy-spa
-  version: ">=0.2.0-0"
+- name: codacy-spa-legacy
+  alias: codacy-spa
+  version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-spa.git
+  git: git@github.com:codacy/codacy-spa-legacy.git
   condition: codacy-spa.create

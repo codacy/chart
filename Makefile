@@ -20,8 +20,8 @@ create_version_file:
 .PHONY: update_internals_versions
 update_internals_versions:
 	$(eval ENGINE_VERSION=$(shell grep "engine" -A 2 codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]'))
-	@echo "Engine version: ${ENGINE_VERSION}"
-	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "${ENGINE_VERSION}" -e
+	@echo "Engine version: sh-${ENGINE_VERSION}"
+	ytool -f "./codacy/values.yaml" -s global.workerManager.workers.config.imageVersion "sh-${ENGINE_VERSION}" -e
 
 .PHONY: update_docs_versions
 update_docs_versions:
