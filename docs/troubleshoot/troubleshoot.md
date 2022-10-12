@@ -130,7 +130,7 @@ curl -X POST localhost:9000/api/v1/engine/initialize
 
 ## Upgrade failed: cannot patch "codacy-minio"
 
-If you download and use an updated `values-production.yaml` file while upgrading to [Codacy Self-hosted 9.0.0](/release-notes/self-hosted/self-hosted-v9.0.0/), you'll get the following error:
+If you download and use an updated `values-production.yaml` file while upgrading to [Codacy Self-hosted 9.0.0](https://docs.codacy.com/release-notes/self-hosted/self-hosted-v9.0.0/), you'll get the following error:
 
 > Error: UPGRADE FAILED: cannot patch "codacy-minio" with kind PersistentVolumeClaim: persistentvolumeclaims "codacy-minio" is forbidden: only dynamically provisioned pvc can be resized and the storageclass that provisions the pvc must support resize
 
