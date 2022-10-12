@@ -98,11 +98,7 @@ If the error persists:
 1.  Take note of the parameter `client_id` in the URL of the Bitbucket Cloud error page (for example, `r8QJDkkxj8unYfg4Bd`)
 2.  Check if the value of the parameter matches the value of the Client ID of your Bitbucket OAuth consumer
 
-## Codacy configuration
-
-The following sections help you troubleshoot the Codacy configuration.
-
-### Accessing the RabbitMQ dashboard
+## Accessing the RabbitMQ dashboard
 
 We use RabbitMQ for the internal message queue between our components.
 
