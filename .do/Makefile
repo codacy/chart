@@ -69,7 +69,7 @@ helm_install_from_local_dir: update_ingress_values
 
 .PHONY: helm_install_from_chart_museum
 helm_install_from_chart_museum: update_ingress_values
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: update_dependencies
 update_dependencies:
