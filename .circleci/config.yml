@@ -518,7 +518,7 @@ workflows:
           name: install_k8s-1.21_helm-3.9_unstable
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.21/stable"
+          microk8s_channel: "1.23/stable"
           helm_version: "v3.9.0"
           helm_timeout: 1200
           context: CodacyDocker
