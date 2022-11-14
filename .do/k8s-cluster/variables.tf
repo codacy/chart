@@ -5,7 +5,7 @@
 variable "k8s_version" {
   description = "Kubernetes version. See available versions with `doctl kubernetes options versions`"
   type        = string
-  default     = "1.22.12-do.0"
+  default     = "1.23.10-do.0"
 }
 
 variable "node_type" {
