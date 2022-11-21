@@ -1,4 +1,4 @@
-# Troubleshooting Codacy
+# Troubleshooting Codacy Self-hosted
 
 This page includes information to help you troubleshoot issues that you may come across while installing, configuring, and operating Codacy Self-hosted.
 
