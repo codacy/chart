@@ -3,13 +3,20 @@ resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
   region  = "fra1"
   version = var.k8s_version
 
+  # defined for provider compliance only, at least one default node pool is required
   node_pool {
     name       = "codacy-doks-pool"
     size       = "s-2vcpu-2gb"
-    auto_scale = true
+    auto_scale = false
     node_count = 1
-    min_nodes  = 0
-    max_nodes  = 0
+  }
+
+  # ensures k8s cluster is not recreated when node_pool changes
+  # see https://github.com/digitalocean/terraform-provider-digitalocean/issues/424
+  lifecycle {
+    ignore_changes = [
+      node_pool
+    ]
   }
 
   provisioner "local-exec" {
