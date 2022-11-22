@@ -11,11 +11,11 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 1.22.2"
+      version = "~> 2.23.0"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
-      version = "~> 1.13.1"
+      version = "~> 2.16.0"
     }
   }
 }
