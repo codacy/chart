@@ -1,5 +1,7 @@
 resource "digitalocean_database_cluster" "postgres" {
-  name = "codacy-doks-cluster-postgres${var.postgres_version}-${var.environment}"
+  # name includes `postgres10` irrespective of version because changing it
+  # would force total database destruction and subsequent recreation.
+  name = "codacy-doks-cluster-postgres10-${var.environment}"
   engine = "pg"
   version = var.postgres_version
   size = var.postgres_instance_type

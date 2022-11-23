@@ -11,7 +11,7 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 1.22.2"
+      version = "~> 2.23.0"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
