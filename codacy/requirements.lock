@@ -16,7 +16,7 @@ dependencies:
   version: 0.2.2
 - name: portal-legacy
   repository: https://charts.codacy.com/stable
-  version: 1.1.0
+  version: 1.1.2
 - name: ragnaros-legacy
   repository: https://charts.codacy.com/stable
   version: 2.0.0
@@ -43,6 +43,6 @@ dependencies:
   version: 1.0.0
 - name: codacy-spa-legacy
   repository: https://charts.codacy.com/stable
-  version: 1.1.0
-digest: sha256:04eb2115dd8612a5be583a1351e968eeb97612e12a00b69ad39e205cd3537156
-generated: "2022-11-24T11:59:21.498444Z"
+  version: 1.2.0
+digest: sha256:8a21b3c7cba47b3d29c8f19972e07c78c4ecd682f66a4c76dcb84b922839c88a
+generated: "2022-11-25T13:14:41.68077Z"
