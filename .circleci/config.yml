@@ -87,7 +87,7 @@ references:
 
   qa_automation_image: &qa_automation_image
     docker:
-      - image: codacy/qa-automation-test-runner:latest
+      - image: codacy/quality-sh-automated-tests-runner:latest
       - image: selenium/standalone-chrome:98.0.4758.102-chromedriver-98.0.4758.102-grid-4.1.2-20220217
         environment:
           JAVA_OPTS: -Xss256m -Xmx512m
@@ -317,7 +317,7 @@ references:
           name: Run tests
           command: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
-            sh /opt/tests/qa-automation-test-runner/build/run_tests.sh
+            sh /opt/tests/quality-sh-automated-tests-runner/build/run_tests.sh
 
 ############
 #  JOBS
