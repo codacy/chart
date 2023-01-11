@@ -25,18 +25,7 @@ chart.iml
 *.tfstate*
 terraform.tfvars*
 .terraform/
-# Common backup files
-*.swp
-*.bak
-*.tmp
-*~
-# Various IDEs
-.project
-.idea/
-*.tmproj
-.vscode/
-**/charts
-chart.iml
+
 site/
 
 # helm dependencies temporary folders
@@ -48,3 +37,6 @@ release-notes-tools
 
 # explicitly ignore the version file
 .version
+
+*.log
+.*.swp
