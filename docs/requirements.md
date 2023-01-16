@@ -91,6 +91,9 @@ The storage requirements recommended on the following table **depend mainly on t
 | Minio      | Yes                          | **20 GB**               |
 | PostgreSQL | No (external DB recommended) | **500 GB+**             |
 
+!!! note
+    Please note that due to the way Codacy works, a small number of pods will run in privileged mode with the `CAP_SYS_ADMIN` capability. This is required to allow the Worker pods to serve NFS shares to be mounted by the pods running the static code analysis tools.
+
 ## PostgreSQL server setup
 
 Codacy requires a database server to persist data that must satisfy the following requirements:
