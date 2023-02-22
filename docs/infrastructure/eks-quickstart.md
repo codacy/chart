@@ -144,7 +144,7 @@ Install the NGINX Ingress Controller:
 ## Uninstalling the Amazon EKS cluster
 
 !!! warning
-If you proceed beyond this point you'll permanently delete and break things.
+    If you proceed beyond this point you'll permanently delete and break things.
 
 1.  Delete the Kubernetes cluster.
 
