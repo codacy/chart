@@ -134,11 +134,22 @@ Install the NGINX Ingress Controller:
 
     If you wish to use a private load balancer or restrict the IP range for the provisioned load balancer edit the file and enable the required annotation and/or the corresponding setting where indicated.
 
-2.  Install the NGINX Ingress Controller:
+2.  Install the NGINX Ingress Controller.
+
+    **If you're using Kubernetes version <=1.21**, run:
 
     ```bash
     kubectl create namespace codacy
     helm upgrade --install --namespace codacy --version 1.39.0 codacy-nginx-ingress stable/nginx-ingress -f values-nginx.yaml
+    ```
+
+    **If you're using Kubernetes version 1.22 or later**, run:
+
+    ```
+    kubectl create namespace codacy
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo update
+    helm upgrade --install --namespace codacy --version 4.3.0 nginx-ingress ingress-nginx/ingress-nginx -f values-nginx.yaml
     ```
 
 ## Uninstalling the Amazon EKS cluster
