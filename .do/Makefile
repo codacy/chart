@@ -61,11 +61,11 @@ setup_helm_repos:
 
 .PHONY: helm_install_infrastructure
 helm_install_infrastructure:
-	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
+	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_local_dir
 helm_install_from_local_dir: update_ingress_values
-	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},${WORKER_VERSION},${ENVIRONMENT})
+	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_chart_museum
 helm_install_from_chart_museum: update_ingress_values
