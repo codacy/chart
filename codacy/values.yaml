@@ -9,7 +9,7 @@ global:
     portal:
       url: "codacy-portal"
       port: 80
-      pullRequestListTimeoutSeconds : 30
+      pullRequestListTimeoutSeconds: 30
     engine:
       url: "codacy-engine"
       port: 80
@@ -28,9 +28,9 @@ global:
     # Trial license. Valid for 4 users until the end of 2030
     license: "lV5QUFrZhlibdCP/MN8pZo76B3jhPeL/RAk4E2AL2WZlGI8Vno/LfvAwnSHm26uY817I3qvEjfhIZFCkDi8R6PngiB+UiT+h8W0Blica8Sp+d5ngnh9HuhTG6xAIf7gAQxyJpn3boV87CKTO+5nHYSeJccMd+s8esMxoS84Z2xI="
     installation:
-      version: development
+      version: v11.0.0-RC-0
     documentation:
-      version: development
+      version: v11.0
 
   # github:
   #   enabled: "false"
@@ -101,7 +101,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: stable
+        imageVersion: sh-1.1.3
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
@@ -247,13 +247,13 @@ codacy-ingress:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: "true"
     extraPaths:
-      - backend:
-          service:
-            name: codacy-crow
-            port:
-              name: http
-        path: /monitoring
-        pathType: ImplementationSpecific
+    - backend:
+        service:
+          name: codacy-crow
+          port:
+            name: http
+      path: /monitoring
+      pathType: ImplementationSpecific
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
 fluentdoperator:
