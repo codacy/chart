@@ -230,7 +230,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 The Technical Writer reviews the generated release notes by making adjustments directly on the corresponding Jira tickets and generating the release notes again to collect the most up-to-date information, including any cherry-picks that were done in the release branch.
 
-[Read more about the release notes process](https://handbook.dev.codacy.org/product/guidelines/release-notes.html#release-notes-process) on the Handbook.
+[Read more about the release notes process](https://codacy.slite.com/app/docs/X1IGdfa0vr1Rg4).
 
 ### Approval by the Release Manager
 
