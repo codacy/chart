@@ -48,7 +48,7 @@ get_release_notes:
 	if [ -z "${VERSION_NEW}" ] || [ -z "${VERSION_OLD}" ]; then echo "Can't find the current or previous chart version from the release branches."; exit 1; fi
 	# Clone codacy/release-notes-tools
 	if [ -d release-notes-tools ]; then rm -rf release-notes-tools; fi
-	git clone -b sh git@github.com:codacy/release-notes-tools.git
+	git clone git@github.com:codacy/release-notes-tools.git
 	# Fetch updated codacy/chart tags
 	git fetch --all --tags --force
 	# Generate release notes and create pull request on codacy/docs
