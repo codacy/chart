@@ -42,6 +42,10 @@ start_cluster: set_cluster_context provision_cluster install_nginx install_certm
 .PHONY: validate_cluster
 validate_cluster: setup_vars create_terraformrc tf_init tf_validate
 
+.PHONY: plan_cluster
+plan_cluster: setup_vars create_terraformrc tf_init tf_plan
+	echo "Please confirm all listed changes are intended."
+
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE)
@@ -83,3 +87,7 @@ tf_init:
 .PHONY: tf_validate
 tf_validate:
 	$(TF) validate
+
+.PHONY: tf_plan
+tf_plan:
+	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false

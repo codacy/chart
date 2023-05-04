@@ -32,9 +32,17 @@ start_cluster: initialize_terrafom terraform_logistics save_outputs replace_db_v
 destroy_cluster: initialize_terrafom
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
+.PHONY: plan_cluster
+plan_cluster: initialize_terrafom terraform_plan
+	echo "Please confirm all listed changes are intended."
+
 .PHONY: initialize_terrafom
 initialize_terrafom: setup_vars create_terraformrc tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE_PREFIX)-$(ENVIRONMENT)
+
+.PHONY: terraform_plan
+terraform_plan:
+	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false
 
 .PHONY: terraform_logistics
 terraform_logistics:
