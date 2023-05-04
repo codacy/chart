@@ -531,14 +531,10 @@ workflows:
           context: CodacyDO
           requires:
             - helm_lint
-      - plan_dev_cluster:
-          context: CodacyDO
-          requires:
-            - validate_dev_cluster
       - helm_push_unstable:
           context: CodacyDO
           requires:
-            - plan_dev_cluster
+            - validate_dev_cluster
       - codacy/microk8s_install:
           name: install_k8s-1.23_helm-3.9_unstable
           helm_repo: "https://charts.codacy.com/unstable"
