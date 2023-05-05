@@ -6,7 +6,7 @@ TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE_PREFIX ?= postgres
 VARS_FILE ?= deploy.tfvars
 K8S_CLUSTER_REGION ?= fra1
-K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json | jq -r '.cluster_id.value')
+K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json | jq -r '.cluster_id.value' || echo 'REPLACE_ME')
 INSTANCE_TYPE ?= db-s-6vcpu-16gb
 ENVIRONMENT ?= dev
 
