@@ -17,7 +17,7 @@ create_terraformrc:
 .PHONY: setup_vars
 setup_vars:
 	@echo "Appending variables to VARS_FILE..."
-	echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\""
+
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
 	@echo "region = \"$(K8S_CLUSTER_REGION)\"" >> $(VARS_FILE)
 	@echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\"" >> $(VARS_FILE)
