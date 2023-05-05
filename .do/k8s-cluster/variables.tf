@@ -8,6 +8,12 @@ variable "k8s_version" {
   default     = "1.24.12-do.0"
 }
 
+variable "k8s_kubeconfig" {
+  description = "Kubernetes kubeconfig path."
+  type        = string
+  default     = "~/.kube/config"
+}
+
 variable "node_type" {
   description = "Node type used. See available types with `doctl compute size list`"
   type        = string

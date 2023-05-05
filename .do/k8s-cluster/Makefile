@@ -43,7 +43,7 @@ start_cluster: set_cluster_context provision_cluster install_nginx install_certm
 validate_cluster: setup_vars create_terraformrc tf_init tf_validate
 
 .PHONY: plan_cluster
-plan_cluster: setup_vars create_terraformrc tf_init tf_plan
+plan_cluster: set_cluster_context setup_vars create_terraformrc tf_init tf_plan
 	echo "Please confirm all listed changes are intended."
 
 .PHONY: provision_cluster

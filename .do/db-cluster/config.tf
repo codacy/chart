@@ -13,10 +13,6 @@ terraform {
       source = "digitalocean/digitalocean"
       version = "~> 2.28.1"
     }
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "~> 2.20.0"
-    }
   }
 }
 # note: make sure you set and export the DIGITALOCEAN_TOKEN environment variable,
