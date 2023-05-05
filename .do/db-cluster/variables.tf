@@ -16,6 +16,11 @@ variable "k8s_cluster_id" {
   description = "The id of the k8s cluster where db connections will come from."
   type = string
   default = "REPLACE_ME"
+  nullable = false
+  validation {
+    condition = var.k8s_cluster_id != ""
+    error_message = "k8s_cluster_id value must be a non-empty string."
+  }
 }
 
 variable "postgres_version" {
@@ -31,13 +36,13 @@ variable "postgres_default_admin" {
 }
 
 variable "environment" {
-    type = string
-    default = "sandbox"
+  type = string
+  default = "sandbox"
 }
 
 variable "db_names" {
-    type = list(string)
-    default = ["accounts", "analysis", "results", "metrics", "filestore", "jobs", "crow", "listener"]
+  type = list(string)
+  default = ["accounts", "analysis", "results", "metrics", "filestore", "jobs", "crow", "listener"]
 }
 
 variable "postgres_instance_type" {
