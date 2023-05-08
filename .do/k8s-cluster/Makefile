@@ -90,4 +90,5 @@ tf_validate:
 
 .PHONY: tf_plan
 tf_plan:
+	$(TF) workspace select $(WORKSPACE)
 	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false
