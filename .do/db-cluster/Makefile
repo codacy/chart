@@ -6,7 +6,7 @@ TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE_PREFIX ?= postgres
 VARS_FILE ?= deploy.tfvars
 K8S_CLUSTER_REGION ?= fra1
-K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json 2>/dev/null | jq -r '.cluster_id.value' || True && echo 'REPLACE_ME')
+K8S_CLUSTER_NAME ?= codacy-doks-cluster
 INSTANCE_TYPE ?= db-s-6vcpu-16gb
 ENVIRONMENT ?= dev
 
@@ -20,7 +20,7 @@ setup_vars:
 
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
 	@echo "region = \"$(K8S_CLUSTER_REGION)\"" >> $(VARS_FILE)
-	@echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\"" >> $(VARS_FILE)
+	@echo "k8s_cluster_name = \"$(K8S_CLUSTER_NAME)\"" >> $(VARS_FILE)
 	@echo "postgres_instance_type = \"$(INSTANCE_TYPE)\"" >> $(VARS_FILE)
 	@echo "environment = \"$(ENVIRONMENT)\"" >> $(VARS_FILE)
 

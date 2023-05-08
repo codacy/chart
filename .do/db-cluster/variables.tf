@@ -12,14 +12,10 @@ variable "region" {
   default = "fra1"
 }
 
-variable "k8s_cluster_id" {
-  description = "The id of the k8s cluster where db connections will come from."
+variable "k8s_cluster_name" {
+  description = "The name of the k8s cluster where db connections will come from."
   type = string
   default = "REPLACE_ME"
-  validation {
-    condition = var.k8s_cluster_id != null && var.k8s_cluster_id != ""
-    error_message = "Variable k8s_cluster_id value must be a non-empty/null string."
-  }
 }
 
 variable "postgres_version" {

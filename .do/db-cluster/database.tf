@@ -13,7 +13,7 @@ resource "digitalocean_database_firewall" "postgres-fw" {
   cluster_id = digitalocean_database_cluster.postgres.id
   rule {
     type  = "k8s"
-    value = var.k8s_cluster_id
+    value = data.digitalocean_kubernetes_cluster.k8s_cluster_id
   }
   depends_on = [digitalocean_database_cluster.postgres]
 }
