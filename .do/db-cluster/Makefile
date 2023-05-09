@@ -6,7 +6,7 @@ TF ?= $(TF_EXTRA_OPTS) terraform
 WORKSPACE_PREFIX ?= postgres
 VARS_FILE ?= deploy.tfvars
 K8S_CLUSTER_REGION ?= fra1
-K8S_CLUSTER_ID ?= $(shell cat ../k8s-cluster/terraform_outputs.json | jq -r '.cluster_id.value')
+K8S_CLUSTER_NAME ?= codacy-doks-cluster
 INSTANCE_TYPE ?= db-s-6vcpu-16gb
 ENVIRONMENT ?= dev
 
@@ -20,7 +20,7 @@ setup_vars:
 
 	@echo "digital_ocean_token = \"$(DO_TOKEN)\"" > $(VARS_FILE)
 	@echo "region = \"$(K8S_CLUSTER_REGION)\"" >> $(VARS_FILE)
-	@echo "k8s_cluster_id = \"$(K8S_CLUSTER_ID)\"" >> $(VARS_FILE)
+	@echo "k8s_cluster_name = \"$(K8S_CLUSTER_NAME)\"" >> $(VARS_FILE)
 	@echo "postgres_instance_type = \"$(INSTANCE_TYPE)\"" >> $(VARS_FILE)
 	@echo "environment = \"$(ENVIRONMENT)\"" >> $(VARS_FILE)
 
@@ -32,9 +32,17 @@ start_cluster: initialize_terrafom terraform_logistics save_outputs replace_db_v
 destroy_cluster: initialize_terrafom
 	$(TF) destroy -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false --auto-approve
 
+.PHONY: plan_cluster
+plan_cluster: initialize_terrafom terraform_plan
+	echo "Please confirm all listed changes are intended."
+
 .PHONY: initialize_terrafom
 initialize_terrafom: setup_vars create_terraformrc tf_init tf_validate
 	$(TF) workspace select $(WORKSPACE_PREFIX)-$(ENVIRONMENT)
+
+.PHONY: terraform_plan
+terraform_plan:
+	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false
 
 .PHONY: terraform_logistics
 terraform_logistics:

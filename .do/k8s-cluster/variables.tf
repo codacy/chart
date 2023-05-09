@@ -5,7 +5,13 @@
 variable "k8s_version" {
   description = "Kubernetes version. See available versions with `doctl kubernetes options versions`"
   type        = string
-  default     = "1.23.10-do.0"
+  default     = "1.24.12-do.0"
+}
+
+variable "k8s_kubeconfig" {
+  description = "Kubernetes kubeconfig path."
+  type        = string
+  default     = "~/.kube/config"
 }
 
 variable "node_type" {

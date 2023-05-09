@@ -7,7 +7,7 @@ WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 4.2.0
 CERT_MANAGER_VERSION ?= v1.9.1
-K8S_VERSION ?= 1.23
+K8S_VERSION ?= 1.24
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-8vcpu-32gb
 NODES_MIN ?= 7
@@ -41,6 +41,10 @@ start_cluster: set_cluster_context provision_cluster install_nginx install_certm
 
 .PHONY: validate_cluster
 validate_cluster: setup_vars create_terraformrc tf_init tf_validate
+
+.PHONY: plan_cluster
+plan_cluster: set_cluster_context setup_vars create_terraformrc tf_init tf_plan
+	echo "Please confirm all listed changes are intended."
 
 .PHONY: provision_cluster
 provision_cluster: setup_vars create_terraformrc tf_init tf_validate
@@ -83,3 +87,8 @@ tf_init:
 .PHONY: tf_validate
 tf_validate:
 	$(TF) validate
+
+.PHONY: tf_plan
+tf_plan:
+	$(TF) workspace select $(WORKSPACE)
+	$(TF) plan -parallelism=$(TF_PARALLELISM) -var-file=$(VARS_FILE) -input=false

@@ -1,5 +1,5 @@
 resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
-  name    = "codacy-doks-cluster"
+  name    = var.cluster_name
   region  = "fra1"
   version = var.k8s_version
 

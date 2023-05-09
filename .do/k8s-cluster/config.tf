@@ -11,11 +11,11 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 2.23.0"
+      version = "~> 2.28.1"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
-      version = "~> 1.13.1"
+      version = "~> 2.20.0"
     }
   }
 }
@@ -23,4 +23,8 @@ terraform {
 # which holds your user token
 provider "digitalocean" {
   token = var.digital_ocean_token
+}
+
+provider "kubernetes" {
+  config_path = var.k8s_kubeconfig
 }
