@@ -725,7 +725,7 @@ workflows:
             - helm_push_incubator
 
       - codacy/microk8s_install:
-          name: install_k8s-1.25_helm-3.9
+          name: install_k8s-1.25_helm-3.9 
           helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.25/stable"
