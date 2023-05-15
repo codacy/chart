@@ -118,7 +118,7 @@ deploy_monitoring: #set_cluster_context
 	-kubectl create namespace monitoring
 
 	helm upgrade --install --atomic --timeout 600s loki grafana/loki \
-	  --version 2.14.1 --namespace monitoring --values ../docs/values-files/values-loki.yaml
+	  --version 2.15.2 --namespace monitoring --values ../docs/values-files/values-loki.yaml
 
 	helm upgrade --install --atomic --timeout 600s promtail grafana/promtail \
 	  --version 2.2.0 --namespace monitoring --values values-promtail.yaml
