@@ -127,7 +127,7 @@ deploy_monitoring: #set_cluster_context
 	@sed -i "s/<--- slack-channel --->/$$SLACK_ALERTS_SELFHOSTED_CHANNEL/g;" values-prometheus-operator.yaml
 	@sed -i "s#<--- grafana url --->#${GRAFANA_URL}#g; s#https://##g" ../docs/values-files/values-prometheus-operator.yaml
 
-	helm upgrade --install --atomic --timeout 1600s monitoring  prometheus-community/kube-prometheus-stack \
+	helm upgrade --install --atomic --timeout 1600s monitoring prometheus-community/kube-prometheus-stack \
 	  --version 39.9.0 --namespace monitoring --values ../docs/values-files/values-prometheus-operator.yaml --values values-prometheus-operator.yaml\
 	  --set grafana.adminPassword=$$GRAFANA_ADMIN_PASSWORD \
 	  --set grafana.ingress.hosts='{grafana.k8s.dev.codacy.org}' \
