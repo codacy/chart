@@ -591,7 +591,6 @@ workflows:
             branches:
               only:
                 - master
-                - bump/upgrade-do-k8s-to-1.25
       - codacy/helm_aws:
           name: helm_lint
           cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
