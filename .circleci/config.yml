@@ -541,7 +541,7 @@ workflows:
             - plan_dev_cluster
       - codacy/microk8s_install:
           name: install_k8s-1.25_helm-3.9_unstable
-          helm_repo: "https://charts.codacy.com/stable"
+          helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.25/stable"
           helm_version: "v3.9.0"
