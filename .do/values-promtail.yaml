@@ -10,3 +10,5 @@ config:
       min_period: 2s
       max_period: 20s
       max_retries: 5
+rbac:
+  pspEnabled: false
