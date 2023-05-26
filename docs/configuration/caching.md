@@ -33,7 +33,7 @@ To use your own external NFS server:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

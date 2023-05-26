@@ -42,7 +42,7 @@ We highly recommend that you define a custom password for Crow, if you haven't a
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
@@ -139,6 +139,6 @@ Now that you have Prometheus and Grafana installed you can enable metrics report
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-monitoring.yaml
     ```

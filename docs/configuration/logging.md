@@ -59,7 +59,7 @@ Follow these instructions to configure the log level:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
@@ -89,7 +89,7 @@ Follow these instructions to configure the log retention period:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```

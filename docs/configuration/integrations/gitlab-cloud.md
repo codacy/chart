@@ -68,7 +68,7 @@ After creating the GitLab application, you must configure it on Codacy:
 
     ```bash
     helm upgrade (...options used to install Codacy...) \
-                 --version {{ version }} \
+                 --version {{ extra.codacy_self_hosted_version }} \
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
