@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:b713ddf89a330fdbd253acc9b2776eeb16109d79fdbbea32667ebd04881488c9
-generated: "2023-06-20T12:21:37.217782+02:00"
+digest: sha256:94181fa433c3541e6010f2d02c0560ac34dca00c110b82c02932fa99cc54d84e
+generated: "2023-06-20T14:38:27.719849+02:00"
