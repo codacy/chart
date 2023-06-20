@@ -19,7 +19,7 @@ dependencies:
   version: 1.1.7
 - name: ragnaros-sh
   repository: https://charts.codacy.com/stable
-  version: 2.0.4
+  version: 2.0.5
 - name: remote-provider-service-sh
   repository: https://charts.codacy.com/stable
   version: 1.1.2
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:94181fa433c3541e6010f2d02c0560ac34dca00c110b82c02932fa99cc54d84e
-generated: "2023-06-20T14:38:27.719849+02:00"
+digest: sha256:9f86b0aa15cbe7a78ce8056d9ab40756ba67b716af6fe290032d145918d66b35
+generated: "2023-06-20T16:07:49.497154+02:00"
