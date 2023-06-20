@@ -25,13 +25,13 @@ dependencies:
   version: 1.1.1
 - name: listener-sh
   repository: https://charts.codacy.com/stable
-  version: 1.1.6
+  version: 1.1.7
 - name: engine-sh
   repository: https://charts.codacy.com/stable
   version: 1.1.7
 - name: codacy-tools-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.0
+  version: 1.2.1
 - name: codacy-api-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.2
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.3
-digest: sha256:b9530106bd580d22f98cfc495c2bfe0a1e59082cfadec32dcf5eac8272bdcd2b
-generated: "2023-06-19T12:36:26.404785+02:00"
+digest: sha256:eb9ceffd679a0be839b10887b41f461a80c17f4419dc7f1aaaeb177f23c1e987
+generated: "2023-06-20T08:39:41.809806+02:00"
