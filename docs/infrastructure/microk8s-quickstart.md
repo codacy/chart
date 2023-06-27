@@ -45,6 +45,12 @@ Install MicroK8s on the machine:
     microk8s.status --wait-ready
     ```
 
+4.  If you're running MicroK8s using a single node, disable high-availability clustering for improved performance:
+
+    ```bash
+    microk8s.disable ha-cluster
+    ```
+
 ## 3. Configuring MicroK8s
 
 Now that MicroK8s is running on the machine we can proceed to enabling the necessary addons:
