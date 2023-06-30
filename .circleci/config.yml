@@ -93,8 +93,8 @@ references:
           password: $DOCKER_PASS
       - image: selenium/standalone-chrome:98.0.4758.102-chromedriver-98.0.4758.102-grid-4.1.2-20220217
         environment:
-          JAVA_OPTS: -Xss256m -Xmx512m
-          MAVEN_OPTS: -showversion -Xms256m -Xmx512m
+          JAVA_OPTS: -Xss256m -Xmx3596m
+          MAVEN_OPTS: -showversion -Xms256m -Xmx3596m
           SE_NODE_MAX_SESSIONS: 8
           SE_NODE_OVERRIDE_MAX_SESSIONS: true
     working_directory: ~/workdir
