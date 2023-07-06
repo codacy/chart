@@ -209,10 +209,10 @@ portal:
   resources:
     limits:
       cpu: 500m
-      memory: 1500Mi
+      memory: 3000Mi
     requests:
       cpu: 200m
-      memory: 1000Mi
+      memory: 1500Mi
 
 remote-provider-service:
   replicaCount: 2
