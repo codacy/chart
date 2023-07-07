@@ -16,33 +16,33 @@ dependencies:
   version: 0.2.3
 - name: portal-sh
   repository: https://charts.codacy.com/stable
-  version: 1.1.7
+  version: 1.1.8
 - name: ragnaros-sh
   repository: https://charts.codacy.com/stable
-  version: 2.0.6
+  version: 2.0.7
 - name: remote-provider-service-sh
   repository: https://charts.codacy.com/stable
-  version: 1.1.3
+  version: 1.1.4
 - name: listener-sh
   repository: https://charts.codacy.com/stable
-  version: 1.1.9
+  version: 1.1.10
 - name: engine-sh
   repository: https://charts.codacy.com/stable
-  version: 1.1.8
+  version: 1.1.9
 - name: codacy-tools-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.4
+  version: 1.2.5
 - name: codacy-api-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.5
+  version: 1.2.6
 - name: worker-manager-sh
   repository: https://charts.codacy.com/stable
-  version: 2.0.1
+  version: 2.0.2
 - name: crow-sh
   repository: https://charts.codacy.com/stable
-  version: 1.0.5
+  version: 1.0.6
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:04fad1ddf433cc2a57d110401d5861b1fd9a979d887956d903901f0d48964819
-generated: "2023-07-07T09:36:28.676595+02:00"
+digest: sha256:43d0110717cd767b4165026cac8ea45f758bc907c76fadd3ab9c0eaf69920ea6
+generated: "2023-07-07T11:30:14.614742+02:00"
