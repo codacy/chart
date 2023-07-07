@@ -34,7 +34,7 @@ dependencies:
   version: 1.2.5
 - name: codacy-api-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.6
+  version: 1.2.7
 - name: worker-manager-sh
   repository: https://charts.codacy.com/stable
   version: 2.0.2
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:43d0110717cd767b4165026cac8ea45f758bc907c76fadd3ab9c0eaf69920ea6
-generated: "2023-07-07T11:30:14.614742+02:00"
+digest: sha256:c00fbe96e22f290c2c1272726e5a85050f77436a6d46f50a0f54e5cfb00b49d0
+generated: "2023-07-07T16:28:11.962238+02:00"
