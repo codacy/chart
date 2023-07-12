@@ -31,7 +31,7 @@ dependencies:
   version: 1.2.0
 - name: codacy-tools-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.5
+  version: 1.2.6
 - name: codacy-api-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.7
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:bb7d1797dfce427c278cb41fa8efe02e37142ad686cafe999f8e24ec4de93013
-generated: "2023-07-11T10:15:45.256016+02:00"
+digest: sha256:443d29f71ef381eeecb62d390e580c001b3f12280adec594798fa6f95fb33a84
+generated: "2023-07-12T13:18:19.846033+02:00"
