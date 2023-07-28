@@ -21,7 +21,7 @@ variable "k8s_cluster_name" {
 variable "postgres_version" {
   description = "The postgres version to be used."
   type = string
-  default = "11"
+  default = "13"
 }
 
 variable "postgres_default_admin" {
