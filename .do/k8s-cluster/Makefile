@@ -10,7 +10,7 @@ CERT_MANAGER_VERSION ?= v1.9.1
 K8S_VERSION ?= 1.26
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
 NODE_TYPE ?= s-8vcpu-32gb
-NODES_MIN ?= 7
+NODES_MIN ?= 1
 NODES_MAX ?= 10
 
 .PHONY: create_terraformrc
