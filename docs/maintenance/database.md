@@ -42,7 +42,7 @@ PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --
 
 This will dump the file with the `.dump` extension into the `/tmp` folder.
 
-[For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/10/app-pgdump.html)
+[For more information and additional options, please check the official documentation.](https://www.postgresql.org/docs/11/app-pgdump.html)<!-- TODO DOCS-612 Confirm link should be updated to the recommended version -->
 
 ### pg_restore
 
@@ -57,7 +57,7 @@ With the custom format from `pg_dump` (by using `-Fc`) we can now invoke `pg_res
 !!! note
     If you run into any problems while restoring, make sure that you have the database created in that Postgres instance (e.g. before restoring the jobs database the Postgres instance should have an empty database called `jobs` created there).
 
-For more information and additional options, please check the [official documentation](https://www.postgresql.org/docs/9.6/app-pgrestore.html).
+For more information and additional options, please check the [official documentation](https://www.postgresql.org/docs/11/app-pgrestore.html).<!-- TODO DOCS-612 Confirm link should be updated to the recommended version -->
 
 ## Sample script
 
