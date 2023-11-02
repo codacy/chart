@@ -1,4 +1,5 @@
 controller:
+  enableAnnotationValidations: true
   publishService:
     enabled: true
   config:
