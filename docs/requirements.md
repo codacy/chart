@@ -22,7 +22,7 @@ The cluster running Codacy must satisfy the following requirements:
 
 -   The infrastructure hosting the cluster must be provisioned with the hardware and networking requirements described below
 -   The orchestration platform managing the cluster must be one of:
-    -   [Kubernetes](https://kubernetes.io/) **version 1.22.\*** to **1.25.\*** (1.23 recommended)
+    -   [Kubernetes](https://kubernetes.io/) **version 1.22.\*** to **1.26.\*** (1.23 recommended)
     -   [MicroK8s](https://microk8s.io/) **version 1.19.\***
 -   The [NGINX Ingress controller](https://github.com/kubernetes/ingress-nginx) must be installed and correctly set up in the cluster
 
@@ -99,7 +99,7 @@ The storage requirements recommended on the following table **depend mainly on t
 Codacy requires a database server to persist data that must satisfy the following requirements:
 
 -   The infrastructure hosting the database server must be provisioned with the hardware requirements described below
--   The DBMS server must be [PostgreSQL](https://www.postgresql.org/) **version 11.20**
+-   The DBMS server must be [PostgreSQL](https://www.postgresql.org/) **version 11.20** or **version 12.\*** (12.* recommended)
 -   The PostgreSQL server must be configured to accept connections from the cluster
 -   The Codacy databases and a dedicated user must be created using the instructions below
 
