@@ -226,7 +226,7 @@ references:
           name: "Validate DB Cluster"
           command: make -C ./.do/db-cluster initialize_terrafom
       - <<: *persist_to_workspace
-    
+
   plan_cluster: &plan_cluster
     steps:
       - <<: *attach_workspace
