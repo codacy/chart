@@ -152,13 +152,6 @@ Install the NGINX Ingress Controller:
     helm upgrade --install --namespace codacy --version 4.8.3 nginx-ingress ingress-nginx/ingress-nginx -f values-nginx.yaml
     ```
 
-!!! warning
-  Fixing recently disclosed Nginx vulnerabilities ([CVE-2022-4886](https://github.com/kubernetes/ingress-nginx/issues/10570), [CVE-2023-5043](https://github.com/kubernetes/ingress-nginx/issues/10571), [CVE-2023-5044](https://github.com/kubernetes/ingress-nginx/issues/10572)) requires installing chart version 4.8.3, or later, and enabling `enableAnnotationValidations` as in [`values-nginx.yaml`](../values-files/values-nginx.yaml). This upgrade can also be applied to supported Codacy Self-Hosted versions before v13.0.
-
-  If a custom configuration distinct from [`values-nginx.yaml`](../values-files/values-nginx.yaml) was used instead, please access the aforementioned documentation on how to apply a suitable fix. Please consider components outside Codacy’s installation scope, relying on this Nginx ingress, could be negatively impacted by such chart upgrade.
-
-  According to Nginx [official documentation](https://github.com/kubernetes/ingress-nginx/tree/helm-chart-4.8.3#supported-versions-table) only Kubernetes versions 1.25 to 1.28 are supported. However, we have carefully tested our product on currently supported Kubernetes versions, using Nginx chart 4.8.3, and the installation is functional in accordance to our quality assurance standards.
-
 ## Uninstalling the Amazon EKS cluster
 
 !!! warning
