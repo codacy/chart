@@ -149,7 +149,7 @@ Install the NGINX Ingress Controller:
     kubectl create namespace codacy
     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
     helm repo update
-    helm upgrade --install --namespace codacy --version 4.3.0 nginx-ingress ingress-nginx/ingress-nginx -f values-nginx.yaml
+    helm upgrade --install --namespace codacy --version 4.8.3 nginx-ingress ingress-nginx/ingress-nginx -f values-nginx.yaml
     ```
 
 ## Uninstalling the Amazon EKS cluster
