@@ -156,7 +156,7 @@ references:
     HUB_URL: http://localhost:4444/wd/hub
     PROJECT_NAME: k8s-releases
     LAUNCH_DESCRIPTION: "Automated Tests Ran by CircleCI"
-    RP_ENDPOINT: https://reportportal.dev.codacy.org
+    RP_ENDPOINT: https://rp.dev.codacy.org
 
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
     AWS_PROFILE: development
