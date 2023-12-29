@@ -158,6 +158,13 @@ references:
     LAUNCH_DESCRIPTION: "Automated Tests Ran by CircleCI"
     RP_ENDPOINT: https://rp.dev.codacy.org
 
+  qa_check_cookies_expired_releases_k8s_testpath: &qa_check_cookies_expired_releases_k8s_testpath
+    AWS_PROFILE: development
+    TEST_PATH: Suite/CHECK_COOKIES_EXPIRATION/CHECK_COOKIE_RELEASE_K8S.xml
+    LAUNCH_TAG: CIRCLECI;CHECK_COOKIE;SELFHOSTED;RELEASE
+    LAUNCH_NAME: CHECK_COOKIE_K8S_RELEASE
+    RETRY_NUMBER: 3
+
   qa_selfhosted_web_testpath: &qa_selfhosted_web_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB.xml
@@ -410,6 +417,14 @@ jobs:
     environment:
       <<: *unstable_helm_channel
     <<: *helm_push
+
+  test_check_cookies_expired_releases_k8s:
+    <<: *qa_automation_image
+    resource_class: large
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_check_cookies_expired_releases_k8s_testpath
+    <<: *qa_job
 
   test_web:
     <<: *qa_automation_image
@@ -752,22 +767,30 @@ workflows:
           requires:
             - helm_push_incubator
 
-      - test_web:
-          context: CodacyAWS
-          requires:
-            - deploy_to_doks_release
-      - test_e2e:
-          context: CodacyAWS
-          requires:
-            - deploy_to_doks_release
       - test_api:
           context: CodacyAWS
           requires:
             - deploy_to_doks_release
+
       - test_apiv3:
           context: CodacyAWS
           requires:
             - deploy_to_doks_release
+
+      - test_check_cookies_expired_releases_k8s:
+          context: CodacyAWS
+          requires:
+            - deploy_to_doks_release
+
+      - test_web:
+          context: CodacyAWS
+          requires:
+            - test_check_cookies_expired_releases_k8s
+
+      - test_e2e:
+          context: CodacyAWS
+          requires:
+            - test_check_cookies_expired_releases_k8s
 
       - manual_qa_hold:
           type: approval
