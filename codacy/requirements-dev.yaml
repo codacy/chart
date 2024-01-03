@@ -29,75 +29,75 @@ dependencies:
   alias: codacy-ingress
   version: ">0.1.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-ingress-sh.git
+  git: git@github.com:codacy-sh/codacy-ingress-sh.git
   condition: codacy-ingress.create
 
 - name: portal-sh
   alias: portal
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/portal-sh.git
+  git: git@github.com:codacy-sh/portal-sh.git
   condition: portal.create
 
 - name: ragnaros-sh
   alias: ragnaros
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/ragnaros-sh.git
+  git: git@github.com:codacy-sh/ragnaros-sh.git
   condition: ragnaros.create
 
 - name: remote-provider-service-sh
   alias: remote-provider-service
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/remote-provider-service-sh.git
+  git: git@github.com:codacy-sh/remote-provider-service-sh.git
   condition: remote-provider-service.create
 
 - name: listener-sh
   alias: listener
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/repository-listener-sh.git
+  git: git@github.com:codacy-sh/repository-listener-sh.git
   condition: listener.create
 
 - name: engine-sh
   alias: engine
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-worker-sh.git
+  git: git@github.com:codacy-sh/codacy-worker-sh.git
   condition: engine.create
 
 - name: codacy-tools-sh
   alias: codacy-tools
   version: ">=1.0.0"
   repository: https://charts.codacy.com/stable
-  git: git@github.com:codacy/codacy-tools-sh.git
+  git: git@github.com:codacy-sh/codacy-tools-sh.git
   condition: codacy-tools.create
 
 - name: codacy-api-sh
   alias: codacy-api
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-website-sh.git
+  git: git@github.com:codacy-sh/codacy-website-sh.git
   condition: codacy-api.create
 
 - name: worker-manager-sh
   alias: worker-manager
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/worker-manager-sh.git
+  git: git@github.com:codacy-sh/worker-manager-sh.git
   condition: worker-manager.create
 
 - name: crow-sh
   alias: crow
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/crow-sh.git
+  git: git@github.com:codacy-sh/crow-sh.git
   condition: crow.create
 
 - name: codacy-spa-sh
   alias: codacy-spa
   version: ">=1.0.0-0"
   repository: https://charts.codacy.com/unstable
-  git: git@github.com:codacy/codacy-spa-sh.git
+  git: git@github.com:codacy-sh/codacy-spa-sh.git
   condition: codacy-spa.create
