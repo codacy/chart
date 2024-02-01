@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@10.11.1
+  codacy: codacy/base@11.0.0
   slack: circleci/slack@3.4.2
 
 references:
@@ -226,48 +226,48 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - deploy:
-          name: "Validate K8S Cluster"
-          command: make -C ./.do/k8s-cluster validate_cluster
-      - deploy:
-          name: "Validate DB Cluster"
-          command: make -C ./.do/db-cluster initialize_terrafom
+      - codacy/run_skip_ssh:
+          cmd_name: "Validate K8S Cluster"
+          cmd: make -C ./.do/k8s-cluster validate_cluster
+      - codacy/run_skip_ssh:
+          cmd_name: "Validate DB Cluster"
+          cmd: make -C ./.do/db-cluster initialize_terrafom
       - <<: *persist_to_workspace
 
   plan_cluster: &plan_cluster
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - deploy:
-          name: "Plan K8S Cluster"
-          command: make -C ./.do/k8s-cluster plan_cluster
-      - deploy:
-          name: "Plan DB Cluster"
-          command: make -C ./.do/db-cluster plan_cluster
+      - codacy/run_skip_ssh:
+          cmd_name: "Plan K8S Cluster"
+          cmd: make -C ./.do/k8s-cluster plan_cluster
+      - codacy/run_skip_ssh:
+          cmd_name: "Plan DB Cluster"
+          cmd: make -C ./.do/db-cluster plan_cluster
       - <<: *persist_to_workspace
 
   create_cluster: &create_cluster
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - deploy:
-          name: "Create K8S Cluster"
-          command: make -C ./.do/k8s-cluster start_cluster
-      - deploy:
-          name: "Create DB Cluster"
-          command: make -C ./.do/db-cluster start_cluster
-      - deploy:
-          name: "Deploy monitoring"
-          command: make -C ./.do deploy_monitoring
+      - codacy/run_skip_ssh:
+          cmd_name: "Create K8S Cluster"
+          cmd: make -C ./.do/k8s-cluster start_cluster
+      - codacy/run_skip_ssh:
+          cmd_name: "Create DB Cluster"
+          cmd: make -C ./.do/db-cluster start_cluster
+      - codacy/run_skip_ssh:
+          cmd_name: "Deploy monitoring"
+          cmd: make -C ./.do deploy_monitoring
       - <<: *persist_to_workspace
 
   setup_db_values: &setup_db_values
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - deploy:
-          name: "Setup DB values"
-          command: make -C ./.do/db-cluster initialize_terrafom save_outputs replace_db_values
+      - codacy/run_skip_ssh:
+          cmd_name: "Setup DB values"
+          cmd: make -C ./.do/db-cluster initialize_terrafom save_outputs replace_db_values
       - <<: *persist_to_workspace
 
   deploy_to_doks_from_local_dir_with_dev_requirements: &deploy_to_doks_from_local_dir_with_dev_requirements
@@ -282,9 +282,9 @@ references:
             echo "$(date +%s)-$(cat .version)-dev-$(git rev-parse --short HEAD)" > .version
             cat .version
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
-      - deploy:
-          name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_infrastructure
+      - codacy/run_skip_ssh:
+          cmd_name: Install Codacy
+          cmd: make -e -C .do/ deploy_to_doks_infrastructure
 
 
   deploy_to_doks_from_local_dir_with_sandbox_requirements: &deploy_to_doks_from_local_dir_with_sandbox_requirements
@@ -300,17 +300,17 @@ references:
             cat .version
             ytool -s appVersion "$(cat .version)" -s version "$(cat .version)" -f "./codacy/Chart.yaml" -e
 
-      - deploy:
-          name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_local_dir
+      - codacy/run_skip_ssh:
+          cmd_name: Install Codacy
+          cmd: make -e -C .do/ deploy_to_doks_from_local_dir
 
   deploy_to_cluster_from_chartmuseum: &deploy_to_cluster_from_chartmuseum
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - deploy:
-          name: Install Codacy
-          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
+      - codacy/run_skip_ssh:
+          cmd_name: Install Codacy
+          cmd: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
 
   helm_push: &helm_push
     steps:
@@ -335,9 +335,9 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *setup_aws_credentials
-      - deploy:
-          name: Run tests
-          command: |
+      - codacy/run_skip_ssh:
+          cmd_name: Run tests
+          cmd: |
             export EXECUTION_TIME=`date +%F_%Hh%M-%Z`
             sh /opt/tests/quality-sh-automated-tests-runner/build/run_tests.sh
 
@@ -506,9 +506,9 @@ jobs:
     <<: *default_doks_image
     steps:
       - <<: *attach_workspace
-      - deploy:
-          name: Publish release notes link on github
-          command: |
+      - codacy/run_skip_ssh:
+          cmd_name: Publish release notes link on github
+          cmd: |
             version=$(cat .version)
             contents="Release notes: https://docs.codacy.com/release-notes/self-hosted/self-hosted-v$version/"
 
