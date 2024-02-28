@@ -27,3 +27,13 @@ Some changes to your Codacy plan require that you update your Codacy Self-hosted
                  --values values-production.yaml \
                  # --values values-microk8s.yaml
     ```
+
+## Checking the expiration date of your Codacy license
+
+To check the expiration date of your Codacy license, do the following:
+
+1.  Click the **Admin** link in the top right-hand corner.
+
+1.  On the **Dashboard** page, search for your organization and click the organization identifier to navigate to its details.
+
+1.  On the **Organization details**, check your **Plan expiry date**.
