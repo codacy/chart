@@ -32,7 +32,7 @@ Some changes to your Codacy plan require that you update your Codacy Self-hosted
 
 To check the expiration date of your Codacy license, do the following:
 
-1.  Click the **Admin** link on the top right-hand corner.
+1.  Click the **Admin** link in the top right-hand corner.
 
 1.  On the **Dashboard** page, search for your organization and click the organization identifier to navigate to its details.
 
