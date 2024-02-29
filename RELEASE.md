@@ -50,7 +50,13 @@ After electing the Release Manager for releasing a new Codacy Chart version:
 
 -   [ ] 4.  Inform all stakeholders outside the engineering team that a new release proccess is being started (tag @here in the Slack channel [#sh_releases](https://codacy.slack.com/channels/sh_releases)).
 
-## 2. Preparing the release for testing
+## 2. Before starting the release
+
+Before starting the self-hosted release process, the Release Manager should ensure that all the features that should be introduced for this release were successfully deployed and passed all CI workflows. Also, it is recommended to check the Jira tickets to see if there are any red flags that might hinder the release process or cause any delays down the line.
+
+The Release Manager should also confirm that the changes were properly tested before proceeding with the release. If the Release Manager finds any problems during this process, the Squads involved must be informed to find possible solutions to fix the issues before the release goes forward.
+
+## 3. Preparing the release for testing
 
 The Release Manager must create a release candidate branch:
 
@@ -106,7 +112,7 @@ The Release Manager must create a release candidate branch:
     git commit -m 'release: prepare x.x.x'
     ```
 
--   [ ] 7.  Move the the tag to the latest commit you have just done
+-   [ ] 7.  Move the tag to the latest commit you have just done
 
     For example:
 
@@ -124,7 +130,7 @@ The Release Manager must create a release candidate branch:
 
     This will automatically trigger a build which will be pushed to the [incubator](https://charts.codacy.com/incubator/api/charts) channel. Your chart will be deployed to [the release environment described in this table](README.md#development-installations).
 
--   [ ] 9.  Cherry pick fixes (only if build fails)
+-   [ ] 9.  Cherry-pick fixes (only if build fails)
 
     At this stage, it's possible that the build fails and that you need to cherry-pick fixes either from the chart or from specific components that have a bug that needs to be fixed before the release:
 
@@ -172,19 +178,22 @@ The Release Manager must create a release candidate branch:
     git tag -f 'x.x.x-RC-<n>' && git push origin refs/tags/x.x.x-RC-<n> && git push --force-with-lease
     ```
 
-## 3. Testing and stabilizing the release
+## 4. Testing and stabilizing the release
 
 The Release Manager must generate the release notes and announce to stakeholders the release candidate:
 
 -   [ ] 1. Generate release notes
 
-    Run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
+    You will now have to generate the release notes for the new self-hosted release. To do so, you will need to first meet all the necessary requirements specified in the [release notes README file](https://github.com/codacy/release-notes-tools/blob/master/README.md#requirements). Please ensure that all the authentication tokens are properly setup before continuing.
+    Furthermore, you will also have to ensure that you have GitHub CLI installed.
+
+    After ensuring that you have everything set-up properly, you can now run the makefile target `get_release_notes` to automatically generate the release notes for the new version:
 
     ```bash
     make get_release_notes
     ```
 
-    Make sure that the makefile target runs successfully and opens a pull request on the [codacy/docs repository](https://github.com/codacy/docs/pulls).
+    Make sure that the makefile target runs successfully and opens a pull request on the [codacy/docs](https://github.com/codacy/docs/pulls) repository.
 
 -   [ ] 2. Share the release candidate with all relevant stakeholders
 
@@ -212,7 +221,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 ### Approval by the Engineering teams
 
--   [ ] 1.  Do [exploratory tests](https://handbook.dev.codacy.org/engineering/guidelines/quality/levels.html#exploratory-testing) around the functionality the new features impacted to make sure everything is running as it should, and raise bugs or concerns if any.
+-   [ ] 1.  Do [exploratory tests](https://codacy.slite.com/app/docs/xonSwt3M2qds8m) around the functionality the new features impacted to make sure everything is running as it should, and raise bugs or concerns if any.
 
     No known blocker bugs should be released, and ideally no known bugs should be released. If a blocker bug is found during exploratory testing create a new task/test to cover that situation and give feedback with the identified bugs that are blocking the release to the other stakeholders.
 
@@ -230,7 +239,7 @@ The Release Manager is also responsible for ensuring that each stakeholder tests
 
 The Technical Writer reviews the generated release notes by making adjustments directly on the corresponding Jira tickets and generating the release notes again to collect the most up-to-date information, including any cherry-picks that were done in the release branch.
 
-[Read more about the release notes process](https://codacy.slite.com/app/docs/X1IGdfa0vr1Rg4).
+[Read more about the release notes process](https://codacy.slite.com/app/docs/X1IGdfa0vr1Rg4) on Slite.
 
 ### Approval by the Release Manager
 
@@ -238,7 +247,7 @@ If there are fixes for bugs identified during the testing stage, you must [patch
 
 When all stakeholders have approved the release candidate, give a go-ahead of the release by clicking the Manual Approval step for QA and for the Solutions Engineers in the CircleCI workflow of your release candidate branch. After this Manual Approval on CircleCI the workflow will promote the release candidate to the [stable](https://charts.codacy.com/stable/api/charts) channel.
 
-## 4. Launching the new release
+## 5. Launching the new release
 
 The Release Manager must ensure that we have a stable release candidate and that both the QA team and relevant stakeholders have approved the release.
 
@@ -246,7 +255,7 @@ Then, the Release Manager releases and announces the new version:
 
 -   [ ] 1.  If all is good give a public OK to the release
 
--   [ ] 2.  Tag the CLI and Coverage Reporter with the version of the release being done.
+-   [ ] 2.  Tag Codacy's [Analysis CLI tool](https://github.com/codacy/codacy-analysis-cli) and [CLI Coverage Reporter](https://github.com/codacy/codacy-coverage-reporter) with the version of the release being done.
 
     **Note:** This process will be improved in [REL-51](https://codacy.atlassian.net/browse/REL-51)
 
@@ -258,13 +267,15 @@ Then, the Release Manager releases and announces the new version:
          git checkout x.x.x
          ```
 
-    3.  Tag the commit with the current release version prefixed with `self-hosted-`:
+    3.  For the CLI Coverage Reporter, you must update the `SELF_HOSTED_CODACY_REPORTER_VERSION` flag on the `get.sh` script found in the project's root. This should reflect the new version that is intended to be used in the new self-hosted release. You do not have to do this for the Analysis CLI tool.
+
+    4.  Tag the commit with the current release version prefixed with `self-hosted-`:
 
          ```bash
          git tag self-hosted-x.x.x
          ```
 
-    4.  Push the new tag:
+    5.  Push the new tag:
 
          ```bash
          git push --tag origin self-hosted-x.x.x
