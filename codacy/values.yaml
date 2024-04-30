@@ -28,9 +28,9 @@ global:
     # Trial license. Valid for 4 users until the end of 2030
     license: "lV5QUFrZhlibdCP/MN8pZo76B3jhPeL/RAk4E2AL2WZlGI8Vno/LfvAwnSHm26uY817I3qvEjfhIZFCkDi8R6PngiB+UiT+h8W0Blica8Sp+d5ngnh9HuhTG6xAIf7gAQxyJpn3boV87CKTO+5nHYSeJccMd+s8esMxoS84Z2xI="
     installation:
-      version: development
+      version: v14.0.0-RC-0
     documentation:
-      version: development
+      version: v14.0
 
   # github:
   #   enabled: "false"
@@ -101,7 +101,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: stable
+        imageVersion: sh-1.2.0
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
