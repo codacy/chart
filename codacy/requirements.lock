@@ -28,7 +28,7 @@ dependencies:
   version: 1.1.10
 - name: engine-sh
   repository: https://charts.codacy.com/stable
-  version: 1.2.0
+  version: 1.2.1
 - name: codacy-tools-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.12
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:113322102c97f651d9a7cd578946a753c0fb326579af3a64f7202d7a3989c00a
-generated: "2024-04-30T10:35:04.097785209Z"
+digest: sha256:a5e660ab56ffdc792fab6bc02d9806a276fd37f341ca284cab125eea811f62a7
+generated: "2024-06-17T14:18:52.415093883Z"
