@@ -97,6 +97,8 @@ references:
           MAVEN_OPTS: -showversion -Xms256m -Xmx3596m
           SE_NODE_MAX_SESSIONS: 8
           SE_NODE_OVERRIDE_MAX_SESSIONS: true
+          SE_NODE_SESSION_TIMEOUT: 720
+          SE_SESSION_REQUEST_TIMEOUT: 720
     working_directory: ~/workdir
 
   ##################################################################################
