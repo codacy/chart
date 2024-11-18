@@ -12,7 +12,7 @@ DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) |
 NODE_TYPE ?= s-8vcpu-32gb
 NODES_MIN ?= 1
 NODES_MAX ?= 10
-
+ 
 .PHONY: create_terraformrc
 create_terraformrc:
 	@echo -e "credentials \"app.terraform.io\" { \n  token = \"$$TF_AUTH_TOKEN\" \n}" > $(TF_RC)
