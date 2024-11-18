@@ -557,11 +557,11 @@ workflows:
           requires:
             - plan_dev_cluster
       - codacy/microk8s_install:
-          name: install_k8s-1.29_helm-3.9_unstable
+          name: install_k8s-1.29_helm-3.16.3_unstable
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
           microk8s_channel: "1.29/stable"
-          helm_version: "v3.9.0"
+          helm_version: "v3.16.3"
           helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
@@ -798,11 +798,11 @@ workflows:
             - helm_push_incubator
 
       - codacy/microk8s_install:
-          name: install_k8s-1.29_helm-3.9
+          name: install_k8s-1.29_helm-3.16.3
           helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
           microk8s_channel: "1.29/stable"
-          helm_version: "v3.9.0"
+          helm_version: "v3.16.3"
           helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
@@ -854,7 +854,7 @@ workflows:
             - install_k8s-1.26_helm-3.9
             - install_k8s-1.27_helm-3.9
             - install_k8s-1.28_helm-3.9
-            - install_k8s-1.29_helm-3.9
+            - install_k8s-1.29_helm-3.16.3
       - manual_solutions_eng_hold:
           type: approval
           context: CodacyDO
@@ -873,7 +873,7 @@ workflows:
             - install_k8s-1.26_helm-3.9
             - install_k8s-1.27_helm-3.9
             - install_k8s-1.28_helm-3.9
-            - install_k8s-1.29_helm-3.9
+            - install_k8s-1.29_helm-3.16.3
       - set_chart_version_release:
           context: CodacyDO
           requires:
