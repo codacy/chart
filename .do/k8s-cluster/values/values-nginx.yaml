@@ -4,3 +4,5 @@ controller:
     enabled: true
   config:
     server-tokens: "false"
+  extraArgs:
+    update-status: "true"
