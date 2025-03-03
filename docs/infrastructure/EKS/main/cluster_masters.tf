@@ -44,7 +44,7 @@ resource "aws_security_group" "eks_master" {
   }
 
   tags = merge(
-    map("Name", "${var.project_name} cluster master"),
+    tomap({"Name" = "${var.project_name} cluster master"}),
     var.custom_tags
   )
 }

@@ -2,12 +2,16 @@
 #                      and  joins the worker nodes to the cluster.
 
 resource "aws_autoscaling_group" "workers" {
-  name                 = "${var.project_slug}-asg"
-  launch_configuration = aws_launch_configuration.workers.id
-  min_size             = var.k8s_worker_min
-  max_size             = var.k8s_worker_max
-  desired_capacity     = var.k8s_worker_desired
-  vpc_zone_identifier  = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : var.subnet_ids
+  name                = "${var.project_slug}-asg"
+  min_size            = var.k8s_worker_min
+  max_size            = var.k8s_worker_max
+  desired_capacity    = var.k8s_worker_desired
+  vpc_zone_identifier = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : var.subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.workers.id
+    version = "$Latest"
+  }
 
   tag {
     key                 = "Name"
@@ -38,25 +42,28 @@ resource "aws_autoscaling_group" "workers" {
   lifecycle {
     create_before_destroy = true
   }
-
 }
 
-resource "aws_launch_configuration" "workers" {
-  image_id             = data.aws_ssm_parameter.eks_worker_ami.value
-  instance_type        = var.k8s_worker_type
-  iam_instance_profile = aws_iam_instance_profile.eks_worker.name
-  name_prefix          = var.project_slug
+resource "aws_launch_template" "workers" {
+  name_prefix   = var.project_slug
+  image_id      = data.aws_ssm_parameter.eks_worker_ami.value
+  instance_type = var.k8s_worker_type
+  user_data     = base64encode(local.k8s_worker_userdata)
 
-  user_data_base64 = base64encode(local.k8s_worker_userdata)
+  iam_instance_profile {
+    name = aws_iam_instance_profile.eks_worker.name
+  }
 
-  security_groups = [
-    aws_security_group.eks_worker.id
-  ]
+  vpc_security_group_ids = [aws_security_group.eks_worker.id]
 
-  root_block_device {
-    volume_type           = "gp2"
-    volume_size           = var.k8s_worker_disk_size
-    delete_on_termination = true
+  block_device_mappings {
+    device_name = "/dev/xvda"
+
+    ebs {
+      volume_size           = var.k8s_worker_disk_size
+      volume_type           = "gp3"
+      delete_on_termination = true
+    }
   }
 
   lifecycle {
@@ -66,6 +73,17 @@ resource "aws_launch_configuration" "workers" {
   depends_on = [
     aws_iam_instance_profile.eks_worker
   ]
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = merge(
+      tomap({
+        "Name" = "${var.project_slug}-worker",
+        "kubernetes.io/cluster/${var.project_slug}-cluster" = "owned"
+      }),
+      var.custom_tags
+    )
+  }
 }
 
 # Get an authentication token to communicate with an EKS cluster, using the "kubernetes" provider.
@@ -98,7 +116,7 @@ locals {
   sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
   sudo systemctl start amazon-ssm-agent
   sudo systemctl enable amazon-ssm-agent
-  /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.main.endpoint}' --b64-cluster-ca '${aws_eks_cluster.main.certificate_authority.0.data}' '${var.project_slug}-cluster' ${var.k8s_worker_bootstrap_extra_flags}
+  /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.main.endpoint}' --b64-cluster-ca '${aws_eks_cluster.main.certificate_authority[0].data}' '${var.project_slug}-cluster' ${var.k8s_worker_bootstrap_extra_flags}
   END_USERDATA
 }
 
@@ -159,10 +177,10 @@ resource "aws_security_group" "eks_worker" {
   }
 
   tags = merge(
-    map(
-      "Name", "${var.project_slug}-worker-sg",
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "owned"
-    ),
+    tomap({
+      "Name" = "${var.project_slug}-worker-sg",
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "owned"
+    }),
     var.custom_tags
   )
 }

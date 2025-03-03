@@ -3,23 +3,41 @@
 
 resource "aws_s3_bucket" "state" {
   bucket = "${var.project_tag}-terraform-state-${random_string.rand.result}"
-  acl    = "private"
 
   ### To destroy uncomment this:
   #force_destroy = true
   ##############################
 
   ### To destroy comment this:
-  versioning {
-    enabled = true
-  }
-
   lifecycle {
     prevent_destroy = true
   }
   ###########################
 
   tags = var.custom_tags
+}
+
+resource "aws_s3_bucket_versioning" "state" {
+  bucket = aws_s3_bucket.state.id
+  
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "state" {
+  bucket = aws_s3_bucket.state.id
+  
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "state" {
+  depends_on = [aws_s3_bucket_ownership_controls.state]
+  
+  bucket = aws_s3_bucket.state.id
+  acl    = "private"
 }
 
 resource "aws_dynamodb_table" "lock" {
