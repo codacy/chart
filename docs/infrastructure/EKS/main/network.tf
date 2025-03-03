@@ -8,7 +8,9 @@
 resource "aws_vpc" "main" {
   count = var.create_network_stack ? 1 : 0
 
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 
   tags = merge(
     tomap({
@@ -225,6 +227,7 @@ data aws_iam_policy_document "allow_all" {
   }
 }
 
+# Gateway endpoints (S3 and DynamoDB)
 resource "aws_vpc_endpoint" "s3" {
   count = var.create_vpc_endpoints && var.create_network_stack ? 1 : 0
 
@@ -251,4 +254,85 @@ resource "aws_vpc_endpoint" "dynamodb" {
   policy = data.aws_iam_policy_document.allow_all.json
 
   tags = var.custom_tags
+}
+
+# Interface endpoints for SSM
+resource "aws_security_group" "vpc_endpoints" {
+  count = var.create_vpc_endpoints && var.create_network_stack ? 1 : 0
+
+  name        = "${var.project_slug}-vpc-endpoints-sg"
+  description = "Security group for VPC endpoints"
+  vpc_id      = aws_vpc.main[0].id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  tags = merge(
+    tomap({"Name" = "${var.project_slug}-vpc-endpoints-sg"}),
+    var.custom_tags
+  )
+}
+
+# SSM endpoint
+resource "aws_vpc_endpoint" "ssm" {
+  count = var.create_vpc_endpoints && var.create_network_stack ? 1 : 0
+
+  vpc_id            = aws_vpc.main[0].id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.ssm"
+  vpc_endpoint_type = "Interface"
+  subnet_ids        = [aws_subnet.private1[0].id, aws_subnet.private2[0].id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoints[0].id
+  ]
+  private_dns_enabled = true
+  policy              = data.aws_iam_policy_document.allow_all.json
+
+  tags = merge(
+    tomap({"Name" = "${var.project_slug}-ssm-endpoint"}),
+    var.custom_tags
+  )
+}
+
+# EC2 Messages endpoint
+resource "aws_vpc_endpoint" "ec2messages" {
+  count = var.create_vpc_endpoints && var.create_network_stack ? 1 : 0
+
+  vpc_id            = aws_vpc.main[0].id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.ec2messages"
+  vpc_endpoint_type = "Interface"
+  subnet_ids        = [aws_subnet.private1[0].id, aws_subnet.private2[0].id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoints[0].id
+  ]
+  private_dns_enabled = true
+  policy              = data.aws_iam_policy_document.allow_all.json
+
+  tags = merge(
+    tomap({"Name" = "${var.project_slug}-ec2messages-endpoint"}),
+    var.custom_tags
+  )
+}
+
+# SSM Messages endpoint
+resource "aws_vpc_endpoint" "ssmmessages" {
+  count = var.create_vpc_endpoints && var.create_network_stack ? 1 : 0
+
+  vpc_id            = aws_vpc.main[0].id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.ssmmessages"
+  vpc_endpoint_type = "Interface"
+  subnet_ids        = [aws_subnet.private1[0].id, aws_subnet.private2[0].id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoints[0].id
+  ]
+  private_dns_enabled = true
+  policy              = data.aws_iam_policy_document.allow_all.json
+
+  tags = merge(
+    tomap({"Name" = "${var.project_slug}-ssmmessages-endpoint"}),
+    var.custom_tags
+  )
 }

@@ -29,13 +29,13 @@ variable "custom_tags" {
 variable "k8s_version" {
   description = "Kubernetes version to use in the cluster"
   type        = string
-  default     = "1.28"
+  default     = "1.27"
 }
 
 variable "k8s_worker_type" {
   description = "Instance type used for kubernetes worker nodes"
   type        = string
-  default     = "m5.2xlarge"
+  default     = "m5.xlarge"
 }
 
 variable "k8s_worker_bootstrap_extra_flags" {
@@ -59,13 +59,13 @@ variable "k8s_worker_min" {
 variable "k8s_worker_max" {
   description = "Maximum number of kubernetes worker nodes"
   type        = number
-  default     = 8
+  default     = 4
 }
 
 variable "k8s_worker_desired" {
   description = "Desired number of kubernetes worker nodes"
   type        = number
-  default     = 4
+  default     = 2
 }
 
 ### network
@@ -107,10 +107,11 @@ variable "public_subnet2_cidr" {
 }
 
 variable "create_vpc_endpoints" {
-  description = "If true then vpc endpoints for DynamoDB and S3"
-  # This allows direct access to these resources from the private subnet, thus reducing nat gateway trafic.
+  description = "If true then create VPC endpoints for DynamoDB, S3, and SSM services"
+  # This allows direct access to these resources from the private subnet, thus reducing NAT gateway traffic
+  # and enabling SSM Session Manager to work in private subnets.
   type    = bool
-  default = false
+  default = true
 }
 
 ### use existing vpc and subnets (create_network_stack == false)
@@ -136,5 +137,5 @@ variable "ssm_prefix" {
 variable "enable_ssm" {
   description = "If true then add systems manager policy to nodes (this allows remote access for authorized users)"
   type        = bool
-  default     = false
+  default     = true
 }

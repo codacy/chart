@@ -19,13 +19,13 @@ terraform {
   #   3. uncommenting the following lines, filling in the required infomation (bucket name and region)
   #      and (re)initializing terraform with `terraform init -reconfigure -backend=true`
 
-  #backend "s3" {
-  #  encrypt = true
-  #  bucket = "YOUR_S3_BUCKET_NAME_HERE"
-  #  dynamodb_table = "codacy-terraform-lock"
-  #  region = "YOUR_REGION_HERE"
-  #  key = "codacy/cluster.tfstate"
-  #}
+  backend "s3" {
+    encrypt = true
+    bucket = "your-bucket-here"
+    dynamodb_table = "codacy-terraform-lock"
+    region = "eu-west-1"
+    key = "codacy/cluster.tfstate"
+  }
 }
 
 provider "aws" {
@@ -39,6 +39,16 @@ provider "kubernetes" {
   host                   = aws_eks_cluster.main.endpoint
   cluster_ca_certificate = base64decode(aws_eks_cluster.main.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
-  # Note: load_config_file parameter is removed in newer versions
-  # If you encounter authentication issues, you may need to use exec configuration
+  
+  # Use exec configuration for authentication
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    args = [
+      "eks",
+      "get-token",
+      "--cluster-name",
+      aws_eks_cluster.main.name
+    ]
+  }
 }

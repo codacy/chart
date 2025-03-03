@@ -123,8 +123,14 @@ locals {
 
 ### worker nodes instance profile
 resource "aws_iam_instance_profile" "eks_worker" {
-  name = "${var.project_slug}-worker"
+  name = "${var.project_slug}-worker-${formatdate("YYYYMMDDhhmmss", timestamp())}"
   role = aws_iam_role.eks_worker.name
+  
+  lifecycle {
+    create_before_destroy = true
+    # Ignore changes to name to prevent unnecessary replacements
+    ignore_changes = [name]
+  }
 }
 
 resource "aws_iam_role" "eks_worker" {
