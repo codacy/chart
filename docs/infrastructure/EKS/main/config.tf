@@ -11,6 +11,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
   }
   # Using a backend is recommended. See https://www.terraform.io/docs/backends/index.html
   # You may use the provided S3 backend configuration by
@@ -21,7 +25,7 @@ terraform {
 
   backend "s3" {
     encrypt = true
-    bucket = "your-bucket-here"
+    bucket = "codacy-terraform-state-bvbtmeqkzxzphhmofmldll"
     dynamodb_table = "codacy-terraform-lock"
     region = "eu-west-1"
     key = "codacy/cluster.tfstate"

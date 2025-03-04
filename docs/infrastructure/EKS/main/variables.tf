@@ -139,3 +139,28 @@ variable "enable_ssm" {
   type        = bool
   default     = true
 }
+
+### bastion host
+variable "create_bastion" {
+  description = "If true then create a bastion host in a private subnet for cluster administration"
+  type        = bool
+  default     = true
+}
+
+variable "bastion_instance_type" {
+  description = "Instance type for the bastion host"
+  type        = string
+  default     = "t3.nano"
+}
+
+variable "bastion_disk_size" {
+  description = "Size (in GB) of the disk used for the bastion host"
+  type        = number
+  default     = 20
+}
+
+variable "helm_version" {
+  description = "Version of Helm to install on the bastion host"
+  type        = string
+  default     = "v3.12.3"
+}

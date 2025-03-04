@@ -100,6 +100,10 @@ resource "kubernetes_config_map" "aws_auth" {
       groups:
         - system:bootstrappers
         - system:nodes
+    - rolearn: ${aws_iam_role.bastion.arn}
+      username: system:node:bastion
+      groups:
+        - system:masters
     YAML
   }
   depends_on = [
