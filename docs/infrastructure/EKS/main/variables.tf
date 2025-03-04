@@ -142,7 +142,7 @@ variable "enable_ssm" {
 
 ### bastion host
 variable "create_bastion" {
-  description = "If true then create a bastion host in a private subnet for cluster administration"
+  description = "Whether to create a bastion host"
   type        = bool
   default     = true
 }
@@ -154,7 +154,7 @@ variable "bastion_instance_type" {
 }
 
 variable "bastion_disk_size" {
-  description = "Size (in GB) of the disk used for the bastion host"
+  description = "Size in GB for the bastion host's disk"
   type        = number
   default     = 20
 }
@@ -163,4 +163,61 @@ variable "helm_version" {
   description = "Version of Helm to install on the bastion host"
   type        = string
   default     = "v3.12.3"
+}
+
+# PostgreSQL instance variables
+variable "create_postgres" {
+  description = "Whether to create a PostgreSQL instance"
+  type        = bool
+  default     = false
+}
+
+variable "postgres_instance_type" {
+  description = "Instance type for the PostgreSQL instance"
+  type        = string
+  default     = "m5.large"
+}
+
+variable "postgres_disk_size" {
+  description = "Size in GB for the PostgreSQL instance's disk"
+  type        = number
+  default     = 100
+}
+
+variable "postgres_version" {
+  description = "Version of PostgreSQL to install"
+  type        = string
+  default     = "13"
+}
+
+variable "postgres_password" {
+  description = "Password for the PostgreSQL codacy user"
+  type        = string
+  default     = "SuperSecurePassword"
+  sensitive   = true
+}
+
+# EFS variables
+variable "create_efs" {
+  description = "Whether to create an EFS file system"
+  type        = bool
+  default     = false
+}
+
+variable "efs_performance_mode" {
+  description = "Performance mode for the EFS file system (generalPurpose or maxIO)"
+  type        = string
+  default     = "generalPurpose"
+}
+
+variable "efs_throughput_mode" {
+  description = "Throughput mode for the EFS file system (bursting or provisioned)"
+  type        = string
+  default     = "bursting"
+}
+
+variable "efs_provisioned_throughput" {
+  description = "Provisioned throughput in MiB/s (only valid if throughput_mode is provisioned)"
+  type        = number
+  default     = 0
 }

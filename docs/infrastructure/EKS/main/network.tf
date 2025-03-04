@@ -14,7 +14,7 @@ resource "aws_vpc" "main" {
 
   tags = merge(
     tomap({
-      "Name" = var.project_name,
+      "Name" = "${var.project_name} VPC",
       "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
     }),
     var.custom_tags

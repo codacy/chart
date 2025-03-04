@@ -1,0 +1,52 @@
+# Terraform variables for Codacy EKS infrastructure
+# Copy this file to terraform.tfvars and modify as needed
+
+# AWS region
+aws_region = "eu-west-1"
+
+# Project information
+project_name = "Codacy"
+project_slug = "codacy"
+
+# Custom tags to apply to all resources
+custom_tags = {
+  Environment = "Production"
+  ManagedBy   = "Terraform"
+  Project     = "Codacy"
+}
+
+# Kubernetes cluster configuration
+k8s_version = "1.27"
+k8s_worker_type = "m5.2xlarge"
+k8s_worker_min = 2
+k8s_worker_max = 8
+k8s_worker_desired = 4
+k8s_worker_disk_size = 100
+
+# Network configuration
+create_network_stack = true
+vpc_cidr = "10.8.0.0/16"
+private_subnet1_cidr = "10.8.0.0/18"
+private_subnet2_cidr = "10.8.64.0/18"
+public_subnet1_cidr = "10.8.128.0/19"
+public_subnet2_cidr = "10.8.160.0/19"
+create_vpc_endpoints = true
+
+# Bastion host configuration
+create_bastion = true
+bastion_instance_type = "t3.nano"
+bastion_disk_size = 20
+helm_version = "v3.12.3"
+
+# PostgreSQL configuration (disabled by default)
+create_postgres = false
+postgres_instance_type = "m5.large"
+postgres_disk_size = 100
+postgres_version = "13"
+postgres_password = "SuperSecurePassword" # Change this to a secure password
+
+# EFS configuration (disabled by default)
+create_efs = false
+efs_performance_mode = "generalPurpose"
+efs_throughput_mode = "bursting"
+efs_provisioned_throughput = 0 # Only used if throughput_mode is "provisioned"
