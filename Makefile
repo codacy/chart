@@ -12,7 +12,7 @@ setup_helm_repos:
 create_version_file:
 	@if [ ! -e .version ]; \
 	then echo "Creating .version file based on the most recent tag..."; \
-	git tag --sort creatordate | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" | tail -n -1 > .version; \
+	git describe --tags --abbrev=0 | grep -E "^([0-9]+\.[0-9]+\.[0-9]+)-RC.*" > .version; \
 	cat .version; \
 	else echo ".version file already exists..."; \
 	fi
