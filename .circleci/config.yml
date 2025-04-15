@@ -179,6 +179,13 @@ references:
     LAUNCH_NAME: E2E_K8S_RELEASE
     RETRY_NUMBER: 5
 
+  qa_selfhosted_extended_testpath: &qa_selfhosted_extended_testpath
+    AWS_PROFILE: development
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/EXTENDED.xml
+    LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
+    LAUNCH_NAME: EXTENDED_K8S_RELEASE
+    RETRY_NUMBER: 5
+
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/API.xml
@@ -440,6 +447,14 @@ jobs:
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_e2e_testpath
+    <<: *qa_job
+
+  test_extended:
+    <<: *qa_automation_image
+    resource_class: large
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_extended_testpath
     <<: *qa_job
 
   test_api:
@@ -806,14 +821,19 @@ workflows:
           requires:
             - test_check_cookies_expired_releases_k8s
 
-      - manual_qa_hold:
-          type: approval
-          context: CodacyDO
+      - test_extended:
+          context: CodacyAWS
           requires:
             - test_web
             - test_e2e
             - test_api
             - test_apiv3
+
+      - manual_qa_hold:
+          type: approval
+          context: CodacyDO
+          requires:
+            - test_extended
             - install_k8s-1.19_helm-3.9
             - install_k8s-1.20_helm-3.9
             - install_k8s-1.21_helm-3.9
@@ -827,10 +847,7 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - test_web
-            - test_e2e
-            - test_api
-            - test_apiv3
+            - test_extended
             - install_k8s-1.19_helm-3.9
             - install_k8s-1.20_helm-3.9
             - install_k8s-1.21_helm-3.9
