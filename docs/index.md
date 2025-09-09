@@ -4,10 +4,13 @@ description: Install and configure Codacy Self-hosted on Kubernetes or MicroK8s.
 
 # Installing Codacy Self-hosted
 
+!!! Note
+    **We no longer provide Self-Hosted licenses.** This document aims to provide guidance in installing Codacy Self-Hosted when you already have such a license.
+
 This documentation guides you on how to install Codacy Self-hosted on Kubernetes or MicroK8s.
 
 !!! important
-    **If you're running the legacy Codacy Self-hosted solution running on Docker** please contact <mailto:support@codacy.com> so that we can assist you with the migration to Codacy Self-hosted running on Kubernetes or MicroK8s.
+    **If you're running the legacy Codacy Self-hosted solution running on Docker** please contact <mailto:support@codacy.com> so that we can assist you with the migration to Codacy Self-hosted running on Kubernetes or MicroK8s. 
 
 To install Codacy you must complete these main steps:
 
