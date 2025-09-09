@@ -560,9 +560,9 @@ workflows:
           name: install_k8s-1.30_helm-3.16.3_unstable
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.30/stable"
+          microk8s_channel: "1.31/stable"
           helm_version: "v3.16.3"
-          helm_timeout: 1200
+          helm_timeout: 1800
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
@@ -810,7 +810,7 @@ workflows:
           <<: *helm_values
           requires:
             - helm_push_incubator
-      
+
       - codacy/microk8s_install:
           name: install_k8s-1.30_helm-3.16.3
           helm_repo: "https://charts.codacy.com/incubator"

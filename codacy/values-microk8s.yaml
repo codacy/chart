@@ -25,8 +25,8 @@ listener:
 engine:
   resources:
     limits:
-      cpu: 1
-      memory: 2Gi
+      cpu: 1500m
+      memory: 3Gi
 
 codacy-tools:
   resources:
