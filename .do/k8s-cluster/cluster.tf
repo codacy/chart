@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "codacy_k8s" {
   name    = var.cluster_name
   region  = "fra1"
-  version = var.k8s_version
+  version = "1.31.9-do.3"
 
   # defined for provider compliance only, at least one default node pool is required
   node_pool {
