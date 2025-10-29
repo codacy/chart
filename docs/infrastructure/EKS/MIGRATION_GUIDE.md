@@ -123,7 +123,24 @@ This document outlines the comprehensive modernization of the EKS Terraform conf
 - Bucket ownership controls and public access blocking
 - Comprehensive resource tagging
 
-### 10. **Updated Outputs**
+### 10. **Optional Bastion Host for Secure Administration**
+
+#### Bastion Host Features:
+- Optional EC2 instance for secure EKS cluster administration
+- Pre-configured with kubectl, Helm, and AWS CLI
+- Automatic kubeconfig setup for EKS cluster access
+- SSM Session Manager access (no SSH keys required)
+- Dedicated IAM roles with EKS access policies
+- Uses gp3 storage and modern security practices
+
+#### Benefits:
+- Secure access to private EKS clusters
+- No need for direct internet access to cluster
+- Centralized administration point
+- Pre-installed cluster management tools
+- Cost-effective (t3.nano default instance type)
+
+### 11. **Updated Outputs**
 
 #### New Comprehensive Outputs:
 **Main Infrastructure:**
