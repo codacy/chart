@@ -103,13 +103,39 @@ This document outlines the comprehensive modernization of the EKS Terraform conf
 - Dedicated role for EBS CSI driver
 - Follows principle of least privilege
 
-### 9. **Updated Outputs**
+### 9. **Backend State Management Modernization**
+
+#### S3 Bucket Modernization:
+- Separated bucket ACL into dedicated resource
+- Separated versioning into dedicated resource
+- Added server-side encryption with KMS
+- Added public access block for enhanced security
+- Added lifecycle policy for cost optimization (90-day retention)
+
+#### DynamoDB Table Modernization:
+- Updated to use `table_name` instead of deprecated `name`
+- Switched to on-demand billing mode for cost efficiency
+- Added point-in-time recovery for data protection
+- Added server-side encryption
+
+#### Enhanced Security Features:
+- KMS encryption for state files with key rotation
+- Bucket ownership controls and public access blocking
+- Comprehensive resource tagging
+
+### 10. **Updated Outputs**
 
 #### New Comprehensive Outputs:
+**Main Infrastructure:**
 - Cluster information (endpoint, ARN, version)
 - Node group details
 - OIDC issuer URL for IRSA setup
 - Certificate authority data
+
+**Backend Infrastructure:**
+- State bucket details with ARN
+- Lock table information with ARN
+- KMS key details for state encryption
 
 #### Removed:
 - Manual aws-auth ConfigMap (no longer needed)
