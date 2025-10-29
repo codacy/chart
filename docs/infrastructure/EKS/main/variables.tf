@@ -29,7 +29,7 @@ variable "custom_tags" {
 variable "k8s_version" {
   description = "Kubernetes version to use in the cluster"
   type        = string
-  default     = "1.16"
+  default     = "1.28"
 }
 
 variable "k8s_worker_type" {
@@ -137,4 +137,10 @@ variable "enable_ssm" {
   description = "If true then add systems manager policy to nodes (this allows remote access for authorized users)"
   type        = bool
   default     = false
+}
+
+variable "worker_ssh_key_name" {
+  description = "Name of the AWS key pair for worker node SSH access (only used when enable_ssm is false)"
+  type        = string
+  default     = null
 }

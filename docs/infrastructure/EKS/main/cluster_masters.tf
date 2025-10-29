@@ -7,8 +7,19 @@ resource "aws_eks_cluster" "main" {
   role_arn = aws_iam_role.eks_master.arn
 
   vpc_config {
-    security_group_ids = [aws_security_group.eks_master.id]
-    subnet_ids         = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : var.subnet_ids
+    security_group_ids      = [aws_security_group.eks_master.id]
+    subnet_ids              = var.create_network_stack ? [aws_subnet.private1[0].id, aws_subnet.private2[0].id] : var.subnet_ids
+    endpoint_private_access = true
+    endpoint_public_access  = true
+    public_access_cidrs     = ["0.0.0.0/0"]
+  }
+
+  # Encrypt secrets in etcd
+  encryption_config {
+    provider {
+      key_arn = aws_kms_key.eks.arn
+    }
+    resources = ["secrets"]
   }
 
   # for more info see: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
@@ -23,11 +34,11 @@ resource "aws_eks_cluster" "main" {
   depends_on = [
     aws_cloudwatch_log_group.eks,
     aws_iam_role.eks_master,
-    aws_security_group.eks_master
+    aws_security_group.eks_master,
+    aws_kms_key.eks
   ]
 
   tags = var.custom_tags
-
 }
 
 ### security group
@@ -67,13 +78,27 @@ data "aws_iam_policy_document" "eks_master" {
 }
 
 ### managed polices for EKS. See https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html
-resource "aws_iam_role_policy_attachment" "eks_service" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-  role       = aws_iam_role.eks_master.name
-}
+# Note: AmazonEKSServicePolicy is no longer required for clusters created after April 2020
 resource "aws_iam_role_policy_attachment" "eks_cluster" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_master.name
+}
+
+### KMS key for EKS encryption
+resource "aws_kms_key" "eks" {
+  description             = "EKS Secret Encryption Key"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  tags = merge(
+    map("Name", "${var.project_slug}-eks-encryption-key"),
+    var.custom_tags
+  )
+}
+
+resource "aws_kms_alias" "eks" {
+  name          = "alias/${var.project_slug}-eks-encryption-key"
+  target_key_id = aws_kms_key.eks.key_id
 }
 
 ### cloudwatch control plane logs

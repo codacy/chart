@@ -59,10 +59,11 @@ resource "aws_subnet" "public1" {
   map_public_ip_on_launch = true
 
   tags = merge(
-    map(
-      "Name", "${var.project_name} public subnet 1",
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "shared"
-    ),
+    {
+      "Name" = "${var.project_name} public subnet 1"
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
+      "kubernetes.io/role/elb" = "1"
+    },
     var.custom_tags
   )
 }
@@ -85,10 +86,11 @@ resource "aws_subnet" "public2" {
   map_public_ip_on_launch = true
 
   tags = merge(
-    map(
-      "Name", "${var.project_name} public subnet 2",
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "shared"
-    ),
+    {
+      "Name" = "${var.project_name} public subnet 2"
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
+      "kubernetes.io/role/elb" = "1"
+    },
     var.custom_tags
   )
 }
@@ -108,10 +110,11 @@ resource "aws_subnet" "private1" {
   availability_zone = data.aws_availability_zones.AZs.names[0]
 
   tags = merge(
-    map(
-      "Name", "${var.project_name} private subnet 1",
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "shared"
-    ),
+    {
+      "Name" = "${var.project_name} private subnet 1"
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
+      "kubernetes.io/role/internal-elb" = "1"
+    },
     var.custom_tags
   )
 }
@@ -163,10 +166,11 @@ resource "aws_subnet" "private2" {
   availability_zone = data.aws_availability_zones.AZs.names[1]
 
   tags = merge(
-    map(
-      "Name", "${var.project_name} private subnet 2",
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "shared"
-    ),
+    {
+      "Name" = "${var.project_name} private subnet 2"
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
+      "kubernetes.io/role/internal-elb" = "1"
+    },
     var.custom_tags
   )
 }
