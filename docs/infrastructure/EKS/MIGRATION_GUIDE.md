@@ -114,61 +114,6 @@ This document outlines the comprehensive modernization of the EKS Terraform conf
 #### Removed:
 - Manual aws-auth ConfigMap (no longer needed)
 
-## Migration Steps
-
-### Phase 1: Backup and Preparation
-1. **Backup current state:**
-   ```bash
-   terraform state pull > backup.tfstate
-   ```
-
-2. **Document current resources:**
-   ```bash
-   terraform show > current_resources.txt
-   ```
-
-### Phase 2: Update Configuration
-1. **Switch to the modernized branch:**
-   ```bash
-   git checkout feature/aws-updates-sh
-   ```
-
-2. **Update provider versions:**
-   ```bash
-   terraform init -upgrade
-   ```
-
-### Phase 3: Plan and Apply
-1. **Review planned changes:**
-   ```bash
-   terraform plan
-   ```
-
-2. **Apply in stages (recommended):**
-   
-   **Stage 1: Core cluster updates**
-   ```bash
-   terraform apply -target=aws_eks_cluster.main
-   ```
-   
-   **Stage 2: Worker node migration**
-   ```bash
-   terraform apply -target=aws_eks_node_group.workers
-   ```
-   
-   **Stage 3: Add-ons**
-   ```bash
-   terraform apply -target=aws_eks_addon.vpc_cni
-   terraform apply -target=aws_eks_addon.coredns
-   terraform apply -target=aws_eks_addon.kube_proxy
-   terraform apply -target=aws_eks_addon.ebs_csi
-   ```
-
-### Phase 4: Cleanup
-1. **Remove old resources** (after successful migration):
-   - Old launch configurations
-   - Old auto scaling groups
-   - Manual aws-auth ConfigMap
 
 ## Breaking Changes and Considerations
 
@@ -216,15 +161,6 @@ If issues occur:
 
 3. **Manual cleanup** of any orphaned resources in AWS Console
 
-## Benefits Summary
-
-- **Security**: Encryption, OIDC, least privilege access
-- **Performance**: gp3 storage, optimized networking
-- **Reliability**: Managed components, automatic updates
-- **Cost**: Optimized storage costs, better resource management
-- **Maintainability**: Less custom code, AWS-managed components
-- **Scalability**: Modern auto-scaling capabilities
-- **Compliance**: Current AWS best practices
 
 ## Support
 
