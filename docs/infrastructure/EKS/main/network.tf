@@ -11,10 +11,10 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
 
   tags = merge(
-    map(
-      "Name", var.project_name,
-      "kubernetes.io/cluster/${var.project_slug}-cluster", "shared"
-    ),
+    {
+      "Name" = var.project_name
+      "kubernetes.io/cluster/${var.project_slug}-cluster" = "shared"
+    },
     var.custom_tags
   )
 }
@@ -26,7 +26,9 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main[0].id
 
   tags = merge(
-    map("Name", var.project_name),
+    {
+      "Name" = var.project_name
+    },
     var.custom_tags
   )
 }
@@ -36,7 +38,9 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main[0].id
 
   tags = merge(
-    map("Name", "${var.project_name} public route table"),
+    {
+      "Name" = "${var.project_name} public route table"
+    },
     var.custom_tags
   )
 }
@@ -124,7 +128,7 @@ resource "aws_eip" "public1" {
   count = var.create_network_stack ? 1 : 0
 
   depends_on = [aws_internet_gateway.main[0]]
-  vpc        = true
+  domain     = "vpc"
 
   tags = var.custom_tags
 }
@@ -180,7 +184,7 @@ resource "aws_eip" "public2" {
   count = var.create_network_stack ? 1 : 0
 
   depends_on = [aws_internet_gateway.main[0]]
-  vpc        = true
+  domain     = "vpc"
 
   tags = var.custom_tags
 }

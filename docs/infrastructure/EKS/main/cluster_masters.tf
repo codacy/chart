@@ -54,7 +54,9 @@ resource "aws_security_group" "eks_master" {
   }
 
   tags = merge(
-    map("Name", "${var.project_name} cluster master"),
+    {
+      "Name" = "${var.project_name} cluster master"
+    },
     var.custom_tags
   )
 }
@@ -89,7 +91,9 @@ resource "aws_kms_key" "eks" {
   enable_key_rotation     = true
 
   tags = merge(
-    map("Name", "${var.project_slug}-eks-encryption-key"),
+    {
+      "Name" = "${var.project_slug}-eks-encryption-key"
+    },
     var.custom_tags
   )
 }
