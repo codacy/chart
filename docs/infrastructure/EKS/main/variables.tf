@@ -144,3 +144,28 @@ variable "worker_ssh_key_name" {
   type        = string
   default     = null
 }
+
+### bastion host
+variable "create_bastion" {
+  description = "Whether to create a bastion host"
+  type        = bool
+  default     = false
+}
+
+variable "bastion_instance_type" {
+  description = "Instance type for the bastion host"
+  type        = string
+  default     = "t3.nano"
+}
+
+variable "bastion_disk_size" {
+  description = "Size in GB for the bastion host's disk"
+  type        = number
+  default     = 20
+}
+
+variable "helm_version" {
+  description = "Version of Helm to install on the bastion host"
+  type        = string
+  default     = "v3.12.3"
+}

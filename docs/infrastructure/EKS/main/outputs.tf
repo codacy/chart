@@ -47,3 +47,13 @@ output "vpc_id" {
   description = "VPC ID where the cluster is deployed"
   value       = var.create_network_stack ? aws_vpc.main[0].id : var.vpc_id
 }
+
+output "bastion_instance_id" {
+  description = "ID of the bastion host"
+  value       = var.create_bastion ? aws_instance.bastion[0].id : null
+}
+
+output "bastion_private_ip" {
+  description = "Private IP address of the bastion host"
+  value       = var.create_bastion ? aws_instance.bastion[0].private_ip : null
+}
