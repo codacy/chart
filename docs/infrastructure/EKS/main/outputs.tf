@@ -47,6 +47,3 @@ output "vpc_id" {
   description = "VPC ID where the cluster is deployed"
   value       = var.create_network_stack ? aws_vpc.main[0].id : var.vpc_id
 }
-
-# Note: aws-auth ConfigMap is no longer needed with EKS managed node groups
-# The managed node groups automatically handle worker node authentication

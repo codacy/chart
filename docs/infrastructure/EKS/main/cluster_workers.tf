@@ -1,5 +1,4 @@
-# cluster_workers.tf - this creates EKS managed node groups which replace the legacy 
-#                      launch configurations and autoscaling groups approach
+# cluster_workers.tf - this creates EKS managed node groups
 
 ### EKS Managed Node Group
 resource "aws_eks_node_group" "workers" {
@@ -19,13 +18,11 @@ resource "aws_eks_node_group" "workers" {
 
   disk_size = var.k8s_worker_disk_size
 
-  # Use modern gp3 storage instead of gp2
   launch_template {
     name    = aws_launch_template.workers.name
     version = aws_launch_template.workers.latest_version
   }
 
-  # Remote access configuration (replaces manual SSH setup)
   dynamic "remote_access" {
     for_each = var.enable_ssm ? [] : [1]
     content {
@@ -33,7 +30,6 @@ resource "aws_eks_node_group" "workers" {
     }
   }
 
-  # Update strategy
   update_config {
     max_unavailable = 1
   }
@@ -48,8 +44,6 @@ resource "aws_eks_node_group" "workers" {
     }
   )
 
-  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
-  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
     aws_iam_role_policy_attachment.eks_worker_node_policy,
     aws_iam_role_policy_attachment.eks_cni_policy,
@@ -61,7 +55,7 @@ resource "aws_eks_node_group" "workers" {
   }
 }
 
-### Launch template for managed node group (enables gp3 and other advanced configurations)
+### Launch template for managed node group
 resource "aws_launch_template" "workers" {
   name_prefix = "${var.project_slug}-workers-"
 

@@ -1,5 +1,4 @@
 # eks_addons.tf - EKS Add-ons management for critical cluster components
-# This replaces manual management of these components with AWS-managed versions
 
 ### VPC CNI Add-on
 resource "aws_eks_addon" "vpc_cni" {
@@ -122,7 +121,7 @@ resource "aws_iam_openid_connect_provider" "eks" {
   tags = var.custom_tags
 }
 
-### Data sources for add-on versions (gets latest compatible versions)
+### Data sources for add-on versions
 data "aws_eks_addon_version" "vpc_cni" {
   addon_name         = "vpc-cni"
   kubernetes_version = aws_eks_cluster.main.version

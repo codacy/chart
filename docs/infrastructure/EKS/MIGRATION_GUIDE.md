@@ -26,8 +26,8 @@ This document outlines the comprehensive modernization of the EKS Terraform conf
 ### 3. **EKS Cluster Modernization**
 
 #### Deprecated IAM Policies Removed:
-- ❌ `AmazonEKSServicePolicy` - No longer required for clusters created after April 2020
-- ✅ `AmazonEKSClusterPolicy` - Retained
+- `AmazonEKSServicePolicy` - No longer required for clusters created after April 2020
+- `AmazonEKSClusterPolicy` - Retained
 
 #### New Security Features Added:
 - **Encryption at rest** for etcd secrets using KMS
@@ -218,13 +218,13 @@ If issues occur:
 
 ## Benefits Summary
 
-- ✅ **Security**: Encryption, OIDC, least privilege access
-- ✅ **Performance**: gp3 storage, optimized networking
-- ✅ **Reliability**: Managed components, automatic updates
-- ✅ **Cost**: Optimized storage costs, better resource management
-- ✅ **Maintainability**: Less custom code, AWS-managed components
-- ✅ **Scalability**: Modern auto-scaling capabilities
-- ✅ **Compliance**: Current AWS best practices
+- **Security**: Encryption, OIDC, least privilege access
+- **Performance**: gp3 storage, optimized networking
+- **Reliability**: Managed components, automatic updates
+- **Cost**: Optimized storage costs, better resource management
+- **Maintainability**: Less custom code, AWS-managed components
+- **Scalability**: Modern auto-scaling capabilities
+- **Compliance**: Current AWS best practices
 
 ## Support
 

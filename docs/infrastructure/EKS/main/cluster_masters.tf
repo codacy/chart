@@ -14,7 +14,6 @@ resource "aws_eks_cluster" "main" {
     public_access_cidrs     = ["0.0.0.0/0"]
   }
 
-  # Encrypt secrets in etcd
   encryption_config {
     provider {
       key_arn = aws_kms_key.eks.arn
@@ -78,7 +77,6 @@ data "aws_iam_policy_document" "eks_master" {
 }
 
 ### managed polices for EKS. See https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html
-# Note: AmazonEKSServicePolicy is no longer required for clusters created after April 2020
 resource "aws_iam_role_policy_attachment" "eks_cluster" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_master.name

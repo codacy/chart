@@ -16,9 +16,6 @@ terraform {
 }
 
 provider "aws" {
-  # Set your AWS configuration here. For more information see the terraform
-  # provider information: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
-  # You might need to set AWS_SDK_LOAD_CONFIG=1 to use your aws credentials file
   region = var.aws_region
 }
 
