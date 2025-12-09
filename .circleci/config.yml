@@ -557,11 +557,11 @@ workflows:
           requires:
             - plan_dev_cluster
       - codacy/microk8s_install:
-          name: install_k8s-1.30_helm-3.16.3_unstable
+          name: install_k8s-1.33_helm-3.19.0_unstable
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
-          microk8s_channel: "1.30/stable"
-          helm_version: "v3.16.3"
+          microk8s_channel: "1.33/stable"
+          helm_version: "v3.19.0"
           helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
@@ -661,7 +661,7 @@ workflows:
           name: install_k8s-1.19_helm-3.9
           helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
-          microk8s_channel: "1.19/stable"
+          microk8s_channel: "1.33/stable"
           helm_version: "v3.9.0"
           helm_timeout: 1200
           context: CodacyDocker
@@ -825,6 +825,20 @@ workflows:
           requires:
             - helm_push_incubator
 
+      - codacy/microk8s_install:
+          name: install_k8s-1.33_helm-3.19.0
+          helm_repo: "https://charts.codacy.com/incubator"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.33/stable"
+          helm_version: "v3.19.0"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+          docker_password: $DOCKER_PASS
+          <<: *helm_values
+          requires:
+            - helm_push_incubator
+
       - test_api:
           context: CodacyAWS
           requires:
@@ -870,6 +884,7 @@ workflows:
             - install_k8s-1.28_helm-3.9
             - install_k8s-1.29_helm-3.16.3
             - install_k8s-1.30_helm-3.16.3
+            - install_k8s-1.33_helm-3.19.0
       - manual_solutions_eng_hold:
           type: approval
           context: CodacyDO
@@ -890,6 +905,7 @@ workflows:
             - install_k8s-1.28_helm-3.9
             - install_k8s-1.29_helm-3.16.3
             - install_k8s-1.30_helm-3.16.3
+            - install_k8s-1.33_helm-3.19.0
       - set_chart_version_release:
           context: CodacyDO
           requires:
