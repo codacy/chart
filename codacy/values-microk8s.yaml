@@ -55,6 +55,10 @@ crow:
 
 rabbitmq-ha:
   replicaCount: 1
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/rabbitmq
+    tag: 3.8.5
   resources:
     limits:
       cpu: 0.5
