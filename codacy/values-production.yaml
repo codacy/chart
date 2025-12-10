@@ -316,7 +316,7 @@ rabbitmq-ha:
   image:
     registry: docker.io
     repository: bitnamilegacy/rabbitmq
-    tag: 3.8.5
+    tag: 3.13.7
   rabbitmqErlangCookie:  <--- erlang-cookie ---> # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
   persistentVolume:
     enabled: true
