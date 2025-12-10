@@ -661,7 +661,7 @@ workflows:
           name: install_k8s-1.19_helm-3.9
           helm_repo: "https://charts.codacy.com/incubator"
           chart_version: $(cat .version)
-          microk8s_channel: "1.31/stable"
+          microk8s_channel: "1.19/stable"
           helm_version: "v3.9.0"
           helm_timeout: 1200
           context: CodacyDocker
