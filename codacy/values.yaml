@@ -279,8 +279,14 @@ crow:
   create: true
 
 codacy-api:
-  create: true
-  replicaCount: 3
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2000Mi
+    requests:
+      cpu: 500m
+      memory: 2000Mi
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
