@@ -95,6 +95,10 @@ codacy-api:
   replicaCount: 2
   service:
     type: ClusterIP
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2000Mi
 
 
 portal:
