@@ -280,7 +280,7 @@ crow:
 
 codacy-api:
   create: true
-
+  replicaCount: 3
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements

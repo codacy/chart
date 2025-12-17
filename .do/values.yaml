@@ -92,7 +92,7 @@ codacy-ingress:
       secretName: <environment>-ingress-tls-secret
 
 codacy-api:
-  replicaCount: 3
+  replicaCount: 2
   service:
     type: ClusterIP
 
