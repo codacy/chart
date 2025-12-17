@@ -541,7 +541,7 @@ workflows:
                 - /release.*/
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/ && sudo apt update && sudo apt install -y snapd
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
           requires:
             - codacy/checkout_and_version
       - validate_dev_cluster:
