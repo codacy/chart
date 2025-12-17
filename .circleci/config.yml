@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@dev:12.3.1-lsaddsnapinstall.1.sha.5ccd722
+  codacy: codacy/base@12.3.1
   slack: circleci/slack@3.4.2
 
 references:
@@ -562,7 +562,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.32/stable"
           helm_version: "v3.19.0"
-          helm_timeout: 1200
+          helm_timeout: 300
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
