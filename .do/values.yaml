@@ -92,13 +92,9 @@ codacy-ingress:
       secretName: <environment>-ingress-tls-secret
 
 codacy-api:
-  replicaCount: 2
+  replicaCount: 3
   service:
     type: ClusterIP
-  resources:
-    requests:
-      cpu: 500m
-      memory: 2000Mi
 
 
 portal:

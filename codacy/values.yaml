@@ -278,6 +278,10 @@ fluentdoperator:
 crow:
   create: true
 
+codacy-api:
+  create: true
+
+
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
 ## These values are ignored if 'create: false' in the global variables
