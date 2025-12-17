@@ -6,7 +6,7 @@ dependencies:
   alias: minio
 
 - name: rabbitmq
-  version: 14.7.0
+  version: 7.5.7
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
