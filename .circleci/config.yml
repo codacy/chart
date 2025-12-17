@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@12.3.0
+  codacy: codacy/base@dev:12.3.1-lsaddsnapinstall.1.sha.5ccd722
   slack: circleci/slack@3.4.2
 
 references:
@@ -541,7 +541,7 @@ workflows:
                 - /release.*/
       - codacy/helm_aws:
           name: helm_lint
-          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/
+          cmd: helm lint --set-string global.akka.sessionSecret="" codacy/ && sudo apt update && sudo apt install -y snapd
           requires:
             - codacy/checkout_and_version
       - validate_dev_cluster:
@@ -810,7 +810,7 @@ workflows:
           <<: *helm_values
           requires:
             - helm_push_incubator
-      
+
       - codacy/microk8s_install:
           name: install_k8s-1.30_helm-3.16.3
           helm_repo: "https://charts.codacy.com/incubator"
