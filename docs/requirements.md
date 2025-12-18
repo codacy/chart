@@ -155,7 +155,6 @@ Before installing Codacy you must create a set of databases that will be used by
     CREATE DATABASE analysis WITH OWNER=codacy;
     CREATE DATABASE results WITH OWNER=codacy;
     CREATE DATABASE metrics WITH OWNER=codacy;
-    CREATE DATABASE filestore WITH OWNER=codacy;
     CREATE DATABASE jobs WITH OWNER=codacy;
     CREATE DATABASE listener WITH OWNER=codacy;
     CREATE DATABASE crow WITH OWNER=codacy;

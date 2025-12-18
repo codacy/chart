@@ -20,8 +20,6 @@ define call_helm_install
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
-	--set global.filestore.contentsSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
-	--set global.filestore.uuidSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.cacheSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set codacy-api.config.license=$${CODACY_LICENSE} \
 	--set global.codacy.url=${4} \

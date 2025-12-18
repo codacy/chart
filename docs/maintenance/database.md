@@ -7,17 +7,16 @@ description: Instructions on how to migrate your Codacy Self-hosted database.
 Migrating databases between pods is a straightforward process with 3 steps:
 
 1.  Dump the databases to a dump file.
-2.  Apply the dump file.
-3.  Delete the dump file.
+1.  Apply the dump file.
+1.  Delete the dump file.
 
 You will have to dump all the following databases:
 
 1.  accounts
-2.  analysis
-3.  filestore
-4.  jobs
-5.  metrics
-6.  results
+1.  analysis
+1.  jobs
+1.  metrics
+1.  results
 
 ## Requirements
 
@@ -71,7 +70,7 @@ DEST_HOSTPORT=$4
 DB_USER=$5
 DB_PASSWORD=$6
 
-declare -a dbs=(accounts analysis filestore jobs metrics results)
+declare -a dbs=(accounts analysis jobs metrics results)
 for db in ${dbs[@]}
 do
   PGPASSWORD=$DB_PASSWORD pg_dump -h $SRC_HOSTNAME -p $SRC_HOSTPORT -U $DB_USER --clean -Fc $db > /tmp/$db.dump

@@ -11,9 +11,6 @@ global:
     cryptoSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   akka:
     sessionSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-  filestore:
-    contentsSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
-    uuidSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
   cacheSecret: <--- generated-secret ---> # Generate one with `openssl rand -base64 128 | tr -dc 'a-zA-Z0-9'`
 
   workerManager:
@@ -71,14 +68,6 @@ global:
     create: false
     postgresqlUsername: <--- codacy-db-username --->
     postgresqlDatabase: metrics # You need to create the DB manually
-    postgresqlPassword: <--- codacy-db-password --->
-    host: <--- codacy-db-host --->
-    service:
-      port: <--- codacy-db-port --->
-  filestoredb:
-    create: false
-    postgresqlUsername: <--- codacy-db-username --->
-    postgresqlDatabase: filestore # You need to create the DB manually
     postgresqlPassword: <--- codacy-db-password --->
     host: <--- codacy-db-host --->
     service:

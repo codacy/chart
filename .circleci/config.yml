@@ -42,9 +42,6 @@ references:
           cryptoSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         akka:
           sessionSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
-        filestore:
-          contentsSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
-          uuidSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         cacheSecret: "TEST_STRING_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789"
         codacy:
           crow:
@@ -57,8 +54,6 @@ references:
         resultsdb:
           create: true
         metricsdb:
-          create: true
-        filestoredb:
           create: true
         jobsdb:
           create: true
@@ -810,7 +805,7 @@ workflows:
           <<: *helm_values
           requires:
             - helm_push_incubator
-      
+
       - codacy/microk8s_install:
           name: install_k8s-1.30_helm-3.16.3
           helm_repo: "https://charts.codacy.com/incubator"

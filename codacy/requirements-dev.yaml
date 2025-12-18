@@ -16,7 +16,7 @@ dependencies:
   repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   alias: postgres
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb.create,
-    global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
+    global.metricsdb.create, global.jobsdb.create
 
 - name: log-router
   version: 0.6.4
