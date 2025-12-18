@@ -288,6 +288,26 @@ codacy-api:
       cpu: 500m
       memory: 2000Mi
 
+engine:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 3000Mi
+    requests:
+      cpu: 200m
+      memory: 3000Mi
+
+portal:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
 ## Defaults for Internal Storage coming from requirements
 ## These values are ignored if 'create: false' in the global variables
