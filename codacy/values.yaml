@@ -309,6 +309,7 @@ portal:
       memory: 200Mi
 
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
+
 ## Defaults for Internal Storage coming from requirements
 ## These values are ignored if 'create: false' in the global variables
 
