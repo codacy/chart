@@ -140,8 +140,8 @@ global:
 
   rabbitmq:
     create: true
-    rabbitmqUsername: codacyrab
-    rabbitmqPassword: codacyrab
+    rabbitmqUsername: "rabbitmq-codacy"
+    rabbitmqPassword: "codacy-rabbit-mq"
     rabbitmqvHost: "/"
     host: codacy-rabbitmq-ha
     port: 5672
@@ -323,8 +323,8 @@ rabbitmq-ha:
     repository: bitnamilegacy/rabbitmq
     tag: "3.8.35-debian-11-r5"
   auth:
-    username: "codacyrab"
-    password: "codacyrab"
+    username: "rabbitmq-codacy"
+    existingPasswordSecret: rabbitmq-credentials
   prometheus:
     operator:
       enabled: false
