@@ -1,6 +1,6 @@
 .PHONY: setup_helm_repos
 setup_helm_repos:
-	helm repo add bitnami-pre-2022 https://raw.githubusercontent.com/bitnami/charts/defb094c658024e4aa8245622dab202874880cbc/bitnami # Github tag before bitnami truncated the index. Old link didn't work anymore
+	# Add legacy Bitnami snapshot repo used by requirements.yaml (apiVersion v1)
 	helm repo add stable https://charts.helm.sh/stable
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
@@ -53,3 +53,6 @@ get_release_notes:
 	git fetch --all --tags --force
 	# Generate release notes and create pull request on codacy/docs
 	release-notes-tools/run.sh selfhosted ${VERSION_NEW} ${VERSION_OLD} --push
+
+
+

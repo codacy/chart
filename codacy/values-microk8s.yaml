@@ -55,6 +55,9 @@ crow:
 
 rabbitmq-ha:
   replicaCount: 1
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.35-debian-11-r5"
   resources:
     limits:
       cpu: 0.5

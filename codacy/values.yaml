@@ -140,8 +140,8 @@ global:
 
   rabbitmq:
     create: true
-    rabbitmqUsername: rabbitmq-codacy
-    rabbitmqPassword: rabbitmq-codacy
+    rabbitmqUsername: "rabbitmq-codacy"
+    rabbitmqPassword: "CHANGEME"
     rabbitmqvHost: "/"
     host: codacy-rabbitmq-ha
     port: 5672
@@ -278,16 +278,53 @@ fluentdoperator:
 crow:
   create: true
 
+codacy-api:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2000Mi
+    requests:
+      cpu: 500m
+      memory: 2000Mi
+
+engine:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 3000Mi
+    requests:
+      cpu: 200m
+      memory: 3000Mi
+
+portal:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+
 ## YOU ARE NOT ADVISED TO CHANGE BEYOND THIS POINT
+
 ## Defaults for Internal Storage coming from requirements
 ## These values are ignored if 'create: false' in the global variables
 
 rabbitmq-ha:
   rabbitmqErlangCookie: "PLEASE_CHANGE_ME_TO_A_RANDOM_STR" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
   fullnameOverride: codacy-rabbitmq-ha
+  global:
+    imagePullSecrets:
+      - docker-credentials
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.35-debian-11-r5"
   auth:
-    username: "rabbitmq-codacy"
-    password: "rabbitmq-codacy"
+    username: rabbitmq-codacy
+    password: rabbitmq-codacy
   prometheus:
     operator:
       enabled: false
@@ -301,7 +338,9 @@ rabbitmq-ha:
 
 postgres:
   fullnameOverride: codacy-postgres
-  imageTag: "9.6.2"
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: "11.7.0"
   persistence:
     enabled: false
     # storageClass:

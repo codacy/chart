@@ -40,3 +40,6 @@ release-notes-tools
 
 *.log
 .*.swp
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

@@ -31,6 +31,8 @@ define call_helm_install
 	--set global.features.cloneSubmodules=true \
 	--set global.workerManager.workers.config.imageVersion=${5} \
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
+	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
+
 	"$${extra_args[@]}"
 endef
 
