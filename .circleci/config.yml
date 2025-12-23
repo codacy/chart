@@ -565,6 +565,8 @@ workflows:
           helm_timeout: 1200
           context: CodacyDocker
           docker_username: $DOCKER_USER
+          requires:
+            - helm_push_unstable
       - codacy/microk8s_install:
           name: install_k8s-1.32_helm-3.19.0_unstable
           helm_repo: "https://charts.codacy.com/unstable"
