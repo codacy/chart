@@ -322,8 +322,6 @@ rabbitmq-ha:
   image:
     repository: bitnamilegacy/rabbitmq
     tag: "3.8.35-debian-11-r5"
-  persistence:
-    enabled: false
   auth:
     username: "rabbitmq-codacy"
     password: "rabbitmq-codacy"
