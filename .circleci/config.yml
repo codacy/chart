@@ -557,6 +557,15 @@ workflows:
           requires:
             - plan_dev_cluster
       - codacy/microk8s_install:
+          name: install_k8s-1.30_helm-3.16.3_unstable
+          helm_repo: "https://charts.codacy.com/unstable"
+          chart_version: $(cat .version)
+          microk8s_channel: "1.30/stable"
+          helm_version: "v3.16.3"
+          helm_timeout: 1200
+          context: CodacyDocker
+          docker_username: $DOCKER_USER
+      - codacy/microk8s_install:
           name: install_k8s-1.32_helm-3.19.0_unstable
           helm_repo: "https://charts.codacy.com/unstable"
           chart_version: $(cat .version)
