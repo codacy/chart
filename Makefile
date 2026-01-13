@@ -1,4 +1,5 @@
 .PHONY: setup_helm_repos
+
 setup_helm_repos:
 	# Add legacy Bitnami snapshot repo used by requirements.yaml (apiVersion v1)
 	helm repo add stable https://charts.helm.sh/stable
