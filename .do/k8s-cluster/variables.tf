@@ -5,7 +5,7 @@
 variable "k8s_version" {
   description = "Kubernetes version. See available versions with `doctl kubernetes options versions`"
   type        = string
-  default     = "1.32.10-do.1"
+  default     = "1.33.6-do.2"
 }
 
 variable "k8s_kubeconfig" {
