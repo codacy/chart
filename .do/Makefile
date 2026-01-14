@@ -17,6 +17,7 @@ define call_helm_install
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
+	--reuse-values \
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
@@ -32,7 +33,6 @@ define call_helm_install
 	--set global.workerManager.workers.config.imageVersion=${5} \
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
-
 	"$${extra_args[@]}"
 endef
 
