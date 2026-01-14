@@ -10,6 +10,7 @@ SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 
 define call_helm_install
+  kubectl delete secret -n ${NAMESPACE} codacy-rabbitmq-ha
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
@@ -17,7 +18,6 @@ define call_helm_install
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
-	--reuse-values \
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
