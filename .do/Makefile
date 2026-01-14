@@ -10,7 +10,6 @@ SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 
 define call_helm_install
-  kubectl delete secret -n ${NAMESPACE} codacy-rabbitmq-ha
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
