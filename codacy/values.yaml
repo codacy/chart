@@ -141,7 +141,7 @@ global:
   rabbitmq:
     create: true
     rabbitmqUsername: "rabbitmq-codacy"
-    rabbitmqPassword: "CHANGEME"
+    rabbitmqPassword: "rabbitmq-codacy"
     rabbitmqvHost: "/"
     host: codacy-rabbitmq-ha
     port: 5672
