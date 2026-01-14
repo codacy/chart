@@ -324,7 +324,7 @@ rabbitmq-ha:
     tag: "3.8.35-debian-11-r5"
   auth:
     username: rabbitmq-codacy
-    password: rabbitmq-codacy
+    password: CHANGEME
   prometheus:
     operator:
       enabled: false
