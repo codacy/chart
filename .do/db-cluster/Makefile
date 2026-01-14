@@ -23,6 +23,7 @@ setup_vars:
 	@echo "k8s_cluster_name = \"$(K8S_CLUSTER_NAME)\"" >> $(VARS_FILE)
 	@echo "postgres_instance_type = \"$(INSTANCE_TYPE)\"" >> $(VARS_FILE)
 	@echo "environment = \"$(ENVIRONMENT)\"" >> $(VARS_FILE)
+	@echo "postgres_version = \"$(POSTGRES_VERSION)\"" >> $(VARS_FILE)
 
 .PHONY: start_cluster
 start_cluster: initialize_terrafom terraform_logistics save_outputs replace_db_values
