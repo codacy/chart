@@ -54,6 +54,9 @@ crow:
       memory: 750Mi
 
 rabbitmq-ha:
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.5"
   replicaCount: 1
   image:
     repository: bitnamilegacy/rabbitmq

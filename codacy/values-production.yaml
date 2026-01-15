@@ -312,6 +312,9 @@ codacy-spa:
       memory: 128Mi
 
 rabbitmq-ha:
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.5"
   replicaCount: 1
   rabbitmqErlangCookie:  <--- erlang-cookie ---> # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
   persistentVolume:
