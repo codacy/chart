@@ -83,7 +83,7 @@ helm repo add grafana https://grafana.github.io/helm-charts
 kubectl create namespace monitoring
 
 helm upgrade --install --atomic --timeout 600s loki grafana/loki \
-  --version 2.14.1 --namespace monitoring --values values-loki.yaml
+  --version 2.16.0 --namespace monitoring --values values-loki.yaml
 ```
 
 ### 3. Installing Promtail
