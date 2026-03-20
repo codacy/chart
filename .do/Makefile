@@ -19,8 +19,6 @@ define call_helm_install
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
-	--set global.minio.secretKey=$${MINIO_SECRET_KEY} \
-	--set global.minio.accessKey=$${MINIO_ACCESS_KEY} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
