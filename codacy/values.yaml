@@ -124,6 +124,8 @@ global:
     create: true
     location: codacy-minio
     port: 9000
+    accessKey: "AKIAIOSFODNN7EXAMPLE"
+    secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
   s3:
     bucket:
