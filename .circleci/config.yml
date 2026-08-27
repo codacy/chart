@@ -177,12 +177,26 @@ references:
     LAUNCH_NAME: WEB_K8S_RELEASE
     RETRY_NUMBER: 3
 
+  qa_selfhosted_web_permissions_testpath: &qa_selfhosted_web_permissions_testpath
+    AWS_PROFILE: development
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/WEB_PERMISSIONS.xml
+    LAUNCH_TAG: CIRCLECI;WEB_PERMISSIONS;SELFHOSTED;RELEASE
+    LAUNCH_NAME: WEB_PERMISSIONS_K8S_RELEASE
+    RETRY_NUMBER: 3
+
   qa_selfhosted_e2e_testpath: &qa_selfhosted_e2e_testpath
     AWS_PROFILE: development
     TEST_PATH: Suite/SELF-HOSTED/RELEASE/E2E.xml
     LAUNCH_TAG: CIRCLECI;E2E;SELFHOSTED;RELEASE
     LAUNCH_NAME: E2E_K8S_RELEASE
     RETRY_NUMBER: 5
+
+  qa_selfhosted_quarantine_testpath: &qa_selfhosted_quarantine_testpath
+    AWS_PROFILE: development
+    TEST_PATH: Suite/SELF-HOSTED/RELEASE/QUARANTINE.xml
+    LAUNCH_TAG: CIRCLECI;QUARANTINE;SELFHOSTED;RELEASE
+    LAUNCH_NAME: QUARANTINE_K8S_RELEASE
+    RETRY_NUMBER: 3
 
   qa_selfhosted_api_testpath: &qa_selfhosted_api_testpath
     AWS_PROFILE: development
@@ -439,12 +453,28 @@ jobs:
       <<: *qa_selfhosted_web_testpath
     <<: *qa_job
 
+  test_web_permissions:
+    <<: *qa_automation_image
+    resource_class: large
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_web_permissions_testpath
+    <<: *qa_job
+
   test_e2e:
     <<: *qa_automation_image
     resource_class: large
     environment:
       <<: *qa_environment_release
       <<: *qa_selfhosted_e2e_testpath
+    <<: *qa_job
+
+  test_quarantine:
+    <<: *qa_automation_image
+    resource_class: large
+    environment:
+      <<: *qa_environment_release
+      <<: *qa_selfhosted_quarantine_testpath
     <<: *qa_job
 
   test_api:
@@ -736,31 +766,37 @@ workflows:
           requires:
             - test_check_cookies_expired_releases_k8s
 
+      - test_web_permissions:
+          context: CodacyAWS
+          requires:
+            - test_check_cookies_expired_releases_k8s
+
       - test_e2e:
           context: CodacyAWS
           requires:
             - test_check_cookies_expired_releases_k8s
 
+      - test_quarantine:
+          context: CodacyAWS
+          requires:
+            - test_check_cookies_expired_releases_k8s
+
+      # Intentionally does not depend on the QA test jobs so that a manual
+      # approval path to the deploy remains available even if any of them fail.
       - manual_qa_hold:
           type: approval
           context: CodacyDO
           requires:
-            - test_web
-            - test_e2e
-            - test_api
-            - test_apiv3
             - install_k8s-1.30_helm-3.16.3
             - install_k8s-1.31_helm-3.16.3
             - install_k8s-1.32_helm-3.19.0
             - install_k8s-1.33_helm-3.19.0
+      # Intentionally does not depend on the QA test jobs so that a manual
+      # approval path to the deploy remains available even if any of them fail.
       - manual_solutions_eng_hold:
           type: approval
           context: CodacyDO
           requires:
-            - test_web
-            - test_e2e
-            - test_api
-            - test_apiv3
             - install_k8s-1.30_helm-3.16.3
             - install_k8s-1.31_helm-3.16.3
             - install_k8s-1.32_helm-3.19.0
