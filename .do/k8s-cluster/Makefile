@@ -7,7 +7,7 @@ WORKSPACE ?= ${DO_TF_WORKSPACE}
 VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 4.11.3
 CERT_MANAGER_VERSION ?= v1.15.3
-K8S_VERSION ?= 1.33
+K8S_VERSION ?= 1.34
 # Resolve the newest DO slug for K8S_VERSION. Anchored on the Slug column and
 # limited to a single result, so an unexpected match can't corrupt the tfvars.
 DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | awk 'NR>1 && $$1 ~ /^$(K8S_VERSION)\./ {print $$1; exit}')
