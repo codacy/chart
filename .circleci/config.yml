@@ -85,7 +85,7 @@ references:
         replicaCount: 1
         image:
           repository: bitnamilegacy/rabbitmq
-          tag: "3.8.35"
+          tag: "3.8.5"
         ulimitNofiles: 32768
 
   qa_automation_image: &qa_automation_image

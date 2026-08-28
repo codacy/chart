@@ -321,7 +321,7 @@ rabbitmq-ha:
     - docker-credentials
   image:
     repository: bitnamilegacy/rabbitmq
-    tag: "3.8.35"
+    tag: "3.8.5"
   auth:
     username: rabbitmq-codacy
     password: CHANGEME
