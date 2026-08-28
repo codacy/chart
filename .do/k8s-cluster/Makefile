@@ -8,7 +8,9 @@ VARS_FILE ?= deploy.tfvars
 NGINX_INGRESS_VERSION ?= 4.11.3
 CERT_MANAGER_VERSION ?= v1.15.3
 K8S_VERSION ?= 1.33
-DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | grep $(K8S_VERSION) | awk '{print $$1}')
+# Resolve the newest DO slug for K8S_VERSION. Anchored on the Slug column and
+# limited to a single result, so an unexpected match can't corrupt the tfvars.
+DO_K8S_SLUG ?= $(shell doctl kubernetes options versions | awk 'NR>1 && $$1 ~ /^$(K8S_VERSION)\./ {print $$1; exit}')
 NODE_TYPE ?= s-8vcpu-32gb
 NODES_MIN ?= 1
 NODES_MAX ?= 10
@@ -30,6 +32,12 @@ setup_vars:
 	@echo "docker_password = [REDACTED]"
 	@echo "docker_password = \"$(DOCKER_PASSWORD)\"" >> $(VARS_FILE)
 
+	@test -n "$(DO_K8S_SLUG)" || { \
+		echo "ERROR: could not resolve a DigitalOcean k8s slug for K8S_VERSION=$(K8S_VERSION)."; \
+		echo "DigitalOcean only offers the most recent minor versions. Available:"; \
+		doctl kubernetes options versions; \
+		exit 1; \
+	}
 	@echo "k8s_version = \"$(DO_K8S_SLUG)\"" >> $(VARS_FILE)
 	@echo "node_type = \"$(NODE_TYPE)\"" >> $(VARS_FILE)
 	@echo "nodes_min = $(NODES_MIN)" >> $(VARS_FILE)
