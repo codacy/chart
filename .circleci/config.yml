@@ -333,7 +333,7 @@ references:
       - codacy/run_skip_ssh:
           cmd_name: Install Codacy
           cmd: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
-	  no_output_timeout: 15m
+          no_output_timeout: 15m
 
   helm_push: &helm_push
     steps:
