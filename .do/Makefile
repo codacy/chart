@@ -85,7 +85,7 @@ update_ingress_values:
 deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies clean_jobs helm_install_from_local_dir
 
 .PHONY: clean_jobs
 clean_jobs:
