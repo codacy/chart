@@ -85,10 +85,14 @@ update_ingress_values:
 deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies clean_jobs helm_install_from_local_dir
+
+.PHONY: clean_jobs
+clean_jobs:
+	-kubectl delete jobs -l app.kubernetes.io/instance=${RELEASE_NAME} --ignore-not-found=true
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos clean_jobs helm_install_from_chart_museum
 
 .PHONY: set_cluster_context
 set_cluster_context:
