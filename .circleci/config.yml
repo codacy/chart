@@ -332,7 +332,7 @@ references:
       - <<: *doctl_authenticate
       - run:
           name: Install Codacy
-          no_output_timeout: 15m
+          no_output_timeout: 30m
           command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
 
   helm_push: &helm_push
