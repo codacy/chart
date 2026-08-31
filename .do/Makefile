@@ -89,7 +89,7 @@ deploy_to_doks_from_local_dir: set_cluster_context update_dependencies clean_job
 
 .PHONY: clean_jobs
 clean_jobs:
-	-kubectl delete jobs -l app.kubernetes.io/instance=${RELEASE_NAME} --ignore-not-found=true
+	-kubectl delete jobs -l app.kubernetes.io/instance=${RELEASE_NAME} --namespace ${NAMESPACE} --ignore-not-found=true
 
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos clean_jobs helm_install_from_chart_museum
