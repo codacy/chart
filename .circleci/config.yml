@@ -351,6 +351,8 @@ references:
             helm dep build ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
+            echo "Removing existing chart version from chart museum (if present)..."
+            curl -s -u "${CHARTS_REPO_USER}:${CHARTS_REPO_PASS}" -X DELETE "https://charts.codacy.com/${CHANNEL}/api/charts/codacy/$(cat .version)" || true
             helm push ./codacy ${HELM_REPOSITORY}
       - <<: *persist_to_workspace
 
