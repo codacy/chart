@@ -14,7 +14,7 @@ metadata:
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
-  backoffLimit: 3
+  backoffLimit: 0
   template:
     metadata:
       name: "{{ .Release.Name }}"
@@ -35,21 +35,32 @@ spec:
           - |
             ENDPOINT="http://{{ .Values.global.minio.location }}:{{ .Values.global.minio.port }}"
             BUCKET="{{ .Values.fluentdoperator.bucketName }}"
-            LIFECYCLE='{"Rules":[{"Expiration":{"Days": {{ .Values.fluentdoperator.expirationDays }} },"Filter":{},"ID":"Delete old logs","Status":"Enabled"}]}'
-            MAX_WAIT=600
+            LIFECYCLE='{"Rules":[{"Expiration":{"Days": {{ .Values.fluentdoperator.expirationDays }} },"ID":"Delete old logs","Status":"Enabled"}]}'
+            MAX_WAIT=1200
             ELAPSED=0
-            echo "Waiting for MinIO at ${ENDPOINT}..."
-            until aws s3 ls --endpoint-url "${ENDPOINT}" > /dev/null 2>&1; do
+            echo "Waiting for MinIO bucket ${BUCKET} at ${ENDPOINT}..."
+            until aws s3api head-bucket --bucket "${BUCKET}" --endpoint-url "${ENDPOINT}" > /dev/null 2>&1; do
               if [ "${ELAPSED}" -ge "${MAX_WAIT}" ]; then
-                echo "Timed out waiting for MinIO after ${MAX_WAIT}s"
+                echo "Timed out waiting for MinIO bucket after ${MAX_WAIT}s"
                 exit 1
               fi
+              echo "Bucket not ready yet (${ELAPSED}s elapsed), retrying in 10s..."
               sleep 10
               ELAPSED=$((ELAPSED + 10))
             done
-            echo "MinIO is ready. Setting lifecycle configuration on bucket ${BUCKET}..."
-            aws s3api put-bucket-lifecycle-configuration \
+            echo "MinIO bucket ${BUCKET} is ready. Setting lifecycle configuration..."
+            RETRY=0
+            until aws s3api put-bucket-lifecycle-configuration \
               --bucket "${BUCKET}" \
               --endpoint-url "${ENDPOINT}" \
-              --lifecycle-configuration "${LIFECYCLE}"
+              --lifecycle-configuration "${LIFECYCLE}"; do
+              RETRY=$((RETRY + 1))
+              if [ "${RETRY}" -ge 5 ]; then
+                echo "Failed to set lifecycle configuration after ${RETRY} attempts"
+                exit 1
+              fi
+              echo "Lifecycle config failed, retrying in 10s (attempt ${RETRY}/5)..."
+              sleep 10
+            done
+            echo "Lifecycle configuration set successfully."
 {{ end }}
