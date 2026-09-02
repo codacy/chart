@@ -35,7 +35,7 @@ spec:
           - |
             ENDPOINT="http://{{ .Values.global.minio.location }}:{{ .Values.global.minio.port }}"
             BUCKET="{{ .Values.fluentdoperator.bucketName }}"
-            LIFECYCLE='{"Rules":[{"Expiration":{"Days": {{ .Values.fluentdoperator.expirationDays }} },"ID":"Delete old logs","Status":"Enabled"}]}'
+            LIFECYCLE='{"Rules":[{"Expiration":{"Days": {{ .Values.fluentdoperator.expirationDays }} },"Filter":{},"ID":"Delete old logs","Status":"Enabled"}]}'
             MAX_WAIT=1200
             ELAPSED=0
             echo "Waiting for MinIO bucket ${BUCKET} at ${ENDPOINT}..."
