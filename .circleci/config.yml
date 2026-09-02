@@ -513,6 +513,47 @@ jobs:
           command: cat .version
       - <<: *persist_to_workspace
 
+  tag_version_ssh:
+    <<: *default_doks_image
+    parameters:
+      version:
+        type: string
+        default: ""
+      force:
+        type: boolean
+        default: false
+    steps:
+      - <<: *attach_workspace
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: Setup SSH
+          command: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: Set Git Config
+          command: |
+            git config --global user.email "circleci@codacy.com"
+            git config --global user.name "CircleCI"
+            git remote set-url origin git@github.com:codacy/chart.git
+      - run:
+          name: Fetch Tags
+          command: git fetch --tags
+      - run:
+          name: Tag
+          command: |
+            TAG="<< parameters.version >>"
+            if [ -z "$TAG" ]; then
+              TAG=$(cat .version)
+            fi
+            if [ "<< parameters.force >>" = "true" ]; then
+              git tag -f "$TAG"
+              git push origin -f "refs/tags/$TAG"
+            else
+              git tag "$TAG"
+              git push origin "refs/tags/$TAG"
+            fi
+
   build_docs:
     docker:
       - image: circleci/python:3.8
@@ -812,7 +853,7 @@ workflows:
           requires:
             - manual_qa_hold
             - manual_solutions_eng_hold
-      - codacy/tag_version:
+      - tag_version_ssh:
           name: tag_version
           context: CodacyDO
           requires:
@@ -826,7 +867,7 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
-      - codacy/tag_version:
+      - tag_version_ssh:
           name: tag_version_latest
           context: CodacyDO
           version: latest
