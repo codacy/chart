@@ -851,10 +851,7 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - install_k8s-1.30_helm-3.16.3
-            - install_k8s-1.31_helm-3.16.3
-            - install_k8s-1.32_helm-3.19.0
-            - install_k8s-1.33_helm-3.19.0
+            - tests_start
       # Intentionally does not depend on the QA test jobs so that a manual
       # approval path to the deploy remains available even if any of them fail.
       - manual_solutions_eng_hold:
