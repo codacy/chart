@@ -554,6 +554,15 @@ jobs:
               git push origin "refs/tags/$TAG"
             fi
 
+  tests_start:
+    docker:
+      - image: codacy/ci-base:1.0.1
+    working_directory: ~/workdir/
+    steps:
+      - run:
+          name: All microk8s installs are green
+          command: echo "microk8s install jobs finished successfully - starting QA tests"
+
   build_docs:
     docker:
       - image: circleci/python:3.8
@@ -793,20 +802,28 @@ workflows:
           requires:
             - helm_push_incubator
 
+      - tests_start:
+          requires:
+            - deploy_to_doks_release
+            - install_k8s-1.30_helm-3.16.3
+            - install_k8s-1.31_helm-3.16.3
+            - install_k8s-1.32_helm-3.19.0
+            - install_k8s-1.33_helm-3.19.0
+
       - test_api:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_apiv3:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_check_cookies_expired_releases_k8s:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_web:
           context: CodacyAWS
