@@ -81,6 +81,8 @@ references:
       minio:
         persistence:
           size: 10Gi
+        accessKey: ${MINIO_ACCESS_KEY}
+        secretKey: ${MINIO_SECRET_KEY}
       rabbitmq-ha:
         replicaCount: 1
         ulimitNofiles: 32768

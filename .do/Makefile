@@ -2,6 +2,8 @@ CODACY_URL?="https://dev.k8s.dev.codacy.org"
 GRAFANA_URL?="https://grafana.k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
+MINIO_ACCESS_KEY=$(shell openssl rand -hex 14)
+MINIO_SECRET_KEY=$(shell openssl rand -hex 14)
 HELM_REPOSITORY?=codacy-incubator
 DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
 WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
@@ -17,6 +19,8 @@ define call_helm_install
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
+	--set global.minio.secretKey=$${MINIO_SECRET_KEY} \
+	--set global.minio.accessKey=$${MINIO_ACCESS_KEY} \
 	--set global.imagePullSecrets[0].name=docker-credentials \
 	--set global.play.cryptoSecret=$${SHARED_PLAY_CRYPTO_SECRET} \
 	--set global.akka.sessionSecret=$${SHARED_AKKA_SESSION_SECRET} \
@@ -43,6 +47,8 @@ define call_helm_install_infrastructure
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
+	--set global.minio.secretKey=$${MINIO_SECRET_KEY} \
+  --set global.minio.accessKey=$${MINIO_ACCESS_KEY} \
 	--set codacy-ingress.create=false \
 	--set portal.create=false \
 	--set ragnaros.create=false \
