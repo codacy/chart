@@ -651,7 +651,7 @@ workflows:
           chart_version: $(cat .version)
           microk8s_channel: "1.33/stable"
           helm_version: "v3.19.0"
-          helm_timeout: 1200
+          helm_timeout: 3600
           context: CodacyDocker
           docker_username: $DOCKER_USER
           docker_password: $DOCKER_PASS
