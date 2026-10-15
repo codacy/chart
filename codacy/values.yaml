@@ -340,6 +340,9 @@ rabbitmq-ha:
   extraConfiguration: |
     management.load_definitions = /app/load_definition.json
     log.console.level = debug
+  extraEnvVars:
+    - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+      value: "+S 2:2"
 
 postgres:
   fullnameOverride: codacy-postgres
