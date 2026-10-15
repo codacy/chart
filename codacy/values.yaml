@@ -335,6 +335,9 @@ rabbitmq-ha:
     existingSecret: rabbitmq-load-definition
   extraConfiguration: |
     management.load_definitions = /app/load_definition.json
+  extraEnvVars:
+    - name: RABBITMQ_LOG
+      value: "debug"
 
 postgres:
   fullnameOverride: codacy-postgres
