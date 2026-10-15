@@ -83,6 +83,9 @@ references:
           size: 10Gi
       rabbitmq-ha:
         replicaCount: 1
+        image:
+          repository: bitnamilegacy/rabbitmq
+          tag: "3.8.5"
         ulimitNofiles: 32768
 
   qa_automation_image: &qa_automation_image
@@ -327,9 +330,10 @@ references:
     steps:
       - <<: *attach_workspace
       - <<: *doctl_authenticate
-      - codacy/run_skip_ssh:
-          cmd_name: Install Codacy
-          cmd: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
+      - run:
+          name: Install Codacy
+          no_output_timeout: 30m
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version)
 
   helm_push: &helm_push
     steps:
@@ -347,6 +351,8 @@ references:
             helm dep build ./codacy
             echo "Adding 'https://charts.codacy.com/${CHANNEL}'"
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
+            echo "Removing existing chart version from chart museum (if present)..."
+            curl -s -u "${CHARTS_REPO_USER}:${CHARTS_REPO_PASS}" -X DELETE "https://charts.codacy.com/${CHANNEL}/api/charts/codacy/$(cat .version)" || true
             helm push ./codacy ${HELM_REPOSITORY}
       - <<: *persist_to_workspace
 
@@ -506,6 +512,56 @@ jobs:
           name: Print version
           command: cat .version
       - <<: *persist_to_workspace
+
+  tag_version_ssh:
+    <<: *default_doks_image
+    parameters:
+      version:
+        type: string
+        default: ""
+      force:
+        type: boolean
+        default: false
+    steps:
+      - <<: *attach_workspace
+      - add_ssh_keys:
+          fingerprints:
+            - "df:83:d7:c7:d5:79:06:c2:3b:d1:fd:e2:a3:d1:12:c5"
+      - run:
+          name: Setup SSH
+          command: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: Set Git Config
+          command: |
+            git config --global user.email "circleci@codacy.com"
+            git config --global user.name "CircleCI"
+            git remote set-url origin git@github.com:codacy/chart.git
+      - run:
+          name: Fetch Tags
+          command: git fetch --tags
+      - run:
+          name: Tag
+          command: |
+            TAG="<< parameters.version >>"
+            if [ -z "$TAG" ]; then
+              TAG=$(cat .version)
+            fi
+            if [ "<< parameters.force >>" = "true" ]; then
+              git tag -f "$TAG"
+              git push origin -f "refs/tags/$TAG"
+            else
+              git tag "$TAG"
+              git push origin "refs/tags/$TAG"
+            fi
+
+  tests_start:
+    docker:
+      - image: codacy/ci-base:1.0.1
+    working_directory: ~/workdir/
+    steps:
+      - run:
+          name: All microk8s installs are green
+          command: echo "microk8s install jobs finished successfully - starting QA tests"
 
   build_docs:
     docker:
@@ -746,20 +802,28 @@ workflows:
           requires:
             - helm_push_incubator
 
+      - tests_start:
+          requires:
+            - deploy_to_doks_release
+            - install_k8s-1.30_helm-3.16.3
+            - install_k8s-1.31_helm-3.16.3
+            - install_k8s-1.32_helm-3.19.0
+            - install_k8s-1.33_helm-3.19.0
+
       - test_api:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_apiv3:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_check_cookies_expired_releases_k8s:
           context: CodacyAWS
           requires:
-            - deploy_to_doks_release
+            - tests_start
 
       - test_web:
           context: CodacyAWS
@@ -787,10 +851,7 @@ workflows:
           type: approval
           context: CodacyDO
           requires:
-            - install_k8s-1.30_helm-3.16.3
-            - install_k8s-1.31_helm-3.16.3
-            - install_k8s-1.32_helm-3.19.0
-            - install_k8s-1.33_helm-3.19.0
+            - tests_start
       # Intentionally does not depend on the QA test jobs so that a manual
       # approval path to the deploy remains available even if any of them fail.
       - manual_solutions_eng_hold:
@@ -806,7 +867,7 @@ workflows:
           requires:
             - manual_qa_hold
             - manual_solutions_eng_hold
-      - codacy/tag_version:
+      - tag_version_ssh:
           name: tag_version
           context: CodacyDO
           requires:
@@ -820,7 +881,7 @@ workflows:
           target_charts_repo_url: "https://charts.codacy.com/stable"
           requires:
             - tag_version
-      - codacy/tag_version:
+      - tag_version_ssh:
           name: tag_version_latest
           context: CodacyDO
           version: latest

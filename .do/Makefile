@@ -13,7 +13,7 @@ define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=900s \
+	--timeout=1500s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
@@ -85,10 +85,17 @@ update_ingress_values:
 deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies clean_jobs helm_install_from_local_dir
+
+.PHONY: clean_jobs
+clean_jobs:
+	-kubectl delete jobs -l app.kubernetes.io/instance=${RELEASE_NAME} --namespace ${NAMESPACE} --ignore-not-found=true
+	-kubectl delete jobs -l release=${RELEASE_NAME} --namespace ${NAMESPACE} --ignore-not-found=true
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos
+	-$(MAKE) clean_jobs
+	$(MAKE) helm_install_from_chart_museum || ($(MAKE) clean_jobs && $(MAKE) helm_install_from_chart_museum)
 
 .PHONY: set_cluster_context
 set_cluster_context:
