@@ -325,6 +325,10 @@ rabbitmq-ha:
   auth:
     username: rabbitmq-codacy
     password: CHANGEME
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
   prometheus:
     operator:
       enabled: false
