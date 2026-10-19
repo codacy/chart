@@ -1,7 +1,7 @@
 .PHONY: setup_helm_repos
 setup_helm_repos:
 	# Add legacy Bitnami snapshot repo used by requirements.yaml (apiVersion v1)
-	helm repo add stable https://charts.helm.sh/stable
+	helm repo add rustfs https://charts.rustfs.com
 	helm repo add codacy-stable https://charts.codacy.com/stable
 	helm repo add codacy-unstable https://charts.codacy.com/unstable
 	helm repo add codacy-incubator https://charts.codacy.com/incubator
