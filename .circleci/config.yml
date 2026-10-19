@@ -346,6 +346,12 @@ references:
       - run:
           name: Push to charts museum
           command: |
+            # TEMPORARY DIAGNOSTIC - remove once confirmed: which helm is on PATH
+            # in this job's image (codacy/ci-base:1.0.1), to verify whether the
+            # "apiVersion 'v2' is not valid" failure on `helm push` is a Helm 2
+            # client in this image rather than ChartMuseum itself.
+            which helm
+            helm version --client
             make setup_helm_repos
             if [ -f requirements.lock ] ; then rm -v requirements.lock; fi
             helm dep build ./codacy
