@@ -120,9 +120,15 @@ global:
 
   cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
 
+  # Object storage (S3-compatible). Backed by the bundled RustFS subchart
+  # (see the `rustfs:` block below) unless global.minio.create is false.
+  # Keeping the `minio` key name here on purpose: every other subchart
+  # (engine, api, listener, fluentd, ...) reads global.minio.* to reach
+  # whatever S3-compatible store is actually running, so renaming it would
+  # require changes across those repos too.
   minio:
     create: true
-    location: codacy-minio
+    location: codacy-rustfs-svc
     port: 9000
     accessKey: "AKIAIOSFODNN7EXAMPLE"
     secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
@@ -363,30 +369,74 @@ postgres:
       CREATE DATABASE listener WITH OWNER=codacy;
       CREATE DATABASE crow WITH OWNER=codacy;
 
-minio:
-  fullnameOverride: codacy-minio
-  persistence:
-    size: 40Gi
-  minioConfig:
-    region: "eu-west-1"
-  buckets:
-  - name: "analysis"
-    policy: "public"
-    purge: "false"
-  - name: "coverage"
-    policy: "public"
-    purge: "false"
-  - name: "cli-reports"
-    policy: "public"
-    purge: "false"
-  - name: "commit-diff"
-    policy: "public"
-    purge: "false"
-  - name: "logs"
-    policy: "public"
-    purge: "false"
-  defaultBucket:
+# Bundled RustFS object store, replacing MinIO (its upstream images are no
+# longer published on Docker Hub/Quay). Joins the `codacy-rustfs-svc` Service
+# that global.minio.location points consumers at.
+#
+# IMPORTANT: secret.rustfs.access_key/secret_key below MUST be identical to
+# global.minio.accessKey/secretKey above. If you change one, change both.
+rustfs:
+  fullnameOverride: codacy-rustfs
+  mode:
+    standalone:
+      enabled: true
+    distributed:
+      enabled: false
+  replicaCount: 1
+  ingress:
     enabled: false
+  storageclass:
+    name: ""
+    dataStorageSize: 40Gi
+  resources:
+    requests:
+      memory: 1.5Gi
+  config:
+    rustfs:
+      region: "eu-west-1"
+  secret:
+    rustfs:
+      access_key: "AKIAIOSFODNN7EXAMPLE"
+      secret_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  # Creates the buckets Codacy needs once RustFS is up (runs as part of
+  # `helm install`/`helm upgrade`), replacing MinIO's own bucket-creation hook.
+  extraManifests:
+    - apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: '{{ include "rustfs.fullname" . }}-codacy-buckets'
+        annotations:
+          helm.sh/hook: post-install,post-upgrade
+          helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+      spec:
+        backoffLimit: 6
+        template:
+          spec:
+            restartPolicy: Never
+            containers:
+              - name: make-buckets
+                image: amazon/aws-cli:2.17.0
+                env:
+                  - name: S3
+                    value: 'aws s3api --endpoint-url http://{{ include "rustfs.fullname" . }}-svc:9000'
+                  - name: AWS_DEFAULT_REGION
+                    value: eu-west-1
+                  - name: AWS_ACCESS_KEY_ID
+                    valueFrom: { secretKeyRef: { name: '{{ include "rustfs.secretName" . }}', key: RUSTFS_ACCESS_KEY } }
+                  - name: AWS_SECRET_ACCESS_KEY
+                    valueFrom: { secretKeyRef: { name: '{{ include "rustfs.secretName" . }}', key: RUSTFS_SECRET_KEY } }
+                command: ["sh", "-ec"]
+                args:
+                  - |
+                    until $S3 list-buckets >/dev/null 2>&1; do echo "waiting for RustFS..."; sleep 5; done
+                    for b in analysis coverage cli-reports commit-diff logs; do
+                      $S3 head-bucket --bucket "$b" 2>/dev/null || $S3 create-bucket --bucket "$b"
+                      echo "bucket $b ready"
+                    done
+                    B=codacy-api-repository-list-bucket
+                    $S3 head-bucket --bucket "$B" 2>/dev/null || $S3 create-bucket --bucket "$B"
+                    $S3 put-bucket-lifecycle-configuration --bucket "$B" --lifecycle-configuration '{"Rules":[{"ID":"Expire repository lists","Status":"Enabled","Filter":{"Prefix":""},"Expiration":{"Days":90}}]}'
+                    echo "bucket $B ready (90-day expiry)"
 
 worker-manager:
   create: true
