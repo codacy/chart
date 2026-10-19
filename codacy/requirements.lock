@@ -1,7 +1,7 @@
 dependencies:
-- name: minio
-  repository: https://charts.helm.sh/stable
-  version: 5.0.33
+- name: rustfs
+  repository: https://charts.rustfs.com
+  version: 1.0.3
 - name: rabbitmq
   repository: https://raw.githubusercontent.com/bitnami/charts/defb094c658024e4aa8245622dab202874880cbc/bitnami
   version: 7.5.7
@@ -44,5 +44,5 @@ dependencies:
 - name: codacy-spa-sh
   repository: https://charts.codacy.com/stable
   version: 1.2.4
-digest: sha256:d19e971e5160470800251d2660f063c96c00de20180c13c2f7c7e90375c52862
-generated: "2026-08-28T14:29:21.804571894+01:00"
+digest: sha256:91d83849549e626e4f4fb81fa537300ab3c422abd43ef8e3216aac411c65d148
+generated: "2026-10-19T14:36:58.131766+01:00"

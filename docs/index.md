@@ -104,7 +104,7 @@ Install Codacy on an existing cluster using our Helm chart:
     codacy-fluentdoperator-x5vr2                    2/2     Running   0          8m57s
     codacy-listener-868b784dcf-npdfh                1/1     Running   0          8m57s
     codacy-listenerdb-0                             1/1     Running   0          8m57s
-    codacy-minio-7cfdc7b4f4-254gz                   1/1     Running   0          8m57s
+    codacy-rustfs-7cfdc7b4f4-254gz                  1/1     Running   0          8m57s
     codacy-nfsserverprovisioner-0                   1/1     Running   0          8m57s
     codacy-portal-774d9fc596-rwqj5                  1/1     Running   2          8m56s
     codacy-rabbitmq-ha-0                            1/1     Running   0          8m57s

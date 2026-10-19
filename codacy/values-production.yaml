@@ -328,10 +328,9 @@ rabbitmq-ha:
       cpu: 0.2
       memory: 200Mi
 
-minio:
-  persistence:
-    enabled: true
-    size: 40Gi
+rustfs:
+  storageclass:
+    dataStorageSize: 40Gi
   resources:
     requests:
       memory: 1.5Gi

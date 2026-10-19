@@ -78,9 +78,9 @@ references:
           persistence:
             size: 10Gi
 
-      minio:
-        persistence:
-          size: 10Gi
+      rustfs:
+        storageclass:
+          dataStorageSize: 10Gi
       rabbitmq-ha:
         replicaCount: 1
         image:
