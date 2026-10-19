@@ -54,6 +54,7 @@ define call_helm_install_infrastructure
 	--set worker-manager.create=false \
 	--set crow.create=false \
 	--set codacy-spa.create=false
+	kubectl patch statefulset codacy-release-nfsserverprovisioner -n ${2} --patch-file nfs-patch.yaml
 endef
 
 .PHONY: setup_helm_repos

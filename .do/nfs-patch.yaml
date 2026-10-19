@@ -1,0 +1,10 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: rabbitmq
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - ulimit -n 65536 && exec /nfs-provisioner -provisioner=cluster.local/codacy-release-nfsserverprovisioner

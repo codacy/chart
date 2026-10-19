@@ -343,18 +343,11 @@ rabbitmq-ha:
   loadDefinition: # Loads rabbitmq-secret.yaml to ensure that all queues are created upon rabbitmq restart.
     enabled: true
     existingSecret: rabbitmq-load-definition
-  command:
-    - "sleep"
-  args:
-    - "infinity"
   extraConfiguration: |
     management.load_definitions = /app/load_definition.json
-    log.console.level = debug
-    total_memory_available_override_value = 10066329604
-    vm_memory_high_watermark.relative = 0.4
   extraEnvVars:
-    - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
-      value: "+S 2:2"
+    - name: ERL_MAX_PORTS
+      value: "65536"
 
 postgres:
   fullnameOverride: codacy-postgres
