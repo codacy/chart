@@ -356,8 +356,8 @@ references:
             # TEMPORARY DIAGNOSTIC - remove once captured. Checking whether
             # the helm-push plugin baked into this image predates v0.8.0,
             # the version that added proper Helm 3 (apiVersion v2) support.
-            echo "helm-push plugin version:"
-            helm push --version || true
+            echo "installed helm plugins:"
+            helm plugin list || true
             helm push ./codacy ${HELM_REPOSITORY}
       - <<: *persist_to_workspace
 
