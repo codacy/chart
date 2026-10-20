@@ -335,6 +335,18 @@ rabbitmq-ha:
     enabled: true
     type: relative
     value: 0.4
+  # memoryHighWatermark.enabled above requires resources.limits.memory to be
+  # set to a valid Kubernetes quantity string - the rabbitmq-ha subchart's
+  # own toBytes helper renders it directly and errors on a nil/unset value.
+  # Every other subchart in this file sets its own limits/requests; this one
+  # didn't, so a bare `helm install` with no values override crashed here.
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1200Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
   prometheus:
     operator:
       enabled: false
