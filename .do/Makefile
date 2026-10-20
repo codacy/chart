@@ -61,16 +61,27 @@ endef
 setup_helm_repos:
 	$(MAKE) -C ../ setup_helm_repos
 
+.PHONY: ensure_modern_helm
+ensure_modern_helm:
+	# codacy/ci-do bakes in helm v3.2.1 (2020), whose template parser cannot
+	# read modern apiVersion v2 charts with multi-line template actions (e.g.
+	# the rustfs dependency) - fails with "parse error ...: unclosed action".
+	# Replace it with a current build before installing anything.
+	curl -fsSL https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz | tar xz -C /tmp
+	mv /tmp/linux-amd64/helm /usr/local/bin/helm
+	rm -rf /tmp/linux-amd64
+	helm version --short
+
 .PHONY: helm_install_infrastructure
-helm_install_infrastructure:
+helm_install_infrastructure: ensure_modern_helm
 	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_local_dir
-helm_install_from_local_dir: update_ingress_values
+helm_install_from_local_dir: update_ingress_values ensure_modern_helm
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_chart_museum
-helm_install_from_chart_museum: update_ingress_values
+helm_install_from_chart_museum: update_ingress_values ensure_modern_helm
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: update_dependencies
