@@ -353,12 +353,14 @@ references:
             helm repo add --username "${CHARTS_REPO_USER}" --password "${CHARTS_REPO_PASS}" ${HELM_REPOSITORY} https://charts.codacy.com/${CHANNEL}
             echo "Removing existing chart version from chart museum (if present)..."
             curl -s -u "${CHARTS_REPO_USER}:${CHARTS_REPO_PASS}" -X DELETE "https://charts.codacy.com/${CHANNEL}/api/charts/codacy/$(cat .version)" || true
-            # TEMPORARY DIAGNOSTIC - remove once captured. Checking whether
-            # the helm-push plugin baked into this image predates v0.8.0,
-            # the version that added proper Helm 3 (apiVersion v2) support.
-            echo "installed helm plugins:"
-            helm plugin list || true
-            helm push ./codacy ${HELM_REPOSITORY}
+            # The bundled helm-push 0.9.0 fails on a v1 parent chart (ours)
+            # depending on a v2 subchart (rustfs) - it loads v1 parents with
+            # an old Helm 2 library that can't read v2 subcharts
+            # (chartmuseum/helm-push#93). Fixed and renamed to cm-push in
+            # v0.10.0+.
+            helm plugin uninstall push || true
+            helm plugin install https://github.com/chartmuseum/helm-push --version v0.10.4
+            helm cm-push ./codacy ${HELM_REPOSITORY}
       - <<: *persist_to_workspace
 
   qa_job: &qa_job
