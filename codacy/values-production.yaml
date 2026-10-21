@@ -313,6 +313,9 @@ codacy-spa:
 
 rabbitmq-ha:
   replicaCount: 1
+  extraEnvVars:
+    - name: ERL_MAX_PORTS
+      value: "65536"
   image:
     repository: bitnamilegacy/rabbitmq
     tag: "3.8.5"
