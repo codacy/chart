@@ -33,6 +33,7 @@ define call_helm_install
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
 	"$${extra_args[@]}"
+	kubectl patch statefulset codacy-release-nfsserverprovisioner -n ${2} --patch-file nfs-patch.yaml
 endef
 
 define call_helm_install_infrastructure
@@ -54,7 +55,6 @@ define call_helm_install_infrastructure
 	--set worker-manager.create=false \
 	--set crow.create=false \
 	--set codacy-spa.create=false
-	kubectl patch statefulset codacy-release-nfsserverprovisioner -n ${2} --patch-file nfs-patch.yaml
 endef
 
 .PHONY: setup_helm_repos

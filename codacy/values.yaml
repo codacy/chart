@@ -342,11 +342,11 @@ rabbitmq-ha:
   # didn't, so a bare `helm install` with no values override crashed here.
   resources:
     limits:
-      cpu: 500m
-      memory: 1200Mi
+      cpu: 1500m
+      memory: 1600Mi
     requests:
-      cpu: 200m
-      memory: 200Mi
+      cpu: 1000m
+      memory: 1000Mi
   prometheus:
     operator:
       enabled: false
