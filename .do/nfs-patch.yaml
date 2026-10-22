@@ -1,8 +1,9 @@
 spec:
   template:
     spec:
+      replicas: 1
       containers:
-        - name: rabbitmq
+        - name: nfsserverprovisioner
           command:
             - /bin/sh
             - -c
