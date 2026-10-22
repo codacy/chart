@@ -317,10 +317,10 @@ rabbitmq-ha:
   extraEnvVars:
     - name: ERL_MAX_PORTS
       value: "65536"
-  livenessProbe:
-    enabled: false
-  readinessProbe:
-    enabled: false
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
   image:
     repository: bitnamilegacy/rabbitmq
     tag: "3.8.5"
