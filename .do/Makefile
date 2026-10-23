@@ -14,7 +14,7 @@ define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=2100s \
+	--timeout=2400s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
