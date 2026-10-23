@@ -8,6 +8,7 @@ WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep ve
 HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
+LISTENER_REPLICAS?=1
 
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
@@ -34,6 +35,7 @@ define call_helm_install
 	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
 	"$${extra_args[@]}"
 	kubectl patch statefulset codacy-release-nfsserverprovisioner -n ${2} --patch-file nfs-patch.yaml
+	kubectl scale deploy --replicas=${LISTENER_REPLICAS} -n ${2} codacy-listener
 endef
 
 define call_helm_install_infrastructure

@@ -225,7 +225,7 @@ remote-provider-service:
       memory: 3000Mi
 
 listener:
-  replicaCount: 2
+  replicaCount: 0
   resources:
     limits:
       cpu: 2
