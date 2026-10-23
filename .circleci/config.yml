@@ -333,7 +333,7 @@ references:
       - run:
           name: Install Codacy
           no_output_timeout: 30m
-          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version) LISTENER_REPLICAS=2
+          command: make -e -C .do/ deploy_to_doks_from_chartmuseum VERSION=$(cat .version) LISTENER_REPLICAS=1
 
   helm_push: &helm_push
     steps:
