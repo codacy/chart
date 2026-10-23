@@ -225,7 +225,7 @@ remote-provider-service:
       memory: 3000Mi
 
 listener:
-  replicaCount: 2
+  replicaCount: 0
   resources:
     limits:
       cpu: 2
@@ -247,6 +247,7 @@ listener:
       size: 140Gi
   nfsserverprovisioner:
     enabled: true
+    replicaCount: 0
     persistence:
       enabled: true
       size: 200Gi
@@ -313,22 +314,35 @@ codacy-spa:
 
 rabbitmq-ha:
   replicaCount: 1
+  extraEnvVars:
+    - name: ERL_MAX_PORTS
+      value: "65536"
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.5"
   rabbitmqErlangCookie:  <--- erlang-cookie ---> # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
   persistentVolume:
     enabled: true
     size: 8Gi
   resources:
     limits:
-      cpu: 500m
-      memory: 1200Mi
+      cpu: 1500m
+      memory: 1600Mi
     requests:
-      cpu: 0.2
-      memory: 200Mi
+      cpu: 1000m
+      memory: 1000Mi
 
-minio:
-  persistence:
-    enabled: true
-    size: 40Gi
+rustfs:
+  storageclass:
+    dataStorageSize: 40Gi
   resources:
     requests:
       memory: 1.5Gi

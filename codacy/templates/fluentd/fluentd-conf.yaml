@@ -47,7 +47,7 @@ data:
       # Bucket configuration
       s3_endpoint http://{{ .Values.global.minio.location }}:9000
       s3_bucket {{ .Values.fluentdoperator.bucketName }}
-      force_path_style true # This prevents AWS SDK from breaking endpoint URL for minio
+      force_path_style true # This prevents AWS SDK from breaking endpoint URL for the S3-compatible object store
 
       # HACK: Do not check s3 connection and bucket existence
       #       If reloader fails by any means it will not propagate config to fluentd
@@ -62,7 +62,7 @@ data:
       path ${container_name}/${pod_name}/%Y-%m-%d
       s3_object_key_format %{path}_%{index}.%{file_extension}
 
-      # Does not work (possibly due to a minio incompatiblity)
+      # Does not work (possibly due to an S3-compatible store incompatiblity)
       # As a workaround we are using a helm hook to create the lifecycle policy
       # <bucket_lifecycle_rule>
       #   id retention-policy

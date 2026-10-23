@@ -1,13 +1,13 @@
 dependencies:
-- name: minio
-  version: 5.0.33
-  repository: https://charts.helm.sh/stable
+- name: rustfs
+  version: 1.0.3
+  repository: https://charts.rustfs.com
   condition: global.minio.create
-  alias: minio
+  alias: rustfs
 
 - name: rabbitmq
   version: 7.5.7
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/defb094c658024e4aa8245622dab202874880cbc/bitnami
   condition: global.rabbitmq.create
   alias: rabbitmq-ha
 

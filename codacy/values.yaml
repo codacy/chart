@@ -28,9 +28,9 @@ global:
     # Trial license. Valid for 4 users until the end of 2030
     license: "lV5QUFrZhlibdCP/MN8pZo76B3jhPeL/RAk4E2AL2WZlGI8Vno/LfvAwnSHm26uY817I3qvEjfhIZFCkDi8R6PngiB+UiT+h8W0Blica8Sp+d5ngnh9HuhTG6xAIf7gAQxyJpn3boV87CKTO+5nHYSeJccMd+s8esMxoS84Z2xI="
     installation:
-      version: development
+      version: v17.0.0-RC-0
     documentation:
-      version: development
+      version: v17.0
 
   # github:
   #   enabled: "false"
@@ -101,7 +101,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: stable
+        imageVersion: sh-1.2.1
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
@@ -120,9 +120,15 @@ global:
 
   cacheSecret: "PLEASE_CHANGE_ME" # Generate one with `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`
 
+  # Object storage (S3-compatible). Backed by the bundled RustFS subchart
+  # (see the `rustfs:` block below) unless global.minio.create is false.
+  # Keeping the `minio` key name here on purpose: every other subchart
+  # (engine, api, listener, fluentd, ...) reads global.minio.* to reach
+  # whatever S3-compatible store is actually running, so renaming it would
+  # require changes across those repos too.
   minio:
     create: true
-    location: codacy-minio
+    location: codacy-rustfs-svc
     port: 9000
     accessKey: "AKIAIOSFODNN7EXAMPLE"
     secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
@@ -318,13 +324,29 @@ rabbitmq-ha:
   fullnameOverride: codacy-rabbitmq-ha
   global:
     imagePullSecrets:
-      - docker-credentials
+    - docker-credentials
   image:
     repository: bitnamilegacy/rabbitmq
-    tag: "3.8.35-debian-11-r5"
+    tag: "3.8.5"
   auth:
     username: rabbitmq-codacy
     password: CHANGEME
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
+  # memoryHighWatermark.enabled above requires resources.limits.memory to be
+  # set to a valid Kubernetes quantity string - the rabbitmq-ha subchart's
+  # own toBytes helper renders it directly and errors on a nil/unset value.
+  # Every other subchart in this file sets its own limits/requests; this one
+  # didn't, so a bare `helm install` with no values override crashed here.
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 1600Mi
+    requests:
+      cpu: 1000m
+      memory: 1000Mi
   prometheus:
     operator:
       enabled: false
@@ -335,6 +357,9 @@ rabbitmq-ha:
     existingSecret: rabbitmq-load-definition
   extraConfiguration: |
     management.load_definitions = /app/load_definition.json
+  extraEnvVars:
+    - name: ERL_MAX_PORTS
+      value: "65536"
 
 postgres:
   fullnameOverride: codacy-postgres
@@ -363,30 +388,74 @@ postgres:
       CREATE DATABASE listener WITH OWNER=codacy;
       CREATE DATABASE crow WITH OWNER=codacy;
 
-minio:
-  fullnameOverride: codacy-minio
-  persistence:
-    size: 40Gi
-  minioConfig:
-    region: "eu-west-1"
-  buckets:
-  - name: "analysis"
-    policy: "public"
-    purge: "false"
-  - name: "coverage"
-    policy: "public"
-    purge: "false"
-  - name: "cli-reports"
-    policy: "public"
-    purge: "false"
-  - name: "commit-diff"
-    policy: "public"
-    purge: "false"
-  - name: "logs"
-    policy: "public"
-    purge: "false"
-  defaultBucket:
+# Bundled RustFS object store, replacing MinIO (its upstream images are no
+# longer published on Docker Hub/Quay). Joins the `codacy-rustfs-svc` Service
+# that global.minio.location points consumers at.
+#
+# IMPORTANT: secret.rustfs.access_key/secret_key below MUST be identical to
+# global.minio.accessKey/secretKey above. If you change one, change both.
+rustfs:
+  fullnameOverride: codacy-rustfs
+  mode:
+    standalone:
+      enabled: true
+    distributed:
+      enabled: false
+  replicaCount: 1
+  ingress:
     enabled: false
+  storageclass:
+    name: ""
+    dataStorageSize: 40Gi
+  resources:
+    requests:
+      memory: 1.5Gi
+  config:
+    rustfs:
+      region: "eu-west-1"
+  secret:
+    rustfs:
+      access_key: "AKIAIOSFODNN7EXAMPLE"
+      secret_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  # Creates the buckets Codacy needs once RustFS is up (runs as part of
+  # `helm install`/`helm upgrade`), replacing MinIO's own bucket-creation hook.
+  extraManifests:
+    - apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: '{{ include "rustfs.fullname" . }}-codacy-buckets'
+        annotations:
+          helm.sh/hook: post-install,post-upgrade
+          helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+      spec:
+        backoffLimit: 6
+        template:
+          spec:
+            restartPolicy: Never
+            containers:
+              - name: make-buckets
+                image: amazon/aws-cli:2.17.0
+                env:
+                  - name: S3
+                    value: 'aws s3api --endpoint-url http://{{ include "rustfs.fullname" . }}-svc:9000'
+                  - name: AWS_DEFAULT_REGION
+                    value: eu-west-1
+                  - name: AWS_ACCESS_KEY_ID
+                    valueFrom: { secretKeyRef: { name: '{{ include "rustfs.secretName" . }}', key: RUSTFS_ACCESS_KEY } }
+                  - name: AWS_SECRET_ACCESS_KEY
+                    valueFrom: { secretKeyRef: { name: '{{ include "rustfs.secretName" . }}', key: RUSTFS_SECRET_KEY } }
+                command: ["sh", "-ec"]
+                args:
+                  - |
+                    until $S3 list-buckets >/dev/null 2>&1; do echo "waiting for RustFS..."; sleep 5; done
+                    for b in analysis coverage cli-reports commit-diff logs; do
+                      $S3 head-bucket --bucket "$b" 2>/dev/null || $S3 create-bucket --bucket "$b"
+                      echo "bucket $b ready"
+                    done
+                    B=codacy-api-repository-list-bucket
+                    $S3 head-bucket --bucket "$B" 2>/dev/null || $S3 create-bucket --bucket "$B"
+                    $S3 put-bucket-lifecycle-configuration --bucket "$B" --lifecycle-configuration '{"Rules":[{"ID":"Expire repository lists","Status":"Enabled","Filter":{"Prefix":""},"Expiration":{"Days":90}}]}'
+                    echo "bucket $B ready (90-day expiry)"
 
 worker-manager:
   create: true
