@@ -342,6 +342,7 @@ rabbitmq-ha:
 rustfs:
   storageclass:
     dataStorageSize: 40Gi
+    logStorageSize: 3Gi
   resources:
     requests:
       memory: 1.5Gi
