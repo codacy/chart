@@ -34,7 +34,6 @@ define call_helm_install
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
 	"$${extra_args[@]}"
-	kubectl patch statefulset codacy-release-nfsserverprovisioner -n ${2} --patch-file nfs-patch.yaml
 	kubectl scale deploy --replicas=${LISTENER_REPLICAS} -n ${2} codacy-listener
 endef
 

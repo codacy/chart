@@ -247,7 +247,6 @@ listener:
       size: 140Gi
   nfsserverprovisioner:
     enabled: true
-    replicaCount: 0
     persistence:
       enabled: true
       size: 200Gi
