@@ -452,7 +452,11 @@ rustfs:
                       $S3 head-bucket --bucket "$b" 2>/dev/null || $S3 create-bucket --bucket "$b"
                       echo "bucket $b ready"
                     done
-                    B=codacy-repository-list-bucket
+                    B=codacy-api-repository-list-bucket
+                    $S3 head-bucket --bucket "$B" 2>/dev/null || $S3 create-bucket --bucket "$B"
+                    $S3 list-objects --bucket "$B"
+                    $S3 put-bucket-lifecycle-configuration --bucket "$B" --lifecycle-configuration '{"Rules":[{"ID":"Expire repository lists","Status":"Enabled","Filter":{"Prefix":""},"Expiration":{"Days":90}}]}'
+                    echo "bucket $B ready (90-day expiry)"
 
 worker-manager:
   create: true
