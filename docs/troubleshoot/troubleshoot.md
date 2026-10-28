@@ -128,21 +128,21 @@ If the **Code patterns** page of your repositories doesn't list a new tool that 
 curl -X POST localhost:9000/api/v1/engine/initialize
 ```
 
-## Upgrade failed: cannot patch "codacy-minio"
+## Upgrade failed: cannot patch "codacy-rustfs"
 
-If you download and use an updated `values-production.yaml` file while upgrading to [Codacy Self-hosted 9.0.0](https://docs.codacy.com/release-notes/self-hosted/self-hosted-v9.0.0/), you'll get the following error:
+If you download and use an updated `values-production.yaml` file while upgrading, and the storage class backing the RustFS volume doesn't support resizing, you'll get an error similar to the following:
 
-> Error: UPGRADE FAILED: cannot patch "codacy-minio" with kind PersistentVolumeClaim: persistentvolumeclaims "codacy-minio" is forbidden: only dynamically provisioned pvc can be resized and the storageclass that provisions the pvc must support resize
+> Error: UPGRADE FAILED: cannot patch "codacy-rustfs" with kind PersistentVolumeClaim: persistentvolumeclaims "codacy-rustfs" is forbidden: only dynamically provisioned pvc can be resized and the storageclass that provisions the pvc must support resize
 
-This happens because [we updated the MinIO PVC size](https://github.com/codacy/chart/commit/40a158f8b6f62a6f90387060b86fe1dd8d008ed5). As a workaround, you can either:
+As a workaround, you can either:
 
--   Reset the PVC size back to the original value of 20Gi on your `values.yaml` file:
+-   Reset the PVC size back to the value it was created with on your `values.yaml` file:
 
     ```yaml
-    minio:
-      fullnameOverride: codacy-minio
-      persistence:
-        size: 20Gi
+    rustfs:
+      fullnameOverride: codacy-rustfs
+      storageclass:
+        dataStorageSize: 20Gi
     ```
 
--   [Uninstall your current version of Codacy](../maintenance/uninstall.md) and reinstall Codacy Self-hosted 9.0.0 directly. Your data won't be impacted by the uninstall since it's stored on the database.
+-   [Uninstall your current version of Codacy](../maintenance/uninstall.md) and reinstall directly on the version you intended to upgrade to. Your data won't be impacted by the uninstall since it's stored on the database.

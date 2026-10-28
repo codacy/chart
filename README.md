@@ -31,7 +31,7 @@ Some of these repositories are private and accessible to Codacy engineers only.
 ![Helm Chart Structure](https://raw.githubusercontent.com/codacy/chart/master/docs/images/charts.png)
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
--   [MinIO](https://github.com/minio/charts/tree/master)
+-   [RustFS](https://github.com/rustfs/rustfs/tree/main/helm/rustfs)
 -   [RabbitMQ-HA](https://github.com/helm/charts/tree/master/stable/rabbitmq-ha)
 -   [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql)
 -   [kube-fluentd-operator](https://github.com/codacy/kube-fluentd-operator)
@@ -61,7 +61,7 @@ Global parameters apply to all sub-charts and make it easier to configure resour
 | `global.filestore.contentsSecret`                                | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`                                        |
 | `global.filestore.uuidSecret`                                    | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`                                        |
 | `global.cacheSecret`                                             | Secrets used internally for encryption. Generate one with \`openssl rand -base64 128 \| tr -dc 'a-zA-Z0-9'\` | `nil`                                        |
-| `global.minio.create`                                            | Create minio internally                                                                                      | `nil`                                        |
+| `global.minio.create`                                            | Create the bundled RustFS object store internally                                                            | `nil`                                        |
 | `global.rabbitmq.create`                                         | Create rabbitmq internally                                                                                   | `nil`                                        |
 | `global.rabbitmq.rabbitmqUsername`                               | Username for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqUsername` also. | `nil`                                        |
 | `global.rabbitmq.rabbitmqPassword`                               | Password for rabbitmq. If you are using the bundled version, change the `rabbitmq-ha.rabbitmqPassword` also. | `nil`                                        |
@@ -214,7 +214,7 @@ The following parameters refer to components that are not internal to Codacy, bu
 | Parameter                          | Description                                                                                                           | Default           |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | `fluentdoperator.enable`           | Enable fluentd operator. It gathers logs from Codacy so that you can send it to our support if needed.                | `true`            |
-| `fluentdoperator.expirationDays`   | Number of days to retain logs. More time uses more disk on minio and retention over 7 days is not recommended.        | `7`               |
+| `fluentdoperator.expirationDays`   | Number of days to retain logs. More time uses more disk on the object store and retention over 7 days is not recommended. | `7`               |
 | `fluentdoperator.flushTimeout`     | Maximum time until Fluentd stops retrying to flush the logs. Values must be expressed using a unit, e.g. `10s`, `5h`. | `1h`              |
 | `rabbitmq-ha.rabbitmqUsername`     | Username for the bundled RabbitMQ.                                                                                    | `rabbitmq-codacy` |
 | `rabbitmq-ha.rabbitmqPassword`     | Password for the bundled RabbitMQ.                                                                                    | `rabbitmq-codacy` |

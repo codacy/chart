@@ -3,17 +3,18 @@ GRAFANA_URL?="https://grafana.k8s.dev.codacy.org"
 RELEASE_NAME?="codacy"
 NAMESPACE?="codacy"
 HELM_REPOSITORY?=codacy-incubator
-DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v minio)
+DEPLOYMENTS?=$(shell kubectl get deployments -n "${NAMESPACE}" | awk '{print $$1}' | tail -n +2 | grep -v rustfs)
 WORKER_VERSION?=$(shell grep "engine" -A 2 ../codacy/requirements.lock | grep version | cut -d : -f 2 | tr -d '[:blank:]')
 HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
+LISTENER_REPLICAS?=1
 
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=900s \
+	--timeout=2400s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
@@ -33,13 +34,14 @@ define call_helm_install
 	--set global.crow.config.passwordAuth.password=$${CROW_PASSWORD} \
 	--set rabbitmq.image.repository=bitnamilegacy/rabbitmq \
 	"$${extra_args[@]}"
+	kubectl scale deploy --replicas=${LISTENER_REPLICAS} -n ${2} codacy-listener
 endef
 
 define call_helm_install_infrastructure
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
 	helm upgrade --install ${1} ${3} \
 	--atomic \
-	--timeout=600s \
+	--timeout=1200s \
 	-f ../codacy/values-production.yaml \
 	-f values.yaml \
 	--namespace ${2} \
@@ -60,16 +62,27 @@ endef
 setup_helm_repos:
 	$(MAKE) -C ../ setup_helm_repos
 
+.PHONY: ensure_modern_helm
+ensure_modern_helm:
+	# codacy/ci-do bakes in helm v3.2.1 (2020), whose template parser cannot
+	# read modern apiVersion v2 charts with multi-line template actions (e.g.
+	# the rustfs dependency) - fails with "parse error ...: unclosed action".
+	# Replace it with a current build before installing anything.
+	curl -fsSL https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz | tar xz -C /tmp
+	mv /tmp/linux-amd64/helm /usr/local/bin/helm
+	rm -rf /tmp/linux-amd64
+	helm version --short
+
 .PHONY: helm_install_infrastructure
-helm_install_infrastructure:
+helm_install_infrastructure: ensure_modern_helm
 	$(call call_helm_install_infrastructure,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_local_dir
-helm_install_from_local_dir: update_ingress_values
+helm_install_from_local_dir: update_ingress_values ensure_modern_helm
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},../codacy/,${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: helm_install_from_chart_museum
-helm_install_from_chart_museum: update_ingress_values
+helm_install_from_chart_museum: update_ingress_values ensure_modern_helm
 	$(call call_helm_install,${RELEASE_NAME},${NAMESPACE},${HELM_REPOSITORY}/codacy --version ${VERSION},${CODACY_URL},sh-${WORKER_VERSION},${ENVIRONMENT})
 
 .PHONY: update_dependencies
@@ -85,10 +98,17 @@ update_ingress_values:
 deploy_to_doks_infrastructure: set_cluster_context update_dependencies helm_install_infrastructure
 
 .PHONY: deploy_to_doks_from_local_dir
-deploy_to_doks_from_local_dir: set_cluster_context update_dependencies helm_install_from_local_dir
+deploy_to_doks_from_local_dir: set_cluster_context update_dependencies clean_jobs helm_install_from_local_dir
+
+.PHONY: clean_jobs
+clean_jobs:
+	-kubectl delete jobs -l app.kubernetes.io/instance=${RELEASE_NAME} --namespace ${NAMESPACE} --ignore-not-found=true
+	-kubectl delete jobs -l release=${RELEASE_NAME} --namespace ${NAMESPACE} --ignore-not-found=true
 
 .PHONY: deploy_to_doks_from_chartmuseum
-deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos helm_install_from_chart_museum
+deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos
+	-$(MAKE) clean_jobs
+	$(MAKE) helm_install_from_chart_museum || ($(MAKE) clean_jobs && $(MAKE) helm_install_from_chart_museum)
 
 .PHONY: set_cluster_context
 set_cluster_context:
