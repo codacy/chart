@@ -6,7 +6,7 @@
 With the Codacy chart it is possible to run all Codacy components and
 its dependencies with a single command line.
 
-![K8s Love](https://raw.githubusercontent.com/codacy/chart/master/docs/images/k8s-love.png)
+![K8s Love](images/k8s-love.png)
 [edit image](https://docs.google.com/drawings/d/1kLkRRQLxCK8NkliYls9mv882w4fomI3rVlZNeP8MLP4/edit)
 
 Each service in Codacy has its chart published to our
@@ -16,6 +16,14 @@ This chart bundles all the components and their dependencies.
 For the bundle, we make use of the
 [requirements capability](https://helm.sh/docs/chart_best_practices/#requirements-files)
 of Helm.
+
+## Documentation
+
+The documentation for installing and operating Codacy Self-hosted is at
+[docs.codacy.com/chart](https://docs.codacy.com/chart/).
+Its source lives in the
+[codacy/docs](https://github.com/codacy/docs/tree/master/docs/chart) repository,
+so open pull requests for documentation changes there.
 
 ## Disclaimer
 
@@ -28,7 +36,7 @@ If you are interested in trying out Codacy contact our support at support@codacy
 Documentation on a per-chart basis is listed here.
 Some of these repositories are private and accessible to Codacy engineers only.
 
-![Helm Chart Structure](https://raw.githubusercontent.com/codacy/chart/master/docs/images/charts.png)
+![Helm Chart Structure](images/charts.png)
 [edit image](https://docs.google.com/drawings/d/1o7z3L8XnnNjHBOTWKHiIYUkBP3DDiogdUyxNdUfzyfY/edit)
 
 -   [MinIO](https://github.com/minio/charts/tree/master)
