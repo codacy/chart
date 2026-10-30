@@ -413,10 +413,27 @@ rustfs:
         template:
           spec:
             restartPolicy: Never
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+            volumes:
+              - name: tmp
+                emptyDir: {}
             containers:
               - name: make-buckets
                 image: amazon/aws-cli:2.17.0
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  readOnlyRootFilesystem: true
+                  capabilities:
+                    drop: ["ALL"]
+                volumeMounts:
+                  - name: tmp
+                    mountPath: /tmp
                 env:
+                  - name: HOME
+                    value: /tmp
                   - name: S3
                     value: 'aws s3api --endpoint-url http://{{ include "rustfs.fullname" . }}-svc:9000'
                   - name: AWS_DEFAULT_REGION
