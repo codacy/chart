@@ -178,7 +178,6 @@ rabbitmq-ha:
             description: |
               No Rabbitmq Nodes
 
-minio:
-  persistence:
-    enabled: true
-    size: 40Gi
+rustfs:
+  storageclass:
+    dataStorageSize: 40Gi
