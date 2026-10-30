@@ -25,6 +25,16 @@ Its source lives in the
 [codacy/docs](https://github.com/codacy/docs/tree/master/docs/chart) repository,
 so open pull requests for documentation changes there.
 
+The files that the documentation tells you to download or run stay in this
+repository, and the documentation links to them here:
+
+-   [`values-files/`](values-files/): values files for the NGINX Ingress
+    Controller, cert-manager, Loki, Promtail, and the Prometheus Operator.
+-   [`scripts/`](scripts/): the Bitbucket Server key pair generator and the
+    log extraction script.
+-   [`infrastructure/eks/`](infrastructure/eks/): the Terraform configuration
+    for the Amazon EKS quickstart.
+
 ## Disclaimer
 
 Our Docker images are currently private and you will not be
