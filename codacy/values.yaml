@@ -28,9 +28,9 @@ global:
     # Trial license. Valid for 4 users until the end of 2030
     license: "lV5QUFrZhlibdCP/MN8pZo76B3jhPeL/RAk4E2AL2WZlGI8Vno/LfvAwnSHm26uY817I3qvEjfhIZFCkDi8R6PngiB+UiT+h8W0Blica8Sp+d5ngnh9HuhTG6xAIf7gAQxyJpn3boV87CKTO+5nHYSeJccMd+s8esMxoS84Z2xI="
     installation:
-      version: development
+      version: v17.0.0-RC-0
     documentation:
-      version: development
+      version: v17.0
 
   # github:
   #   enabled: "false"
@@ -101,7 +101,7 @@ global:
   workerManager:
     workers:
       config:
-        imageVersion: stable
+        imageVersion: sh-1.2.1
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
 
@@ -324,13 +324,29 @@ rabbitmq-ha:
   fullnameOverride: codacy-rabbitmq-ha
   global:
     imagePullSecrets:
-      - docker-credentials
+    - docker-credentials
   image:
     repository: bitnamilegacy/rabbitmq
-    tag: "3.8.35-debian-11-r5"
+    tag: "3.8.5"
   auth:
     username: rabbitmq-codacy
     password: CHANGEME
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
+  # memoryHighWatermark.enabled above requires resources.limits.memory to be
+  # set to a valid Kubernetes quantity string - the rabbitmq-ha subchart's
+  # own toBytes helper renders it directly and errors on a nil/unset value.
+  # Every other subchart in this file sets its own limits/requests; this one
+  # didn't, so a bare `helm install` with no values override crashed here.
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 1600Mi
+    requests:
+      cpu: 1000m
+      memory: 1000Mi
   prometheus:
     operator:
       enabled: false
@@ -341,6 +357,9 @@ rabbitmq-ha:
     existingSecret: rabbitmq-load-definition
   extraConfiguration: |
     management.load_definitions = /app/load_definition.json
+  extraEnvVars:
+    - name: ERL_MAX_PORTS
+      value: "65536"
 
 postgres:
   fullnameOverride: codacy-postgres
@@ -450,8 +469,9 @@ rustfs:
                       $S3 head-bucket --bucket "$b" 2>/dev/null || $S3 create-bucket --bucket "$b"
                       echo "bucket $b ready"
                     done
-                    B=codacy-api-repository-list-bucket
+                    B=codacy-repository-list-bucket
                     $S3 head-bucket --bucket "$B" 2>/dev/null || $S3 create-bucket --bucket "$B"
+                    $S3 list-objects --bucket "$B"
                     $S3 put-bucket-lifecycle-configuration --bucket "$B" --lifecycle-configuration '{"Rules":[{"ID":"Expire repository lists","Status":"Enabled","Filter":{"Prefix":""},"Expiration":{"Days":90}}]}'
                     echo "bucket $B ready (90-day expiry)"
 

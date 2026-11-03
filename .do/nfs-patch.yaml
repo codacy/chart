@@ -1,0 +1,10 @@
+spec:
+  template:
+    spec:
+      replicas: 1
+      containers:
+        - name: nfsserverprovisioner
+          command:
+            - /bin/sh
+            - -c
+            - ulimit -n 65536 && exec /nfs-provisioner
