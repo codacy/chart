@@ -27,11 +27,10 @@ update_internals_versions:
 .PHONY: update_docs_versions
 update_docs_versions:
 	$(eval CODACY_VERSION_NUMBER=$(shell sed -e 's/.*/v&/g' .version || echo "development"))
-	$(eval DOCUMENTATION_VERSION_NUMBER=$(shell sed -e 's/.*/v&/g' .version | grep -Eoh "^v([0-9]+\.[0-9]+)" || echo "development"))
 	@echo "Codacy version: ${CODACY_VERSION_NUMBER}"
-	@echo "Documentation version: ${DOCUMENTATION_VERSION_NUMBER}"
 	ytool -f "./codacy/values.yaml" -s global.codacy.installation.version "${CODACY_VERSION_NUMBER}" -e
-	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "${DOCUMENTATION_VERSION_NUMBER}" -e
+	# docs.codacy.com has one unversioned Self-hosted section, so product links go to the latest docs.
+	ytool -f "./codacy/values.yaml" -s global.codacy.documentation.version "latest" -e
 
 .PHONY: helm_dep_up
 helm_dep_up:

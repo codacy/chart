@@ -1,33 +1,12 @@
 #!/usr/bin/env bash
 
-set -e 
+# This script moved to scripts/generate-bitbucket-server-secrets.sh. This stub keeps the old
+# raw.githubusercontent.com link working for saved commands. Remove it once
+# the old link is no longer in use (OD-1046).
 
-TMP_WORKDIR=$(mktemp -d)
+NEW_URL="https://raw.githubusercontent.com/codacy/chart/master/scripts/generate-bitbucket-server-secrets.sh"
 
-cleanup()
-{
-    if [ -d "$TMP_WORKDIR" ]; then
-        rm -r $TMP_WORKDIR &>/dev/null
-    fi
-}
-trap cleanup EXIT
+echo "Note: this script moved to $NEW_URL. Update any saved commands to use that URL." >&2
 
-cd $TMP_WORKDIR
-openssl genrsa -out bbkey
-openssl pkcs8 -nocrypt -in bbkey -out bbkey.pkcs8 -topk8
-openssl rsa -in bbkey -pubout -out bbkey.pub
-
-BB_CONSUMER_KEY=$(openssl rand -base64 10 | tr -dc 'a-zA-Z0-9')
-BB_PUBLIC_KEY=$(cat $TMP_WORKDIR/bbkey.pub | head -n-1 | tail -n+2 | tr -d '\n')
-BB_PRIVATE_KEY=$(cat $TMP_WORKDIR/bbkey.pkcs8 | head -n-1 | tail -n+2 | tr -d '\n')
-
-echo "=> These are your secrets for Bitbucket Server. Please keep them in a safe place."
-echo ""
-echo "# consumerKey"
-echo "$BB_CONSUMER_KEY"
-echo ""
-echo "# consumerPublicKey"
-echo "$BB_PUBLIC_KEY"
-echo ""
-echo "# consumerPrivateKey"
-echo "$BB_PRIVATE_KEY"
+script=$(curl -fsSL "$NEW_URL") || { echo "Couldn't download $NEW_URL" >&2; exit 1; }
+exec bash -c "$script" "generate-bitbucket-server-secrets.sh" "$@"
