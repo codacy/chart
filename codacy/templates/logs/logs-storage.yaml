@@ -1,0 +1,37 @@
+{{- if or (eq (include "codacy.logs.captureEnabled" .) "true") .Values.logging.supportBundles.enabled }}
+# Keys of the bundled object store, for Fluent Bit and the bundle jobs
+apiVersion: v1
+kind: Secret
+metadata:
+  name: codacy-logs-s3
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+type: Opaque
+stringData:
+  access-key: {{ .Values.global.minio.accessKey | quote }}
+  secret-key: {{ .Values.global.minio.secretKey | quote }}
+---
+# Settings shared by Fluent Bit and the support-bundle jobs. Bundles started with kubectl use the filters below:
+#   kubectl -n {{ .Release.Namespace }} create job --from=cronjob/codacy-support-bundle bundle-1
+# (patch this ConfigMap first to change them; the UI sets them per bundle)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codacy-support-bundle
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+  SINCE_HOURS: {{ .Values.logging.supportBundles.sinceHours | quote }}
+  CATEGORIES: {{ .Values.logging.supportBundles.categories | quote }}
+  ERRORS_ONLY: "false"
+  MATCH: ""
+  REDACT_EMAILS: "false"
+  UPLOAD_URL: ""
+  KEEP_SECONDS: {{ .Values.logging.supportBundles.keepSeconds | quote }}
+  S3_ENDPOINT: {{ include "codacy.logs.s3Endpoint" . | quote }}
+  S3_REGION: {{ .Values.logging.s3.region | quote }}
+  LOGS_BUCKET: {{ include "codacy.logs.bucket" . | quote }}
+  BUNDLES_BUCKET: {{ .Values.logging.supportBundles.bucket | quote }}
+  LOG_RETENTION_DAYS: {{ include "codacy.logs.retentionDays" . | quote }}
+  BUNDLE_RETENTION_DAYS: {{ .Values.logging.supportBundles.retentionDays | quote }}
+{{- end }}

@@ -1,0 +1,101 @@
+{{- if eq (include "codacy.logs.captureEnabled" .) "true" }}
+# Fluent Bit ships the output of every container in this namespace (and only this namespace) to the logs bucket, as
+# <category>/<pod>/<container>/<YYYY-MM-DD>/<HH-MM-SS>-<id>.gz, flushed every minute. The category (infrastructure,
+# services, workers, tools) comes from a pod's codacy.com/log-category label, else from the labels Codacy already sets.
+# Needs a read-only hostPath to /var/log: turn capture off (logging.capture.enabled: false) where the cluster forbids it
+# (Pod Security "baseline" or "restricted", EKS Fargate); support bundles then read live logs.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: codacy-fluent-bit
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+---
+# The kubernetes filter reads pod labels; nothing outside the namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: codacy-fluent-bit
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+rules:
+- { apiGroups: [""], resources: [pods], verbs: [get, list, watch] }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: codacy-fluent-bit
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+subjects: [{ kind: ServiceAccount, name: codacy-fluent-bit, namespace: {{ .Release.Namespace }} }]
+roleRef: { kind: Role, name: codacy-fluent-bit, apiGroup: rbac.authorization.k8s.io }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codacy-fluent-bit
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+{{ (.Files.Glob "files/fluent-bit/*").AsConfig | indent 2 }}
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: codacy-fluent-bit
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  selector: { matchLabels: { app: fluent-bit, app.kubernetes.io/instance: {{ .Release.Name }} } }
+  template:
+    metadata:
+      labels: { app: fluent-bit, app.kubernetes.io/instance: {{ .Release.Name }}, codacy.com/log-category: infrastructure }
+      annotations:
+        checksum/config: {{ (.Files.Glob "files/fluent-bit/*").AsConfig | sha256sum }}
+    spec:
+      serviceAccountName: codacy-fluent-bit
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      initContainers:
+      # The logs and support-bundles buckets, with their expiry rules, before anything is shipped
+      - name: setup-storage
+        image: {{ include "codacy.logs.supportBundleImage" . }}
+        imagePullPolicy: {{ .Values.logging.supportBundles.image.pullPolicy }}
+        args: [setup-storage]
+        envFrom: [{ configMapRef: { name: codacy-support-bundle } }]
+        env:
+          {{- include "codacy.logs.s3Env" . | nindent 10 }}
+        resources: { limits: { memory: 128Mi } }
+      containers:
+      - name: fluent-bit
+        image: "{{ .Values.logging.capture.image.repository }}:{{ .Values.logging.capture.image.tag }}"
+        imagePullPolicy: {{ .Values.logging.capture.image.pullPolicy }}
+        env:
+        - { name: NAMESPACE, valueFrom: { fieldRef: { fieldPath: metadata.namespace } } }
+        - { name: LOGS_BUCKET, valueFrom: { configMapKeyRef: { name: codacy-support-bundle, key: LOGS_BUCKET } } }
+        - { name: S3_ENDPOINT, valueFrom: { configMapKeyRef: { name: codacy-support-bundle, key: S3_ENDPOINT } } }
+        - { name: S3_REGION, valueFrom: { configMapKeyRef: { name: codacy-support-bundle, key: S3_REGION } } }
+        {{- include "codacy.logs.s3Env" . | nindent 8 }}
+        ports: [{ name: http, containerPort: 2020 }]
+        livenessProbe: { httpGet: { path: /api/v1/health, port: http }, initialDelaySeconds: 30, periodSeconds: 30 }
+        resources:
+          {{- toYaml .Values.logging.capture.resources | nindent 10 }}
+        volumeMounts:
+        - { name: config, mountPath: /fluent-bit/etc/fluent-bit.conf, subPath: fluent-bit.conf }
+        - { name: config, mountPath: /fluent-bit/etc/categorize.lua, subPath: categorize.lua }
+        - { name: varlog, mountPath: /var/log, readOnly: true }
+        - { name: buffer, mountPath: /buffer }
+      volumes:
+      - { name: config, configMap: { name: codacy-fluent-bit } }
+      - { name: varlog, hostPath: { path: /var/log } }
+      {{- if eq .Values.logging.capture.buffer "emptyDir" }}
+      # Clusters that allow only a read-only /var/log (GKE Autopilot): unsent logs are lost when the pod restarts
+      - { name: buffer, emptyDir: { sizeLimit: 1Gi } }
+      {{- else }}
+      # The tail positions and unsent chunks survive a Fluent Bit restart, so nothing is shipped twice or lost
+      - { name: buffer, hostPath: { path: /var/lib/codacy-fluent-bit, type: DirectoryOrCreate } }
+      {{- end }}
+      {{- with .Values.logging.capture.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

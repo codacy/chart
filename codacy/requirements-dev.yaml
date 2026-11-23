@@ -18,13 +18,6 @@ dependencies:
   condition: global.defaultdb.create, global.analysisdb.create, global.resultsdb.create,
     global.metricsdb.create, global.filestoredb.create, global.jobsdb.create
 
-- name: log-router
-  version: 0.6.4
-  repository: https://charts.codacy.com/external
-  condition: fluentdoperator.enabled
-  alias: fluentdoperator
-  git: git@github.com:codacy/kube-fluentd-operator.git
-
 - name: codacy-ingress-sh
   alias: codacy-ingress
   version: ">0.1.0-0"

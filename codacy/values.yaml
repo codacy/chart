@@ -262,24 +262,54 @@ codacy-ingress:
       pathType: ImplementationSpecific
 
 ## If you set this to be enabled: true, you must clean up the fluentd job yourself
+# 17.x log collection keys, kept so existing values files keep working: they now drive the Fluent Bit capture below
+# (the archived kube-fluentd-operator is gone). enabled turns capture on, bucketName names the logs bucket and
+# expirationDays sets how long logs are kept. The other 17.x keys under fluentdoperator are ignored.
 fluentdoperator:
   enabled: true
-  defaultConfigmap: codacy-fluentd-config
   bucketName: logs
   expirationDays: 7
-  # https://github.com/vmware/kube-fluentd-operator/issues/119#issuecomment-630760826
-  interval: 60
-  rbac:
-    create: true
-  useReleaseNamespaceOnly: true
-  flushTimeout: "1h"
 
-  fluentd:
-    extraEnv:
-      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-systemd-input
-      FLUENTD_SYSTEMD_CONF: disable
-      # https://github.com/fluent/fluentd-kubernetes-daemonset#disable-prometheus-input-plugins
-      #FLUENTD_PROMETHEUS_CONF: disable
+# Logs and support bundles. Fluent Bit keeps every Codacy pod's output in the logs bucket, by category (infrastructure,
+# services, workers, tools); support bundles package logs and cluster state for Codacy support, from Admin > Support or
+#   kubectl -n <namespace> create job --from=cronjob/codacy-support-bundle bundle-1
+logging:
+  # Defaults to the fluentdoperator values above
+  bucket: null
+  retentionDays: null
+  s3:
+    # Defaults to the bundled object store (global.minio.location and port)
+    endpoint: null
+    region: eu-west-1
+  capture:
+    # Defaults to fluentdoperator.enabled. Fluent Bit needs a read-only hostPath to /var/log: set false where the cluster
+    # forbids it (Pod Security "baseline" or "restricted", EKS Fargate); bundles then read live logs instead
+    enabled: null
+    # hostPath keeps unsent logs and tail positions across restarts; emptyDir for clusters that only allow a read-only
+    # /var/log (GKE Autopilot)
+    buffer: hostPath
+    image:
+      repository: cr.fluentbit.io/fluent/fluent-bit
+      tag: 4.0.3
+      pullPolicy: IfNotPresent
+    resources:
+      requests: { memory: 32Mi }
+      limits: { memory: 128Mi }
+    tolerations: []
+  supportBundles:
+    enabled: true
+    # Built from images/support-bundle in codacy-self-hosted-sh
+    image:
+      repository: codacy/codacy-support-bundle-sh
+      tag: "0.1.0"
+      pullPolicy: IfNotPresent
+    bucket: support-bundles
+    retentionDays: 14
+    # Defaults for bundles started with kubectl (the UI sets them per bundle)
+    sinceHours: 24
+    categories: services,workers,infrastructure
+    # How long a bundle job's pod waits for kubectl cp
+    keepSeconds: 900
 
 crow:
   create: true

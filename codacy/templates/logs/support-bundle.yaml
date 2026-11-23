@@ -1,0 +1,160 @@
+{{- if .Values.logging.supportBundles.enabled }}
+# Support bundles: one job builds them (logs from the logs bucket or, without capture, live logs; pods, events,
+# versions, redacted settings, license summary, error triage). Started from Admin > Support (the dispatcher below turns
+# the website's requests into jobs) or, without the UI:
+#   kubectl -n {{ .Release.Namespace }} create job --from=cronjob/codacy-support-bundle bundle-1
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: codacy-support-bundle
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+---
+# Read-only, this namespace only, and never Secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: codacy-support-bundle
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+rules:
+- { apiGroups: [""], resources: [pods, pods/log, events, configmaps], verbs: [get, list] }
+- { apiGroups: [apps], resources: [deployments, statefulsets, daemonsets], verbs: [get, list] }
+- { apiGroups: [batch], resources: [cronjobs, jobs], verbs: [get, list] }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: codacy-support-bundle
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+subjects: [{ kind: ServiceAccount, name: codacy-support-bundle, namespace: {{ .Release.Namespace }} }]
+roleRef: { kind: Role, name: codacy-support-bundle, apiGroup: rbac.authorization.k8s.io }
+---
+# Never runs on a schedule: it's the template for bundle jobs
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: codacy-support-bundle
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  suspend: true
+  schedule: "0 0 1 1 *"
+  jobTemplate:
+    metadata: { labels: { app: support-bundle } }
+    spec:
+      backoffLimit: 0
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata: { labels: { app: support-bundle, codacy.com/log-category: services } }
+        spec:
+          serviceAccountName: codacy-support-bundle
+          restartPolicy: Never
+          {{- include "codacy.logs.restrictedPod" . | nindent 10 }}
+          {{- include "codacy.logs.imagePullSecrets" . | indent 10 }}
+          containers:
+          - name: bundle
+            image: {{ include "codacy.logs.supportBundleImage" . }}
+            imagePullPolicy: {{ .Values.logging.supportBundles.image.pullPolicy }}
+            {{- include "codacy.logs.restrictedContainer" . | nindent 12 }}
+            args: [bundle]
+            envFrom: [{ configMapRef: { name: codacy-support-bundle } }]
+            env:
+            - { name: NAMESPACE, valueFrom: { fieldRef: { fieldPath: metadata.namespace } } }
+            - { name: POD_NAME, valueFrom: { fieldRef: { fieldPath: metadata.name } } }
+            - { name: JOB_NAME, valueFrom: { fieldRef: { fieldPath: "metadata.labels['job-name']" } } }
+            {{- include "codacy.logs.s3Env" . | nindent 12 }}
+            resources: { requests: { memory: 64Mi }, limits: { memory: 512Mi } }
+            volumeMounts: [{ name: work, mountPath: /work }]
+          volumes:
+          - { name: work, emptyDir: { sizeLimit: 4Gi } }
+---
+# For object stores without expiry rules; harmless where the rules work
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: codacy-logs-prune
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  schedule: "30 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      ttlSecondsAfterFinished: 3600
+      template:
+        metadata: { labels: { app: support-bundle, codacy.com/log-category: services } }
+        spec:
+          restartPolicy: Never
+          {{- include "codacy.logs.restrictedPod" . | nindent 10 }}
+          {{- include "codacy.logs.imagePullSecrets" . | indent 10 }}
+          containers:
+          - name: prune
+            image: {{ include "codacy.logs.supportBundleImage" . }}
+            imagePullPolicy: {{ .Values.logging.supportBundles.image.pullPolicy }}
+            {{- include "codacy.logs.restrictedContainer" . | nindent 12 }}
+            args: [prune]
+            envFrom: [{ configMapRef: { name: codacy-support-bundle } }]
+            env:
+            {{- include "codacy.logs.s3Env" . | nindent 12 }}
+            resources: { limits: { memory: 256Mi } }
+---
+# Turns bundle requests from Admin > Support (written to the bundles bucket by the website) into jobs, so the website
+# itself needs no Kubernetes access. Its account can only read the template and create jobs.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: codacy-support-bundle-dispatcher
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: codacy-support-bundle-dispatcher
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+rules:
+- { apiGroups: [batch], resources: [cronjobs], resourceNames: [codacy-support-bundle], verbs: [get] }
+- { apiGroups: [batch], resources: [jobs], verbs: [create] }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: codacy-support-bundle-dispatcher
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+subjects: [{ kind: ServiceAccount, name: codacy-support-bundle-dispatcher, namespace: {{ .Release.Namespace }} }]
+roleRef: { kind: Role, name: codacy-support-bundle-dispatcher, apiGroup: rbac.authorization.k8s.io }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codacy-support-bundle-dispatcher
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector: { matchLabels: { app: support-bundle-dispatcher, app.kubernetes.io/instance: {{ .Release.Name }} } }
+  template:
+    metadata:
+      labels: { app: support-bundle-dispatcher, app.kubernetes.io/instance: {{ .Release.Name }}, codacy.com/log-category: services }
+    spec:
+      serviceAccountName: codacy-support-bundle-dispatcher
+      {{- include "codacy.logs.restrictedPod" . | nindent 6 }}
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      containers:
+      - name: dispatcher
+        image: {{ include "codacy.logs.supportBundleImage" . }}
+        imagePullPolicy: {{ .Values.logging.supportBundles.image.pullPolicy }}
+        {{- include "codacy.logs.restrictedContainer" . | nindent 8 }}
+        args: [dispatch]
+        envFrom: [{ configMapRef: { name: codacy-support-bundle } }]
+        env:
+        - { name: NAMESPACE, valueFrom: { fieldRef: { fieldPath: metadata.namespace } } }
+        {{- include "codacy.logs.s3Env" . | nindent 8 }}
+        resources: { requests: { memory: 48Mi }, limits: { memory: 128Mi } }
+{{- end }}
