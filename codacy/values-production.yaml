@@ -1,4 +1,9 @@
 global:
+  # S3 keys for the bundled RustFS. MUST equal rustfs.secret.rustfs.* at the bottom of this file.
+  minio:
+    create: true
+    accessKey: <--- s3-access-key --->
+    secretKey: <--- s3-secret-key --->
   # Contact our support to get the docker secrets
   imagePullSecrets:
     - name: docker-credentials
@@ -19,6 +24,10 @@ global:
   workerManager:
     workers:
       config:
+        # Prevents a NullPointerException in CgroupV2Subsystem.getInstance (JDK 8u372) on cgroup v2 hosts,
+        # which makes analysis fail. Container support is off, so the heap is set explicitly: keep -Xmx
+        # below the worker pod memory limit.
+        javaOpts: '-XX:-UseContainerSupport -Xmx2g'
         dedicatedMax: 2
         inactivityTimeout: 20
         analysis:
@@ -215,6 +224,11 @@ portal:
       memory: 200Mi
 
 remote-provider-service:
+  # Prevents a NullPointerException in CgroupV2Subsystem.getInstance (JDK 8u372) on cgroup v2 hosts,
+  # which crash-loops the pod before it binds its port. Container support is off, so the heap is set
+  # explicitly: keep -Xmx below the memory limit below.
+  config:
+    javaOpts: '-XX:-UseContainerSupport -Xmx2800m -Dhazelcast.config=/data/hazelcast/hazelcast.yaml'
   replicaCount: 2
   resources:
     limits:
@@ -225,7 +239,7 @@ remote-provider-service:
       memory: 3000Mi
 
 listener:
-  replicaCount: 2
+  replicaCount: 0
   resources:
     limits:
       cpu: 2
@@ -313,21 +327,41 @@ codacy-spa:
 
 rabbitmq-ha:
   replicaCount: 1
+  extraEnvVars:
+    - name: ERL_MAX_PORTS
+      value: "65536"
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  memoryHighWatermark:
+    enabled: true
+    type: relative
+    value: 0.4
+  image:
+    repository: bitnamilegacy/rabbitmq
+    tag: "3.8.5"
   rabbitmqErlangCookie:  <--- erlang-cookie ---> # Generate one with `openssl rand -base64 32 | tr -dc 'a-zA-Z0-9'`
   persistentVolume:
     enabled: true
     size: 8Gi
   resources:
     limits:
-      cpu: 500m
-      memory: 1200Mi
+      cpu: 1500m
+      memory: 1600Mi
     requests:
-      cpu: 0.2
-      memory: 200Mi
+      cpu: 1000m
+      memory: 1000Mi
 
 rustfs:
+  # must equal global.minio.accessKey/secretKey above (otherwise the chart's example keys are used).
+  secret:
+    rustfs:
+      access_key: <--- s3-access-key --->
+      secret_key: <--- s3-secret-key --->
   storageclass:
-    dataStorageSize: 40Gi
+    dataStorageSize: 60Gi
+    logStorageSize: 5Gi
   resources:
     requests:
       memory: 1.5Gi

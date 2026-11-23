@@ -107,7 +107,7 @@ remote-provider-service:
       enabled: true
 
 listener:
-  replicaCount: 1
+  replicaCount: 0
   listenerdb:
     create: false
   persistence:
