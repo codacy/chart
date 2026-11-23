@@ -1,0 +1,60 @@
+{{- if .Values.upgrade.resetListenerDatabase }}
+# Upgrading from 17.x: 17.x's listener database is managed by Play migrations and holds only a work queue and a cache.
+# vNext's listener uses Flyway, which refuses a non-empty database without its history table, so this hook empties the
+# schema once, when it still finds 17.x's layout (play_evolutions). Every later upgrade finds Flyway's table: a no-op.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: codacy-listener-db-reset
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+type: Opaque
+stringData:
+  password: {{ .Values.global.listenerdb.postgresqlPassword | quote }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: codacy-listener-db-reset
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels: { app: listener-db-reset, codacy.com/log-category: infrastructure }
+    spec:
+      restartPolicy: Never
+      securityContext: { runAsNonRoot: true, runAsUser: 70, seccompProfile: { type: RuntimeDefault } }
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      containers:
+      - name: reset
+        image: "{{ .Values.upgrade.postgresImage }}"
+        securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
+        env:
+        - { name: PGHOST, value: {{ .Values.global.listenerdb.host | quote }} }
+        - { name: PGPORT, value: {{ .Values.global.listenerdb.service.port | quote }} }
+        - { name: PGUSER, value: {{ .Values.global.listenerdb.postgresqlUsername | quote }} }
+        - { name: PGDATABASE, value: {{ .Values.global.listenerdb.postgresqlDatabase | quote }} }
+        - name: PGPASSWORD
+          valueFrom: { secretKeyRef: { name: codacy-listener-db-reset, key: password } }
+        command: ["sh", "-c"]
+        args:
+        - |
+          set -e
+          if [ "$(psql -tAc "select to_regclass('public.play_evolutions') is not null")" = "t" ]; then
+            echo "17.x listener database found: emptying it for vNext's listener"
+            psql -v ON_ERROR_STOP=1 -c 'DROP SCHEMA public CASCADE' -c 'CREATE SCHEMA public'
+          else
+            echo "listener database already on vNext's layout: nothing to do"
+          fi
+        resources: { limits: { memory: 64Mi } }
+{{- end }}

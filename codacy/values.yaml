@@ -273,6 +273,12 @@ fluentdoperator:
 # Logs and support bundles. Fluent Bit keeps every Codacy pod's output in the logs bucket, by category (infrastructure,
 # services, workers, tools); support bundles package logs and cluster state for Codacy support, from Admin > Support or
 #   kubectl -n <namespace> create job --from=cronjob/codacy-support-bundle bundle-1
+# One-time steps when upgrading a 17.x install
+upgrade:
+  # Empties 17.x's listener database (a work queue and a cache) so vNext's listener can build its own schema
+  resetListenerDatabase: true
+  postgresImage: postgres:16.6-alpine
+
 logging:
   # Defaults to the fluentdoperator values above
   bucket: null
