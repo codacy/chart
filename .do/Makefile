@@ -9,6 +9,8 @@ HELM_INSTALL_EXTRA_FLAGS ?= ""
 SHELL := /bin/bash # we need this for the extra args in `call_helm_install`
 ENVIRONMENT?=dev
 LISTENER_REPLICAS?=1
+S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 define call_helm_install
 	eval "extra_args=($$HELM_INSTALL_EXTRA_FLAGS)"; \
@@ -108,6 +110,7 @@ clean_jobs:
 .PHONY: deploy_to_doks_from_chartmuseum
 deploy_to_doks_from_chartmuseum: set_cluster_context setup_helm_repos
 	-$(MAKE) clean_jobs
+	@sed -i "s/<--- s3-access-key --->/${S3_ACCESS_KEY}/g; s/<--- s3-secret-key --->/${S3_SECRET_KEY}/g;" ../codacy/values-production.yaml
 	$(MAKE) helm_install_from_chart_museum || ($(MAKE) clean_jobs && $(MAKE) helm_install_from_chart_museum)
 
 .PHONY: set_cluster_context
