@@ -1,0 +1,9 @@
+{{- /* vNext runs one repository listener per Git provider: an enabled provider without its listener would never process
+       its repositories, so the install stops and says which key to set */ -}}
+{{- range $provider := list "github" "gitlab" "bitbucket" "githubEnterprise" "gitlabEnterprise" "bitbucketEnterprise" }}
+{{- $config := index $.Values.global $provider | default dict }}
+{{- $listener := index $.Values (printf "listener-%s" $provider) | default dict }}
+{{- if and (eq (toString ($config.enabled | default "false")) "true") (not $listener.create) }}
+{{- fail (printf "global.%s is enabled, but its repository listener isn't: set listener-%s.create: true" $provider $provider) }}
+{{- end }}
+{{- end }}

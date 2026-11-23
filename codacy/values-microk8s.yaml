@@ -10,17 +10,7 @@ remote-provider-service:
     limits:
       memory: 500Mi
 
-listener:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: 500m
-  persistence:
-    claim:
-      size: 50Gi
-  nfsserverprovisioner:
-    persistence:
-      size: 100Gi
+# Listeners (listener-<provider>) use a small emptyDir cache: nothing to size here
 
 engine:
   resources:

@@ -324,6 +324,46 @@ codacy-api:
       cpu: 500m
       memory: 2000Mi
 
+# One repository listener per Git provider, each serving its own work queue. Turn on the listener of every provider
+# enabled under global (the install stops, naming the key, when a provider is enabled without its listener). They
+# replace 17.x's single `listener`; its values, and the NFS cache provisioner, are no longer used.
+listener-github:
+  create: false
+  provider: gh
+  fullnameOverride: codacy-listener-gh
+  resources:
+    limits: { memory: 512Mi }
+listener-gitlab:
+  create: false
+  provider: gl
+  fullnameOverride: codacy-listener-gl
+  resources:
+    limits: { memory: 512Mi }
+listener-bitbucket:
+  create: false
+  provider: bb
+  fullnameOverride: codacy-listener-bb
+  resources:
+    limits: { memory: 512Mi }
+listener-githubEnterprise:
+  create: false
+  provider: ghe
+  fullnameOverride: codacy-listener-ghe
+  resources:
+    limits: { memory: 512Mi }
+listener-gitlabEnterprise:
+  create: false
+  provider: gle
+  fullnameOverride: codacy-listener-gle
+  resources:
+    limits: { memory: 512Mi }
+listener-bitbucketEnterprise:
+  create: false
+  provider: bbe
+  fullnameOverride: codacy-listener-bbe
+  resources:
+    limits: { memory: 512Mi }
+
 engine:
   replicaCount: 1
   resources:
