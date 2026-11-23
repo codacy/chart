@@ -1,9 +1,13 @@
-{{- /* vNext runs one repository listener per Git provider: an enabled provider without its listener would never process
-       its repositories, so the install stops and says which key to set */ -}}
-{{- range $provider := list "github" "gitlab" "bitbucket" "githubEnterprise" "gitlabEnterprise" "bitbucketEnterprise" }}
+{{- /* vNext runs one repository listener per Git provider, each only while its provider is enabled. Leaving out the
+       listener of an enabled provider (create: false) means its repositories are never processed: the install stops.
+       Listener keys are lowercase (Kubernetes names the container after them) */ -}}
+{{- $listeners := dict "github" "listener-github" "gitlab" "listener-gitlab" "bitbucket" "listener-bitbucket"
+      "githubEnterprise" "listener-github-enterprise" "gitlabEnterprise" "listener-gitlab-enterprise"
+      "bitbucketEnterprise" "listener-bitbucket-enterprise" }}
+{{- range $provider, $key := $listeners }}
 {{- $config := index $.Values.global $provider | default dict }}
-{{- $listener := index $.Values (printf "listener-%s" $provider) | default dict }}
+{{- $listener := index $.Values $key | default dict }}
 {{- if and (eq (toString ($config.enabled | default "false")) "true") (not $listener.create) }}
-{{- fail (printf "global.%s is enabled, but its repository listener isn't: set listener-%s.create: true" $provider $provider) }}
+{{- fail (printf "global.%s is enabled, but %s.create is false: its repositories would never be processed" $provider $key) }}
 {{- end }}
 {{- end }}

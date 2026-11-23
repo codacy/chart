@@ -1,5 +1,8 @@
 global:
   codacy:
+    # vNext, optional: platform admins by e-mail (recovery), the issuer key for new-format licenses
+    # adminEmails: ["admin@example.com"]
+    # licensePublicKey: ""
     url: "http://localhost:9000"
     backendUrl: "http://localhost:9000"
     environment: "production"
@@ -273,6 +276,30 @@ fluentdoperator:
 # Logs and support bundles. Fluent Bit keeps every Codacy pod's output in the logs bucket, by category (infrastructure,
 # services, workers, tools); support bundles package logs and cluster state for Codacy support, from Admin > Support or
 #   kubectl -n <namespace> create job --from=cronjob/codacy-support-bundle bundle-1
+remote-provider-service:
+  extraEnvFrom: [{ configMapRef: { name: codacy-remote-provider-service-settings } }, { secretRef: { name: codacy-remote-provider-service-settings } }]
+
+codacy-tools:
+  extraEnvFrom: [{ configMapRef: { name: codacy-tools-settings } }, { secretRef: { name: codacy-tools-settings } }]
+
+codacy-spa:
+  extraEnvFrom: [{ configMapRef: { name: codacy-spa-settings } }, { secretRef: { name: codacy-spa-settings } }]
+
+# Settings the vNext services need on a self-hosted install, generated from the global values (providers, databases,
+# RabbitMQ, object storage, secrets) into a ConfigMap and a Secret per component, codacy-<component>-settings, which each
+# component loads after its own. Add or override any setting here; values may reference others ({{ .Values.global... }}):
+#   componentSettings:
+#     website:
+#       config: { CONFIG_FORCE_codacy_some_setting: "value" }
+#       secrets: { SOME_SECRET: "{{ .Values.global.cacheSecret }}" }
+componentSettings:
+  # Database connection pools per service and database; sized for small installs, raise for large ones
+  dbPool:
+    maximumPoolSize: 10
+    minimumIdle: 1
+  # Analysis workers' work volume: claim (a volume from the default StorageClass) or nfs (an NFS sidecar, as in 17.x)
+  workerVolumeType: claim
+
 # One-time steps when upgrading a 17.x install
 upgrade:
   # Empties 17.x's listener database (a work queue and a cache) so vNext's listener can build its own schema
@@ -321,6 +348,7 @@ crow:
   create: true
 
 codacy-api:
+  extraEnvFrom: [{ configMapRef: { name: codacy-website-settings } }, { secretRef: { name: codacy-website-settings } }]
   replicaCount: 2
   resources:
     limits:
@@ -330,47 +358,61 @@ codacy-api:
       cpu: 500m
       memory: 2000Mi
 
-# One repository listener per Git provider, each serving its own work queue. Turn on the listener of every provider
-# enabled under global (the install stops, naming the key, when a provider is enabled without its listener). They
-# replace 17.x's single `listener`; its values, and the NFS cache provisioner, are no longer used.
+# One repository listener per Git provider, each serving its own work queue. They replace 17.x's single `listener`:
+# each runs only while its provider is enabled under global (create: false leaves one out altogether). From 17.x's
+# listener values only listener.listenerdb still applies (it wins over global.listenerdb, as in 17.x); replicaCount,
+# resources and the NFS cache provisioner are now set per provider here.
 listener-github:
-  create: false
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: github }
   provider: gh
   fullnameOverride: codacy-listener-gh
   resources:
     limits: { memory: 512Mi }
 listener-gitlab:
-  create: false
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: gitlab }
   provider: gl
   fullnameOverride: codacy-listener-gl
   resources:
     limits: { memory: 512Mi }
 listener-bitbucket:
-  create: false
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: bitbucket }
   provider: bb
   fullnameOverride: codacy-listener-bb
   resources:
     limits: { memory: 512Mi }
-listener-githubEnterprise:
-  create: false
+listener-github-enterprise:
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: githubEnterprise }
   provider: ghe
   fullnameOverride: codacy-listener-ghe
   resources:
     limits: { memory: 512Mi }
-listener-gitlabEnterprise:
-  create: false
+listener-gitlab-enterprise:
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: gitlabEnterprise }
   provider: gle
   fullnameOverride: codacy-listener-gle
   resources:
     limits: { memory: 512Mi }
-listener-bitbucketEnterprise:
-  create: false
+listener-bitbucket-enterprise:
+  extraEnvFrom: [{ configMapRef: { name: codacy-listener-settings } }, { secretRef: { name: codacy-listener-settings } }]
+  create: true
+  selfHosted: { gitProvider: bitbucketEnterprise }
   provider: bbe
   fullnameOverride: codacy-listener-bbe
   resources:
     limits: { memory: 512Mi }
 
 engine:
+  extraEnvFrom: [{ configMapRef: { name: codacy-engine-settings } }, { secretRef: { name: codacy-engine-settings } }]
   replicaCount: 1
   resources:
     limits:
@@ -381,6 +423,7 @@ engine:
       memory: 3000Mi
 
 portal:
+  extraEnvFrom: [{ configMapRef: { name: codacy-portal-settings } }, { secretRef: { name: codacy-portal-settings } }]
   replicaCount: 1
   resources:
     limits:
@@ -532,6 +575,7 @@ rustfs:
                     echo "bucket $B ready (90-day expiry)"
 
 worker-manager:
+  extraEnvFrom: [{ configMapRef: { name: codacy-worker-manager-settings } }, { secretRef: { name: codacy-worker-manager-settings } }]
   create: true
   fullnameOverride: codacy-worker-manager
   config:

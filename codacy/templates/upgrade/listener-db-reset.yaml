@@ -1,4 +1,5 @@
 {{- if .Values.upgrade.resetListenerDatabase }}
+{{- $db := include "codacy.listenerDb" . | fromYaml }}
 # Upgrading from 17.x: 17.x's listener database is managed by Play migrations and holds only a work queue and a cache.
 # vNext's listener uses Flyway, which refuses a non-empty database without its history table, so this hook empties the
 # schema once, when it still finds 17.x's layout (play_evolutions). Every later upgrade finds Flyway's table: a no-op.
@@ -14,7 +15,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 type: Opaque
 stringData:
-  password: {{ .Values.global.listenerdb.postgresqlPassword | quote }}
+  password: {{ $db.postgresqlPassword | quote }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -40,10 +41,10 @@ spec:
         image: "{{ .Values.upgrade.postgresImage }}"
         securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
         env:
-        - { name: PGHOST, value: {{ .Values.global.listenerdb.host | quote }} }
-        - { name: PGPORT, value: {{ .Values.global.listenerdb.service.port | quote }} }
-        - { name: PGUSER, value: {{ .Values.global.listenerdb.postgresqlUsername | quote }} }
-        - { name: PGDATABASE, value: {{ .Values.global.listenerdb.postgresqlDatabase | quote }} }
+        - { name: PGHOST, value: {{ $db.host | quote }} }
+        - { name: PGPORT, value: {{ ($db.service).port | default 5432 | toString | quote }} }
+        - { name: PGUSER, value: {{ $db.postgresqlUsername | quote }} }
+        - { name: PGDATABASE, value: {{ $db.postgresqlDatabase | quote }} }
         - name: PGPASSWORD
           valueFrom: { secretKeyRef: { name: codacy-listener-db-reset, key: password } }
         command: ["sh", "-c"]

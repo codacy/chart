@@ -1,0 +1,53 @@
+{{- /* One ConfigMap and one Secret per component, codacy-<component>-settings, loaded by its chart through extraEnvFrom.
+       Groups come from components/_settings.tpl; componentSettings.<component>.config/secrets add or override, and may
+       reference other values ({{ .Values.global... }}) */ -}}
+{{- $groups := dict
+  "website"                 (dict "config" (list "s3" "rabbit" "dbPools" "providers" "website") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "providers" "website"))
+  "engine"                  (dict "config" (list "s3" "rabbit" "dbPools") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "engine"))
+  "worker-manager"          (dict "config" (list "workerManager") "secrets" (list "s3" "rabbit" "play" "workerManager"))
+  "remote-provider-service" (dict "config" (list "providers") "secrets" (list "providers"))
+  "portal"                  (dict "config" (list "dbPools" "providers" "portal") "secrets" (list "rabbit" "dbPasswords" "play" "providers" "portal"))
+  "tools"                   (dict "config" (list) "secrets" (list "codacyTools"))
+  "spa"                     (dict "config" (list "spa") "secrets" (list))
+  "listener"                (dict "config" (list "rabbit" "listener") "secrets" (list "rabbit" "play" "listener"))
+}}
+{{- range $component, $parts := $groups }}
+{{- $overrides := index $.Values.componentSettings $component | default dict }}
+{{- $config := dict }}
+{{- range $part := $parts.config }}
+{{- $config = mergeOverwrite $config (include (printf "codacy.settings.%s.config" $part) $ | fromYaml | default dict) }}
+{{- end }}
+{{- range $k, $v := ($overrides.config | default dict) }}
+{{- $_ := set $config $k (tpl (toString $v) $) }}
+{{- end }}
+{{- $secrets := dict }}
+{{- range $part := $parts.secrets }}
+{{- $secrets = mergeOverwrite $secrets (include (printf "codacy.settings.%s.secrets" $part) $ | fromYaml | default dict) }}
+{{- end }}
+{{- range $k, $v := ($overrides.secrets | default dict) }}
+{{- $_ := set $secrets $k (tpl (toString $v) $) }}
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codacy-{{ $component }}-settings
+  labels:
+    {{- include "codacy.labels" $ | indent 4 }}
+data:
+  {{- range $k, $v := $config }}
+  {{ $k }}: {{ toString $v | quote }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: codacy-{{ $component }}-settings
+  labels:
+    {{- include "codacy.labels" $ | indent 4 }}
+type: Opaque
+stringData:
+  {{- range $k, $v := $secrets }}
+  {{ $k }}: {{ toString $v | quote }}
+  {{- end }}
+{{- end }}
