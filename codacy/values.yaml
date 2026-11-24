@@ -107,6 +107,11 @@ global:
         imageVersion: stable
         javaOpts: '-XX:MinRAMPercentage=50.0 -XX:MaxRAMPercentage=90.0'
         inactivityTimeout: 30
+        # Each analysis tool's container. Byte counts are strings: Helm renders large YAML numbers as floats (1e+09),
+        # which worker-manager can't read
+        pluginResources:
+          requests: { cpu: 0.5, memory: "1000000000" }
+          limits: { cpu: 1, memory: "3000000000" }
 
   git:
     branchListTimeoutSeconds: 30
@@ -227,7 +232,7 @@ global:
       port: 5432
 
   # vNext services' databases: each defaults to defaultdb's server and credentials with its own database name (seat,
-  # metricsaggregation, itemsdb, dependenciesdb, activeanalysisconfigdb, aiinventory). Set any of host,
+  # metricsaggregation, itemsdb, dependenciesdb, activeanalysisconfigdb, aiinventory, codacytoolsdb). Set any of host,
   # postgresqlUsername, postgresqlPassword, postgresqlDatabase and service.port to put one elsewhere, e.g.
   # seatdb: { host: my-postgres.example.com }
   # metricsaggregationdb needs the pg_partman and pg_cron extensions on its server (pg_cron bound to that database).
@@ -290,6 +295,7 @@ remote-provider-service:
   extraEnvFrom: [{ configMapRef: { name: codacy-remote-provider-service-settings } }, { secretRef: { name: codacy-remote-provider-service-settings } }]
 
 codacy-tools:
+  create: true
   extraEnvFrom: [{ configMapRef: { name: codacy-tools-settings } }, { secretRef: { name: codacy-tools-settings } }]
 
 codacy-spa:
@@ -309,6 +315,8 @@ componentSettings:
     minimumIdle: 1
   # Analysis workers' work volume: claim (a volume from the default StorageClass) or nfs (an NFS sidecar, as in 17.x)
   workerVolumeType: claim
+  # Worker pods older than this are deleted whatever their state: keep it above your longest analysis
+  workerPodLifespanMinutes: 720
 
 # One-time steps when upgrading a 17.x install
 upgrade:
@@ -359,6 +367,13 @@ logging:
 
 crow:
   create: true
+
+# Database migrations (Play evolutions) of the central databases. 17.x's enterprise.conf no longer exists: with it
+# ragnaros loads no configuration and applies nothing, so a fresh install would have no schema
+ragnaros:
+  config:
+    play:
+      configFile: production.conf
 
 codacy-api:
   extraEnvFrom: [{ configMapRef: { name: codacy-website-settings } }, { secretRef: { name: codacy-website-settings } }]
@@ -425,6 +440,10 @@ listener-bitbucket-enterprise:
     limits: { memory: 512Mi }
 
 engine:
+  # 17.x's enterprise config files no longer exist in vNext: without the right one the service loads no configuration
+  config:
+    play:
+      configFile: production-engine.conf
   extraEnvFrom: [{ configMapRef: { name: codacy-engine-settings } }, { secretRef: { name: codacy-engine-settings } }]
   replicaCount: 1
   resources:
@@ -436,6 +455,10 @@ engine:
       memory: 3000Mi
 
 portal:
+  # 17.x's enterprise config files no longer exist in vNext: without the right one the service loads no configuration
+  config:
+    play:
+      configFile: production.conf
   extraEnvFrom: [{ configMapRef: { name: codacy-portal-settings } }, { secretRef: { name: codacy-portal-settings } }]
   replicaCount: 1
   resources:
@@ -506,6 +529,7 @@ postgres:
       CREATE DATABASE dependenciesdb WITH OWNER=codacy;
       CREATE DATABASE activeanalysisconfigdb WITH OWNER=codacy;
       CREATE DATABASE aiinventory WITH OWNER=codacy;
+      CREATE DATABASE codacytoolsdb WITH OWNER=codacy;
 
 # Bundled RustFS object store, replacing MinIO (its upstream images are no
 # longer published on Docker Hub/Quay). Joins the `codacy-rustfs-svc` Service
@@ -635,6 +659,10 @@ valkey:
   resources:
     requests: { memory: 32Mi }
     limits: { memory: 384Mi }
+
+# The critical-service PriorityClass worker-manager's pod asks for (cluster-wide). false if your cluster already has it
+priorityClass:
+  create: true
 
 # Answers the website's calls to services a self-hosted install doesn't run with a quick 501
 unavailableServices:

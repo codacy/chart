@@ -36,6 +36,19 @@ CONFIG_FORCE_db_{{ $db }}_hikaricp_maximumPoolSize: {{ $.Values.componentSetting
 CONFIG_FORCE_db_{{ $db }}_hikaricp_minimumIdle: {{ $.Values.componentSettings.dbPool.minimumIdle | quote }}
 {{- end }}
 {{- end -}}
+{{/* portal and website use no jobs database: a db.jobs setting would make Play open one, with no URL to open */}}
+{{- define "codacy.settings.dbPoolsNoJobs.config" -}}
+{{- range $db := list "default" "analysis" "results" "metrics" }}
+CONFIG_FORCE_db_{{ $db }}_hikaricp_maximumPoolSize: {{ $.Values.componentSettings.dbPool.maximumPoolSize | quote }}
+CONFIG_FORCE_db_{{ $db }}_hikaricp_minimumIdle: {{ $.Values.componentSettings.dbPool.minimumIdle | quote }}
+{{- end }}
+{{- end -}}
+{{- define "codacy.settings.dbPasswordsNoJobs.secrets" -}}
+DB_DEFAULT_PASSWORD: {{ .Values.global.defaultdb.postgresqlPassword | quote }}
+DB_ANALYSIS_PASSWORD: {{ .Values.global.analysisdb.postgresqlPassword | quote }}
+DB_RESULTS_PASSWORD: {{ .Values.global.resultsdb.postgresqlPassword | quote }}
+DB_METRICS_PASSWORD: {{ .Values.global.metricsdb.postgresqlPassword | quote }}
+{{- end -}}
 {{- define "codacy.settings.dbPasswords.secrets" -}}
 DB_DEFAULT_PASSWORD: {{ .Values.global.defaultdb.postgresqlPassword | quote }}
 DB_ANALYSIS_PASSWORD: {{ .Values.global.analysisdb.postgresqlPassword | quote }}
@@ -170,6 +183,13 @@ PLAY_CRYPTO_SECRET: {{ .Values.global.play.cryptoSecret | quote }}
 {{- define "codacy.settings.workerManager.config" -}}
 CONFIG_FORCE_codacy_worker_extraEnv: {{ printf "CONFIG_FORCE_aws_s3_useLocalMinio=true;CONFIG_FORCE_aws_s3_endpoint=%s;AWS_REGION=%s;CONFIG_FORCE_op__rabbit_connection_port=%v;CONFIG_FORCE_op__rabbit_connection_ssl=%v;CONFIG_FORCE_kamon_enabled=false;CONFIG_FORCE_segment_enabled=false" (include "codacy.logs.s3Endpoint" .) .Values.logging.s3.region .Values.global.rabbitmq.port .Values.global.rabbitmq.ssl | quote }}
 CONFIG_FORCE_codacy_workers_startTimeoutMinutes: "5"
+# Required, no defaults: worker pods older than the lifespan are deleted whatever their state (so it must exceed the
+# longest analysis); a pod not in the database is removed after the unmanaged timeout (worker boot is about 3 minutes)
+CONFIG_FORCE_codacy_workers_podLifespanMinutes: {{ .Values.componentSettings.workerPodLifespanMinutes | quote }}
+CONFIG_FORCE_codacy_workers_unmanagedPodTimeoutMinutes: "15"
+# Required booleans with no defaults: AI issue suggestions are cloud-only, and vNext has no legacy clone tables
+CONFIG_FORCE_codacy_features_issueSuggestions: "false"
+CONFIG_FORCE_codacy_features_clone_readLegacyTables: "false"
 CONFIG_FORCE_codacy_worker_pod_volume_type: {{ .Values.componentSettings.workerVolumeType | quote }}
 CONFIG_FORCE_db_jobs_maximumPoolSize: {{ .Values.componentSettings.dbPool.maximumPoolSize | quote }}
 CONFIG_FORCE_db_jobs_minimumIdle: {{ .Values.componentSettings.dbPool.minimumIdle | quote }}
@@ -192,6 +212,8 @@ CONFIG_FORCE_s3__emulator_credentials_secretKey: {{ .Values.global.minio.secretK
 {{/* ---- portal ---- */}}
 {{- define "codacy.settings.portal.config" -}}
 CODACY_GITHUB_BOT: "unset"
+# Cloud's badge Lambda: portal needs a URL, none is used on self-hosted
+AWS_LAMBDA_BADGER_URL: "http://unset"
 {{- end -}}
 {{- define "codacy.settings.portal.secrets" -}}
 # Cloud integrations the portal still reads: placeholders
@@ -200,9 +222,16 @@ CODACY_BACKEND_SEGMENT_SECRET: "unused"
 CONFIG_FORCE_codacy_email_sendgrid_apiToken: "unused"
 CONFIG_FORCE_codacy_email_sendgrid_password: "unused"
 CONFIG_FORCE_codacy_experiment_ai_token: "unused"
+# Encrypts portal's file-content cache in the object store; derived like the workers' key, stable across upgrades
+CONFIG_FORCE_aws_s3_fileContent_privateKey: {{ .Values.global.fileContentEncryptionKey | default (sha256sum (printf "file-content:%s" (toString .Values.global.play.cryptoSecret))) | quote }}
 {{- if not (include "codacy.settings.enabled" ((.Values.global.bitbucket).enabled)) }}
 CONFIG_FORCE_codacy_bitbucket_key: "unused"
 CONFIG_FORCE_codacy_bitbucket_secret: "unused"
+{{- end }}
+{{- if not (include "codacy.settings.enabled" ((.Values.global.gitlab).enabled)) }}
+# portal reads GitLab's OAuth client whether GitLab is on or not
+CONFIG_FORCE_codacy_gitlab_clientId: "unused"
+CONFIG_FORCE_codacy_gitlab_clientSecret: "unused"
 {{- end }}
 {{- with .Values.global.email }}{{ if include "codacy.settings.enabled" .enabled }}{{ with (.smtp).password }}
 CONFIG_FORCE_codacy_email_smtp_password: {{ . | quote }}
@@ -210,12 +239,29 @@ CONFIG_FORCE_codacy_email_smtp_password: {{ . | quote }}
 {{- end -}}
 
 {{/* ---- codacy-tools, spa, listeners ---- */}}
+{{/* codacy-tools: its own database (codacytoolsdb) and RabbitMQ, under its own key names */}}
+{{- define "codacy.settings.codacyTools.config" -}}
+{{- $db := include "codacy.db" (dict "root" . "key" "codacytoolsdb" "database" "codacytoolsdb") | fromYaml }}
+CONFIG_FORCE_database_host: {{ $db.host | quote }}
+CONFIG_FORCE_database_port: {{ ($db.service).port | default 5432 | toString | quote }}
+CONFIG_FORCE_database_databaseName: {{ $db.postgresqlDatabase | quote }}
+CONFIG_FORCE_database_username: {{ $db.postgresqlUsername | quote }}
+CONFIG_FORCE_rabbitmq_host: {{ .Values.global.rabbitmq.host | quote }}
+CONFIG_FORCE_rabbitmq_port: {{ .Values.global.rabbitmq.port | toString | quote }}
+CONFIG_FORCE_rabbitmq_ssl: {{ .Values.global.rabbitmq.ssl | toString | quote }}
+CONFIG_FORCE_rabbitmq_username: {{ .Values.global.rabbitmq.rabbitmqUsername | quote }}
+CONFIG_FORCE_rabbitmq_virtualHost: {{ .Values.global.rabbitmq.rabbitmqvHost | quote }}
+{{- end -}}
 {{- define "codacy.settings.codacyTools.secrets" -}}
-database_password: {{ .Values.global.defaultdb.postgresqlPassword | quote }}
-rabbitmq_password: {{ .Values.global.rabbitmq.rabbitmqPassword | quote }}
+CONFIG_FORCE_database_password: {{ (include "codacy.db" (dict "root" . "key" "codacytoolsdb" "database" "codacytoolsdb") | fromYaml).postgresqlPassword | quote }}
+CONFIG_FORCE_rabbitmq_password: {{ .Values.global.rabbitmq.rabbitmqPassword | quote }}
 {{- end -}}
 {{- define "codacy.settings.spa.config" -}}
 CODACY_FEATURES_STANDARDS_MAX_LIMIT: "100"
+CODACY_DOCUMENTATION_VERSION: "latest"
+CODACY_HEARTBEAT_INTERVAL: "30000"
+# Signs the browser out after this long without activity; the website's own idle timeout is 8 hours
+SESSION_IDLE_TIMEOUT: "28800000"
 {{- end -}}
 {{/* The listener database: 17.x's listener.listenerdb wins over global.listenerdb, as in the 17.x listener chart */}}
 {{- define "codacy.listenerDb" -}}

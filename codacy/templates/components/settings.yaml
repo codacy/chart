@@ -2,12 +2,12 @@
        Groups come from components/_settings.tpl; componentSettings.<component>.config/secrets add or override, and may
        reference other values ({{ .Values.global... }}) */ -}}
 {{- $groups := dict
-  "website"                 (dict "config" (list "s3" "rabbit" "dbPools" "providers" "website" "websiteServices") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "providers" "website"))
+  "website"                 (dict "config" (list "s3" "rabbit" "dbPoolsNoJobs" "providers" "website" "websiteServices") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "providers" "website"))
   "engine"                  (dict "config" (list "s3" "rabbit" "dbPools" "engineServices") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "engine"))
   "worker-manager"          (dict "config" (list "workerManager" "workerManagerServices") "secrets" (list "s3" "rabbit" "play" "workerManager"))
   "remote-provider-service" (dict "config" (list "providers") "secrets" (list "providers"))
-  "portal"                  (dict "config" (list "dbPools" "providers" "portal" "portalServices") "secrets" (list "rabbit" "dbPasswords" "play" "providers" "portal"))
-  "tools"                   (dict "config" (list) "secrets" (list "codacyTools"))
+  "portal"                  (dict "config" (list "dbPoolsNoJobs" "providers" "portal" "portalServices") "secrets" (list "rabbit" "dbPasswordsNoJobs" "play" "providers" "portal"))
+  "tools"                   (dict "config" (list "codacyTools") "secrets" (list "codacyTools"))
   "spa"                     (dict "config" (list "spa") "secrets" (list))
   "listener"                (dict "config" (list "rabbit" "listener" "listenerServices") "secrets" (list "rabbit" "play" "listener"))
   "seat-service"            (dict "config" (list "seatService") "secrets" (list "seatService"))

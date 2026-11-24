@@ -6,7 +6,7 @@
 {{- range $spec := list (list "seat-service" "seatdb" "seat") (list "metrics-aggregation-service" "metricsaggregationdb" "metricsaggregation")
       (list "srm-service" "itemsdb" "itemsdb") (list "srm-service" "dependenciesdb" "dependenciesdb")
       (list "srm-service" "activeanalysisconfigdb" "activeanalysisconfigdb") (list "ai-inventory-service" "aiinventorydb" "aiinventory")
-      (list "coverage-service" "coveragedb" "coveragedb") }}
+      (list "coverage-service" "coveragedb" "coveragedb") (list "codacy-tools" "codacytoolsdb" "codacytoolsdb") }}
 {{- if include "codacy.service.on" (dict "root" $ "name" (index $spec 0)) }}
 {{- $db := include "codacy.db" (dict "root" $ "key" (index $spec 1) "database" (index $spec 2)) | fromYaml }}
 {{- if ne $db.host "codacy-postgres-coverage" }}

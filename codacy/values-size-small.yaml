@@ -1,0 +1,105 @@
+# Sizing profile "small": one node with about 12-16 GiB for Codacy, sized from a measured install of that kind (Nov 2026).
+# Only sizes live here (pod requests and limits, JVM flags, replicas, worker pools, database pools). Stack it after
+# your settings file:
+#   helm upgrade --install codacy codacy/codacy -f values-production.yaml -f values-size-small.yaml
+# JVM heap is a share of each container's limit (MaxRAMPercentage), so a limit change moves the heap with it. The flags
+# work on every JDK the images use: serial GC, C1 only and capped code cache and metaspace trade peak speed for memory.
+
+global:
+  workerManager:
+    workers:
+      config:
+        # The analysis worker pods' JVM, inside their memory limits below
+        javaOpts: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -Xss512k"
+        # Analysis worker pods at once (generic, dedicated) and nightly SCA jobs
+        genericMax: 2
+        dedicatedMax: 2
+        scaMax: 2
+        workerResources:
+          requests: { cpu: 100m }
+          commit: { requests: { memory: 256Mi }, limits: { memory: 768Mi } }
+          pr: { requests: { memory: 256Mi }, limits: { memory: 768Mi } }
+        # Each analysis tool's container, in bytes
+        pluginResources:
+          requests: { cpu: 0.1, memory: "134217728" }
+          limits: { cpu: 1, memory: "1073741824" }
+
+componentSettings:
+  dbPool: { maximumPoolSize: 4, minimumIdle: 1 }
+  # Each service's own JVM variable (JAVA_TOOL_OPTIONS or JAVA_OPTS), replaced whole; -XX:-UseBASE64Intrinsics stays
+  # where the service's chart sets it (CVE-2026-114938 mitigation for older base images)
+  website: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=64m -XX:MaxMetaspaceSize=256m -Xss512k -XX:-UseBASE64Intrinsics" } }
+  engine: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=64m -XX:MaxMetaspaceSize=192m -Xss512k" } }
+  portal: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=64m -XX:MaxMetaspaceSize=192m -Xss512k -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/dumps/oom.bin -XX:-UseBASE64Intrinsics" } }
+  worker-manager: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k" } }
+  remote-provider-service: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=32m -XX:MaxMetaspaceSize=96m -Xss512k -XX:-UseBASE64Intrinsics" } }
+  listener:
+    config:
+      JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k -XX:-UseBASE64Intrinsics"
+      # Each listener's database pools
+      CONFIG_FORCE_codacy_listener_service_db_default_psql_db_maxConnections: "3"
+      CONFIG_FORCE_codacy_listener_service_db_default_psql_db_minConnections: "1"
+      CONFIG_FORCE_codacy_listener_service_db_default_psql_db_numThreads: "3"
+      CONFIG_FORCE_codacy_listener_service_db_analysis_psql_db_maxConnections: "3"
+      CONFIG_FORCE_codacy_listener_service_db_analysis_psql_db_minConnections: "1"
+      CONFIG_FORCE_codacy_listener_service_db_analysis_psql_db_numThreads: "3"
+      CONFIG_FORCE_codacy_listener_service_db_jobs_psql_db_maxConnections: "3"
+      CONFIG_FORCE_codacy_listener_service_db_jobs_psql_db_minConnections: "1"
+      CONFIG_FORCE_codacy_listener_service_db_jobs_psql_db_numThreads: "3"
+      CONFIG_FORCE_codacy_listener_service_db_listener_psql_db_maxConnections: "3"
+      CONFIG_FORCE_codacy_listener_service_db_listener_psql_db_minConnections: "1"
+      CONFIG_FORCE_codacy_listener_service_db_listener_psql_db_numThreads: "3"
+  tools: { config: { JAVA_OPTS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k" } }
+  seat-service: { config: { JAVA_OPTS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=128m -Xss512k" } }
+  coverage-service: { config: { JAVA_OPTS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k" } }
+  metrics-aggregation-service: { config: { JAVA_OPTS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=128m -Xss512k" } }
+  srm-service: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k" } }
+  ai-inventory-service: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=160m -Xss512k" } }
+  analysis-scheduler: { config: { JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -XX:MaxRAMPercentage=50.0 -XX:TieredStopAtLevel=1 -XX:ReservedCodeCacheSize=48m -XX:MaxMetaspaceSize=128m -Xss512k" } }
+
+codacy-api:
+  replicaCount: 1
+  resources: { requests: { cpu: 100m, memory: 256Mi }, limits: { memory: 768Mi } }
+codacy-spa:
+  replicaCount: 1
+  resources: { requests: { cpu: 10m, memory: 16Mi }, limits: { memory: 96Mi } }
+engine:
+  replicaCount: 1
+  resources: { requests: { cpu: 100m, memory: 256Mi }, limits: { memory: 640Mi } }
+portal:
+  replicaCount: 1
+  resources: { requests: { cpu: 100m, memory: 192Mi }, limits: { memory: 512Mi } }
+remote-provider-service:
+  replicaCount: 1
+  resources: { requests: { cpu: 50m, memory: 96Mi }, limits: { memory: 256Mi } }
+worker-manager:
+  replicaCount: 1
+  resources: { requests: { cpu: 100m, memory: 160Mi }, limits: { memory: 448Mi } }
+codacy-tools:
+  replicaCount: 1
+  resources: { requests: { cpu: 100m, memory: 128Mi }, limits: { memory: 512Mi } }
+ragnaros:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 512Mi } }
+listener-github: &listener
+  replicaCount: 1
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 512Mi } }
+listener-gitlab: *listener
+listener-bitbucket: *listener
+listener-github-enterprise: *listener
+listener-gitlab-enterprise: *listener
+listener-bitbucket-enterprise: *listener
+seat-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+analysis-scheduler:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 512Mi } }
+coverage-service:
+  resources: { requests: { cpu: 50m, memory: 160Mi }, limits: { memory: 512Mi } }
+metrics-aggregation-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+srm-service:
+  resources: { requests: { cpu: 50m, memory: 160Mi }, limits: { memory: 512Mi } }
+ai-inventory-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+valkey:
+  maxMemory: 48mb
+  resources: { requests: { memory: 16Mi }, limits: { memory: 96Mi } }
