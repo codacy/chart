@@ -262,6 +262,9 @@ CODACY_DOCUMENTATION_VERSION: "latest"
 CODACY_HEARTBEAT_INTERVAL: "30000"
 # Signs the browser out after this long without activity; the website's own idle timeout is 8 hours
 SESSION_IDLE_TIMEOUT: "28800000"
+# Hides Codacy Cloud's links (status page, blog, sign-up, pricing) and points the coverage instructions at this install
+CODACY_SELF_HOSTED: "true"
+CODACY_UNAVAILABLE_FEATURES: {{ join "," .Values.componentSettings.spaUnavailableFeatures | quote }}
 {{- end -}}
 {{/* The listener database: 17.x's listener.listenerdb wins over global.listenerdb, as in the 17.x listener chart */}}
 {{- define "codacy.listenerDb" -}}

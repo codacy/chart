@@ -329,6 +329,9 @@ componentSettings:
   workerVolumeType: claim
   # Worker pods older than this are deleted whatever their state: keep it above your longest analysis
   workerPodLifespanMinutes: 720
+  # SPA features whose services this chart doesn't run (Jira and Slack integrations, outbound webhooks, DAST, audit
+  # logs). The SPA doesn't call them and hides their pages; drop one from the list when you run its service yourself
+  spaUnavailableFeatures: [jira, slack, webhooks, dast, auditLogs]
 
 # One-time steps when upgrading a 17.x install
 upgrade:
