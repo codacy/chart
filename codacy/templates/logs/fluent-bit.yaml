@@ -82,6 +82,7 @@ spec:
         volumeMounts:
         - { name: config, mountPath: /fluent-bit/etc/fluent-bit.conf, subPath: fluent-bit.conf }
         - { name: config, mountPath: /fluent-bit/etc/categorize.lua, subPath: categorize.lua }
+        - { name: config, mountPath: /fluent-bit/etc/redact.lua, subPath: redact.lua }
         - { name: varlog, mountPath: /var/log, readOnly: true }
         - { name: buffer, mountPath: /buffer }
       volumes:
