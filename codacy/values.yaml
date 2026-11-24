@@ -270,6 +270,18 @@ codacy-ingress:
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: "true"
+    # SPA pages that codacy-ingress's own list doesn't route to the SPA yet: a reload or a shared link on them reached the
+    # website's 404. Same list as codacy-self-hosted's deploy/spa-extra-routes.txt; scripts/check-spa-routes.py compares
+    # the SPA's routes with what the ingress does
+    spa:
+      betaRoutes:
+        orgAiRisk: { enabled: "true", path: "/organizations/(gh|ghe|bb|bbe|gl|gle|ghs_codacy|ghs_autodesk)/[^/]+/ai-risk" }
+        orgIssues: { enabled: "true", path: "/organizations/(gh|ghe|bb|bbe|gl|gle|ghs_codacy|ghs_autodesk)/[^/]+/issues" }
+        orgFiles: { enabled: "true", path: "/organizations/(gh|ghe|bb|bbe|gl|gle|ghs_codacy|ghs_autodesk)/[^/]+/files" }
+        orgWebhooks: { enabled: "true", path: "/organizations/(gh|ghe|bb|bbe|gl|gle|ghs_codacy|ghs_autodesk)/[^/]+/integrations/webhooks" }
+        repositoryApiTokens: { enabled: "true", path: "/(gh|ghe|bb|bbe|gl|gle|ghs_codacy|ghs_autodesk)/[^/]+/[^/]+/settings/api-tokens/?$" }
+        aiRisk: { enabled: "true", path: "/ai-risk" }
+        settingsPeople: { enabled: "true", path: "/settings/people" }
     extraPaths:
     - backend:
         service:
