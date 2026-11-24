@@ -1,0 +1,123 @@
+{{- /* Small pieces the vNext services need that no service chart brings */ -}}
+# One address for every repository listener: the website and worker-manager call the listeners' HTTP API (projects,
+# branches) at codacy-listener, as with 17.x's single listener. Any listener answers it; each still serves only its
+# own provider's work queue.
+apiVersion: v1
+kind: Service
+metadata:
+  name: codacy-listener
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  selector:
+    codacy.com/service: listener
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - { name: http, port: 80, targetPort: http }
+{{- if .Values.valkey.create }}
+---
+# The workers' analysis result cache (worker-manager passes REDIS_DB_HOST/PORT on to worker pods). A cache only: no
+# persistence, capped memory. Valkey (BSD-3) speaks the Redis protocol.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codacy-valkey
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: codacy-valkey, app.kubernetes.io/instance: {{ .Release.Name }} } }
+  template:
+    metadata:
+      labels: { app: codacy-valkey, app.kubernetes.io/instance: {{ .Release.Name }}, codacy.com/log-category: infrastructure }
+    spec:
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      {{- include "codacy.logs.restrictedPod" . | nindent 6 }}
+      containers:
+        - name: valkey
+          image: {{ .Values.valkey.image | quote }}
+          {{- include "codacy.logs.restrictedContainer" . | nindent 10 }}
+          args: ["--save", "", "--appendonly", "no", "--maxmemory", {{ .Values.valkey.maxMemory | quote }}, "--maxmemory-policy", "allkeys-lru"]
+          ports: [{ name: redis, containerPort: 6379 }]
+          readinessProbe: { exec: { command: ["valkey-cli", "ping"] }, periodSeconds: 10 }
+          resources: {{- toYaml .Values.valkey.resources | nindent 12 }}
+          volumeMounts: [{ name: data, mountPath: /data }]
+      volumes: [{ name: data, emptyDir: {} }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: codacy-valkey
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  selector: { app: codacy-valkey, app.kubernetes.io/instance: {{ .Release.Name }} }
+  ports: [{ name: redis, port: {{ .Values.valkey.port }}, targetPort: redis }]
+{{- end }}
+---
+# Stand-in for the services a self-hosted install doesn't run (audit, Jira, Slack, outbound hooks, DAST, and any vNext
+# service left out with create: false). The website calls them; an unreachable host hung each call until a 20 s timeout,
+# so this answers every request at once with 501: a real answer the client doesn't retry.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codacy-unavailable-services
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+data:
+  nginx.conf: |
+    pid /tmp/nginx.pid;
+    error_log /dev/stderr warn;
+    events { worker_connections 256; }
+    http {
+      access_log off;
+      client_body_temp_path /tmp/body;
+      proxy_temp_path /tmp/proxy;
+      fastcgi_temp_path /tmp/fastcgi;
+      uwsgi_temp_path /tmp/uwsgi;
+      scgi_temp_path /tmp/scgi;
+      server {
+        listen 8080;
+        default_type application/json;
+        location / { return 501 '{"message":"This service is not available in this installation"}'; }
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codacy-unavailable-services
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: codacy-unavailable-services, app.kubernetes.io/instance: {{ .Release.Name }} } }
+  template:
+    metadata:
+      labels: { app: codacy-unavailable-services, app.kubernetes.io/instance: {{ .Release.Name }}, codacy.com/log-category: infrastructure }
+    spec:
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      {{- include "codacy.logs.restrictedPod" . | nindent 6 }}
+      containers:
+        - name: nginx
+          image: {{ .Values.unavailableServices.image | quote }}
+          {{- include "codacy.logs.restrictedContainer" . | nindent 10 }}
+          ports: [{ name: http, containerPort: 8080 }]
+          readinessProbe: { tcpSocket: { port: http }, periodSeconds: 10 }
+          resources: { requests: { memory: 8Mi }, limits: { memory: 32Mi } }
+          volumeMounts:
+            - { name: config, mountPath: /etc/nginx/nginx.conf, subPath: nginx.conf }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - { name: config, configMap: { name: codacy-unavailable-services } }
+        - { name: tmp, emptyDir: {} }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: codacy-unavailable-services
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+spec:
+  selector: { app: codacy-unavailable-services, app.kubernetes.io/instance: {{ .Release.Name }} }
+  ports: [{ name: http, port: 80, targetPort: http }]

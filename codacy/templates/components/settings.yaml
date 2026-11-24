@@ -2,16 +2,25 @@
        Groups come from components/_settings.tpl; componentSettings.<component>.config/secrets add or override, and may
        reference other values ({{ .Values.global... }}) */ -}}
 {{- $groups := dict
-  "website"                 (dict "config" (list "s3" "rabbit" "dbPools" "providers" "website") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "providers" "website"))
-  "engine"                  (dict "config" (list "s3" "rabbit" "dbPools") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "engine"))
-  "worker-manager"          (dict "config" (list "workerManager") "secrets" (list "s3" "rabbit" "play" "workerManager"))
+  "website"                 (dict "config" (list "s3" "rabbit" "dbPools" "providers" "website" "websiteServices") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "providers" "website"))
+  "engine"                  (dict "config" (list "s3" "rabbit" "dbPools" "engineServices") "secrets" (list "s3" "rabbit" "dbPasswords" "play" "engine"))
+  "worker-manager"          (dict "config" (list "workerManager" "workerManagerServices") "secrets" (list "s3" "rabbit" "play" "workerManager"))
   "remote-provider-service" (dict "config" (list "providers") "secrets" (list "providers"))
-  "portal"                  (dict "config" (list "dbPools" "providers" "portal") "secrets" (list "rabbit" "dbPasswords" "play" "providers" "portal"))
+  "portal"                  (dict "config" (list "dbPools" "providers" "portal" "portalServices") "secrets" (list "rabbit" "dbPasswords" "play" "providers" "portal"))
   "tools"                   (dict "config" (list) "secrets" (list "codacyTools"))
   "spa"                     (dict "config" (list "spa") "secrets" (list))
-  "listener"                (dict "config" (list "rabbit" "listener") "secrets" (list "rabbit" "play" "listener"))
+  "listener"                (dict "config" (list "rabbit" "listener" "listenerServices") "secrets" (list "rabbit" "play" "listener"))
+  "seat-service"            (dict "config" (list "seatService") "secrets" (list "seatService"))
+  "analysis-scheduler"      (dict "config" (list "analysisScheduler") "secrets" (list "analysisScheduler"))
+  "coverage-service"        (dict "config" (list "coverageService") "secrets" (list "s3" "coverageService"))
+  "metrics-aggregation-service" (dict "config" (list "metricsAggregation") "secrets" (list "s3" "metricsAggregation"))
+  "srm-service"             (dict "config" (list "srmService") "secrets" (list "s3" "srmService"))
+  "ai-inventory-service"    (dict "config" (list "aiInventory") "secrets" (list "s3" "aiInventory"))
 }}
+{{- /* the vNext services' values keys: their settings exist only while they're installed */ -}}
+{{- $optional := list "seat-service" "analysis-scheduler" "coverage-service" "metrics-aggregation-service" "srm-service" "ai-inventory-service" }}
 {{- range $component, $parts := $groups }}
+{{- if or (not (has $component $optional)) (include "codacy.service.on" (dict "root" $ "name" $component)) }}
 {{- $overrides := index $.Values.componentSettings $component | default dict }}
 {{- $config := dict }}
 {{- range $part := $parts.config }}
@@ -50,4 +59,5 @@ stringData:
   {{- range $k, $v := $secrets }}
   {{ $k }}: {{ toString $v | quote }}
   {{- end }}
+{{- end }}
 {{- end }}

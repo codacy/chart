@@ -130,3 +130,47 @@ dependencies:
   repository: https://charts.codacy.com/unstable
   git: git@github.com:codacy-sh/codacy-spa-sh.git
   condition: codacy-spa.create
+
+# vNext services that 17.x didn't have
+
+- name: seat-service-sh
+  alias: seat-service
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/seat-service-sh.git
+  condition: seat-service.create
+
+- name: analysis-scheduler-service-sh
+  alias: analysis-scheduler
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/analysis-scheduler-sh.git
+  condition: analysis-scheduler.create
+
+- name: coverage-service-sh
+  alias: coverage-service
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/coverage-service-sh.git
+  condition: coverage-service.create
+
+- name: metrics-aggregation-service-sh
+  alias: metrics-aggregation-service
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/metrics-aggregation-service-sh.git
+  condition: metrics-aggregation-service.create
+
+- name: srm-service-sh
+  alias: srm-service
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/srm-service-sh.git
+  condition: srm-service.create
+
+- name: aiinventory-service-sh
+  alias: ai-inventory-service
+  version: ">=1.0.0"
+  repository: https://charts.codacy.com/stable
+  git: git@github.com:codacy-sh/ai-inventory-service-sh.git
+  condition: ai-inventory-service.create

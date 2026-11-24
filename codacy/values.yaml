@@ -226,6 +226,16 @@ global:
     service:
       port: 5432
 
+  # vNext services' databases: each defaults to defaultdb's server and credentials with its own database name (seat,
+  # metricsaggregation, itemsdb, dependenciesdb, activeanalysisconfigdb, aiinventory). Set any of host,
+  # postgresqlUsername, postgresqlPassword, postgresqlDatabase and service.port to put one elsewhere, e.g.
+  # seatdb: { host: my-postgres.example.com }
+  # metricsaggregationdb needs the pg_partman and pg_cron extensions on its server (pg_cron bound to that database).
+  # coverage-service needs a Postgres instance of its own: its migrations create pg_cron, which an instance allows in
+  # one database only. The bundled one, or set this to yours:
+  coveragedb:
+    host: codacy-postgres-coverage
+
   crowdb:
     create: false
     host: codacy-postgres
@@ -304,6 +314,9 @@ componentSettings:
 upgrade:
   # Empties 17.x's listener database (a work queue and a cache) so vNext's listener can build its own schema
   resetListenerDatabase: true
+  # Creates the vNext services' databases that are missing (global.*db above), before an upgrade, or a fresh install
+  # with external databases. The user needs CREATEDB, or create them beforehand
+  createDatabases: true
   postgresImage: postgres:16.6-alpine
 
 logging:
@@ -487,6 +500,12 @@ postgres:
       CREATE DATABASE jobs WITH OWNER=codacy;
       CREATE DATABASE listener WITH OWNER=codacy;
       CREATE DATABASE crow WITH OWNER=codacy;
+      CREATE DATABASE seat WITH OWNER=codacy;
+      CREATE DATABASE metricsaggregation WITH OWNER=codacy;
+      CREATE DATABASE itemsdb WITH OWNER=codacy;
+      CREATE DATABASE dependenciesdb WITH OWNER=codacy;
+      CREATE DATABASE activeanalysisconfigdb WITH OWNER=codacy;
+      CREATE DATABASE aiinventory WITH OWNER=codacy;
 
 # Bundled RustFS object store, replacing MinIO (its upstream images are no
 # longer published on Docker Hub/Quay). Joins the `codacy-rustfs-svc` Service
@@ -582,3 +601,80 @@ worker-manager:
     play:
       logFile: logback.xml
     cloudAmqp: {} # This should be configured through global.rabbitmq.rabbitUsername and global.rabbitmq.rabbitPassword respectively
+
+# Object store buckets the services use and don't create themselves: created before an upgrade and after a fresh
+# install (an existing one is left alone), and passed to every service that reads or writes them
+storage:
+  createBuckets: true
+  image: amazon/aws-cli:2.17.0
+  buckets:
+    coverageReports: coverage-reports-manager-bucket
+    coverageAnalysis: coverage-analysis-bucket
+    metricsAggregationDayZero: metrics-aggregation-day-zero-bucket
+    repositoryIssuesSnapshot: repository-issues-snapshot-bucket
+    pullRequestIssuesSnapshot: pull-request-issues-snapshot-bucket
+    srmDastReports: srm-dast-reports
+    srmPentest: srm-pentest
+    sbom: sbom-bucket
+    sbomTemp: sbom-temp
+    imageSbom: image-sbom
+    aiInventorySnapshot: ai-inventory-snapshot-bucket
+    analysisFileIssuesSummary: analysis-file-issues-summary-bucket
+    relatedCodeGraph: related-code-graph-bucket
+    organizationMetrics: organization-metrics-bucket
+    repositorySetup: repository-setup-bucket
+    fileContent: file-content-bucket
+
+# The workers' analysis result cache. create: false and host: <your Redis or Valkey> to use your own
+valkey:
+  create: true
+  host: ""
+  port: 6379
+  image: valkey/valkey:9.1.3-alpine
+  maxMemory: 256mb
+  resources:
+    requests: { memory: 32Mi }
+    limits: { memory: 384Mi }
+
+# Answers the website's calls to services a self-hosted install doesn't run with a quick 501
+unavailableServices:
+  image: nginxinc/nginx-unprivileged:1.30.6-alpine
+
+# ---- vNext services that 17.x didn't have. create: false leaves one out (the website then gets
+# codacy-unavailable-services' quick 501 for it). Their settings come from componentSettings, like the others'.
+
+# Seat counting for the license (required: website and the listeners call it)
+seat-service:
+  create: true
+  fullnameOverride: codacy-seat-service
+  extraEnvFrom: [{ configMapRef: { name: codacy-seat-service-settings } }, { secretRef: { name: codacy-seat-service-settings } }]
+
+# Nightly SCA analyses of every repository, which fill the dependencies pages
+analysis-scheduler:
+  create: true
+  fullnameOverride: codacy-analysis-scheduler
+  extraEnvFrom: [{ configMapRef: { name: codacy-analysis-scheduler-settings } }, { secretRef: { name: codacy-analysis-scheduler-settings } }]
+
+# Coverage reports and the coverage pages; its own Postgres (coveragedb), see global.coveragedb
+coverage-service:
+  create: true
+  fullnameOverride: codacy-coverage-service
+  extraEnvFrom: [{ configMapRef: { name: codacy-coverage-service-settings } }, { secretRef: { name: codacy-coverage-service-settings } }]
+
+# The organization overview's quality metrics
+metrics-aggregation-service:
+  create: true
+  fullnameOverride: codacy-metrics-aggregation-service
+  extraEnvFrom: [{ configMapRef: { name: codacy-metrics-aggregation-service-settings } }, { secretRef: { name: codacy-metrics-aggregation-service-settings } }]
+
+# Security and risk management: the security dashboard, findings and dependencies
+srm-service:
+  create: true
+  fullnameOverride: codacy-srm-service
+  extraEnvFrom: [{ configMapRef: { name: codacy-srm-service-settings } }, { secretRef: { name: codacy-srm-service-settings } }]
+
+# The AI Risk Hub's inventory of AI usage in the code
+ai-inventory-service:
+  create: true
+  fullnameOverride: codacy-ai-inventory-service
+  extraEnvFrom: [{ configMapRef: { name: codacy-ai-inventory-service-settings } }, { secretRef: { name: codacy-ai-inventory-service-settings } }]

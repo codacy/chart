@@ -1,0 +1,60 @@
+{{- if .Values.storage.createBuckets }}
+# The object store buckets the services use (storage.buckets) and don't create themselves. Before an upgrade (the store
+# is already up) and after a fresh install (it starts with the release); an existing bucket is left as it is.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: codacy-buckets
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade,post-install
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+type: Opaque
+stringData:
+  access-key: {{ .Values.global.minio.accessKey | quote }}
+  secret-key: {{ .Values.global.minio.secretKey | quote }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: codacy-buckets
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade,post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels: { app: codacy-buckets, codacy.com/log-category: infrastructure }
+    spec:
+      restartPolicy: Never
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      {{- include "codacy.logs.restrictedPod" . | nindent 6 }}
+      containers:
+        - name: buckets
+          image: {{ .Values.storage.image | quote }}
+          {{- include "codacy.logs.restrictedContainer" . | nindent 10 }}
+          env:
+            - { name: HOME, value: /tmp }
+            - { name: AWS_DEFAULT_REGION, value: {{ .Values.logging.s3.region | quote }} }
+            - { name: AWS_ACCESS_KEY_ID, valueFrom: { secretKeyRef: { name: codacy-buckets, key: access-key } } }
+            - { name: AWS_SECRET_ACCESS_KEY, valueFrom: { secretKeyRef: { name: codacy-buckets, key: secret-key } } }
+            - { name: BUCKETS, value: {{ values .Values.storage.buckets | sortAlpha | uniq | join " " | quote }} }
+          command: ["sh", "-ec"]
+          args:
+            - |
+              S3="aws s3api --endpoint-url {{ include "codacy.logs.s3Endpoint" . }}"
+              until $S3 list-buckets >/dev/null 2>&1; do echo "waiting for the object store..."; sleep 5; done
+              for b in $BUCKETS; do
+                $S3 head-bucket --bucket "$b" 2>/dev/null || $S3 create-bucket --bucket "$b" >/dev/null
+                echo "bucket $b ready"
+              done
+          resources: { limits: { memory: 256Mi } }
+          volumeMounts: [{ name: tmp, mountPath: /tmp }]
+      volumes: [{ name: tmp, emptyDir: {} }]
+{{- end }}

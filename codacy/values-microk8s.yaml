@@ -58,3 +58,26 @@ codacy-spa:
   resources:
     limits:
       memory: 1000Mi
+
+# vNext services, sized as on a small single-node install (heap at 60% of the limit, serial GC)
+seat-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+  config: { javaOpts: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+analysis-scheduler:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+  config: { javaToolOptions: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+coverage-service:
+  resources: { requests: { cpu: 50m, memory: 160Mi }, limits: { memory: 512Mi } }
+  config: { javaOpts: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+metrics-aggregation-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+  config: { javaOpts: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+srm-service:
+  resources: { requests: { cpu: 50m, memory: 160Mi }, limits: { memory: 512Mi } }
+  config: { javaToolOptions: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+ai-inventory-service:
+  resources: { requests: { cpu: 50m, memory: 128Mi }, limits: { memory: 384Mi } }
+  config: { javaToolOptions: "-XX:+UseSerialGC -XX:MaxRAMPercentage=60.0" }
+valkey:
+  maxMemory: 48mb
+  resources: { requests: { memory: 16Mi }, limits: { memory: 96Mi } }

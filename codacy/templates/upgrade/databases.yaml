@@ -1,0 +1,86 @@
+{{- if .Values.upgrade.createDatabases }}
+{{- /* The vNext services' databases, on whatever server each is configured on (see "codacy.db"). A fresh install with the
+       bundled Postgres creates them from postgres.initdbScripts; on an upgrade, or with external databases, this job
+       creates the missing ones before the services start. The bundled coverage instance creates its own. */ -}}
+{{- $dbs := list }}
+{{- range $spec := list (list "seat-service" "seatdb" "seat") (list "metrics-aggregation-service" "metricsaggregationdb" "metricsaggregation")
+      (list "srm-service" "itemsdb" "itemsdb") (list "srm-service" "dependenciesdb" "dependenciesdb")
+      (list "srm-service" "activeanalysisconfigdb" "activeanalysisconfigdb") (list "ai-inventory-service" "aiinventorydb" "aiinventory")
+      (list "coverage-service" "coveragedb" "coveragedb") }}
+{{- if include "codacy.service.on" (dict "root" $ "name" (index $spec 0)) }}
+{{- $db := include "codacy.db" (dict "root" $ "key" (index $spec 1) "database" (index $spec 2)) | fromYaml }}
+{{- if ne $db.host "codacy-postgres-coverage" }}
+{{- $dbs = append $dbs (dict "key" (index $spec 1) "db" $db) }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- $hooks := ternary "pre-upgrade" "pre-install,pre-upgrade" (eq (toString .Values.global.defaultdb.create) "true") }}
+{{- if $dbs }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: codacy-databases
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": {{ $hooks }}
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+type: Opaque
+stringData:
+  {{- range $dbs }}
+  {{ .key }}: {{ .db.postgresqlPassword | quote }}
+  {{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: codacy-databases
+  labels:
+    {{- include "codacy.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": {{ $hooks }}
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels: { app: codacy-databases, codacy.com/log-category: infrastructure }
+    spec:
+      restartPolicy: Never
+      securityContext: { runAsNonRoot: true, runAsUser: 70, seccompProfile: { type: RuntimeDefault } }
+      {{- include "codacy.logs.imagePullSecrets" . | indent 6 }}
+      containers:
+        - name: databases
+          image: {{ .Values.upgrade.postgresImage | quote }}
+          securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
+          env:
+            {{- range $dbs }}
+            - name: PW_{{ .key }}
+              valueFrom: { secretKeyRef: { name: codacy-databases, key: {{ .key }} } }
+            {{- end }}
+          command: ["sh", "-ec"]
+          args:
+            - |
+              # one line per database: host port user database password-variable
+              while read -r host port user name pw; do
+                [ -n "$host" ] || continue
+                export PGHOST=$host PGPORT=$port PGUSER=$user PGDATABASE=postgres PGPASSWORD=$(printenv "$pw")
+                until pg_isready -q -t 5; do echo "waiting for $host:$port..."; sleep 5; done
+                if [ "$(psql -tAc "select 1 from pg_database where datname = '$name'")" = "1" ]; then
+                  echo "database $name on $host: exists"
+                elif psql -v ON_ERROR_STOP=1 -qc "CREATE DATABASE \"$name\""; then
+                  echo "database $name on $host: created"
+                else
+                  echo "database $name on $host is missing and $user can't create it: create it (owner $user), or grant $user CREATEDB, then upgrade again" >&2
+                  exit 1
+                fi
+              done <<'EOF'
+              {{- range $dbs }}
+              {{ .db.host }} {{ (.db.service).port | default 5432 }} {{ .db.postgresqlUsername }} {{ .db.postgresqlDatabase }} PW_{{ .key }}
+              {{- end }}
+              EOF
+          resources: { limits: { memory: 64Mi } }
+{{- end }}
+{{- end }}
