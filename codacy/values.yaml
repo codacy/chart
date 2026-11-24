@@ -355,7 +355,7 @@ logging:
     # Built from images/support-bundle in codacy-self-hosted-sh
     image:
       repository: codacy/codacy-support-bundle-sh
-      tag: "0.1.0"
+      tag: "0.1.1"
       pullPolicy: IfNotPresent
     bucket: support-bundles
     retentionDays: 14
